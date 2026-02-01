@@ -1,13 +1,9 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
-const cheerio = require('cheerio');
-
-const WordPressAPI = require('../src/wordpress');
-const { getSearchContext } = require('../src/search');
-const { generateArticle } = require('../src/writer');
-const config = require('../src/config');
+const fs = require('fs');
 
 let mainWindow;
+let config;
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -17,14 +13,17 @@ function createWindow() {
       nodeIntegration: false,
       contextIsolation: true,
       preload: path.join(__dirname, 'preload.js')
-    },
-    icon: path.join(__dirname, '../assets/icon.png')
+    }
   });
 
   mainWindow.loadFile(path.join(__dirname, 'index.html'));
 }
 
-app.whenReady().then(createWindow);
+app.whenReady().then(() => {
+  // app이 ready된 후에 config 로드
+  config = require('../src/config');
+  createWindow();
+});
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') app.quit();
@@ -34,10 +33,18 @@ app.on('activate', () => {
   if (BrowserWindow.getAllWindows().length === 0) createWindow();
 });
 
-// HTML 태그 제거
+// HTML 태그 제거 (cheerio 없이)
 function stripHtml(html) {
-  const $ = cheerio.load(html);
-  return $.text().trim();
+  if (!html) return '';
+  return html
+    .replace(/<[^>]*>/g, ' ')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/\s+/g, ' ')
+    .trim();
 }
 
 // ===== IPC 핸들러 =====
@@ -69,6 +76,7 @@ ipcMain.handle('test-connection', async () => {
   }
 
   try {
+    const WordPressAPI = require('../src/wordpress');
     const wp = new WordPressAPI();
     const connected = await wp.testConnection();
     return { connected };
@@ -86,6 +94,10 @@ ipcMain.handle('write-post', async (event, options) => {
   }
 
   try {
+    const WordPressAPI = require('../src/wordpress');
+    const { getSearchContext } = require('../src/search');
+    const { generateArticle } = require('../src/writer');
+
     // 1. WordPress 연결
     const wp = new WordPressAPI();
     const connected = await wp.testConnection();

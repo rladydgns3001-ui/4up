@@ -1,5 +1,18 @@
 const axios = require('axios');
-const cheerio = require('cheerio');
+
+// HTML 태그 제거
+function stripHtml(html) {
+  if (!html) return '';
+  return html
+    .replace(/<[^>]*>/g, ' ')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
 
 // DuckDuckGo 검색
 async function searchWeb(keyword, count = 5) {
@@ -11,18 +24,49 @@ async function searchWeb(keyword, count = 5) {
       timeout: 10000
     });
 
-    const $ = cheerio.load(response.data);
+    const html = response.data;
     const results = [];
 
-    $('.result').slice(0, count).each((i, el) => {
-      const title = $(el).find('.result__title').text().trim();
-      const snippet = $(el).find('.result__snippet').text().trim();
-      const link = $(el).find('.result__url').text().trim();
+    // 정규식으로 검색 결과 파싱
+    const resultRegex = /<a class="result__a"[^>]*href="([^"]*)"[^>]*>([^<]*)<\/a>[\s\S]*?<a class="result__snippet"[^>]*>([^<]*(?:<[^>]*>[^<]*)*)<\/a>/g;
+
+    let match;
+    while ((match = resultRegex.exec(html)) !== null && results.length < count) {
+      const link = match[1];
+      const title = stripHtml(match[2]);
+      const snippet = stripHtml(match[3]);
 
       if (title && snippet) {
         results.push({ title, snippet, link });
       }
-    });
+    }
+
+    // 백업: 간단한 파싱
+    if (results.length === 0) {
+      const titleRegex = /<a class="result__a"[^>]*>([^<]+)<\/a>/g;
+      const snippetRegex = /<a class="result__snippet"[^>]*>([\s\S]*?)<\/a>/g;
+
+      const titles = [];
+      const snippets = [];
+
+      let m;
+      while ((m = titleRegex.exec(html)) !== null) {
+        titles.push(stripHtml(m[1]));
+      }
+      while ((m = snippetRegex.exec(html)) !== null) {
+        snippets.push(stripHtml(m[1]));
+      }
+
+      for (let i = 0; i < Math.min(titles.length, snippets.length, count); i++) {
+        if (titles[i] && snippets[i]) {
+          results.push({
+            title: titles[i],
+            snippet: snippets[i],
+            link: ''
+          });
+        }
+      }
+    }
 
     return results;
   } catch (error) {
@@ -41,15 +85,17 @@ async function fetchPageContent(url) {
       timeout: 10000
     });
 
-    const $ = cheerio.load(response.data);
+    // 간단한 텍스트 추출
+    let content = response.data;
 
-    // 불필요한 요소 제거
-    $('script, style, nav, header, footer, aside').remove();
+    // script, style 태그 제거
+    content = content.replace(/<script[\s\S]*?<\/script>/gi, '');
+    content = content.replace(/<style[\s\S]*?<\/style>/gi, '');
 
-    // 본문 추출
-    const content = $('article, main, .content, .post-content, body').first().text();
+    // HTML 태그 제거
+    content = stripHtml(content);
 
-    return content.replace(/\s+/g, ' ').trim().slice(0, 2000);
+    return content.slice(0, 2000);
   } catch (error) {
     console.error('페이지 가져오기 오류:', error.message);
     return '';
