@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WP AI Writer Pro</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 650px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      overflow: hidden;
+    }
+
+    /* 탭 네비게이션 */
+    .tabs {
+      display: flex;
+      background: #f5f5f5;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .tab {
+      flex: 1;
+      padding: 16px;
+      text-align: center;
+      cursor: pointer;
+      font-weight: 600;
+      color: #666;
+      transition: all 0.3s;
+      border: none;
+      background: none;
+    }
+
+    .tab:hover {
+      background: #eee;
+    }
+
+    .tab.active {
+      color: #667eea;
+      background: white;
+      border-bottom: 3px solid #667eea;
+    }
+
+    /* 탭 콘텐츠 */
+    .tab-content {
+      display: none;
+      padding: 30px;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 8px;
+      font-size: 24px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #666;
+      margin-bottom: 25px;
+      font-size: 14px;
+    }
+
+    .status {
+      text-align: center;
+      padding: 10px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      font-size: 13px;
+    }
+
+    .status.connected { background: #d4edda; color: #155724; }
+    .status.disconnected { background: #f8d7da; color: #721c24; }
+    .status.warning { background: #fff3cd; color: #856404; }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .label-hint {
+      font-weight: normal;
+      color: #888;
+      font-size: 12px;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      padding: 14px;
+      border: 2px solid #e0e0e0;
+      border-radius: 10px;
+      font-size: 15px;
+      transition: border-color 0.3s;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    .select-group {
+      display: flex;
+      gap: 10px;
+    }
+
+    .select-group select {
+      flex: 1;
+      padding: 12px;
+      border: 2px solid #e0e0e0;
+      border-radius: 10px;
+      font-size: 14px;
+      background: white;
+      cursor: pointer;
+    }
+
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .checkbox-group input {
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+    }
+
+    button {
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    button:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+    }
+
+    button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+
+    .btn-secondary {
+      background: #6c757d;
+      margin-top: 10px;
+    }
+
+    .btn-secondary:hover:not(:disabled) {
+      box-shadow: 0 10px 30px rgba(108, 117, 125, 0.4);
+    }
+
+    .result {
+      margin-top: 20px;
+      padding: 20px;
+      border-radius: 10px;
+      display: none;
+    }
+
+    .result.success {
+      background: #d4edda;
+      border: 1px solid #c3e6cb;
+      display: block;
+    }
+
+    .result.error {
+      background: #f8d7da;
+      border: 1px solid #f5c6cb;
+      display: block;
+    }
+
+    .result h3 {
+      margin-bottom: 10px;
+    }
+
+    .result.success h3 { color: #155724; }
+    .result.error h3 { color: #721c24; }
+
+    .result p {
+      margin: 5px 0;
+      font-size: 14px;
+    }
+
+    .result a {
+      color: #667eea;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .result a:hover {
+      text-decoration: underline;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 20px;
+      display: none;
+    }
+
+    .loading.show {
+      display: block;
+    }
+
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid #e0e0e0;
+      border-top-color: #667eea;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 10px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .info-box {
+      background: #e7f3ff;
+      border: 1px solid #b6d4fe;
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 20px;
+      font-size: 13px;
+      color: #084298;
+    }
+
+    .info-box a {
+      color: #0d6efd;
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid #e0e0e0;
+      margin: 25px 0;
+    }
+
+    .section-title {
+      font-size: 14px;
+      color: #888;
+      margin-bottom: 15px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- 탭 네비게이션 -->
+    <div class="tabs">
+      <button class="tab active" data-tab="write">글 작성</button>
+      <button class="tab" data-tab="settings">설정</button>
+    </div>
+
+    <!-- 글 작성 탭 -->
+    <div id="write-tab" class="tab-content active">
+      <h1>WP AI Writer Pro</h1>
+      <p class="subtitle">키워드를 입력하면 AI가 SEO 최적화 글을 작성합니다</p>
+
+      <div id="status" class="status warning">설정을 먼저 완료해주세요</div>
+
+      <form id="writeForm">
+        <div class="form-group">
+          <label for="keyword">키워드</label>
+          <input type="text" id="keyword" placeholder="예: 월배당 ETF 투자" required>
+        </div>
+
+        <div class="form-group">
+          <label>옵션</label>
+          <div class="select-group">
+            <select id="style">
+              <option value="informative">정보 전달형</option>
+              <option value="casual">친근한 톤</option>
+              <option value="professional">전문적 톤</option>
+            </select>
+            <select id="length">
+              <option value="short">짧게 (500-800자)</option>
+              <option value="medium" selected>보통 (1000-1500자)</option>
+              <option value="long">길게 (2000-3000자)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="checkbox-group">
+            <input type="checkbox" id="publish">
+            <label for="publish" style="margin-bottom: 0;">바로 발행 (체크 안하면 임시저장)</label>
+          </div>
+        </div>
+
+        <button type="submit" id="submitBtn">글 작성하기</button>
+      </form>
+
+      <div class="loading" id="loading">
+        <div class="spinner"></div>
+        <p>AI가 글을 작성하고 있습니다...</p>
+        <p style="font-size: 12px; color: #888; margin-top: 10px;">잠시만 기다려주세요</p>
+      </div>
+
+      <div id="result" class="result"></div>
+    </div>
+
+    <!-- 설정 탭 -->
+    <div id="settings-tab" class="tab-content">
+      <h1>설정</h1>
+      <p class="subtitle">API 키와 WordPress 정보를 입력하세요</p>
+
+      <div class="info-box">
+        <strong>필요한 정보:</strong><br>
+        • Claude API 키: <a href="https://console.anthropic.com/" target="_blank">Anthropic Console</a>에서 발급<br>
+        • WordPress 앱 비밀번호: 워드프레스 관리자 → 사용자 → 프로필 → 애플리케이션 비밀번호<br>
+        • AdSense 정보: <a href="https://www.google.com/adsense" target="_blank">Google AdSense</a> → 광고 → 광고 단위에서 확인
+      </div>
+
+      <form id="settingsForm">
+        <p class="section-title">Claude API</p>
+
+        <div class="form-group">
+          <label for="claudeApiKey">
+            Claude API 키
+            <span class="label-hint">(sk-ant-...)</span>
+          </label>
+          <input type="password" id="claudeApiKey" placeholder="sk-ant-api03-...">
+        </div>
+
+        <hr class="divider">
+        <p class="section-title">WordPress 연결</p>
+
+        <div class="form-group">
+          <label for="wpSiteUrl">
+            사이트 URL
+            <span class="label-hint">(https://yourblog.com)</span>
+          </label>
+          <input type="text" id="wpSiteUrl" placeholder="https://yourblog.com">
+        </div>
+
+        <div class="form-group">
+          <label for="wpUsername">사용자명</label>
+          <input type="text" id="wpUsername" placeholder="admin">
+        </div>
+
+        <div class="form-group">
+          <label for="wpAppPassword">
+            앱 비밀번호
+            <span class="label-hint">(xxxx xxxx xxxx xxxx)</span>
+          </label>
+          <input type="password" id="wpAppPassword" placeholder="xxxx xxxx xxxx xxxx">
+        </div>
+
+        <hr class="divider">
+        <p class="section-title">Google AdSense (선택)</p>
+
+        <div class="form-group">
+          <label for="adsenseClientId">
+            퍼블리셔 ID
+            <span class="label-hint">(ca-pub-XXXXXXXXXXXXXXXX)</span>
+          </label>
+          <input type="text" id="adsenseClientId" placeholder="ca-pub-1234567890123456">
+        </div>
+
+        <div class="form-group">
+          <label for="adsenseSlotId">
+            광고 슬롯 ID
+            <span class="label-hint">(숫자만)</span>
+          </label>
+          <input type="text" id="adsenseSlotId" placeholder="1234567890">
+        </div>
+
+        <button type="submit" id="saveBtn">설정 저장</button>
+        <button type="button" id="testBtn" class="btn-secondary">연결 테스트</button>
+      </form>
+
+      <div id="settingsResult" class="result"></div>
+    </div>
+  </div>
+
+  <script>
+    // 탭 전환
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+        tab.classList.add('active');
+        document.getElementById(`${tab.dataset.tab}-tab`).classList.add('active');
+      });
+    });
+
+    // 요소 참조
+    const writeForm = document.getElementById('writeForm');
+    const settingsForm = document.getElementById('settingsForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const saveBtn = document.getElementById('saveBtn');
+    const testBtn = document.getElementById('testBtn');
+    const loading = document.getElementById('loading');
+    const result = document.getElementById('result');
+    const settingsResult = document.getElementById('settingsResult');
+    const status = document.getElementById('status');
+
+    // 초기화: 설정 불러오기
+    async function init() {
+      try {
+        const config = await window.api.getConfig();
+
+        document.getElementById('claudeApiKey').value = config.CLAUDE_API_KEY || '';
+        document.getElementById('wpSiteUrl').value = config.WP_SITE_URL || '';
+        document.getElementById('wpUsername').value = config.WP_USERNAME || '';
+        document.getElementById('wpAppPassword').value = config.WP_APP_PASSWORD || '';
+        document.getElementById('adsenseClientId').value = config.ADSENSE_CLIENT_ID || '';
+        document.getElementById('adsenseSlotId').value = config.ADSENSE_SLOT_ID || '';
+
+        await checkConnection();
+      } catch (e) {
+        console.error('초기화 오류:', e);
+      }
+    }
+
+    // 연결 상태 확인
+    async function checkConnection() {
+      const isConfigured = await window.api.isConfigured();
+
+      if (!isConfigured) {
+        status.textContent = '⚠️ 설정을 먼저 완료해주세요';
+        status.className = 'status warning';
+        return;
+      }
+
+      try {
+        const res = await window.api.testConnection();
+        if (res.connected) {
+          status.textContent = '✅ 워드프레스 연결됨';
+          status.className = 'status connected';
+        } else {
+          status.textContent = '❌ 워드프레스 연결 실패';
+          status.className = 'status disconnected';
+        }
+      } catch (e) {
+        status.textContent = '❌ 연결 오류';
+        status.className = 'status disconnected';
+      }
+    }
+
+    init();
+
+    // 설정 저장
+    settingsForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const config = {
+        CLAUDE_API_KEY: document.getElementById('claudeApiKey').value.trim(),
+        WP_SITE_URL: document.getElementById('wpSiteUrl').value.trim(),
+        WP_USERNAME: document.getElementById('wpUsername').value.trim(),
+        WP_APP_PASSWORD: document.getElementById('wpAppPassword').value.trim(),
+        ADSENSE_CLIENT_ID: document.getElementById('adsenseClientId').value.trim(),
+        ADSENSE_SLOT_ID: document.getElementById('adsenseSlotId').value.trim()
+      };
+
+      try {
+        const res = await window.api.saveConfig(config);
+
+        if (res.success) {
+          settingsResult.className = 'result success';
+          settingsResult.innerHTML = '<h3>✅ 설정이 저장되었습니다!</h3>';
+          await checkConnection();
+        } else {
+          settingsResult.className = 'result error';
+          settingsResult.innerHTML = `<h3>❌ 저장 실패</h3><p>${res.error}</p>`;
+        }
+      } catch (error) {
+        settingsResult.className = 'result error';
+        settingsResult.innerHTML = `<h3>❌ 오류</h3><p>${error.message}</p>`;
+      }
+    });
+
+    // 연결 테스트
+    testBtn.addEventListener('click', async () => {
+      testBtn.disabled = true;
+      testBtn.textContent = '테스트 중...';
+
+      try {
+        const res = await window.api.testConnection();
+
+        if (res.connected) {
+          settingsResult.className = 'result success';
+          settingsResult.innerHTML = '<h3>✅ 연결 성공!</h3><p>워드프레스와 정상적으로 연결되었습니다.</p>';
+        } else {
+          settingsResult.className = 'result error';
+          settingsResult.innerHTML = `<h3>❌ 연결 실패</h3><p>${res.error || 'WordPress 연결을 확인해주세요.'}</p>`;
+        }
+      } catch (error) {
+        settingsResult.className = 'result error';
+        settingsResult.innerHTML = `<h3>❌ 오류</h3><p>${error.message}</p>`;
+      }
+
+      testBtn.disabled = false;
+      testBtn.textContent = '연결 테스트';
+    });
+
+    // 글 작성
+    writeForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const keyword = document.getElementById('keyword').value.trim();
+      if (!keyword) return;
+
+      submitBtn.disabled = true;
+      loading.classList.add('show');
+      result.className = 'result';
+      result.style.display = 'none';
+
+      try {
+        const res = await window.api.writePost({
+          keyword,
+          style: document.getElementById('style').value,
+          length: document.getElementById('length').value,
+          publish: document.getElementById('publish').checked
+        });
+
+        if (res.success) {
+          result.className = 'result success';
+          result.innerHTML = `
+            <h3>✅ 글 작성 완료!</h3>
+            <p><strong>제목:</strong> ${res.title}</p>
+            <p><strong>상태:</strong> ${res.status}</p>
+            <p><strong>글 ID:</strong> ${res.postId}</p>
+            <p><a href="${res.editLink}" target="_blank">워드프레스에서 편집하기 →</a></p>
+          `;
+        } else {
+          result.className = 'result error';
+          result.innerHTML = `<h3>❌ 오류 발생</h3><p>${res.error}</p>`;
+        }
+      } catch (error) {
+        result.className = 'result error';
+        result.innerHTML = `<h3>❌ 오류 발생</h3><p>${error.message}</p>`;
+      }
+
+      submitBtn.disabled = false;
+      loading.classList.remove('show');
+    });
+  </script>
+</body>
+</html>
