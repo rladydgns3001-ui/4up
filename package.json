@@ -1,7 +1,7 @@
 {
-  "name": "wp-ai-writer-pro",
+  "name": "autopost-seo-writer",
   "version": "1.0.0",
-  "description": "WordPress AI Article Writer - 키워드로 자동 글 작성 (판매용)",
+  "description": "AutoPost SEO Writer - AI 자동 블로그 포스팅",
   "main": "app/main.js",
   "scripts": {
     "start": "electron .",
@@ -23,8 +23,8 @@
     "electron-builder": "^24.9.1"
   },
   "build": {
-    "appId": "com.wpaiwriter.pro",
-    "productName": "WP AI Writer Pro",
+    "appId": "com.autopost.seller",
+    "productName": "AutoPost SEO Writer",
     "directories": {
       "output": "dist"
     },

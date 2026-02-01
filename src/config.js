@@ -2,7 +2,7 @@
 const Store = require('electron-store');
 
 const store = new Store({
-  name: 'wp-ai-writer-config',
+  name: 'autopost-seo-writer-config',
   defaults: {
     WP_SITE_URL: '',
     WP_USERNAME: '',
