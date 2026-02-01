@@ -1,42 +1,82 @@
-// 판매용 버전: electron-store에서 사용자 설정 로드
-const Store = require('electron-store');
+// 판매용 버전: JSON 파일로 사용자 설정 관리
+const { app } = require('electron');
+const path = require('path');
+const fs = require('fs');
 
-const store = new Store({
-  name: 'autopost-seo-writer-config',
-  defaults: {
+// 설정 파일 경로
+function getConfigPath() {
+  const userDataPath = app.getPath('userData');
+  return path.join(userDataPath, 'autopost-config.json');
+}
+
+// 설정 읽기
+function readConfig() {
+  try {
+    const configPath = getConfigPath();
+    if (fs.existsSync(configPath)) {
+      const data = fs.readFileSync(configPath, 'utf8');
+      return JSON.parse(data);
+    }
+  } catch (error) {
+    console.error('설정 읽기 오류:', error);
+  }
+  return {
     WP_SITE_URL: '',
     WP_USERNAME: '',
     WP_APP_PASSWORD: '',
     CLAUDE_API_KEY: '',
     ADSENSE_CLIENT_ID: '',
     ADSENSE_SLOT_ID: ''
+  };
+}
+
+// 설정 쓰기
+function writeConfig(config) {
+  try {
+    const configPath = getConfigPath();
+    fs.writeFileSync(configPath, JSON.stringify(config, null, 2), 'utf8');
+    return true;
+  } catch (error) {
+    console.error('설정 쓰기 오류:', error);
+    return false;
   }
-});
+}
+
+// 캐시된 설정
+let cachedConfig = null;
+
+function getConfigData() {
+  if (!cachedConfig) {
+    cachedConfig = readConfig();
+  }
+  return cachedConfig;
+}
 
 module.exports = {
   get WP_SITE_URL() {
-    return (store.get('WP_SITE_URL') || '').replace(/\/$/, '');
+    return (getConfigData().WP_SITE_URL || '').replace(/\/$/, '');
   },
   get WP_USERNAME() {
-    return store.get('WP_USERNAME') || '';
+    return getConfigData().WP_USERNAME || '';
   },
   get WP_APP_PASSWORD() {
-    return store.get('WP_APP_PASSWORD') || '';
+    return getConfigData().WP_APP_PASSWORD || '';
   },
   get CLAUDE_API_KEY() {
-    return store.get('CLAUDE_API_KEY') || '';
+    return getConfigData().CLAUDE_API_KEY || '';
   },
   get ADSENSE_CLIENT_ID() {
-    return store.get('ADSENSE_CLIENT_ID') || '';
+    return getConfigData().ADSENSE_CLIENT_ID || '';
   },
   get ADSENSE_SLOT_ID() {
-    return store.get('ADSENSE_SLOT_ID') || '';
+    return getConfigData().ADSENSE_SLOT_ID || '';
   },
 
   // 애드센스 코드 생성
   getAdsenseCode() {
-    const clientId = store.get('ADSENSE_CLIENT_ID') || '';
-    const slotId = store.get('ADSENSE_SLOT_ID') || '';
+    const config = getConfigData();
+    const clientId = config.ADSENSE_CLIENT_ID || '';
+    const slotId = config.ADSENSE_SLOT_ID || '';
 
     if (!clientId || !slotId) {
       return '<!-- 애드센스 설정 필요 -->';
@@ -56,34 +96,34 @@ module.exports = {
   },
 
   // 설정 저장
-  saveConfig(config) {
-    if (config.WP_SITE_URL !== undefined) store.set('WP_SITE_URL', config.WP_SITE_URL);
-    if (config.WP_USERNAME !== undefined) store.set('WP_USERNAME', config.WP_USERNAME);
-    if (config.WP_APP_PASSWORD !== undefined) store.set('WP_APP_PASSWORD', config.WP_APP_PASSWORD);
-    if (config.CLAUDE_API_KEY !== undefined) store.set('CLAUDE_API_KEY', config.CLAUDE_API_KEY);
-    if (config.ADSENSE_CLIENT_ID !== undefined) store.set('ADSENSE_CLIENT_ID', config.ADSENSE_CLIENT_ID);
-    if (config.ADSENSE_SLOT_ID !== undefined) store.set('ADSENSE_SLOT_ID', config.ADSENSE_SLOT_ID);
+  saveConfig(newConfig) {
+    const current = getConfigData();
+    const updated = { ...current, ...newConfig };
+    if (writeConfig(updated)) {
+      cachedConfig = updated;
+      return true;
+    }
+    return false;
   },
 
   // 설정 불러오기
   getConfig() {
-    return {
-      WP_SITE_URL: store.get('WP_SITE_URL') || '',
-      WP_USERNAME: store.get('WP_USERNAME') || '',
-      WP_APP_PASSWORD: store.get('WP_APP_PASSWORD') || '',
-      CLAUDE_API_KEY: store.get('CLAUDE_API_KEY') || '',
-      ADSENSE_CLIENT_ID: store.get('ADSENSE_CLIENT_ID') || '',
-      ADSENSE_SLOT_ID: store.get('ADSENSE_SLOT_ID') || ''
-    };
+    return getConfigData();
   },
 
   // 설정 완료 여부 확인
   isConfigured() {
+    const config = getConfigData();
     return !!(
-      store.get('WP_SITE_URL') &&
-      store.get('WP_USERNAME') &&
-      store.get('WP_APP_PASSWORD') &&
-      store.get('CLAUDE_API_KEY')
+      config.WP_SITE_URL &&
+      config.WP_USERNAME &&
+      config.WP_APP_PASSWORD &&
+      config.CLAUDE_API_KEY
     );
+  },
+
+  // 캐시 초기화
+  reloadConfig() {
+    cachedConfig = null;
   }
 };
