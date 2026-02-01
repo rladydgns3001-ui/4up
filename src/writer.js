@@ -28,6 +28,13 @@ async function generateArticle(keyword, webContext = '', wpContext = '', style =
 7. 목록은 <ul>, <ol> 태그 사용
 8. 중요 키워드는 <strong> 태그로 강조
 
+## 이모지 사용 규칙 (적절히 사용)
+- 📌 : 목차, 핵심 요약, 중요 포인트 섹션 앞에 사용
+- 🚨 : 주의사항, 위험, 경고 내용 앞에 사용
+- ✅ : 체크리스트, 긍정적 항목, 장점 목록에 사용
+- 이모지는 과하지 않게, 섹션 구분과 강조 목적으로만 사용
+- 일반 본문에는 이모지 사용 자제
+
 ## SEO 최적화
 - 키워드를 제목, 첫 문단, 소제목에 자연스럽게 포함
 - 메타 설명용 요약문 제공 (150자 이내)
@@ -35,7 +42,7 @@ async function generateArticle(keyword, webContext = '', wpContext = '', style =
 
 ## 구조
 1. 후킹 도입부 (독자의 관심 유도)
-2. 목차 (Table of Contents)
+2. 📌 목차 (Table of Contents)
 3. 본문 (H2, H3로 구조화)
 4. [AD] 마커 5개 삽입 (광고 위치)
 5. FAQ 섹션
