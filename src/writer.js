@@ -1,6 +1,80 @@
 const Anthropic = require('@anthropic-ai/sdk');
 const config = require('./config');
 
+// 메인 키워드에서 세부 키워드 3개 추출
+async function generateSubKeywords(mainKeyword) {
+  const client = new Anthropic({ apiKey: config.CLAUDE_API_KEY });
+
+  const prompt = `메인 키워드: "${mainKeyword}"
+
+이 키워드를 검색하는 사람들이 실제로 원하는 것을 분석해주세요.
+
+## 분석 기준
+1. **검색 의도 파악**: 이 키워드를 검색하는 사람은 무엇을 하려고 하는가?
+   - 신청하려고? 확인하려고? 비교하려고? 방법을 알려고?
+2. **행동 키워드 도출**: 독자가 취하고 싶은 행동은 무엇인가?
+   - 신청방법, 자격조건, 신청기간, 지원금액, 신청서류 등
+3. **세부 니즈 분석**: 구체적으로 어떤 정보가 필요한가?
+
+## 출력 형식 (반드시 이 형식으로!)
+---ANALYSIS---
+독자 검색 의도: (한 줄 설명)
+---KEYWORDS---
+키워드1: (메인키워드 + 행동키워드 조합)
+키워드2: (메인키워드 + 행동키워드 조합)
+키워드3: (메인키워드 + 행동키워드 조합)
+
+## 예시
+메인 키워드가 "청년 주택드림 청약통장"인 경우:
+---ANALYSIS---
+독자 검색 의도: 청년 주택드림 청약통장에 가입하고 싶어서 자격 조건과 신청 방법을 알고 싶어함
+---KEYWORDS---
+키워드1: 청년 주택드림 청약통장 가입조건
+키워드2: 청년 주택드림 청약통장 신청방법
+키워드3: 청년 주택드림 청약통장 혜택 총정리`;
+
+  try {
+    const response = await client.messages.create({
+      model: 'claude-sonnet-4-20250514',
+      max_tokens: 1000,
+      messages: [{ role: 'user', content: prompt }]
+    });
+
+    const text = response.content[0].text;
+
+    // 분석 결과 파싱
+    const analysisMatch = text.match(/---ANALYSIS---\s*([\s\S]*?)---KEYWORDS---/);
+    const keywordsMatch = text.match(/---KEYWORDS---\s*([\s\S]*)/);
+
+    const analysis = analysisMatch ? analysisMatch[1].trim() : '';
+    const keywordsText = keywordsMatch ? keywordsMatch[1].trim() : '';
+
+    // 키워드 추출
+    const keywords = [];
+    const keywordLines = keywordsText.split('\n').filter(line => line.includes(':'));
+    for (const line of keywordLines) {
+      const match = line.match(/키워드\d+:\s*(.+)/);
+      if (match) {
+        keywords.push(match[1].trim());
+      }
+    }
+
+    return {
+      success: true,
+      mainKeyword,
+      analysis,
+      subKeywords: keywords.slice(0, 3) // 최대 3개
+    };
+  } catch (error) {
+    return {
+      success: false,
+      error: error.message,
+      mainKeyword,
+      subKeywords: [mainKeyword] // 실패 시 메인 키워드만 반환
+    };
+  }
+}
+
 async function generateArticle(keyword, webContext = '', wpContext = '', style = 'informative', length = 'medium', searchData = null) {
   const client = new Anthropic({ apiKey: config.CLAUDE_API_KEY });
 
@@ -230,4 +304,4 @@ ${h2Matches.map((h, i) => `<li style="margin:8px 0;"><a href="#${h.id}" style="c
   }
 }
 
-module.exports = { generateArticle };
+module.exports = { generateArticle, generateSubKeywords };
