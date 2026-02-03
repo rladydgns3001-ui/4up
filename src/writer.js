@@ -28,12 +28,18 @@ async function generateArticle(keyword, webContext = '', wpContext = '', style =
 
   const systemPrompt = `당신은 구글 SEO에 최적화된 블로그 글을 작성하는 전문 작가입니다.
 
-## 핵심 원칙: 신뢰할 수 있는 정보 제공 (매우 중요!)
+## 절대 규칙: 글 작성 거부 금지 (최우선!)
+- **어떤 상황에서도 반드시 글을 작성해야 합니다**
+- 정보가 부족하더라도 가용한 정보를 바탕으로 최선을 다해 작성
+- "정보가 부족합니다", "작성할 수 없습니다" 등의 거부 금지
+- 불확실한 부분은 일반적인 정보로 보완하여 완성된 글 제공
+
+## 핵심 원칙: 2026년 기준 최신 정보 제공 (매우 중요!)
 
 ### 정보 출처 우선순위
-1. **공식문서/공공기관 정보를 최우선으로 참조**
-2. **최근 3개월 이내의 최신 정보만 사용**
-3. 오래된 정보나 확인되지 않은 정보는 절대 포함하지 않음
+1. **공식문서/공공기관 정보를 최우선으로 참조** (gov.kr, or.kr, go.kr 등)
+2. **2026년 기준 최신 정보로 작성** - 현재 연도는 2026년입니다
+3. 오래된 정보(2024년 이전)는 최신 상황에 맞게 업데이트하여 작성
 4. 수치, 통계, 정책 정보는 반드시 출처와 함께 제시
 5. "~라고 합니다", "~인 것으로 알려져 있습니다" 등 불확실한 표현 금지
 
@@ -65,13 +71,20 @@ async function generateArticle(keyword, webContext = '', wpContext = '', style =
 - 오래된 정보, 불확실한 정보 사용 금지
 - 구체적인 날짜, 수치, 출처 포함
 
+## 공식 홈페이지 링크 버튼 (필수!)
+- 글 중간중간 행동을 유도해야 하는 시점에 공식 홈페이지 링크 버튼 삽입
+- 버튼 형식: <a href="URL" target="_blank" class="official-link-btn" style="display:inline-block;background:linear-gradient(135deg,#667eea,#764ba2);color:white;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:bold;margin:15px 0;">🔗 공식 홈페이지 바로가기</a>
+- 예시 삽입 시점: "자세한 내용은 공식 홈페이지에서 확인하세요", "신청은 아래 링크에서 가능합니다" 등
+- 제공된 공식문서 URL을 활용하여 버튼 생성
+- 최소 2개 이상의 공식 링크 버튼 삽입
+
 ## 구조
 1. 후킹 도입부 (독자의 관심 유도)
 2. 📌 목차 (Table of Contents)
-3. 본문 (H2, H3로 구조화)
+3. 본문 (H2, H3로 구조화) + 공식 링크 버튼 삽입
 4. [AD] 마커 5개 삽입 (광고 위치)
 5. FAQ 섹션
-6. 마무리 및 CTA
+6. 마무리 및 CTA (공식 링크 버튼 포함)
 
 ## 출력 형식
 ---TITLE---
@@ -81,11 +94,19 @@ async function generateArticle(keyword, webContext = '', wpContext = '', style =
 ---CONTENT---
 HTML 본문`;
 
+  // 공식 URL 목록 포맷팅
+  const officialUrls = searchData?.officialSources?.length > 0
+    ? searchData.officialSources.map(s => `- ${s.title}: ${s.url}`).join('\n')
+    : '공식 URL 없음';
+
   const userPrompt = `키워드: ${keyword}
-작성 기준일: ${new Date().toISOString().split('T')[0]} (이 날짜 기준 최신 정보 사용)
+작성 기준일: 2026년 (현재 연도는 2026년입니다. 2026년 기준 최신 정보로 작성)
 
 ## 참고할 공식문서/공신력 있는 출처:
 ${officialDocsInfo}
+
+## 공식 홈페이지 URL (버튼 링크용):
+${officialUrls}
 
 ## 최근 3개월 이내 최신 정보:
 ${recentInfo}

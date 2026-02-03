@@ -4,17 +4,25 @@ const axios = require('axios');
 // 공식문서 도메인 목록
 // ============================================
 const OFFICIAL_DOMAINS = [
+  // 정부/공공기관 (최우선)
+  "gov.kr", "go.kr", "or.kr", "korea.kr",
+  "mois.go.kr", "nts.go.kr", "hometax.go.kr",
+  "nhis.or.kr", "nps.or.kr", "bokjiro.go.kr", "law.go.kr",
+  "mss.go.kr", "bizinfo.go.kr", "sbiz.or.kr", "k-startup.go.kr",
+  "kised.or.kr", "semas.or.kr", "kcci.or.kr", "sbdc.or.kr",
+  "work.go.kr", "ei.go.kr", "comwel.or.kr", "kcomwel.or.kr",
+  "kotra.or.kr", "kita.or.kr", "keit.re.kr", "kdata.or.kr",
+  "molit.go.kr", "lh.or.kr", "khug.or.kr", "hf.go.kr",
+  "moe.go.kr", "nrf.re.kr", "kosaf.go.kr", "academyinfo.go.kr",
+  // 금융/보험
+  "fss.or.kr", "kofia.or.kr", "kbstar.com", "shinhan.com", "wooribank.com",
+  "kbfg.com", "hanabank.com", "ibk.co.kr", "nh.co.kr",
   // 기술 공식문서
   "docs.google.com", "developer.android.com", "developer.apple.com",
   "docs.microsoft.com", "learn.microsoft.com", "aws.amazon.com/docs",
   "cloud.google.com/docs", "docs.aws.amazon.com", "firebase.google.com/docs",
   "reactjs.org", "vuejs.org", "angular.io", "nodejs.org", "python.org",
   "developer.mozilla.org", "w3.org", "github.com/docs",
-  // 정부/공공기관
-  "gov.kr", "korea.kr", "mois.go.kr", "nts.go.kr", "hometax.go.kr",
-  "nhis.or.kr", "nps.or.kr", "bokjiro.go.kr", "law.go.kr",
-  // 금융
-  "fss.or.kr", "kofia.or.kr", "kbstar.com", "shinhan.com", "wooribank.com",
   // 기타 공신력 있는 사이트
   "wikipedia.org", "namu.wiki", "terms.naver.com", "ko.dict.naver.com"
 ];
