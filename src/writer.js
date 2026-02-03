@@ -109,12 +109,12 @@ async function generateArticle(keyword, webContext = '', wpContext = '', style =
 
 ## 절대 규칙 2: 링크 버튼 필수 삽입 (가장 중요!)
 - **반드시 3개 이상의 링크 버튼을 본문에 삽입해야 합니다**
+- **링크는 반드시 한국 웹사이트만 사용** (gov.kr, go.kr, or.kr, co.kr, kr 도메인)
 - 독자가 이 키워드를 검색한 이유를 분석: 신청하려고? 확인하려고? 알아보려고?
 - 독자의 행동 욕구를 자극하는 버튼 문구 사용
-- 버튼 예시:
-  <a href="URL" class="official-link-btn" style="display:inline-block;background:linear-gradient(135deg,#667eea,#764ba2);color:white;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:bold;margin:15px 0;">👉 지금 바로 신청하기</a>
-  <a href="URL" class="official-link-btn" style="display:inline-block;background:linear-gradient(135deg,#667eea,#764ba2);color:white;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:bold;margin:15px 0;">✅ 자격 조건 확인하기</a>
-  <a href="URL" class="official-link-btn" style="display:inline-block;background:linear-gradient(135deg,#667eea,#764ba2);color:white;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:bold;margin:15px 0;">📋 상세 내용 보러가기</a>
+- **버튼은 반드시 중앙정렬** (div로 감싸서 text-align:center 적용)
+- 버튼 형식 (반드시 이 형식 사용!):
+  <div style="text-align:center;margin:20px 0;"><a href="한국웹사이트URL" class="official-link-btn" style="display:inline-block;background:linear-gradient(135deg,#667eea,#764ba2);color:white;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:bold;">👉 지금 바로 신청하기</a></div>
 - 버튼 배치: 도입부 직후 1개, 본문 중간 1개, 마무리 전 1개
 - **target 속성 절대 사용 금지** (현재 창에서 이동)
 
