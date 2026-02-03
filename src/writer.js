@@ -47,7 +47,7 @@ async function generateArticle(keyword, webContext = '', wpContext = '', style =
 1. HTML 형식으로만 작성 (마크다운 사용 금지)
 2. 글 길이: ${lengthGuide[length]}
 3. 톤앤매너: ${styleGuide[style]}
-4. 제목은 <h1> 태그 사용
+4. **본문에 절대 <h1> 태그 사용 금지** (워드프레스가 제목을 자동으로 h1으로 표시함)
 5. 소제목은 <h2>, <h3> 태그 사용
 6. 문단은 <p> 태그 사용
 7. 목록은 <ul>, <ol> 태그 사용
@@ -80,11 +80,24 @@ async function generateArticle(keyword, webContext = '', wpContext = '', style =
 
 ## 구조
 1. 후킹 도입부 (독자의 관심 유도)
-2. 📌 목차 (Table of Contents)
-3. 본문 (H2, H3로 구조화) + 공식 링크 버튼 삽입
+2. 📌 목차 (Table of Contents) - **각 항목에 앵커 링크 필수** (예: <a href="#sec1">1. 첫번째 소제목</a>)
+3. 본문 (H2, H3로 구조화) + 공식 링크 버튼 삽입 - **각 H2에 id 속성 필수** (예: <h2 id="sec1">첫번째 소제목</h2>)
 4. [AD] 마커 5개 삽입 (광고 위치)
 5. FAQ 섹션
 6. 마무리 및 CTA (공식 링크 버튼 포함)
+
+## 목차 형식 예시 (반드시 이 형식으로!)
+<div class="toc-container">
+<p><strong>📌 목차</strong></p>
+<ul>
+<li><a href="#sec1">1. 첫번째 소제목</a></li>
+<li><a href="#sec2">2. 두번째 소제목</a></li>
+</ul>
+</div>
+
+## H2 태그 형식 예시 (반드시 id 포함!)
+<h2 id="sec1">첫번째 소제목</h2>
+<h2 id="sec2">두번째 소제목</h2>
 
 ## 출력 형식
 ---TITLE---
@@ -143,6 +156,52 @@ ${wpContext || '없음'}
 
     // [AD] 마커를 애드센스 코드로 교체
     content = content.replace(/\[AD\]/g, config.getAdsenseCode());
+
+    // === 후처리: h1 태그 완전 제거 ===
+    content = content.replace(/<h1[^>]*>[\s\S]*?<\/h1>/gi, '');
+
+    // === 후처리: 목차와 h2 앵커 링크 자동 생성 ===
+    const h2Matches = [];
+    let h2Index = 0;
+    content = content.replace(/<h2([^>]*)>([\s\S]*?)<\/h2>/gi, (match, attrs, text) => {
+      h2Index++;
+      const id = `sec${h2Index}`;
+      const cleanText = text.replace(/<[^>]+>/g, '').trim();
+      h2Matches.push({ id, text: cleanText });
+      // id 속성이 없으면 추가
+      if (!attrs.includes('id=')) {
+        return `<h2 id="${id}"${attrs}>${text}</h2>`;
+      }
+      return match;
+    });
+
+    // 목차가 없거나 링크가 없으면 자동 생성
+    if (h2Matches.length > 0 && !content.includes('href="#sec')) {
+      const tocHtml = `<div class="toc-container" style="background:#f8f9fa;padding:20px;border-radius:10px;margin:20px 0;">
+<p><strong>📌 목차</strong></p>
+<ul style="list-style:none;padding-left:0;">
+${h2Matches.map((h, i) => `<li style="margin:8px 0;"><a href="#${h.id}" style="color:#667eea;text-decoration:none;">${i + 1}. ${h.text}</a></li>`).join('\n')}
+</ul>
+</div>`;
+
+      // 기존 목차 제거 후 새 목차 삽입
+      content = content.replace(/<div[^>]*class="toc-container"[^>]*>[\s\S]*?<\/div>/gi, '');
+      content = content.replace(/(<p[^>]*>.*?📌\s*목차.*?<\/p>[\s\S]*?<\/ul>)/gi, '');
+
+      // 첫 번째 p 태그 또는 본문 시작 부분에 목차 삽입
+      const firstPIndex = content.indexOf('<p');
+      if (firstPIndex !== -1) {
+        content = content.slice(0, firstPIndex) + tocHtml + content.slice(firstPIndex);
+      } else {
+        content = tocHtml + content;
+      }
+    }
+
+    // 부드러운 스크롤 CSS 추가
+    const smoothScrollCSS = `<style>html{scroll-behavior:smooth;}.toc-container a:hover{text-decoration:underline!important;}</style>`;
+    if (!content.includes('scroll-behavior')) {
+      content = smoothScrollCSS + content;
+    }
 
     return {
       success: true,
