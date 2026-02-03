@@ -71,12 +71,13 @@ async function generateArticle(keyword, webContext = '', wpContext = '', style =
 - 오래된 정보, 불확실한 정보 사용 금지
 - 구체적인 날짜, 수치, 출처 포함
 
-## 공식 홈페이지 링크 버튼 (필수!)
-- 글 중간중간 행동을 유도해야 하는 시점에 공식 홈페이지 링크 버튼 삽입
-- 버튼 형식: <a href="URL" target="_blank" class="official-link-btn" style="display:inline-block;background:linear-gradient(135deg,#667eea,#764ba2);color:white;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:bold;margin:15px 0;">🔗 공식 홈페이지 바로가기</a>
-- 예시 삽입 시점: "자세한 내용은 공식 홈페이지에서 확인하세요", "신청은 아래 링크에서 가능합니다" 등
-- 제공된 공식문서 URL을 활용하여 버튼 생성
-- 최소 2개 이상의 공식 링크 버튼 삽입
+## 공식 홈페이지 링크 버튼 (매우 중요!)
+- **독자가 키워드를 검색한 이유를 파악**하여 그들이 해결하고 싶어하는 문제나 궁금해하는 부분에 링크 버튼 배치
+- 예: "신청 방법이 궁금하시죠? 바로 신청하러 가기", "지금 바로 확인해보세요", "자격 조건 확인하기" 등
+- 버튼 형식: <a href="URL" class="official-link-btn" style="display:inline-block;background:linear-gradient(135deg,#667eea,#764ba2);color:white;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:bold;margin:15px 0;">🔗 지금 바로 신청하기</a>
+- **target 속성 사용 금지** (현재 창에서 이동해야 함)
+- 독자의 니즈를 자극하는 문구로 버튼 텍스트 작성
+- 최소 3개 이상의 링크 버튼 삽입 (글 초반, 중반, 후반에 분산)
 
 ## 구조
 1. 후킹 도입부 (독자의 관심 유도)
@@ -195,12 +196,6 @@ ${h2Matches.map((h, i) => `<li style="margin:8px 0;"><a href="#${h.id}" style="c
       } else {
         content = tocHtml + content;
       }
-    }
-
-    // 부드러운 스크롤 CSS 추가
-    const smoothScrollCSS = `<style>html{scroll-behavior:smooth;}.toc-container a:hover{text-decoration:underline!important;}</style>`;
-    if (!content.includes('scroll-behavior')) {
-      content = smoothScrollCSS + content;
     }
 
     return {
