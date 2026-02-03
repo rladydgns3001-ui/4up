@@ -59,9 +59,14 @@ async function searchGoogle(keyword, options = {}) {
   );
   const data = await response.json();
 
-  if (!data.organic_results) {
+  if (!data.organic_results || data.organic_results.length === 0) {
+    // 이미 전체 기간 검색인데 결과 없으면 빈 배열 반환 (무한 루프 방지)
+    if (!recentOnly) {
+      console.log("⚠️ 검색 결과 없음, 빈 배열 반환");
+      return [];
+    }
     console.log("⚠️ 최근 3개월 결과 없음, 전체 기간으로 재검색...");
-    // 날짜 필터 없이 재검색
+    // 날짜 필터 없이 재검색 (1회만)
     return searchGoogle(keyword, { recentOnly: false, officialFirst });
   }
 
