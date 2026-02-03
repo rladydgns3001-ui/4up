@@ -625,8 +625,54 @@ JSON 형식으로만 응답 (글 작성 거부 금지!):
         article.content = article.content.replace("[IMAGE_PLACEHOLDER_2]", "");
       }
 
+      // ============================================
+      // 목차 자동 생성 (h2 태그 기반)
+      // ============================================
+      // 1. 모든 h2 태그 찾기
+      const h2Pattern = /<h2[^>]*>(.*?)<\/h2>/gi;
+      const h2List = [];
+      let h2Match;
+      let tempContent = article.content;
+
+      while ((h2Match = h2Pattern.exec(article.content)) !== null) {
+        const fullMatch = h2Match[0];
+        const h2Text = h2Match[1].replace(/<[^>]+>/g, '').trim(); // 내부 태그 제거
+        const sectionId = `section-${h2List.length + 1}`;
+        h2List.push({ text: h2Text, id: sectionId, original: fullMatch });
+      }
+
+      // 2. h2 태그에 id 속성 추가
+      h2List.forEach((item, index) => {
+        const newH2 = `<h2 id="${item.id}">${item.text}</h2>`;
+        tempContent = tempContent.replace(item.original, newH2);
+      });
+      article.content = tempContent;
+
+      // 3. 목차 HTML 생성
+      if (h2List.length >= 2) {
+        const tocItems = h2List.map((item, index) =>
+          `<li style="margin: 8px 0;"><a href="#${item.id}" style="color: #667eea; text-decoration: none; transition: color 0.2s;">${index + 1}. ${item.text}</a></li>`
+        ).join('\n');
+
+        const tocHtml = `
+<div class="toc-box" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); border-left: 4px solid #667eea; padding: 25px 30px; margin: 30px 0; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+  <p style="font-weight: 800; margin-bottom: 15px; color: #333; font-size: 1.1rem;">목차</p>
+  <ul style="list-style: none; padding: 0; margin: 0;">
+    ${tocItems}
+  </ul>
+</div>
+`;
+
+        // 4. 첫 번째 h2 태그 앞에 목차 삽입
+        const firstH2Match = article.content.match(/<h2[^>]*id="section-1"[^>]*>/i);
+        if (firstH2Match) {
+          article.content = article.content.replace(firstH2Match[0], tocHtml + firstH2Match[0]);
+        }
+        console.log(`📑 목차 생성 완료: ${h2List.length}개 섹션`);
+      }
+
       // 부드러운 스크롤을 위한 CSS 추가 (글 맨 앞에)
-      const smoothScrollCss = `<style>html { scroll-behavior: smooth; } .toc-box a:hover { text-decoration: underline !important; }</style>`;
+      const smoothScrollCss = `<style>html { scroll-behavior: smooth; } .toc-box a:hover { text-decoration: underline !important; color: #764ba2 !important; }</style>`;
       article.content = smoothScrollCss + article.content;
 
       // 공식 홈페이지 링크 버튼 변환 [OFFICIAL_LINK:URL:텍스트] → HTML 버튼
