@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>지원금 TALK - 정부지원금, 재테크, 금융 정보</title>
+  <meta name="description" content="정부지원금, 재테크, 금융, 투자 정보를 한눈에. 최신 정책과 돈 버는 정보를 확인하세요.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background: #f5f5f5;
+    }
+
+    /* 헤더 */
+    .header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    .header h1 {
+      font-size: 2.2rem;
+      font-weight: 900;
+      margin-bottom: 10px;
+    }
+
+    .header p {
+      font-size: 1rem;
+      opacity: 0.9;
+    }
+
+    /* 카테고리 네비게이션 */
+    .category-nav {
+      background: white;
+      padding: 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .category-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .category-btn {
+      padding: 12px 28px;
+      border-radius: 50px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s;
+      border: 2px solid #667eea;
+      background: white;
+      color: #667eea;
+    }
+
+    .category-btn:hover {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 20px rgba(102, 126, 234, 0.3);
+    }
+
+    .category-btn.active {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+
+    /* 메인 컨테이너 */
+    .main-container {
+      max-width: 1000px;
+      margin: 30px auto;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 25px;
+    }
+
+    /* 섹션 카드 */
+    .section-card {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+      overflow: hidden;
+    }
+
+    .section-header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 18px 25px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-header .icon {
+      font-size: 1.3rem;
+    }
+
+    /* 글 목록 */
+    .post-list {
+      padding: 10px 0;
+    }
+
+    .post-item {
+      padding: 18px 25px;
+      border-bottom: 1px solid #f0f0f0;
+      transition: background 0.2s;
+      display: block;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .post-item:last-child {
+      border-bottom: none;
+    }
+
+    .post-item:hover {
+      background: #f8f9ff;
+    }
+
+    .post-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 6px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .post-meta {
+      font-size: 0.8rem;
+      color: #888;
+      display: flex;
+      gap: 12px;
+    }
+
+    .post-category {
+      background: #667eea20;
+      color: #667eea;
+      padding: 2px 10px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .post-views {
+      color: #e74c3c;
+      font-weight: 600;
+    }
+
+    /* 전체 글 보기 버튼 */
+    .view-all {
+      display: block;
+      text-align: center;
+      padding: 15px;
+      background: #f8f9fa;
+      color: #667eea;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: background 0.2s;
+    }
+
+    .view-all:hover {
+      background: #667eea;
+      color: white;
+    }
+
+    /* 풀 와이드 섹션 */
+    .full-width-section {
+      grid-column: 1 / -1;
+    }
+
+    /* 카테고리 바로가기 그리드 */
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+      padding: 25px;
+    }
+
+    .category-card {
+      background: linear-gradient(135deg, #f8f9ff 0%, #fff 100%);
+      border: 2px solid #e8ebf8;
+      border-radius: 12px;
+      padding: 25px 15px;
+      text-align: center;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+
+    .category-card:hover {
+      border-color: #667eea;
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
+    }
+
+    .category-card .emoji {
+      font-size: 2.5rem;
+      margin-bottom: 12px;
+    }
+
+    .category-card .name {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #333;
+      margin-bottom: 5px;
+    }
+
+    .category-card .count {
+      font-size: 0.8rem;
+      color: #888;
+    }
+
+    /* 푸터 */
+    .footer {
+      background: #2d2d3a;
+      color: rgba(255,255,255,0.7);
+      padding: 30px 20px;
+      text-align: center;
+      margin-top: 40px;
+    }
+
+    .footer a {
+      color: #667eea;
+      text-decoration: none;
+    }
+
+    /* 반응형 */
+    @media (max-width: 768px) {
+      .main-container {
+        grid-template-columns: 1fr;
+      }
+
+      .category-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .header h1 {
+        font-size: 1.8rem;
+      }
+
+      .category-btn {
+        padding: 10px 20px;
+        font-size: 0.85rem;
+      }
+    }
+
+    /* 로딩 스피너 */
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: #888;
+    }
+
+    .spinner {
+      width: 30px;
+      height: 30px;
+      border: 3px solid #e0e0e0;
+      border-top-color: #667eea;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 15px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 헤더 -->
+  <header class="header">
+    <h1>지원금 TALK</h1>
+    <p>정부지원금 · 재테크 · 금융 · 투자 정보를 한눈에</p>
+  </header>
+
+  <!-- 카테고리 네비게이션 -->
+  <nav class="category-nav">
+    <div class="category-container">
+      <a href="https://esett.com/category/지원금" class="category-btn">💰 지원금</a>
+      <a href="https://esett.com/category/재테크" class="category-btn">📈 재테크</a>
+      <a href="https://esett.com/category/금융" class="category-btn">🏦 금융</a>
+      <a href="https://esett.com/category/세금" class="category-btn">📋 세금</a>
+    </div>
+  </nav>
+
+  <!-- 메인 컨텐츠 -->
+  <main class="main-container">
+
+    <!-- 카테고리 바로가기 -->
+    <section class="section-card full-width-section">
+      <div class="section-header">
+        <span class="icon">📂</span>
+        카테고리 바로가기
+      </div>
+      <div class="category-grid">
+        <a href="https://esett.com/category/지원금" class="category-card">
+          <div class="emoji">💰</div>
+          <div class="name">지원금</div>
+          <div class="count">정부 지원 정책</div>
+        </a>
+        <a href="https://esett.com/category/재테크" class="category-card">
+          <div class="emoji">📈</div>
+          <div class="name">재테크</div>
+          <div class="count">돈 버는 방법</div>
+        </a>
+        <a href="https://esett.com/category/금융" class="category-card">
+          <div class="emoji">🏦</div>
+          <div class="name">금융</div>
+          <div class="count">은행 · 대출 · 저축</div>
+        </a>
+        <a href="https://esett.com/category/세금" class="category-card">
+          <div class="emoji">📋</div>
+          <div class="name">세금</div>
+          <div class="count">절세 · 신고 · 환급</div>
+        </a>
+      </div>
+    </section>
+
+    <!-- 최근 글 -->
+    <section class="section-card">
+      <div class="section-header">
+        <span class="icon">🕐</span>
+        최근 글
+      </div>
+      <div class="post-list" id="recent-posts">
+        <div class="loading">
+          <div class="spinner"></div>
+          글을 불러오는 중...
+        </div>
+      </div>
+      <a href="https://esett.com" class="view-all">전체 글 보기 →</a>
+    </section>
+
+    <!-- 인기 글 -->
+    <section class="section-card">
+      <div class="section-header">
+        <span class="icon">🔥</span>
+        인기 글
+      </div>
+      <div class="post-list" id="popular-posts">
+        <div class="loading">
+          <div class="spinner"></div>
+          글을 불러오는 중...
+        </div>
+      </div>
+      <a href="https://esett.com" class="view-all">전체 글 보기 →</a>
+    </section>
+
+  </main>
+
+  <!-- 푸터 -->
+  <footer class="footer">
+    <p>© 2026 지원금 TALK. All rights reserved.</p>
+    <p style="margin-top: 8px; font-size: 0.85rem;">
+      <a href="https://esett.com">홈</a> ·
+      <a href="https://esett.com/category/지원금">지원금</a> ·
+      <a href="https://esett.com/category/재테크">재테크</a>
+    </p>
+  </footer>
+
+  <script>
+    const WP_API = 'https://esett.com/wp-json/wp/v2';
+
+    // 날짜 포맷
+    function formatDate(dateStr) {
+      const date = new Date(dateStr);
+      const month = date.getMonth() + 1;
+      const day = date.getDate();
+      return `${month}월 ${day}일`;
+    }
+
+    // HTML 엔티티 디코딩
+    function decodeHtml(html) {
+      const txt = document.createElement('textarea');
+      txt.innerHTML = html;
+      return txt.value;
+    }
+
+    // 글 목록 렌더링
+    function renderPosts(posts, containerId) {
+      const container = document.getElementById(containerId);
+
+      if (!posts || posts.length === 0) {
+        container.innerHTML = '<div class="loading">글이 없습니다.</div>';
+        return;
+      }
+
+      container.innerHTML = posts.map(post => `
+        <a href="${post.link}" class="post-item">
+          <div class="post-title">${decodeHtml(post.title.rendered)}</div>
+          <div class="post-meta">
+            <span>📅 ${formatDate(post.date)}</span>
+          </div>
+        </a>
+      `).join('');
+    }
+
+    // 최근 글 가져오기
+    async function fetchRecentPosts() {
+      try {
+        const response = await fetch(`${WP_API}/posts?per_page=5&_fields=id,title,link,date`);
+        const posts = await response.json();
+        renderPosts(posts, 'recent-posts');
+      } catch (error) {
+        console.error('최근 글 로딩 실패:', error);
+        document.getElementById('recent-posts').innerHTML = `
+          <a href="https://esett.com" class="post-item">
+            <div class="post-title">블로그에서 최신 글을 확인하세요</div>
+            <div class="post-meta"><span>클릭하여 이동</span></div>
+          </a>
+        `;
+      }
+    }
+
+    // 인기 글 (조회수 기준 - 워드프레스 기본 API는 조회수 미지원, 최근 글로 대체)
+    async function fetchPopularPosts() {
+      try {
+        // 인기글 플러그인이 없으면 최근 글 중 다른 것들 표시
+        const response = await fetch(`${WP_API}/posts?per_page=5&offset=5&_fields=id,title,link,date`);
+        const posts = await response.json();
+
+        if (posts.length === 0) {
+          // offset으로 글이 없으면 최근 글 다시 가져오기
+          const fallback = await fetch(`${WP_API}/posts?per_page=5&_fields=id,title,link,date`);
+          const fallbackPosts = await fallback.json();
+          renderPosts(fallbackPosts, 'popular-posts');
+        } else {
+          renderPosts(posts, 'popular-posts');
+        }
+      } catch (error) {
+        console.error('인기 글 로딩 실패:', error);
+        document.getElementById('popular-posts').innerHTML = `
+          <a href="https://esett.com" class="post-item">
+            <div class="post-title">블로그에서 인기 글을 확인하세요</div>
+            <div class="post-meta"><span>클릭하여 이동</span></div>
+          </a>
+        `;
+      }
+    }
+
+    // 초기화
+    fetchRecentPosts();
+    fetchPopularPosts();
+  </script>
+
+</body>
+</html>
