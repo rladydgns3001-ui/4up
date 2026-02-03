@@ -611,98 +611,144 @@ JSON 형식으로만 응답 (글 작성 거부 금지!):
         .replace(/^- (.+)$/gm, '<li>$1</li>');
 
       // ============================================
-      // 2단계: h1 태그 완전 제거 (간단한 방식)
+      // 2단계: h1 태그 완전 제거
       // ============================================
-      // h1 시작 태그와 종료 태그 사이의 모든 내용 제거
-      while (content.includes('<h1')) {
-        const startIdx = content.indexOf('<h1');
-        const endIdx = content.indexOf('</h1>', startIdx);
-        if (startIdx !== -1 && endIdx !== -1) {
-          content = content.substring(0, startIdx) + content.substring(endIdx + 5);
+      while (content.indexOf('<h1') !== -1) {
+        const start = content.indexOf('<h1');
+        const end = content.indexOf('</h1>', start);
+        if (start !== -1 && end !== -1) {
+          content = content.slice(0, start) + content.slice(end + 5);
         } else {
+          // 닫는 태그가 없으면 여는 태그만 제거
+          content = content.slice(0, start) + content.slice(start + 4);
           break;
         }
       }
-      // 마크다운 h1도 제거
       content = content.replace(/^# .+$/gm, '');
       console.log('✅ h1 태그 제거 완료');
 
       // ============================================
-      // 3단계: 기존 목차 제거 (Claude가 만든 것)
+      // 3단계: Claude가 만든 목차 완전 제거
       // ============================================
-      // "목차" 텍스트가 포함된 h2와 그 다음 ul 제거
-      while (content.match(/<h2[^>]*>[^<]*목차[^<]*<\/h2>/i)) {
-        content = content.replace(/<h2[^>]*>[^<]*목차[^<]*<\/h2>/i, '');
+      // 목차 h2와 그 뒤의 ul 모두 제거
+      // 패턴: <h2...>목차</h2> 다음에 오는 <ul>...</ul>까지
+      let tocRemoved = false;
+      while (content.toLowerCase().indexOf('목차') !== -1) {
+        // 목차가 포함된 h2 찾기
+        const h2Start = content.search(/<h2[^>]*>[^<]*목차/i);
+        if (h2Start === -1) break;
+
+        const h2End = content.indexOf('</h2>', h2Start);
+        if (h2End === -1) break;
+
+        // h2 다음에 오는 ul 찾기
+        const afterH2 = content.slice(h2End + 5);
+        const ulStart = afterH2.search(/<ul/i);
+
+        if (ulStart !== -1 && ulStart < 50) { // ul이 h2 바로 뒤에 있으면
+          const ulEnd = afterH2.indexOf('</ul>');
+          if (ulEnd !== -1) {
+            // h2와 ul 모두 제거
+            content = content.slice(0, h2Start) + afterH2.slice(ulEnd + 5);
+            tocRemoved = true;
+            continue;
+          }
+        }
+
+        // ul이 없으면 h2만 제거
+        content = content.slice(0, h2Start) + content.slice(h2End + 5);
+        tocRemoved = true;
       }
+
+      // toc-box 클래스가 있는 div도 제거
+      while (content.indexOf('toc-box') !== -1) {
+        const divStart = content.lastIndexOf('<div', content.indexOf('toc-box'));
+        if (divStart === -1) break;
+        const divEnd = content.indexOf('</div>', divStart);
+        if (divEnd === -1) break;
+        content = content.slice(0, divStart) + content.slice(divEnd + 6);
+      }
+
       console.log('✅ 기존 목차 제거 완료');
 
       // ============================================
       // 4단계: 이미지 플레이스홀더 교체
       // ============================================
-      content = content.replace("[IMAGE_PLACEHOLDER_1]", imageHtml1 || "");
-      content = content.replace("[IMAGE_PLACEHOLDER_2]", imageHtml2 || "");
+      content = content.replace('[IMAGE_PLACEHOLDER_1]', imageHtml1 || '');
+      content = content.replace('[IMAGE_PLACEHOLDER_2]', imageHtml2 || '');
 
       // ============================================
-      // 5단계: 모든 h2 찾아서 id 부여 및 목차 생성
+      // 5단계: 모든 h2의 기존 id 제거하고 텍스트만 추출
       // ============================================
-      const h2List = [];
-      let h2Counter = 1;
+      const h2Data = [];
+      let h2Count = 1;
+      let searchStart = 0;
 
-      // h2 태그 찾기 (간단한 방식)
-      const h2Matches = content.match(/<h2[^>]*>.*?<\/h2>/gi) || [];
+      while (true) {
+        const h2OpenStart = content.indexOf('<h2', searchStart);
+        if (h2OpenStart === -1) break;
 
-      h2Matches.forEach(h2Tag => {
+        const h2OpenEnd = content.indexOf('>', h2OpenStart);
+        if (h2OpenEnd === -1) break;
+
+        const h2CloseStart = content.indexOf('</h2>', h2OpenEnd);
+        if (h2CloseStart === -1) break;
+
         // h2 내부 텍스트 추출
-        let h2Text = h2Tag
-          .replace(/<h2[^>]*>/i, '')
-          .replace(/<\/h2>/i, '')
-          .replace(/<[^>]+>/g, '') // 내부 태그 제거
-          .trim();
+        let h2Inner = content.slice(h2OpenEnd + 1, h2CloseStart);
+        // 내부 태그 제거
+        h2Inner = h2Inner.replace(/<[^>]+>/g, '').trim();
 
-        // 목차라는 단어가 있으면 스킵
-        if (h2Text.includes('목차')) return;
-        // 빈 텍스트면 스킵
-        if (!h2Text) return;
+        // "목차" 포함된 것은 스킵
+        if (h2Inner.includes('목차') || !h2Inner) {
+          searchStart = h2CloseStart + 5;
+          continue;
+        }
 
-        const sectionId = 'sec-' + h2Counter;
-        h2List.push({
-          original: h2Tag,
-          text: h2Text,
-          id: sectionId
+        const newId = 'sec' + h2Count;
+        h2Data.push({
+          start: h2OpenStart,
+          end: h2CloseStart + 5,
+          text: h2Inner,
+          id: newId
         });
-        h2Counter++;
-      });
 
-      // 각 h2에 id 속성 추가
-      h2List.forEach(item => {
+        h2Count++;
+        searchStart = h2CloseStart + 5;
+      }
+
+      // 뒤에서부터 교체 (인덱스 유지)
+      for (let i = h2Data.length - 1; i >= 0; i--) {
+        const item = h2Data[i];
         const newH2 = '<h2 id="' + item.id + '">' + item.text + '</h2>';
-        content = content.replace(item.original, newH2);
-      });
-      console.log('✅ ' + h2List.length + '개 h2에 id 부여 완료');
+        content = content.slice(0, item.start) + newH2 + content.slice(item.end);
+      }
+      console.log('✅ ' + h2Data.length + '개 h2에 id 부여 완료');
 
       // ============================================
-      // 6단계: 목차 HTML 생성
+      // 6단계: 새 목차 HTML 생성 및 삽입
       // ============================================
-      if (h2List.length >= 2) {
-        let tocItems = '';
-        h2List.forEach((item, idx) => {
-          tocItems += '<li style="margin:10px 0;"><a href="#' + item.id + '" style="color:#667eea;text-decoration:none;">' + (idx + 1) + '. ' + item.text + '</a></li>\n';
-        });
+      if (h2Data.length >= 2) {
+        let tocLi = '';
+        for (let i = 0; i < h2Data.length; i++) {
+          tocLi += '<li style="margin:10px 0;"><a href="#' + h2Data[i].id + '" style="color:#667eea;text-decoration:none;">' + (i + 1) + '. ' + h2Data[i].text + '</a></li>';
+        }
 
-        const tocHtml = '<div class="toc-box" style="background:linear-gradient(135deg,#f8f9fa 0%,#e9ecef 100%);border-left:4px solid #667eea;padding:25px 30px;margin:30px 0;border-radius:12px;">' +
+        const tocBox = '<div class="toc-box" style="background:linear-gradient(135deg,#f8f9fa 0%,#e9ecef 100%);border-left:4px solid #667eea;padding:25px 30px;margin:30px 0;border-radius:12px;box-shadow:0 4px 15px rgba(0,0,0,0.05);">' +
           '<p style="font-weight:800;margin-bottom:15px;color:#333;font-size:1.1rem;">목차</p>' +
-          '<ul style="list-style:none;padding:0;margin:0;">' + tocItems + '</ul>' +
-          '</div>';
+          '<ul style="list-style:none;padding:0;margin:0;">' + tocLi + '</ul></div>';
 
-        // 첫 번째 h2 앞에 목차 삽입
-        const firstH2 = '<h2 id="' + h2List[0].id + '">';
-        content = content.replace(firstH2, tocHtml + firstH2);
-        console.log('✅ 목차 생성 완료 (' + h2List.length + '개 항목)');
+        // 첫 번째 h2 앞에 삽입
+        const firstH2Pos = content.indexOf('<h2 id="' + h2Data[0].id + '">');
+        if (firstH2Pos !== -1) {
+          content = content.slice(0, firstH2Pos) + tocBox + content.slice(firstH2Pos);
+        }
+        console.log('✅ 목차 생성 완료 (' + h2Data.length + '개 항목, 링크 포함)');
       }
 
       // 부드러운 스크롤 CSS
-      const css = '<style>html{scroll-behavior:smooth}.toc-box a:hover{text-decoration:underline!important;color:#764ba2!important}</style>';
-      content = css + content;
+      const smoothCss = '<style>html{scroll-behavior:smooth}.toc-box a:hover{text-decoration:underline!important;color:#764ba2!important}</style>';
+      content = smoothCss + content;
 
       article.content = content;
 
@@ -747,29 +793,45 @@ JSON 형식으로만 응답 (글 작성 거부 금지!):
       // ============================================
       // 최종 h1 제거 (마지막 안전장치)
       // ============================================
-      while (article.content.includes('<h1')) {
-        const startIdx = article.content.indexOf('<h1');
-        const endIdx = article.content.indexOf('</h1>', startIdx);
-        if (startIdx !== -1 && endIdx !== -1) {
-          article.content = article.content.substring(0, startIdx) + article.content.substring(endIdx + 5);
+      let finalContent = article.content;
+      while (finalContent.indexOf('<h1') !== -1) {
+        const s = finalContent.indexOf('<h1');
+        const e = finalContent.indexOf('</h1>', s);
+        if (s !== -1 && e !== -1) {
+          finalContent = finalContent.slice(0, s) + finalContent.slice(e + 5);
         } else {
           break;
         }
       }
+      article.content = finalContent;
 
       // 빈 줄 정리
       article.content = article.content.replace(/\n{3,}/g, '\n\n').trim();
 
-      // 최종 확인
-      if (article.content.includes('<h1')) {
-        console.log('⚠️ 경고: h1 태그 발견! 강제 제거...');
-        article.content = article.content.split('<h1').join('<REMOVED').split('</h1>').join('REMOVED>');
-        article.content = article.content.replace(/<REMOVED[^>]*>.*?REMOVED>/gi, '');
+      // 최종 h1 확인
+      if (article.content.indexOf('<h1') !== -1) {
+        console.log('⚠️ 경고: h1 태그 아직 존재! 강제 split 제거...');
+        const parts = article.content.split('<h1');
+        let result = parts[0];
+        for (let i = 1; i < parts.length; i++) {
+          const closeIdx = parts[i].indexOf('</h1>');
+          if (closeIdx !== -1) {
+            result += parts[i].slice(closeIdx + 5);
+          } else {
+            result += parts[i];
+          }
+        }
+        article.content = result;
       }
 
-      const contentLength = article.content.replace(/<[^>]+>/g, "").length;
+      const contentLength = article.content.replace(/<[^>]+>/g, '').length;
       console.log('📏 글자수: ' + contentLength + '자');
       console.log('✅ 최종 처리 완료');
+
+      // 디버그: h1과 목차 확인
+      console.log('🔍 h1 태그 존재: ' + (article.content.indexOf('<h1') !== -1 ? 'YES' : 'NO'));
+      console.log('🔍 목차 링크 존재: ' + (article.content.indexOf('href="#sec') !== -1 ? 'YES' : 'NO'));
+      console.log('🔍 h2 id 존재: ' + (article.content.indexOf('id="sec') !== -1 ? 'YES' : 'NO'));
 
       return article;
     }
