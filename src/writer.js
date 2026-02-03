@@ -1,6 +1,60 @@
 const Anthropic = require('@anthropic-ai/sdk');
 const config = require('./config');
 
+// 인라인 CSS 스타일 적용 함수
+function applyInlineStyles(html) {
+  // h1 스타일
+  html = html.replace(/<h1(?:\s+style="[^"]*")?>/gi,
+    '<h1 style="font-family:\'Nanum Gothic\',sans-serif;font-size:22px;font-weight:bold;color:#222222;line-height:1.3em;margin-bottom:20px;">');
+
+  // h2 스타일
+  html = html.replace(/<h2(?:\s+style="[^"]*")?>/gi,
+    '<h2 style="font-family:\'Nanum Gothic\',sans-serif;font-size:28px;font-weight:bold;color:#222222;line-height:1.3em;margin-bottom:20px;">');
+
+  // h3 스타일
+  html = html.replace(/<h3(?:\s+style="[^"]*")?>/gi,
+    '<h3 style="font-family:\'Nanum Gothic\',sans-serif;font-size:22px;font-weight:bold;color:#222222;line-height:1.3em;margin-bottom:15px;">');
+
+  // h4 스타일
+  html = html.replace(/<h4(?:\s+style="[^"]*")?>/gi,
+    '<h4 style="font-family:\'Nanum Gothic\',sans-serif;font-size:18px;font-weight:bold;color:#222222;line-height:1.3em;margin-bottom:12px;">');
+
+  // p 스타일 (공식 링크 버튼 제외)
+  html = html.replace(/<p(?:\s+style="[^"]*")?>/gi,
+    '<p style="font-size:17px;line-height:1.8;margin-bottom:1.6em;color:#555C68;">');
+
+  // ul 스타일
+  html = html.replace(/<ul(?:\s+style="[^"]*")?>/gi,
+    '<ul style="font-size:17px;line-height:1.8;color:#555C68;margin-bottom:1.6em;padding-left:20px;">');
+
+  // ol 스타일
+  html = html.replace(/<ol(?:\s+style="[^"]*")?>/gi,
+    '<ol style="font-size:17px;line-height:1.8;color:#555C68;margin-bottom:1.6em;padding-left:20px;">');
+
+  // li 스타일
+  html = html.replace(/<li(?:\s+style="[^"]*")?>/gi,
+    '<li style="margin-bottom:8px;">');
+
+  // strong 스타일
+  html = html.replace(/<strong(?:\s+style="[^"]*")?>/gi,
+    '<strong style="font-weight:bold;color:#222222;">');
+
+  // 일반 a 링크 스타일 (공식 링크 버튼 제외)
+  html = html.replace(/<a\s+href="([^"]+)"(?:\s+style="[^"]*")?(?:\s+target="[^"]*")?>/gi, (match, url) => {
+    // 공식 링크 버튼은 별도 스타일 유지
+    if (match.includes('official-link-btn')) {
+      return match;
+    }
+    return `<a href="${url}" style="color:#1e73be;text-decoration:underline;" target="_blank">`;
+  });
+
+  // class="official-link-btn"이 있는 a 태그는 버튼 스타일 유지
+  html = html.replace(/<a\s+href="([^"]+)"\s+target="_blank"\s+class="official-link-btn"[^>]*>/gi,
+    '<a href="$1" target="_blank" class="official-link-btn" style="display:inline-block;background:linear-gradient(135deg,#667eea,#764ba2);color:white;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:bold;margin:15px 0;">');
+
+  return html;
+}
+
 async function generateArticle(keyword, webContext = '', wpContext = '', style = 'informative', length = 'medium', searchData = null) {
   const client = new Anthropic({ apiKey: config.CLAUDE_API_KEY });
 
@@ -43,15 +97,21 @@ async function generateArticle(keyword, webContext = '', wpContext = '', style =
 4. 수치, 통계, 정책 정보는 반드시 출처와 함께 제시
 5. "~라고 합니다", "~인 것으로 알려져 있습니다" 등 불확실한 표현 금지
 
-## 작성 규칙
+## 작성 규칙 (인라인 CSS 스타일 필수 적용!)
 1. HTML 형식으로만 작성 (마크다운 사용 금지)
 2. 글 길이: ${lengthGuide[length]}
 3. 톤앤매너: ${styleGuide[style]}
-4. 제목은 <h1> 태그 사용
-5. 소제목은 <h2>, <h3> 태그 사용
-6. 문단은 <p> 태그 사용
-7. 목록은 <ul>, <ol> 태그 사용
-8. 중요 키워드는 <strong> 태그로 강조
+
+### 태그별 인라인 스타일 (반드시 적용!)
+4. h1 태그: <h1 style="font-family:'Nanum Gothic',sans-serif;font-size:22px;font-weight:bold;color:#222222;line-height:1.3em;margin-bottom:20px;">제목</h1>
+5. h2 태그: <h2 style="font-family:'Nanum Gothic',sans-serif;font-size:28px;font-weight:bold;color:#222222;line-height:1.3em;margin-bottom:20px;">소제목</h2>
+6. h3 태그: <h3 style="font-family:'Nanum Gothic',sans-serif;font-size:22px;font-weight:bold;color:#222222;line-height:1.3em;margin-bottom:15px;">소제목</h3>
+7. p 태그: <p style="font-size:17px;line-height:1.8;margin-bottom:1.6em;color:#555C68;">본문</p>
+8. a 링크: <a href="URL" style="color:#1e73be;text-decoration:underline;">링크텍스트</a>
+9. ul 태그: <ul style="font-size:17px;line-height:1.8;color:#555C68;margin-bottom:1.6em;padding-left:20px;">
+10. ol 태그: <ol style="font-size:17px;line-height:1.8;color:#555C68;margin-bottom:1.6em;padding-left:20px;">
+11. li 태그: <li style="margin-bottom:8px;">항목</li>
+12. strong 태그: <strong style="font-weight:bold;color:#222222;">강조</strong>
 
 ## 이모지 사용 규칙 (적절히 사용)
 - 📌 : 목차, 핵심 요약, 중요 포인트 섹션 앞에 사용
@@ -143,6 +203,9 @@ ${wpContext || '없음'}
 
     // [AD] 마커를 애드센스 코드로 교체
     content = content.replace(/\[AD\]/g, config.getAdsenseCode());
+
+    // 인라인 CSS 스타일 적용
+    content = applyInlineStyles(content);
 
     return {
       success: true,
