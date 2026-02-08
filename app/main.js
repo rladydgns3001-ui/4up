@@ -167,6 +167,36 @@ ipcMain.handle('write-post', async (event, options) => {
       }
     }
 
+    // 4.8. AdSense 광고 삽입
+    const adsenseClientId = config.ADSENSE_CLIENT_ID;
+    const adsenseSlotId = config.ADSENSE_SLOT_ID;
+    if (adsenseClientId && adsenseSlotId) {
+      const adCode = `<div style="margin:30px 0;text-align:center;"><ins class="adsbygoogle" style="display:block" data-ad-client="${adsenseClientId}" data-ad-slot="${adsenseSlotId}" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>`;
+
+      // h2 태그 위치 찾기
+      const h2Positions = [];
+      const h2Regex = /<h2[\s>]/gi;
+      let match;
+      while ((match = h2Regex.exec(contentWithImages)) !== null) {
+        h2Positions.push(match.index);
+      }
+
+      if (h2Positions.length >= 3) {
+        // h2가 3개 이상: 2번째 h2 앞, 마지막 h2 앞에 삽입 (뒤에서부터)
+        const lastH2 = h2Positions[h2Positions.length - 1];
+        const secondH2 = h2Positions[1];
+        contentWithImages = contentWithImages.slice(0, lastH2) + adCode + contentWithImages.slice(lastH2);
+        contentWithImages = contentWithImages.slice(0, secondH2) + adCode + contentWithImages.slice(secondH2);
+      } else if (h2Positions.length >= 2) {
+        // h2가 2개: 2번째 h2 앞에 삽입
+        const secondH2 = h2Positions[1];
+        contentWithImages = contentWithImages.slice(0, secondH2) + adCode + contentWithImages.slice(secondH2);
+      } else {
+        // h2가 1개 이하: 본문 끝에 삽입
+        contentWithImages += adCode;
+      }
+    }
+
     // 5. WordPress에 저장
     const status = publish ? 'publish' : 'draft';
     const result = await wp.createPost(article.title, contentWithImages, status);
