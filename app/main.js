@@ -123,9 +123,53 @@ ipcMain.handle('write-post', async (event, options) => {
       return { success: false, error: article.error };
     }
 
+    // 4.5. 이미지 처리: DALL-E 3로 이미지 생성 후 WordPress에 업로드
+    let contentWithImages = article.content;
+    if (article.imageMarkers && article.imageMarkers.length > 0 && config.OPENAI_API_KEY) {
+      for (let i = 0; i < article.imageMarkers.length; i++) {
+        const description = article.imageMarkers[i];
+        try {
+          const axios = require('axios');
+          // DALL-E 3으로 이미지 생성
+          const dalleResponse = await axios.post('https://api.openai.com/v1/images/generations', {
+            model: 'dall-e-3',
+            prompt: `Blog illustration: ${description}. Professional, clean, informative style, suitable for Korean blog post.`,
+            n: 1,
+            size: '1024x1024',
+            quality: 'standard'
+          }, {
+            headers: {
+              'Authorization': `Bearer ${config.OPENAI_API_KEY}`,
+              'Content-Type': 'application/json'
+            },
+            timeout: 60000
+          });
+
+          const imageUrl = dalleResponse.data.data[0].url;
+
+          // WordPress에 이미지 업로드
+          const imgResult = await wp.uploadImage(imageUrl, `${keyword.replace(/\s+/g, '-')}-${i + 1}`);
+          if (imgResult.success) {
+            const imgHtml = `<figure style="margin:30px 0;text-align:center;"><img src="${imgResult.url}" alt="${keyword} 관련 이미지" style="max-width:100%;height:auto;border-radius:10px;" /><figcaption style="color:#888;font-size:0.85rem;margin-top:8px;">${keyword}</figcaption></figure>`;
+            contentWithImages = contentWithImages.replace(`<!--IMAGE_PLACEHOLDER_${i}-->`, imgHtml);
+          } else {
+            contentWithImages = contentWithImages.replace(`<!--IMAGE_PLACEHOLDER_${i}-->`, '');
+          }
+        } catch (imgError) {
+          console.error('이미지 생성 오류:', imgError.message);
+          contentWithImages = contentWithImages.replace(`<!--IMAGE_PLACEHOLDER_${i}-->`, '');
+        }
+      }
+    } else if (article.imageMarkers && article.imageMarkers.length > 0) {
+      // OpenAI API Key 없으면 이미지 마커 제거
+      for (let i = 0; i < article.imageMarkers.length; i++) {
+        contentWithImages = contentWithImages.replace(`<!--IMAGE_PLACEHOLDER_${i}-->`, '');
+      }
+    }
+
     // 5. WordPress에 저장
     const status = publish ? 'publish' : 'draft';
-    const result = await wp.createPost(article.title, article.content, status);
+    const result = await wp.createPost(article.title, contentWithImages, status);
 
     if (!result.success) {
       return { success: false, error: result.error };

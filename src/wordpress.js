@@ -100,6 +100,40 @@ class WordPressAPI {
     }
   }
 
+  async uploadImage(imageUrl, filename = 'article-image.jpg') {
+    try {
+      // 외부 이미지 다운로드
+      const imageResponse = await axios.get(imageUrl, {
+        responseType: 'arraybuffer',
+        timeout: 30000
+      });
+
+      const contentType = imageResponse.headers['content-type'] || 'image/jpeg';
+      const ext = contentType.includes('png') ? '.png' : contentType.includes('webp') ? '.webp' : '.jpg';
+      const finalFilename = filename.replace(/\.[^.]+$/, '') + ext;
+
+      // WordPress 미디어 라이브러리에 업로드
+      const response = await axios.post(`${this.baseUrl}/media`, imageResponse.data, {
+        auth: this.auth,
+        headers: {
+          'Content-Type': contentType,
+          'Content-Disposition': `attachment; filename="${encodeURIComponent(finalFilename)}"`,
+        },
+        maxContentLength: 50 * 1024 * 1024,
+      });
+
+      return {
+        success: true,
+        id: response.data.id,
+        url: response.data.source_url,
+        alt: response.data.alt_text || ''
+      };
+    } catch (error) {
+      console.error('이미지 업로드 오류:', error.message);
+      return { success: false, error: error.message };
+    }
+  }
+
   async getCategories() {
     try {
       const response = await axios.get(`${this.baseUrl}/categories`, {

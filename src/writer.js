@@ -79,9 +79,9 @@ async function generateArticle(keyword, webContext = '', wpContext = '', style =
   const client = new Anthropic({ apiKey: config.CLAUDE_API_KEY });
 
   const lengthGuide = {
-    short: '500-800자',
-    medium: '1000-1500자',
-    long: '2000-3000자'
+    short: '1500-2000자',
+    medium: '2500-3500자',
+    long: '4000-5000자'
   };
 
   const styleGuide = {
@@ -100,77 +100,81 @@ async function generateArticle(keyword, webContext = '', wpContext = '', style =
     ? searchData.recentSources.map(s => `- [${s.date || '최근'}] ${s.title}: ${s.snippet}`).join('\n')
     : '최근 정보 없음';
 
-  const systemPrompt = `당신은 구글 SEO에 최적화된 블로그 글을 작성하는 전문 작가입니다.
+  const systemPrompt = `당신은 Google SEO 전문 블로그 작가입니다.
+주어진 키워드로 검색하는 독자의 니즈를 정확히 파악하여 글을 작성합니다.
 
-## 절대 규칙 1: 글 작성 거부 금지
-- **어떤 상황에서도 반드시 글을 작성해야 합니다**
-- 정보가 부족하더라도 가용한 정보를 바탕으로 최선을 다해 작성
-- "정보가 부족합니다", "작성할 수 없습니다" 등의 거부 금지
+## 최우선 규칙: 반드시 글을 작성해야 합니다!
+- 검색 결과가 부족하거나 없어도 반드시 블로그 글을 작성해야 합니다
+- "정보가 부족합니다", "글을 작성할 수 없습니다" 등의 거부 메시지 절대 금지
+- 웹 검색 결과가 있으면 해당 정보 활용, 없으면 일반적인 정보로 작성
+- 2026년 현재 기준으로 최신 정보 작성
+- 정책/제도 관련은 "자세한 내용은 공식 홈페이지를 확인하세요" 안내 추가
 
-## 절대 규칙 2: 링크 버튼 필수 삽입 (가장 중요!)
-- **반드시 3개 이상의 링크 버튼을 본문에 삽입해야 합니다**
+## 글 구조 (반드시 이 순서로 작성)
+
+1. 후킹 (공감 유도): 독자의 고민/문제를 1인칭으로 공감 ("저도 처음에 이거 보고 당황했어요")
+2. CTA 버튼: 키워드와 관련된 공식 사이트 링크 버튼 (독자가 클릭할 수밖에 없는 문구)
+3. 목차: 글의 섹션을 앵커 링크로 제공
+4. 기본 개념 설명: H2로 "~란? ~기본 개념" 형태
+5. [IMAGE:키워드와 관련된 이미지 설명] ← 이미지 위치 1 (기본 개념 설명 후)
+6. 세부 내용: H2로 각 주제별 상세 설명 (표 활용)
+7. 실제 예시: 숫자나 구체적 사례로 설명
+8. 체크리스트: 독자가 확인해야 할 핵심 포인트
+9. 핵심 요약 3줄 정리: 📌 이모지로 3줄 요약
+10. 자주 묻는 질문 (FAQ): 3-5개 Q&A
+
+## 이미지 삽입 규칙 (매우 중요!)
+- 본문 중 적절한 위치에 **반드시 1개의 이미지 마커**를 삽입하세요
+- 형식: [IMAGE:이미지에 대한 구체적인 설명]
+- 설명은 영어로 작성 (DALL-E 이미지 생성용), 키워드의 핵심 주제를 반영
+- 예시:
+  - 키워드 "청년 전세대출" → [IMAGE:young Korean person signing apartment lease contract in modern office]
+  - 키워드 "강아지 예방접종" → [IMAGE:veterinarian giving vaccine injection to cute puppy at clean clinic]
+  - 키워드 "2026 월배당 ETF" → [IMAGE:professional stock market chart showing monthly dividend growth on screen]
+- 이미지는 본문의 핵심 내용을 시각적으로 보여주는 위치에 배치
+
+## 말투 규칙
+
+- 1인칭 경험담 사용: "저도 처음엔...", "제가 직접 해보니..."
+- 질문형 도입: "이거 뭔지 아시나요?", "왜 이렇게 되는 걸까요?"
+- 짧고 강렬한 문장과 긴 설명 문장 혼합
+- 독자에게 직접 말하기: "여러분이 알아야 할...", "꼭 확인하세요"
+- 친근하지만 정보 전달 시 존댓말 사용
+
+## 이모지 활용 (필수)
+
+- ✔ 또는 ✅: 체크 항목, 완료된 것
+- 📌: 핵심 포인트, 중요 정보
+- 🚨: 주의사항, 경고
+- ❌: 하지 말아야 할 것, 틀린 것
+- 👉: 안내, 다음 단계
+- 💡: 팁, 아이디어
+
+## HTML 형식 규칙 (필수 - 마크다운 금지)
+
+⚠️ 절대 마크다운 문법 사용 금지! **굵게**, *기울임*, # 제목 등 마크다운 사용하지 마세요.
+반드시 순수 HTML 태그만 사용하세요:
+
+- <h2>: 각 섹션 제목 (키워드 포함, 질문형 또는 "~하는 법" 형태) - **반드시 id 속성 포함** (예: <h2 id="sec1">)
+- <h3>: 세부 항목
+- <p>: 일반 문단
+- <table>, <tr>, <th>, <td>: 비교, 항목 설명에 활용
+- <ul>, <li>: 체크리스트, 나열
+- <strong>: 굵게 강조 (**사용 금지, <strong> 사용)
+- <em>: 기울임 강조
+- <a>: CTA 버튼 (class="official-link-btn" 포함)
+
+## CTA 버튼 형식 (공식 홈페이지 링크 - 매우 중요!)
+
+독자가 행동할 수 있는 시점(신청, 확인, 조회 등)에 공식 홈페이지 링크 버튼을 삽입하세요.
 - **링크는 반드시 한국 웹사이트만 사용** (gov.kr, go.kr, or.kr, co.kr, kr 도메인)
-- 독자가 이 키워드를 검색한 이유를 분석: 신청하려고? 확인하려고? 알아보려고?
-- 독자의 행동 욕구를 자극하는 버튼 문구 사용
-- **버튼은 반드시 중앙정렬** (div로 감싸서 text-align:center 적용)
-- 버튼 형식 (반드시 이 형식 사용!):
-  <div style="text-align:center;margin:20px 0;"><a href="한국웹사이트URL" class="official-link-btn" style="display:inline-block;background:linear-gradient(135deg,#667eea,#764ba2);color:white;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:bold;">👉 지금 바로 신청하기</a></div>
-- 버튼 배치: 도입부 직후 1개, 본문 중간 1개, 마무리 전 1개
 - **target 속성 절대 사용 금지** (현재 창에서 이동)
+- **버튼은 반드시 중앙정렬**
+- 버튼 형식:
+  <div style="text-align:center;margin:20px 0;"><a href="한국웹사이트URL" class="official-link-btn" style="display:inline-block;background:linear-gradient(135deg,#667eea,#764ba2);color:white;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:bold;">👉 버튼텍스트</a></div>
+- 버튼 배치: 도입부 직후 1개, 본문 중간 1개, 마무리 전 1개 (총 3개 이상)
 
-## 핵심 원칙: 2026년 기준 최신 정보 제공 (매우 중요!)
-
-### 정보 출처 우선순위
-1. **공식문서/공공기관 정보를 최우선으로 참조** (gov.kr, or.kr, go.kr 등)
-2. **2026년 기준 최신 정보로 작성** - 현재 연도는 2026년입니다
-3. 오래된 정보(2024년 이전)는 최신 상황에 맞게 업데이트하여 작성
-4. 수치, 통계, 정책 정보는 반드시 출처와 함께 제시
-5. "~라고 합니다", "~인 것으로 알려져 있습니다" 등 불확실한 표현 금지
-
-## 작성 규칙
-1. HTML 형식으로만 작성 (마크다운 사용 금지)
-2. 글 길이: ${lengthGuide[length]}
-3. 톤앤매너: ${styleGuide[style]}
-4. **본문에 절대 <h1> 태그 사용 금지** (워드프레스가 제목을 자동으로 h1으로 표시함)
-5. 소제목은 <h2>, <h3> 태그 사용
-6. 문단은 <p> 태그 사용
-7. 목록은 <ul>, <ol> 태그 사용
-8. 중요 키워드는 <strong> 태그로 강조
-
-## 이모지 사용 규칙 (적절히 사용)
-- 📌 : 목차, 핵심 요약, 중요 포인트 섹션 앞에 사용
-- 🚨 : 주의사항, 위험, 경고 내용 앞에 사용
-- ✅ : 체크리스트, 긍정적 항목, 장점 목록에 사용
-- 이모지는 과하지 않게, 섹션 구분과 강조 목적으로만 사용
-- 일반 본문에는 이모지 사용 자제
-
-## SEO 최적화
-- 키워드를 제목, 첫 문단, 소제목에 자연스럽게 포함
-- 메타 설명용 요약문 제공 (150자 이내)
-- FAQ 섹션 포함 (2-3개 질문)
-
-## 정보 신뢰성 필수
-- 제공된 공식문서 정보를 우선적으로 활용
-- 최근 3개월 이내 정보만 사용
-- 오래된 정보, 불확실한 정보 사용 금지
-- 구체적인 날짜, 수치, 출처 포함
-
-## 링크 버튼 행동 유도 문구 예시
-- "신청 방법이 궁금하시죠?" → 👉 지금 바로 신청하기
-- "자격이 되는지 확인해보세요" → ✅ 자격 조건 확인하기
-- "더 자세한 내용은 공식 사이트에서" → 📋 공식 홈페이지 바로가기
-- "놓치지 마세요!" → 🔥 혜택 확인하러 가기
-- "마감 전에 서두르세요" → ⏰ 신청 마감일 확인하기
-
-## 구조
-1. 후킹 도입부 (독자의 관심 유도)
-2. 📌 목차 (Table of Contents) - **각 항목에 앵커 링크 필수** (예: <a href="#sec1">1. 첫번째 소제목</a>)
-3. 본문 (H2, H3로 구조화) + 공식 링크 버튼 삽입 - **각 H2에 id 속성 필수** (예: <h2 id="sec1">첫번째 소제목</h2>)
-4. [AD] 마커 5개 삽입 (광고 위치)
-5. FAQ 섹션
-6. 마무리 및 CTA (공식 링크 버튼 포함)
-
-## 목차 형식 예시 (반드시 이 형식으로!)
+## 목차 형식 (반드시 이 형식!)
 <div class="toc-container">
 <p><strong>📌 목차</strong></p>
 <ul>
@@ -179,17 +183,25 @@ async function generateArticle(keyword, webContext = '', wpContext = '', style =
 </ul>
 </div>
 
-## H2 태그 형식 예시 (반드시 id 포함!)
-<h2 id="sec1">첫번째 소제목</h2>
-<h2 id="sec2">두번째 소제목</h2>
+## Google SEO 최적화 규칙
+
+- 제목: 키워드 포함 + 독자 니즈 자극 (60자 이내)
+- H2 제목에 키워드 자연스럽게 포함
+- 첫 문단에 핵심 키워드 포함
+- **본문에 절대 <h1> 태그 사용 금지** (워드프레스가 제목을 자동으로 h1으로 표시함)
+
+## 목표 길이: ${lengthGuide[length] || lengthGuide.medium}
+## 톤앤매너: ${styleGuide[style] || styleGuide.informative}
 
 ## 출력 형식
 ---TITLE---
-글 제목
+글 제목 (SEO 최적화, 60자 이내)
 ---META---
-메타 설명 (150자 이내)
+메타 설명 (150자 이내, 클릭 유도)
 ---CONTENT---
-HTML 본문`;
+글 본문 (순수 HTML만 사용, 마크다운 문법 절대 금지)
+
+⚠️ 중요: 글을 끝까지 완성하세요. 중간에 끊지 마세요. FAQ 섹션까지 모두 작성해야 합니다.`;
 
   // 공식 URL 목록 포맷팅
   const officialUrls = searchData?.officialSources?.length > 0
@@ -214,18 +226,21 @@ ${webContext || '없음'}
 기존 블로그 글 참고:
 ${wpContext || '없음'}
 
-위 정보를 참고하여 SEO 최적화된 블로그 글을 작성해주세요.
+위 정보를 바탕으로 "${keyword}" 키워드로 검색하는 독자에게 최적화된 블로그 글을 작성해주세요.
 
 **필수 체크리스트**:
-1. ✅ 링크 버튼 3개 이상 삽입했는가? (공식 URL 사용)
-2. ✅ 독자가 클릭하고 싶은 행동 유도 문구인가?
+1. ✅ 링크 버튼 3개 이상 삽입했는가? (공식 한국 URL 사용)
+2. ✅ [IMAGE:설명] 마커 1개를 본문에 삽입했는가?
 3. ✅ h1 태그 없이 h2부터 시작했는가?
-4. ✅ 목차에 앵커 링크가 있는가?`;
+4. ✅ 목차에 앵커 링크가 있는가?
+5. ✅ FAQ 섹션까지 완성했는가?
+
+⚠️ 중요: 검색 결과가 부족해도 반드시 글을 작성해야 합니다. 글 작성 거부는 절대 금지입니다.`;
 
   try {
     const response = await client.messages.create({
       model: 'claude-sonnet-4-20250514',
-      max_tokens: 4000,
+      max_tokens: 8000,
       messages: [
         { role: 'user', content: userPrompt }
       ],
@@ -243,11 +258,16 @@ ${wpContext || '없음'}
     const meta = metaMatch ? metaMatch[1].trim() : '';
     let content = contentMatch ? contentMatch[1].trim() : text;
 
-    // [AD] 마커를 애드센스 코드로 교체
-    content = content.replace(/\[AD\]/g, config.getAdsenseCode());
-
     // === 후처리: h1 태그 완전 제거 ===
     content = content.replace(/<h1[^>]*>[\s\S]*?<\/h1>/gi, '');
+
+    // === 후처리: 이미지 마커 추출 ===
+    const imageMarkers = [];
+    content = content.replace(/\[IMAGE:([^\]]+)\]/g, (match, description) => {
+      const placeholder = `<!--IMAGE_PLACEHOLDER_${imageMarkers.length}-->`;
+      imageMarkers.push(description.trim());
+      return placeholder;
+    });
 
     // === 후처리: 목차와 h2 앵커 링크 자동 생성 ===
     const h2Matches = [];
@@ -257,7 +277,6 @@ ${wpContext || '없음'}
       const id = `sec${h2Index}`;
       const cleanText = text.replace(/<[^>]+>/g, '').trim();
       h2Matches.push({ id, text: cleanText });
-      // id 속성이 없으면 추가
       if (!attrs.includes('id=')) {
         return `<h2 id="${id}"${attrs}>${text}</h2>`;
       }
@@ -277,7 +296,6 @@ ${h2Matches.map((h, i) => `<li style="margin:8px 0;"><a href="#${h.id}" style="c
       content = content.replace(/<div[^>]*class="toc-container"[^>]*>[\s\S]*?<\/div>/gi, '');
       content = content.replace(/(<p[^>]*>.*?📌\s*목차.*?<\/p>[\s\S]*?<\/ul>)/gi, '');
 
-      // 첫 번째 p 태그 또는 본문 시작 부분에 목차 삽입
       const firstPIndex = content.indexOf('<p');
       if (firstPIndex !== -1) {
         content = content.slice(0, firstPIndex) + tocHtml + content.slice(firstPIndex);
@@ -291,6 +309,7 @@ ${h2Matches.map((h, i) => `<li style="margin:8px 0;"><a href="#${h.id}" style="c
       title,
       meta,
       content,
+      imageMarkers,
       sourcesUsed: {
         official: searchData?.officialSources?.length || 0,
         recent: searchData?.recentSources?.length || 0

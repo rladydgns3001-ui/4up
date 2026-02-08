@@ -25,8 +25,7 @@ function readConfig() {
     WP_USERNAME: '',
     WP_APP_PASSWORD: '',
     CLAUDE_API_KEY: '',
-    ADSENSE_CLIENT_ID: '',
-    ADSENSE_SLOT_ID: ''
+    OPENAI_API_KEY: ''
   };
 }
 
@@ -65,34 +64,8 @@ module.exports = {
   get CLAUDE_API_KEY() {
     return getConfigData().CLAUDE_API_KEY || '';
   },
-  get ADSENSE_CLIENT_ID() {
-    return getConfigData().ADSENSE_CLIENT_ID || '';
-  },
-  get ADSENSE_SLOT_ID() {
-    return getConfigData().ADSENSE_SLOT_ID || '';
-  },
-
-  // 애드센스 코드 생성
-  getAdsenseCode() {
-    const config = getConfigData();
-    const clientId = config.ADSENSE_CLIENT_ID || '';
-    const slotId = config.ADSENSE_SLOT_ID || '';
-
-    if (!clientId || !slotId) {
-      return '<!-- 애드센스 설정 필요 -->';
-    }
-
-    return `
-<div style="margin: 20px 0; text-align: center;">
-  <ins class="adsbygoogle"
-       style="display:block"
-       data-ad-client="${clientId}"
-       data-ad-slot="${slotId}"
-       data-ad-format="auto"
-       data-full-width-responsive="true"></ins>
-  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-</div>
-`;
+  get OPENAI_API_KEY() {
+    return getConfigData().OPENAI_API_KEY || '';
   },
 
   // 설정 저장

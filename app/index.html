@@ -341,8 +341,8 @@
       <div class="info-box">
         <strong>필요한 정보:</strong><br>
         • Claude API 키: <a href="https://console.anthropic.com/" target="_blank">Anthropic Console</a>에서 발급<br>
-        • WordPress 앱 비밀번호: 워드프레스 관리자 → 사용자 → 프로필 → 애플리케이션 비밀번호<br>
-        • AdSense 정보: <a href="https://www.google.com/adsense" target="_blank">Google AdSense</a> → 광고 → 광고 단위에서 확인
+        • OpenAI API 키: <a href="https://platform.openai.com/api-keys" target="_blank">OpenAI Platform</a>에서 발급 (이미지 생성용)<br>
+        • WordPress 앱 비밀번호: 워드프레스 관리자 → 사용자 → 프로필 → 애플리케이션 비밀번호
       </div>
 
       <form id="settingsForm">
@@ -354,6 +354,14 @@
             <span class="label-hint">(sk-ant-...)</span>
           </label>
           <input type="password" id="claudeApiKey" placeholder="sk-ant-api03-...">
+        </div>
+
+        <div class="form-group">
+          <label for="openaiApiKey">
+            OpenAI API 키
+            <span class="label-hint">(sk-... / 이미지 생성용)</span>
+          </label>
+          <input type="password" id="openaiApiKey" placeholder="sk-...">
         </div>
 
         <hr class="divider">
@@ -378,25 +386,6 @@
             <span class="label-hint">(xxxx xxxx xxxx xxxx)</span>
           </label>
           <input type="password" id="wpAppPassword" placeholder="xxxx xxxx xxxx xxxx">
-        </div>
-
-        <hr class="divider">
-        <p class="section-title">Google AdSense (선택)</p>
-
-        <div class="form-group">
-          <label for="adsenseClientId">
-            퍼블리셔 ID
-            <span class="label-hint">(ca-pub-XXXXXXXXXXXXXXXX)</span>
-          </label>
-          <input type="text" id="adsenseClientId" placeholder="ca-pub-1234567890123456">
-        </div>
-
-        <div class="form-group">
-          <label for="adsenseSlotId">
-            광고 슬롯 ID
-            <span class="label-hint">(숫자만)</span>
-          </label>
-          <input type="text" id="adsenseSlotId" placeholder="1234567890">
         </div>
 
         <button type="submit" id="saveBtn">설정 저장</button>
@@ -436,11 +425,10 @@
         const config = await window.api.getConfig();
 
         document.getElementById('claudeApiKey').value = config.CLAUDE_API_KEY || '';
+        document.getElementById('openaiApiKey').value = config.OPENAI_API_KEY || '';
         document.getElementById('wpSiteUrl').value = config.WP_SITE_URL || '';
         document.getElementById('wpUsername').value = config.WP_USERNAME || '';
         document.getElementById('wpAppPassword').value = config.WP_APP_PASSWORD || '';
-        document.getElementById('adsenseClientId').value = config.ADSENSE_CLIENT_ID || '';
-        document.getElementById('adsenseSlotId').value = config.ADSENSE_SLOT_ID || '';
 
         await checkConnection();
       } catch (e) {
@@ -481,11 +469,10 @@
 
       const config = {
         CLAUDE_API_KEY: document.getElementById('claudeApiKey').value.trim(),
+        OPENAI_API_KEY: document.getElementById('openaiApiKey').value.trim(),
         WP_SITE_URL: document.getElementById('wpSiteUrl').value.trim(),
         WP_USERNAME: document.getElementById('wpUsername').value.trim(),
-        WP_APP_PASSWORD: document.getElementById('wpAppPassword').value.trim(),
-        ADSENSE_CLIENT_ID: document.getElementById('adsenseClientId').value.trim(),
-        ADSENSE_SLOT_ID: document.getElementById('adsenseSlotId').value.trim()
+        WP_APP_PASSWORD: document.getElementById('wpAppPassword').value.trim()
       };
 
       try {
