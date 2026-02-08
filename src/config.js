@@ -25,7 +25,9 @@ function readConfig() {
     WP_USERNAME: '',
     WP_APP_PASSWORD: '',
     CLAUDE_API_KEY: '',
-    OPENAI_API_KEY: ''
+    OPENAI_API_KEY: '',
+    ADSENSE_CLIENT_ID: '',
+    ADSENSE_SLOT_ID: ''
   };
 }
 
@@ -66,6 +68,12 @@ module.exports = {
   },
   get OPENAI_API_KEY() {
     return getConfigData().OPENAI_API_KEY || '';
+  },
+  get ADSENSE_CLIENT_ID() {
+    return getConfigData().ADSENSE_CLIENT_ID || '';
+  },
+  get ADSENSE_SLOT_ID() {
+    return getConfigData().ADSENSE_SLOT_ID || '';
   },
 
   // 설정 저장
