@@ -1,0 +1,52 @@
+name: Threads Auto Post (Telegram 승인)
+
+on:
+  schedule:
+    - cron: '0 23 * * *'   # KST 08:00 — 출근길 직장인 타겟
+    - cron: '0 12 * * *'   # KST 21:00 — 퇴근 후 쉬는 시간 타겟
+  workflow_dispatch:
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        working-directory: ./auto-post
+        run: npm install @anthropic-ai/sdk node-telegram-bot-api
+
+      - name: Create .env.threads
+        working-directory: ./auto-post
+        run: |
+          cat <<EOF > .env.threads
+          CLAUDE_API_KEY=${{ secrets.CLAUDE_API_KEY }}
+          THREADS_APP_ID=${{ secrets.THREADS_APP_ID }}
+          THREADS_APP_SECRET=${{ secrets.THREADS_APP_SECRET }}
+          THREADS_USER_ID=${{ secrets.THREADS_USER_ID }}
+          THREADS_ACCESS_TOKEN=${{ secrets.THREADS_ACCESS_TOKEN }}
+          TELEGRAM_BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID=${{ secrets.TELEGRAM_CHAT_ID }}
+          EOF
+
+      - name: Generate and post to Threads (Telegram approval)
+        working-directory: ./auto-post
+        run: node threads-post.js --telegram
+
+      - name: Commit updated post history
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add auto-post/threads-content.json
+          git diff --staged --quiet || git commit -m "Update Threads post history [skip ci]"
+          git push
