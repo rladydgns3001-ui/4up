@@ -6,6 +6,9 @@ on:
     - cron: '0 12 * * *'   # KST 21:00 — 퇴근 후 쉬는 시간 타겟
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   post:
     runs-on: ubuntu-latest
