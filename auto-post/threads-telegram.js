@@ -1,6 +1,6 @@
 const TelegramBot = require("node-telegram-bot-api");
 
-const APPROVAL_TIMEOUT = 10 * 60 * 1000; // 10분
+const APPROVAL_TIMEOUT = 2 * 60 * 60 * 1000; // 2시간
 
 class TelegramApproval {
   constructor(botToken, chatId) {
@@ -37,21 +37,26 @@ class TelegramApproval {
    * 글 미리보기 + 인라인 버튼 전송
    */
   async sendApprovalMessage(post) {
-    const charCount = post.text.length;
+    // previewText가 있으면 사용 (숨김 효과 표시), 없으면 일반 text
+    const displayText = post.previewText || post.text;
+    const charCount = (post.threadsText || post.text).length;
     let warning = "";
     if (charCount < 100) warning = "\n⚠️ 글이 너무 짧습니다 (100자 미만)";
     else if (charCount > 500) warning = "\n⚠️ 글이 너무 깁니다 (500자 초과)";
 
+    const hasSpoiler = post.previewText && post.previewText.includes("【스포일러 적용】");
+
     const message = [
       "📱 *Threads 글 미리보기*",
+      hasSpoiler ? "⚡ 스포일러 구간 포함 (발행 후 15분 내 앱에서 적용)" : "",
       "─".repeat(20),
-      post.text,
+      displayText,
       "─".repeat(20),
       `🏷 토픽태그: #${post.topicTag}`,
       `📊 글자수: ${charCount}자${warning}`,
       "",
-      "아래 버튼을 눌러주세요 (10분 후 자동 취소)",
-    ].join("\n");
+      "아래 버튼을 눌러주세요 (2시간 후 자동 취소)",
+    ].filter(Boolean).join("\n");
 
     const keyboard = {
       reply_markup: {

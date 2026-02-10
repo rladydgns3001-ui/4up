@@ -1,0 +1,52 @@
+name: Threads Auto Post (Telegram 승인)
+
+on:
+  schedule:
+    - cron: '0 23 * * *'   # 매일 오전 8시 (KST = UTC+9)
+    - cron: '0 12 * * *'   # 매일 오후 9시 (KST = UTC+9)
+  workflow_dispatch:        # 수동 실행 가능
+
+permissions:
+  contents: write
+
+jobs:
+  threads-post:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40     # Telegram 승인 대기 포함
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Create .env.threads from secrets
+        run: |
+          cat > .env.threads << 'ENVEOF'
+          THREADS_USER_ID=${{ secrets.THREADS_USER_ID }}
+          THREADS_ACCESS_TOKEN=${{ secrets.THREADS_ACCESS_TOKEN }}
+          TELEGRAM_BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID=${{ secrets.TELEGRAM_CHAT_ID }}
+          CLAUDE_API_KEY=${{ secrets.CLAUDE_API_KEY }}
+          ENVEOF
+
+      - name: Run Threads post script
+        env:
+          CLAUDE_API_KEY: ${{ secrets.CLAUDE_API_KEY }}
+        run: node threads-run-once.js
+
+      - name: Commit updated content state
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add threads-content.json
+          git diff --staged --quiet || git commit -m "Update Threads cycle position [skip ci]"
+          git push

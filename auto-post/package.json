@@ -8,6 +8,7 @@
     "test": "echo \"Test completed\""
   },
   "dependencies": {
-    "@anthropic-ai/sdk": "^0.24.0"
+    "@anthropic-ai/sdk": "^0.24.0",
+    "node-telegram-bot-api": "^0.66.0"
   }
 }

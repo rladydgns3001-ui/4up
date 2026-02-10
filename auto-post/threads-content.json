@@ -109,15 +109,33 @@
       ]
     }
   ],
+  "cycle": [
+    "empathy",
+    "blog_tips",
+    "user_reviews",
+    "product_promo",
+    "empathy",
+    "seo_adsense",
+    "wordpress_tips"
+  ],
+  "cyclePosition": 1,
   "postHistory": [
     {
-      "categoryType": "seo_adsense",
-      "topic": "CPC 높은 키워드 찾는 실전 방법",
-      "topicTag": "애드센스수익화",
-      "postId": "17888517438425331",
-      "publishedAt": "2026-02-09T16:51:00.410Z",
-      "textLength": 260
+      "categoryType": "empathy",
+      "topic": "ChatGPT로 블로그 글 쓰면서 10분 20분 날리는 사람",
+      "topicTag": "ChatGPT블로그글쓰기",
+      "postId": "18008136983684290",
+      "publishedAt": "2026-02-10T06:06:15.224Z",
+      "textLength": 190
+    },
+    {
+      "categoryType": "empathy",
+      "topic": "프롬프트 짜고 복붙하고 수정하고... 이게 자동화야?",
+      "topicTag": "프롬프트짜고복붙하고수정하고이게자동화야",
+      "postId": "17936130597157576",
+      "publishedAt": "2026-02-10T06:46:06.974Z",
+      "textLength": 169
     }
   ],
-  "lastCategoryIndex": 2
+  "lastCategoryIndex": 0
 }
