@@ -1,4 +1,5 @@
 const TelegramBot = require("node-telegram-bot-api");
+const fs = require("fs");
 
 const APPROVAL_TIMEOUT = 2 * 60 * 60 * 1000; // 2시간
 
@@ -35,8 +36,10 @@ class TelegramApproval {
 
   /**
    * 글 미리보기 + 인라인 버튼 전송
+   * @param {object} post - 포스트 데이터
+   * @param {object} [mediaInfo] - 미디어 정보 { fileName, filePath, isVideo }
    */
-  async sendApprovalMessage(post) {
+  async sendApprovalMessage(post, mediaInfo) {
     // previewText가 있으면 사용 (숨김 효과 표시), 없으면 일반 text
     const displayText = post.previewText || post.text;
     const charCount = (post.threadsText || post.text).length;
@@ -46,6 +49,30 @@ class TelegramApproval {
 
     const hasSpoiler = post.previewText && post.previewText.includes("【스포일러 적용】");
 
+    // 미디어 정보 문자열
+    let mediaLine = "📷 미디어: 없음";
+    if (mediaInfo && mediaInfo.fileName) {
+      const typeLabel = mediaInfo.isVideo ? "영상" : "이미지";
+      mediaLine = `📷 미디어: ${mediaInfo.fileName} (${typeLabel})`;
+    }
+
+    // 미디어 파일 미리보기 전송
+    if (mediaInfo && mediaInfo.filePath && fs.existsSync(mediaInfo.filePath)) {
+      try {
+        if (mediaInfo.isVideo) {
+          await this.bot.sendVideo(this.chatId, mediaInfo.filePath, {
+            caption: `🎬 첨부 영상: ${mediaInfo.fileName}`,
+          });
+        } else {
+          await this.bot.sendPhoto(this.chatId, mediaInfo.filePath, {
+            caption: `🖼 첨부 이미지: ${mediaInfo.fileName}`,
+          });
+        }
+      } catch (e) {
+        // 미디어 전송 실패 시 무시 (텍스트 메시지는 계속 전송)
+      }
+    }
+
     const message = [
       "📱 *Threads 글 미리보기*",
       hasSpoiler ? "⚡ 스포일러 구간 포함 (발행 후 15분 내 앱에서 적용)" : "",
@@ -54,6 +81,7 @@ class TelegramApproval {
       "─".repeat(20),
       `🏷 토픽태그: #${post.topicTag}`,
       `📊 글자수: ${charCount}자${warning}`,
+      mediaLine,
       "",
       "아래 버튼을 눌러주세요 (2시간 후 자동 취소)",
     ].filter(Boolean).join("\n");
@@ -68,6 +96,10 @@ class TelegramApproval {
           [
             { text: "✏️ 수정", callback_data: "edit" },
             { text: "❌ 취소", callback_data: "cancel" },
+          ],
+          [
+            { text: "📷 사진변경", callback_data: "change_media" },
+            { text: "🚫 사진없이", callback_data: "no_media" },
           ],
         ],
       },
@@ -114,6 +146,58 @@ class TelegramApproval {
       this._textResolve = (text) => {
         clearTimeout(timer);
         resolve(text);
+      };
+    });
+  }
+
+  /**
+   * 사용 가능한 미디어 목록 표시 + 선택 버튼
+   * @param {Array<{fileName: string, isVideo: boolean}>} mediaFiles
+   */
+  async sendMediaOptions(mediaFiles) {
+    const lines = ["📷 사용 가능한 미디어:"];
+    mediaFiles.forEach((f, i) => {
+      const typeLabel = f.isVideo ? "영상" : "이미지";
+      lines.push(`${i + 1}. ${f.fileName} (${typeLabel})`);
+    });
+    lines.push("", "번호를 선택하세요:");
+
+    // 인라인 버튼 (최대 8개씩 한 행, Telegram 제한은 8)
+    const buttons = mediaFiles.map((_, i) => ({
+      text: `${i + 1}`,
+      callback_data: `media_${i}`,
+    }));
+    // 5개씩 한 행으로 분할
+    const rows = [];
+    for (let i = 0; i < buttons.length; i += 5) {
+      rows.push(buttons.slice(i, i + 5));
+    }
+
+    const sent = await this.bot.sendMessage(this.chatId, lines.join("\n"), {
+      reply_markup: { inline_keyboard: rows },
+    });
+    this._messageId = sent.message_id;
+    return sent;
+  }
+
+  /**
+   * 미디어 선택 콜백 대기 (media_N 형식)
+   * @returns {Promise<number|null>} 선택된 미디어 인덱스 또는 null (타임아웃)
+   */
+  waitForMediaChoice(timeout = APPROVAL_TIMEOUT) {
+    return new Promise((resolve) => {
+      const timer = setTimeout(() => {
+        this._callbackResolve = null;
+        resolve(null);
+      }, timeout);
+
+      this._callbackResolve = (data) => {
+        clearTimeout(timer);
+        if (data.startsWith("media_")) {
+          resolve(parseInt(data.replace("media_", ""), 10));
+        } else {
+          resolve(null);
+        }
       };
     });
   }

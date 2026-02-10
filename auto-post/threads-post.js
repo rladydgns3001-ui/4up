@@ -198,6 +198,37 @@ function selectMedia(categoryType) {
   return null;
 }
 
+/**
+ * threads-images 디렉토리의 모든 미디어 파일 목록 반환
+ * @returns {Array<{fileName: string, filePath: string, isVideo: boolean}>}
+ */
+function getAvailableMedia() {
+  if (!fs.existsSync(imagesDir)) return [];
+  try {
+    return fs.readdirSync(imagesDir)
+      .filter((f) => /\.(png|jpg|jpeg|mp4)$/i.test(f))
+      .map((f) => ({
+        fileName: f,
+        filePath: path.join(imagesDir, f),
+        isVideo: f.endsWith(".mp4"),
+      }));
+  } catch {
+    return [];
+  }
+}
+
+/**
+ * 미디어 경로에서 mediaInfo 객체 생성
+ */
+function buildMediaInfo(mediaPath) {
+  if (!mediaPath) return null;
+  return {
+    fileName: path.basename(mediaPath),
+    filePath: mediaPath,
+    isVideo: mediaPath.endsWith(".mp4"),
+  };
+}
+
 // ============================================
 // 4. 바이럴 레퍼런스 로드
 // ============================================
@@ -517,11 +548,12 @@ JSON으로만 응답:
 // ============================================
 // Telegram 승인 루프 (일반 콘텐츠 모드)
 // ============================================
-async function telegramApprovalLoop(telegram, currentPost, category, topic, isDryRun) {
+async function telegramApprovalLoop(telegram, currentPost, category, topic, isDryRun, mediaInfo) {
   let approved = false;
+  let currentMedia = mediaInfo; // { fileName, filePath, isVideo } or null
 
   while (!approved) {
-    await telegram.sendApprovalMessage(currentPost);
+    await telegram.sendApprovalMessage(currentPost, currentMedia);
 
     if (isDryRun) {
       await telegram.sendResult("⏩ [DRY RUN] 실제 발행 건너뜀");
@@ -551,6 +583,27 @@ async function telegramApprovalLoop(telegram, currentPost, category, topic, isDr
         await telegram.sendResult("⚠️ 수정 입력 시간 초과, 기존 글 유지");
       }
       continue;
+    } else if (action === "change_media") {
+      const allMedia = getAvailableMedia();
+      if (allMedia.length === 0) {
+        await telegram.sendResult("⚠️ 사용 가능한 미디어가 없습니다.");
+        continue;
+      }
+      await telegram.sendMediaOptions(allMedia);
+      const chosenIndex = await telegram.waitForMediaChoice();
+      await telegram.removeButtons();
+      if (chosenIndex !== null && chosenIndex >= 0 && chosenIndex < allMedia.length) {
+        currentMedia = allMedia[chosenIndex];
+        const typeLabel = currentMedia.isVideo ? "영상" : "이미지";
+        await telegram.sendResult(`📷 미디어 변경: ${currentMedia.fileName} (${typeLabel})`);
+      } else {
+        await telegram.sendResult("⚠️ 미디어 선택 시간 초과, 기존 미디어 유지");
+      }
+      continue;
+    } else if (action === "no_media") {
+      currentMedia = null;
+      await telegram.sendResult("🚫 미디어 없이 텍스트만 발행합니다.");
+      continue;
     } else if (action === "cancel") {
       await telegram.sendResult("❌ 발행 취소됨");
       return null;
@@ -560,7 +613,7 @@ async function telegramApprovalLoop(telegram, currentPost, category, topic, isDr
     }
   }
 
-  return currentPost;
+  return { post: currentPost, media: currentMedia };
 }
 
 // ============================================
@@ -719,11 +772,21 @@ async function main() {
     }
 
     let finalPost;
+    let finalMedia = null; // { fileName, filePath, isVideo } or null
 
     if (isTelegramMode) {
-      // Telegram 승인 루프
-      finalPost = await telegramApprovalLoop(telegram, post, category, topic, isDryRun);
-      if (!finalPost) return; // 취소/타임아웃/드라이런
+      // 승인 전에 미디어 선택 (미리보기에 표시하기 위해)
+      const mediaPath = selectMedia(category.type);
+      const mediaInfo = buildMediaInfo(mediaPath);
+      if (mediaInfo) {
+        console.log(`📸 미디어 자동 선택: ${mediaInfo.fileName} (${mediaInfo.isVideo ? "영상" : "이미지"})`);
+      }
+
+      // Telegram 승인 루프 (미디어 정보 포함)
+      const result = await telegramApprovalLoop(telegram, post, category, topic, isDryRun, mediaInfo);
+      if (!result) return; // 취소/타임아웃/드라이런
+      finalPost = result.post;
+      finalMedia = result.media;
     } else {
       // 기존 stdin 승인 루프
       let currentPost = post;
@@ -782,12 +845,25 @@ async function main() {
     // 미디어 선택 + WordPress 업로드
     let mediaUrl = null;
     let mediaType = null;
-    const mediaPath = selectMedia(category.type);
-    if (mediaPath) {
-      const isVideo = mediaPath.endsWith(".mp4");
-      console.log(`📸 미디어 선택: ${path.basename(mediaPath)} (${isVideo ? "영상" : "이미지"})`);
-      mediaUrl = await uploadToWordPress(mediaPath);
-      if (mediaUrl) mediaType = isVideo ? "VIDEO" : "IMAGE";
+
+    if (isTelegramMode) {
+      // Telegram 모드: 승인 루프에서 결정된 미디어 사용
+      if (finalMedia) {
+        console.log(`📸 미디어 발행: ${finalMedia.fileName} (${finalMedia.isVideo ? "영상" : "이미지"})`);
+        mediaUrl = await uploadToWordPress(finalMedia.filePath);
+        if (mediaUrl) mediaType = finalMedia.isVideo ? "VIDEO" : "IMAGE";
+      } else {
+        console.log("📝 미디어 없이 텍스트만 발행");
+      }
+    } else {
+      // stdin 모드: 기존 방식 (자동 선택)
+      const mediaPath = selectMedia(category.type);
+      if (mediaPath) {
+        const isVideo = mediaPath.endsWith(".mp4");
+        console.log(`📸 미디어 선택: ${path.basename(mediaPath)} (${isVideo ? "영상" : "이미지"})`);
+        mediaUrl = await uploadToWordPress(mediaPath);
+        if (mediaUrl) mediaType = isVideo ? "VIDEO" : "IMAGE";
+      }
     }
 
     const result = await postToThreads(finalPost.threadsText || finalPost.text, finalPost.topicTag, mediaUrl, mediaType);
