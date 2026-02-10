@@ -1,6 +1,7 @@
 const Anthropic = require("@anthropic-ai/sdk");
 const fs = require("fs");
 const path = require("path");
+const readline = require("readline");
 
 // 환경 변수
 const CLAUDE_API_KEY = process.env.CLAUDE_API_KEY;
@@ -10,7 +11,41 @@ const WP_APP_PASSWORD = process.env.WP_APP_PASSWORD;
 const SERP_API_KEY = process.env.SERP_API_KEY;
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY; // OpenAI DALL-E API
 
+// Threads 연동 (선택)
+const THREADS_ENABLED = process.argv.includes("--threads");
+let THREADS_USER_ID, THREADS_ACCESS_TOKEN;
+if (THREADS_ENABLED) {
+  const envThreadsPath = path.join(__dirname, ".env.threads");
+  if (fs.existsSync(envThreadsPath)) {
+    const envContent = fs.readFileSync(envThreadsPath, "utf-8");
+    const envVars = {};
+    envContent.split("\n").forEach((line) => {
+      const [key, ...vals] = line.split("=");
+      if (key && vals.length > 0) envVars[key.trim()] = vals.join("=").trim();
+    });
+    THREADS_USER_ID = envVars.THREADS_USER_ID;
+    THREADS_ACCESS_TOKEN = envVars.THREADS_ACCESS_TOKEN;
+    console.log("📱 Threads 연동 활성화됨");
+  } else {
+    console.log("⚠️ .env.threads 파일 없음, Threads 연동 비활성화");
+  }
+}
+
 const keywordsPath = path.join(__dirname, "keywords.json");
+
+// 사용자 입력 받기
+function askUser(question) {
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  });
+  return new Promise((resolve) => {
+    rl.question(question, (answer) => {
+      rl.close();
+      resolve(answer.trim().toLowerCase());
+    });
+  });
+}
 
 // ============================================
 // 1. 공식문서 도메인 목록
@@ -886,6 +921,99 @@ async function postToWordPress(title, content, metaDescription, featuredImageId)
 }
 
 // ============================================
+// Threads 글 생성 (워드프레스 글 요약본)
+// ============================================
+async function generateThreadsSummary(keyword, blogTitle, blogUrl) {
+  const client = new Anthropic({ apiKey: CLAUDE_API_KEY });
+
+  const prompt = `블로그 글 제목: "${blogTitle}"
+키워드: ${keyword}
+블로그 URL: ${blogUrl}
+
+이 블로그 글을 홍보하는 Threads 글을 작성해줘.
+
+규칙:
+- 첫 줄에 검색 키워드 배치 (구글 인덱싱용)
+- 블로그 글의 핵심 내용을 2~3줄로 요약
+- 반말 구어체 ("~거든", "~더라고", "~해봤는데")
+- 200~300자
+- 마지막에 "자세한 내용은 프로필 링크에서 확인해봐!" 추가
+- 질문형 마무리로 끝내기
+- 이모지 2~3개 적절히 사용
+- 해시태그 넣지 않기
+
+JSON으로만 응답:
+{
+  "text": "Threads 본문",
+  "topicTag": "토픽태그 (# 없이 한단어)"
+}`;
+
+  const response = await client.messages.create({
+    model: "claude-sonnet-4-20250514",
+    max_tokens: 800,
+    messages: [{ role: "user", content: prompt }],
+  });
+
+  const text = response.content[0].text;
+  try {
+    const jsonMatch = text.match(/\{[\s\S]*\}/);
+    if (jsonMatch) {
+      const result = JSON.parse(jsonMatch[0]);
+      result.text = result.text.replace(/#\S+/g, "").trim();
+      result.topicTag = (result.topicTag || "블로그").replace(/^#/, "");
+      return result;
+    }
+  } catch (e) {
+    console.error("Threads 글 JSON 파싱 실패:", e.message);
+  }
+  return null;
+}
+
+// ============================================
+// Threads API로 글 발행
+// ============================================
+async function postToThreads(text) {
+  const createUrl = `https://graph.threads.net/v1.0/${THREADS_USER_ID}/threads`;
+  const createParams = new URLSearchParams({
+    media_type: "TEXT",
+    text: text,
+    access_token: THREADS_ACCESS_TOKEN,
+  });
+
+  const createResponse = await fetch(createUrl, {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: createParams,
+  });
+
+  const createData = await createResponse.json();
+  if (createData.error) {
+    throw new Error(`Threads 컨테이너 생성 실패: ${createData.error.message || JSON.stringify(createData.error)}`);
+  }
+
+  await new Promise((resolve) => setTimeout(resolve, 3000));
+
+  const publishUrl = `https://graph.threads.net/v1.0/${THREADS_USER_ID}/threads_publish`;
+  const publishParams = new URLSearchParams({
+    creation_id: createData.id,
+    access_token: THREADS_ACCESS_TOKEN,
+  });
+
+  const publishResponse = await fetch(publishUrl, {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: publishParams,
+  });
+
+  const publishData = await publishResponse.json();
+  if (publishData.error) {
+    throw new Error(`Threads 발행 실패: ${publishData.error.message || JSON.stringify(publishData.error)}`);
+  }
+
+  return publishData;
+}
+
+// ============================================
 // 메인 실행
 // ============================================
 async function main() {
@@ -966,11 +1094,41 @@ async function main() {
   );
 
   console.log(`\n${"═".repeat(50)}`);
-  console.log(`✅ 발행 완료!`);
+  console.log(`✅ 워드프레스 발행 완료!`);
   console.log(`📎 URL: ${post.link}`);
   console.log(`🖼️ 이미지: ${imagesData.length}개 포함`);
   console.log(`📊 진행률: ${currentIndex + 1}/${keywords.length}`);
   console.log(`${"═".repeat(50)}`);
+
+  // Threads 연동 (선택)
+  if (THREADS_ENABLED && THREADS_USER_ID && THREADS_ACCESS_TOKEN) {
+    console.log("\n📱 Threads 연동: 블로그 글 요약본 생성 중...");
+
+    try {
+      const threadsSummary = await generateThreadsSummary(keyword, article.title, post.link);
+
+      if (threadsSummary) {
+        console.log(`\n${"─".repeat(40)}`);
+        console.log(`📄 Threads 글 미리보기`);
+        console.log(`${"─".repeat(40)}`);
+        console.log(threadsSummary.text);
+        console.log(`${"─".repeat(40)}`);
+        console.log(`토픽태그: #${threadsSummary.topicTag}`);
+        console.log(`글자수: ${threadsSummary.text.length}자`);
+
+        const answer = await askUser("\nThreads에도 발행하시겠습니까? (y: 발행 / n: 건너뛰기) > ");
+
+        if (answer === "y" || answer === "yes") {
+          const threadsResult = await postToThreads(threadsSummary.text);
+          console.log(`✅ Threads 발행 완료! ID: ${threadsResult.id}`);
+        } else {
+          console.log("⏩ Threads 발행 건너뜀");
+        }
+      }
+    } catch (e) {
+      console.log(`⚠️ Threads 연동 실패: ${e.message}`);
+    }
+  }
 
   // 인덱스 업데이트
   keywordsData.currentIndex = currentIndex + 1;
