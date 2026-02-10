@@ -174,12 +174,12 @@ function selectMedia(categoryType) {
 
   // 카테고리별 미디어 매핑 (이미지 + 영상)
   const categoryMediaMap = {
-    empathy: ["adsense-revenue.png"],
-    blog_tips: ["adsense-revenue.png"],
-    seo_adsense: ["adsense-revenue.png"],
+    empathy: ["adsense-revenue.png", "homepage.png"],
+    blog_tips: ["adsense-revenue.png", "homepage.png"],
+    seo_adsense: ["adsense-revenue.png", "homepage.png"],
     product_promo: ["program-run-1.mp4", "program-run-2.mp4", "program-run-3.mp4", "homepage.png"],
     user_reviews: ["program-run-1.mp4", "program-run-2.mp4", "program-run-3.mp4"],
-    wordpress_tips: ["homepage.png"],
+    wordpress_tips: ["homepage.png", "adsense-revenue.png"],
   };
 
   const candidates = categoryMediaMap[categoryType] || [];
@@ -190,7 +190,7 @@ function selectMedia(categoryType) {
     return path.join(imagesDir, pick);
   }
 
-  // fallback: 아무 미디어 선택
+  // fallback: 아무 미디어 선택 (항상 이미지 포함하기 위해)
   try {
     const files = fs.readdirSync(imagesDir).filter((f) => /\.(png|jpg|jpeg|mp4)$/i.test(f));
     if (files.length > 0) return path.join(imagesDir, files[Math.floor(Math.random() * files.length)]);
