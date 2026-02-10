@@ -34,13 +34,13 @@ jobs:
         run: |
           cat <<EOF > .env.threads
           CLAUDE_API_KEY=${{ secrets.CLAUDE_API_KEY }}
-          THREADS_APP_ID=${{ secrets.THREADS_APP_ID }}
-          THREADS_APP_SECRET=${{ secrets.THREADS_APP_SECRET }}
           THREADS_USER_ID=${{ secrets.THREADS_USER_ID }}
           THREADS_ACCESS_TOKEN=${{ secrets.THREADS_ACCESS_TOKEN }}
           TELEGRAM_BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID=${{ secrets.TELEGRAM_CHAT_ID }}
           EOF
+          echo "=== .env.threads 내용 (마스킹) ==="
+          sed 's/=.*/=***/' .env.threads
 
       - name: Generate and post to Threads (Telegram approval)
         working-directory: ./auto-post

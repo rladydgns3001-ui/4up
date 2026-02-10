@@ -462,6 +462,10 @@ async function postToThreads(text, topicTag, mediaUrl = null, mediaType = null) 
   const createData = await createResponse.json();
 
   if (createData.error) {
+    console.error("❌ Threads API 에러 상세:", JSON.stringify(createData, null, 2));
+    console.error("❌ 요청 URL:", createUrl);
+    console.error("❌ USER_ID:", THREADS_USER_ID);
+    console.error("❌ TOKEN 앞 10자:", THREADS_ACCESS_TOKEN?.substring(0, 10) + "...");
     throw new Error(
       `컨테이너 생성 실패: ${createData.error.message || JSON.stringify(createData.error)}`
     );
