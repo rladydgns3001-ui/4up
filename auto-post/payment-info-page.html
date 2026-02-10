@@ -1,0 +1,177 @@
+<style>
+/* WordPress 테마 요소 숨김 + 풀 너비 */
+.page-id-208,.page-id-208 html,.page-id-208 body{overflow-x:hidden!important;margin:0!important;padding:0!important}
+.page-id-208 .site-header,.page-id-208 header#masthead,.page-id-208 .entry-header,.page-id-208 .entry-title,.page-id-208 #secondary,.page-id-208 .sidebar,.page-id-208 aside,.page-id-208 .widget-area,.page-id-208 .site-footer,.page-id-208 footer#colophon,.page-id-208 .navigation,.page-id-208 .nav-links,.page-id-208 .post-navigation{display:none!important}
+.page-id-208 #page,.page-id-208 .site.grid-container,.page-id-208 .grid-container{max-width:100%!important;width:100%!important;padding:0!important;margin:0!important;overflow-x:hidden!important}
+.page-id-208 .site-content,.page-id-208 #content,.page-id-208 .content-area,.page-id-208 #primary,.page-id-208 .site-main,.page-id-208 #main,.page-id-208 article,.page-id-208 .post-208,.page-id-208 .inside-article,.page-id-208 .entry-content{width:100%!important;max-width:100%!important;margin:0!important;padding:0!important;float:none!important;overflow:visible!important}
+.page-id-208.separate-containers .inside-article,.page-id-208.separate-containers .site-main>article{padding:0!important;margin:0!important;background:transparent!important;box-shadow:none!important;border:none!important}
+.page-id-208.separate-containers .site-main{margin:0!important}
+.pi-page,.pi-page *{box-sizing:border-box;margin:0;padding:0}
+.pi-page{font-family:'Noto Sans KR',-apple-system,BlinkMacSystemFont,sans-serif;line-height:1.6;color:#333;max-width:100%;overflow-x:hidden}
+.pi-header{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:white;padding:60px 20px;text-align:center}
+.pi-header h1{font-size:2rem;font-weight:900;margin-bottom:8px}
+.pi-header p{opacity:0.8;font-size:1rem}
+.pi-container{max-width:550px;margin:-30px auto 0;padding:0 20px 60px;position:relative;z-index:1}
+.pi-card{background:white;border-radius:24px;padding:40px 30px;box-shadow:0 20px 60px rgba(0,0,0,0.12)}
+.pi-step-badge{display:inline-block;background:#667eea;color:white;padding:4px 14px;border-radius:50px;font-size:0.75rem;font-weight:700;margin-bottom:20px}
+.pi-section-title{font-size:1.3rem;font-weight:800;color:#333;margin-bottom:25px;text-align:center}
+.pi-info-row{display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-bottom:1px solid #f0f0f0}
+.pi-info-row:last-child{border-bottom:none}
+.pi-info-label{color:#888;font-size:0.9rem}
+.pi-info-value{font-weight:700;color:#333;font-size:1rem}
+.pi-info-value.highlight{color:#667eea;font-size:1.3rem}
+.pi-copy-btn{background:#667eea;color:white;border:none;padding:6px 14px;border-radius:8px;font-size:0.78rem;cursor:pointer;font-weight:600;margin-left:10px}
+.pi-alert{background:#fff5f5;border:1.5px solid #ffcdd2;border-radius:14px;padding:18px 20px;margin:25px 0;display:flex;align-items:flex-start;gap:10px}
+.pi-alert-title{color:#ff4757;font-weight:700;font-size:0.95rem;margin-bottom:4px}
+.pi-alert-desc{color:#888;font-size:0.85rem;line-height:1.6}
+.pi-info-box{background:linear-gradient(135deg,rgba(102,126,234,0.08),rgba(118,75,162,0.08));border-radius:14px;padding:18px 20px;margin-bottom:25px;display:flex;align-items:flex-start;gap:10px}
+.pi-info-box-title{color:#667eea;font-weight:700;font-size:0.95rem;margin-bottom:4px}
+.pi-info-box-desc{color:#888;font-size:0.85rem;line-height:1.6}
+.pi-kakao-btn{display:block;width:100%;padding:18px;background:#fef01b;color:#333;border-radius:14px;font-weight:800;font-size:1.1rem;text-decoration:none;text-align:center;margin-bottom:15px}
+.pi-kakao-btn:hover{opacity:0.9;color:#333}
+.pi-back-link{display:block;text-align:center;color:#999;font-size:0.9rem;text-decoration:none;margin-top:10px}
+.pi-back-link:hover{color:#667eea}
+.pi-summary{background:#f8f9fa;border-radius:16px;padding:25px;margin-bottom:25px}
+.pi-divider{height:1px;background:#eee;margin:25px 0}
+.pi-footer{background:#4a3a7a;color:rgba(255,255,255,0.7);padding:30px 20px;text-align:center;font-size:0.85rem}
+.pi-footer a{color:#ffd93d;text-decoration:none}
+@media(max-width:768px){
+.pi-header{padding:40px 15px}
+.pi-header h1{font-size:1.5rem}
+.pi-card{padding:28px 20px;border-radius:20px}
+}
+</style>
+
+<div class="pi-page">
+    <div class="pi-header">
+        <div id="pi-plan-badge" style="background:rgba(255,255,255,0.2);padding:6px 18px;border-radius:50px;font-size:0.8rem;font-weight:700;display:inline-block;margin-bottom:15px">BASIC</div>
+        <h1>계좌이체 안내</h1>
+        <p>아래 계좌로 입금 후 카카오톡으로 연락해주세요</p>
+    </div>
+
+    <div class="pi-container">
+        <div class="pi-card">
+
+            <!-- 주문 요약 -->
+            <div class="pi-step-badge">주문 정보</div>
+            <div class="pi-summary">
+                <div class="pi-info-row">
+                    <span class="pi-info-label">상품</span>
+                    <span class="pi-info-value" id="pi-product">AutoPost SEO Writer (Basic)</span>
+                </div>
+                <div class="pi-info-row">
+                    <span class="pi-info-label">주문자</span>
+                    <span class="pi-info-value" id="pi-buyer-name">-</span>
+                </div>
+                <div class="pi-info-row">
+                    <span class="pi-info-label">연락처</span>
+                    <span class="pi-info-value" id="pi-buyer-tel">-</span>
+                </div>
+                <div class="pi-info-row">
+                    <span class="pi-info-label">입금액</span>
+                    <span class="pi-info-value highlight" id="pi-price">289,000원</span>
+                </div>
+            </div>
+
+            <div class="pi-divider"></div>
+
+            <!-- 계좌 정보 -->
+            <div class="pi-step-badge">입금 계좌</div>
+            <div class="pi-summary">
+                <div class="pi-info-row">
+                    <span class="pi-info-label">은행</span>
+                    <span class="pi-info-value">카카오뱅크</span>
+                </div>
+                <div class="pi-info-row">
+                    <span class="pi-info-label">예금주</span>
+                    <span class="pi-info-value">김용훈</span>
+                </div>
+                <div class="pi-info-row">
+                    <span class="pi-info-label">계좌번호</span>
+                    <span class="pi-info-value" style="display:flex;align-items:center">
+                        <span id="pi-account">79798373736</span>
+                        <button class="pi-copy-btn" onclick="var t=document.createElement('textarea');t.value='79798373736';document.body.appendChild(t);t.select();document.execCommand('copy');document.body.removeChild(t);alert('계좌번호가 복사되었습니다.');">복사</button>
+                    </span>
+                </div>
+            </div>
+
+            <!-- 주의사항 -->
+            <div class="pi-alert">
+                <span style="font-size:1.2rem;flex-shrink:0">⏰</span>
+                <div>
+                    <div class="pi-alert-title">10분 이내로 입금해주세요</div>
+                    <div class="pi-alert-desc">입금자명은 주문자 이름과 동일하게 해주세요.</div>
+                </div>
+            </div>
+
+            <!-- 입금 후 안내 -->
+            <div class="pi-info-box">
+                <span style="font-size:1.2rem;flex-shrink:0">💬</span>
+                <div>
+                    <div class="pi-info-box-title">입금 후 카카오톡으로 연락해주세요</div>
+                    <div class="pi-info-box-desc">입금 확인 후 프로그램 파일과 사용설명서를 전달해드리며<br>1:1 줌 원격 접속으로 설치 + 교육을 진행해드립니다.</div>
+                </div>
+            </div>
+
+            <div class="pi-divider"></div>
+
+            <!-- 진행 절차 -->
+            <div class="pi-step-badge">진행 절차</div>
+            <div style="margin-bottom:25px">
+                <div style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid #f5f5f5">
+                    <div style="width:32px;height:32px;background:linear-gradient(135deg,#667eea,#764ba2);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:0.8rem;flex-shrink:0">1</div>
+                    <span style="font-size:0.95rem;color:#333">위 계좌로 입금</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid #f5f5f5">
+                    <div style="width:32px;height:32px;background:linear-gradient(135deg,#667eea,#764ba2);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:0.8rem;flex-shrink:0">2</div>
+                    <span style="font-size:0.95rem;color:#333">카카오톡으로 입금 확인 요청</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid #f5f5f5">
+                    <div style="width:32px;height:32px;background:linear-gradient(135deg,#667eea,#764ba2);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:0.8rem;flex-shrink:0">3</div>
+                    <span style="font-size:0.95rem;color:#333">프로그램 파일 + 사용설명서 전달</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:12px;padding:12px 0">
+                    <div style="width:32px;height:32px;background:linear-gradient(135deg,#667eea,#764ba2);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:0.8rem;flex-shrink:0">4</div>
+                    <span style="font-size:0.95rem;color:#333">1:1 줌 원격 설치 + 교육 (30분)</span>
+                </div>
+            </div>
+
+            <!-- 카카오톡 버튼 -->
+            <a href="https://open.kakao.com/o/sjcFzkei" class="pi-kakao-btn" target="_blank">💬 카카오톡으로 입금 확인 요청하기</a>
+            <a href="/payment/" class="pi-back-link">← 결제 페이지로 돌아가기</a>
+        </div>
+    </div>
+
+    <footer class="pi-footer">
+        <p>AutoPost SEO Writer &copy; 2026. All rights reserved.</p>
+        <p style="margin-top:8px">문의: <a href="https://open.kakao.com/o/sjcFzkei">카카오톡 오픈채팅</a></p>
+    </footer>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // URL 파라미터에서 주문 정보 읽기
+    var params = new URLSearchParams(window.location.search);
+    var plan = params.get('plan') || 'basic';
+    var name = params.get('name') || '';
+    var tel = params.get('tel') || '';
+    var email = params.get('email') || '';
+
+    var plans = {
+        basic: { label: 'AutoPost SEO Writer (Basic)', badge: 'BASIC', price: '289,000원' },
+        pro: { label: 'AutoPost SEO Writer V2 Pro', badge: 'V2 PRO', price: '389,000원' }
+    };
+    var d = plans[plan] || plans.basic;
+
+    document.getElementById('pi-plan-badge').textContent = d.badge;
+    document.getElementById('pi-product').textContent = d.label;
+    document.getElementById('pi-price').textContent = d.price;
+    if (name) document.getElementById('pi-buyer-name').textContent = name;
+    if (tel) document.getElementById('pi-buyer-tel').textContent = tel;
+
+    // WordPress 풀 너비
+    document.body.style.overflowX = 'hidden';
+    var el = document.querySelector('.entry-content');
+    while (el) { el.style.padding='0'; el.style.margin='0'; el.style.maxWidth='100%'; el.style.width='100%'; if (el.tagName==='BODY') break; el=el.parentElement; }
+});
+</script>

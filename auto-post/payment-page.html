@@ -37,11 +37,6 @@
     .ap-pay-grid div{font-size:0.85rem!important}
     .ap-pay-input{padding:13px 15px!important;font-size:0.95rem!important}
     #pay-btn{font-size:1.1rem!important;padding:17px!important}
-    .ap-transfer-modal{padding:10px!important}
-    .ap-transfer-modal-inner{margin:5vh auto!important;padding:28px 20px!important;border-radius:20px!important}
-    .ap-transfer-modal-inner h2{font-size:1.25rem!important}
-    .ap-transfer-account{font-size:0.95rem!important;letter-spacing:0.5px!important}
-    .ap-transfer-kakao{font-size:1rem!important;padding:15px!important}
     .ap-plan-cards{grid-template-columns:1fr!important}
     .ap-compare-table{font-size:0.8rem!important}
     .ap-compare-table th,.ap-compare-table td{padding:9px 6px!important}
@@ -53,6 +48,7 @@
 <section class="ap-pay-header" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 60px 20px; text-align: center; margin: 0; width: 100%;">
     <div style="max-width: 600px; margin: 0 auto;">
         <div class="ap-badge-urgency" style="background: #ff4757; padding: 10px 25px; border-radius: 50px; font-size: 14px; font-weight: 700; margin-bottom: 12px; display: inline-block; color: white; animation: pulse 2s infinite;">🔥 3차 선착순 판매 — 잔여 수량 한정</div>
+        <div style="background:linear-gradient(135deg,#ffd93d,#ff6b6b);color:#333;padding:10px 25px;border-radius:50px;font-size:14px;font-weight:900;margin-bottom:12px;display:inline-block;box-shadow:0 4px 15px rgba(255,217,61,0.4);">🚀 V2 Pro 신규 출시</div>
         <div class="ap-badge-round" style="background: rgba(255,71,87,0.3); padding: 8px 20px; border-radius: 50px; font-size: 12px; font-weight: 700; margin-bottom: 25px; display: inline-block; color: white;">1차 189,000원 마감 · 2차 239,000원 마감 → 3차 진행 중</div>
         <h1 style="font-size: 2.2rem; font-weight: 900; margin-bottom: 10px; color: white;">AutoPost SEO Writer</h1>
         <p style="opacity: 0.8; font-size: 1.1rem; color: white;">플랜을 선택하고 결제하세요</p>
@@ -62,10 +58,15 @@
 <!-- 결제 폼 -->
 <div style="max-width: 620px; margin: 0 auto; padding: 30px 20px 80px; position: relative; z-index: 1;">
 
+    <!-- V2 Pro 추천 배너 -->
+    <div style="background:linear-gradient(135deg,rgba(118,75,162,0.1),rgba(102,126,234,0.1));border:1.5px solid #764ba2;border-radius:14px;padding:14px 20px;margin-bottom:16px;text-align:center;">
+        <span style="font-size:0.95rem;font-weight:700;color:#764ba2;">💡 구매자 80%가 V2 Pro를 선택합니다 — 대량등록 · 예약발행 · 자동색인</span>
+    </div>
+
     <!-- 플랜 선택 카드 -->
     <div class="ap-plan-cards" style="margin-bottom: 20px;">
         <!-- Basic -->
-        <div class="ap-plan-card selected" id="plan-basic" onclick="selectPlan('basic')">
+        <div class="ap-plan-card" id="plan-basic" onclick="selectPlan('basic')">
             <div style="margin-bottom: 15px;">
                 <span style="background:#e7f3ff;color:#667eea;padding:4px 12px;border-radius:50px;font-size:0.75rem;font-weight:700;">BASIC</span>
             </div>
@@ -79,7 +80,7 @@
         </div>
 
         <!-- V2 Pro -->
-        <div class="ap-plan-card pro" id="plan-pro" onclick="selectPlan('pro')">
+        <div class="ap-plan-card pro selected" id="plan-pro" onclick="selectPlan('pro')">
             <div class="ap-pro-badge">BEST</div>
             <div style="margin-bottom: 15px;">
                 <span style="background:linear-gradient(135deg,#f0e6ff,#e6d5ff);color:#764ba2;padding:4px 12px;border-radius:50px;font-size:0.75rem;font-weight:700;">V2 PRO</span>
@@ -145,7 +146,7 @@
                     <td><span class="ap-check-pro">&#10003;</span></td>
                 </tr>
                 <tr>
-                    <td>Naver 자동 색인 신청</td>
+                    <td>IndexNow 색인 (네이버·Bing)</td>
                     <td><span class="ap-dash">—</span></td>
                     <td><span class="ap-check-pro">&#10003;</span></td>
                 </tr>
@@ -224,10 +225,15 @@
     </div>
 
     <!-- 결제 버튼 -->
-    <button id="pay-btn" onclick="showTransferInfo()" style="width: 100%; padding: 20px; margin: 0; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 16px; font-size: 1.25rem; font-weight: 900; cursor: pointer; font-family: inherit; box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4); text-align: center; line-height: 1.4;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 15px 40px rgba(102,126,234,0.5)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 30px rgba(102,126,234,0.4)'">289,000원 결제하기 — Basic</button>
+    <button id="pay-btn" onclick="showTransferInfo()" style="width: 100%; padding: 20px; margin: 0; background: linear-gradient(135deg, #764ba2 0%, #667eea 100%); color: white; border: none; border-radius: 16px; font-size: 1.25rem; font-weight: 900; cursor: pointer; font-family: inherit; box-shadow: 0 10px 30px rgba(118, 75, 162, 0.4); text-align: center; line-height: 1.4;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 15px 40px rgba(118,75,162,0.5)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 30px rgba(118,75,162,0.4)'">389,000원 결제하기 — V2 Pro</button>
+
+    <!-- 후기 링크 -->
+    <a href="/reviews/" style="display:block;text-align:center;margin-top:20px;padding:16px;background:white;border-radius:14px;box-shadow:0 2px 12px rgba(0,0,0,0.06);text-decoration:none;color:#333;font-size:0.95rem;font-weight:600;">
+        <span style="color:#ffc107;margin-right:4px;">&#9733;&#9733;&#9733;&#9733;&#9733;</span> 구매 후기 보기 <span style="color:#999;font-weight:400;font-size:0.85rem;margin-left:4px;">4.9점 (10+)</span>
+    </a>
 
     <!-- 안내 문구 -->
-    <div style="margin-top: 25px; text-align: center;">
+    <div style="margin-top: 20px; text-align: center;">
         <p style="color: #bbb; font-size: 0.8rem; line-height: 1.8;">
             결제 완료 후 카카오톡으로 프로그램 전달 및 설치 안내를 드립니다.<br>
             문의: <a href="https://open.kakao.com/o/sjcFzkei" style="color: #667eea; text-decoration: none; font-weight: 600;">카카오톡 오픈채팅</a>
@@ -242,72 +248,9 @@
     <p style="color: rgba(255, 255, 255, 0.7); font-size: 0.85rem; margin: 0;">문의: <a href="https://open.kakao.com/o/sjcFzkei" style="color: #ffd93d; text-decoration: none;">카카오톡 오픈채팅</a></p>
 </footer>
 
-<!-- 계좌이체 안내 화면 (숨김) -->
-<div id="transfer-info" class="ap-transfer-modal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 99999; padding: 20px; overflow-y: auto;">
-    <div class="ap-transfer-modal-inner" style="max-width: 500px; margin: 10vh auto; background: white; border-radius: 24px; padding: 40px 30px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); position: relative;">
-        <!-- 닫기 버튼 -->
-        <div onclick="document.getElementById('transfer-info').style.display='none'" style="position: absolute; top: 15px; right: 20px; cursor: pointer; font-size: 1.5rem; color: #999; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: #f5f5f5;">&times;</div>
-
-        <div style="text-align: center; margin-bottom: 30px;">
-            <div style="width: 70px; height: 70px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 50%; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center;">
-                <span style="font-size: 2rem;">🏦</span>
-            </div>
-            <h2 style="font-size: 1.5rem; font-weight: 900; color: #333; margin-bottom: 8px;">계좌이체 안내</h2>
-            <p id="modal-plan-name" style="color: #888; font-size: 0.95rem;">아래 계좌로 입금해주세요</p>
-        </div>
-
-        <!-- 계좌 정보 -->
-        <div style="background: #f8f9fa; border-radius: 16px; padding: 25px; margin-bottom: 20px;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid #eee;">
-                <span style="color: #888; font-size: 0.9rem;">은행</span>
-                <strong style="color: #333; font-size: 1rem;">카카오뱅크</strong>
-            </div>
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid #eee;">
-                <span style="color: #888; font-size: 0.9rem;">계좌번호</span>
-                <div style="display: flex; align-items: center; gap: 10px;">
-                    <strong id="account-number" class="ap-transfer-account" style="color: #333; font-size: 1.1rem; letter-spacing: 1px;">79798373736</strong>
-                    <button onclick="copyAccount()" style="background: #667eea; color: white; border: none; padding: 6px 14px; border-radius: 8px; font-size: 0.78rem; cursor: pointer; font-family: inherit; font-weight: 600;">복사</button>
-                </div>
-            </div>
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid #eee;">
-                <span style="color: #888; font-size: 0.9rem;">상품</span>
-                <strong id="modal-product" style="color: #333; font-size: 0.95rem;">Basic</strong>
-            </div>
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <span style="color: #888; font-size: 0.9rem;">입금액</span>
-                <strong id="modal-price" style="color: #667eea; font-size: 1.3rem;">289,000원</strong>
-            </div>
-        </div>
-
-        <!-- 주의사항 -->
-        <div style="background: #fff5f5; border: 1.5px solid #ffcdd2; border-radius: 14px; padding: 18px 20px; margin-bottom: 20px;">
-            <div style="display: flex; align-items: flex-start; gap: 10px;">
-                <span style="font-size: 1.2rem; flex-shrink: 0;">⏰</span>
-                <div>
-                    <p style="color: #ff4757; font-weight: 700; font-size: 0.95rem; margin-bottom: 6px;">10분 이내로 입금해주세요</p>
-                    <p style="color: #888; font-size: 0.85rem; line-height: 1.6; margin: 0;">입금자명은 주문자 이름과 동일하게 해주세요.</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- 입금 후 안내 -->
-        <div style="background: linear-gradient(135deg, rgba(102,126,234,0.08), rgba(118,75,162,0.08)); border-radius: 14px; padding: 18px 20px; margin-bottom: 25px;">
-            <div style="display: flex; align-items: flex-start; gap: 10px;">
-                <span style="font-size: 1.2rem; flex-shrink: 0;">💬</span>
-                <div>
-                    <p style="color: #667eea; font-weight: 700; font-size: 0.95rem; margin-bottom: 6px;">입금 후 카카오톡으로 연락해주세요</p>
-                    <p style="color: #888; font-size: 0.85rem; line-height: 1.6; margin: 0;">입금 확인 후 프로그램 파일과 사용설명서를 전달해드리며<br>1:1 카카오톡 안내를 진행해드립니다.</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- 카카오톡 버튼 -->
-        <a href="https://open.kakao.com/o/sjcFzkei" class="ap-transfer-kakao" style="display: block; width: 100%; padding: 18px; background: #fef01b; color: #333; border-radius: 14px; font-weight: 800; font-size: 1.1rem; text-decoration: none; text-align: center; box-sizing: border-box;">💬 카카오톡으로 입금 확인 요청하기</a>
-    </div>
-</div>
 
 <script>
-var selectedPlan = 'basic';
+var selectedPlan = 'pro';
 var planData = {
     basic: { name: 'AutoPost SEO Writer (Basic)', price: 289000, priceText: '289,000', label: 'Basic' },
     pro: { name: 'AutoPost SEO Writer V2 Pro', price: 389000, priceText: '389,000', label: 'V2 Pro' }
@@ -337,7 +280,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     var bar=document.createElement('div');bar.id='floating-pay-bar';bar.style.cssText='position:fixed;bottom:0;left:0;right:0;z-index:99998;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);padding:18px 20px;box-shadow:0 -5px 30px rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;gap:15px;box-sizing:border-box;margin:0;';
     var lbl=document.createElement('div');lbl.id='floating-label';lbl.style.cssText='color:white;font-size:0.95rem;font-weight:700;line-height:1;margin:0;padding:0;animation:blink 1.5s infinite;';lbl.textContent='\uD83D\uDD34 3\uCC28 \uD55C\uC815 \uD310\uB9E4';
-    var fbtn=document.createElement('button');fbtn.id='floating-btn';fbtn.onclick=function(){showTransferInfo();};fbtn.style.cssText='background:#ff4757;color:white;padding:14px 35px;border-radius:50px;font-weight:700;font-size:1rem;white-space:nowrap;box-shadow:0 5px 20px rgba(255,71,87,0.4);border:none;cursor:pointer;font-family:inherit;line-height:1;animation:pulse 2s infinite;';fbtn.textContent='289,000\uC6D0 \u2014 \uC9C0\uAE08 \uAD6C\uB9E4\uD558\uAE30';
+    var fbtn=document.createElement('button');fbtn.id='floating-btn';fbtn.onclick=function(){document.getElementById('buyer-name').scrollIntoView({behavior:'smooth',block:'center'});};fbtn.style.cssText='background:#ff4757;color:white;padding:14px 35px;border-radius:50px;font-weight:700;font-size:1rem;white-space:nowrap;box-shadow:0 5px 20px rgba(255,71,87,0.4);border:none;cursor:pointer;font-family:inherit;line-height:1;animation:pulse 2s infinite;';fbtn.textContent='389,000\uC6D0 \u2014 V2 Pro \uAD6C\uB9E4\uD558\uAE30';
     bar.appendChild(lbl);bar.appendChild(fbtn);document.body.appendChild(bar);
 
     updateFloatingBar();
@@ -360,10 +303,6 @@ function showTransferInfo() {
 
     var d = planData[selectedPlan];
 
-    document.getElementById('modal-plan-name').textContent = d.name;
-    document.getElementById('modal-product').textContent = d.label;
-    document.getElementById('modal-price').textContent = d.priceText + '\uC6D0';
-
     if (typeof fbq === 'function') {
         fbq('track', 'Lead', { content_name: d.name, content_category: 'software', value: d.price, currency: 'KRW' });
     }
@@ -372,13 +311,7 @@ function showTransferInfo() {
         body: JSON.stringify({ name: name, tel: "'" + tel, email: email, amount: d.priceText, plan: d.label })
     }).catch(function() {});
 
-    document.getElementById('transfer-info').style.display = 'block';
-}
-
-function copyAccount() {
-    var num = '79798373736';
-    if (navigator.clipboard) { navigator.clipboard.writeText(num).then(function() { alert('\uACC4\uC88C\uBC88\uD638\uAC00 \uBCF5\uC0AC\uB418\uC5C8\uC2B5\uB2C8\uB2E4.'); }); }
-    else { var t = document.createElement('textarea'); t.value = num; document.body.appendChild(t); t.select(); document.execCommand('copy'); document.body.removeChild(t); alert('\uACC4\uC88C\uBC88\uD638\uAC00 \uBCF5\uC0AC\uB418\uC5C8\uC2B5\uB2C8\uB2E4.'); }
+    window.location.href = '/payment-info/?plan=' + selectedPlan + '&name=' + encodeURIComponent(name) + '&tel=' + encodeURIComponent(tel) + '&email=' + encodeURIComponent(email);
 }
 </script>
 

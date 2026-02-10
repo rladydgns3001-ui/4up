@@ -52,44 +52,58 @@ async function requestGoogleIndexing(url, jsonKeyPath) {
 }
 
 /**
- * Naver Search Advisor - URL 제출
+ * IndexNow - 네이버/Bing 등 지원 검색엔진에 URL 변경 알림
  * @param {string} url - 색인 요청할 URL
- * @param {string} apiKey - Naver Search Advisor API Key
+ * @param {string} apiKey - IndexNow API Key
  * @returns {Promise<{success: boolean, message?: string, error?: string}>}
  */
-async function requestNaverIndexing(url, apiKey) {
+async function requestIndexNow(url, apiKey) {
   try {
     if (!apiKey) {
-      return { success: false, error: 'Naver Search Advisor API Key가 설정되지 않았습니다.' };
+      return { success: false, error: 'IndexNow API Key가 설정되지 않았습니다.' };
     }
 
-    const res = await axios.post(
-      'https://searchadvisor.naver.com/api/v1/request/url',
-      { url: url },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${apiKey}`
-        },
-        timeout: 30000
+    const parsedUrl = new URL(url);
+    const host = parsedUrl.host;
+
+    const endpoints = [
+      'https://api.indexnow.org/indexnow',
+      'https://searchadvisor.naver.com/indexnow'
+    ];
+
+    const results = [];
+    for (const endpoint of endpoints) {
+      try {
+        await axios.get(endpoint, {
+          params: {
+            url: url,
+            key: apiKey
+          },
+          timeout: 15000
+        });
+        results.push(endpoint);
+      } catch (e) {
+        // 202/200 모두 성공, 4xx/5xx만 실패
+        if (e.response && (e.response.status === 200 || e.response.status === 202)) {
+          results.push(endpoint);
+        }
       }
-    );
+    }
 
     return {
       success: true,
-      message: `Naver 색인 요청 완료: ${url}`
+      message: `IndexNow 색인 요청 완료 (${results.length}개 엔진): ${url}`
     };
   } catch (error) {
-    const msg = error.response?.data?.message || error.message;
-    return { success: false, error: `Naver 색인 요청 실패: ${msg}` };
+    return { success: false, error: `IndexNow 색인 요청 실패: ${error.message}` };
   }
 }
 
 /**
- * 설정된 검색엔진에 색인 요청 (Google + Naver)
+ * 설정된 검색엔진에 색인 요청 (Google + IndexNow)
  * @param {string} url - 색인 요청할 URL
- * @param {object} config - 설정 객체 (GOOGLE_INDEXING_JSON_PATH, NAVER_SEARCH_ADVISOR_KEY)
- * @returns {Promise<{google?: object, naver?: object}>}
+ * @param {object} config - 설정 객체 (GOOGLE_INDEXING_JSON_PATH, INDEXNOW_API_KEY)
+ * @returns {Promise<{google?: object, indexnow?: object}>}
  */
 async function requestIndexing(url, config) {
   const results = {};
@@ -98,8 +112,8 @@ async function requestIndexing(url, config) {
     results.google = await requestGoogleIndexing(url, config.GOOGLE_INDEXING_JSON_PATH);
   }
 
-  if (config.NAVER_SEARCH_ADVISOR_KEY) {
-    results.naver = await requestNaverIndexing(url, config.NAVER_SEARCH_ADVISOR_KEY);
+  if (config.INDEXNOW_API_KEY) {
+    results.indexnow = await requestIndexNow(url, config.INDEXNOW_API_KEY);
   }
 
   return results;
@@ -107,6 +121,6 @@ async function requestIndexing(url, config) {
 
 module.exports = {
   requestGoogleIndexing,
-  requestNaverIndexing,
+  requestIndexNow,
   requestIndexing
 };

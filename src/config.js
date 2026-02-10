@@ -29,7 +29,7 @@ function readConfig() {
     ADSENSE_CLIENT_ID: '',
     ADSENSE_SLOT_ID: '',
     GOOGLE_INDEXING_JSON_PATH: '',
-    NAVER_SEARCH_ADVISOR_KEY: ''
+    INDEXNOW_API_KEY: ''
   };
 }
 
@@ -80,8 +80,8 @@ module.exports = {
   get GOOGLE_INDEXING_JSON_PATH() {
     return getConfigData().GOOGLE_INDEXING_JSON_PATH || '';
   },
-  get NAVER_SEARCH_ADVISOR_KEY() {
-    return getConfigData().NAVER_SEARCH_ADVISOR_KEY || '';
+  get INDEXNOW_API_KEY() {
+    return getConfigData().INDEXNOW_API_KEY || '';
   },
 
   // 설정 저장

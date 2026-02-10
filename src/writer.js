@@ -304,6 +304,10 @@ ${h2Matches.map((h, i) => `<li style="margin:8px 0;"><a href="#${h.id}" style="c
       }
     }
 
+    // === 후처리: 글 제목(H1) 크기 조정 CSS 삽입 ===
+    const postStyleCss = `<style>.entry-title{font-size:1.8rem!important;line-height:1.4!important}</style>`;
+    content = postStyleCss + content;
+
     return {
       success: true,
       title,
