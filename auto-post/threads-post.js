@@ -170,9 +170,10 @@ async function uploadToWordPress(filePath) {
 }
 
 function selectMedia(categoryType) {
-  if (!fs.existsSync(imagesDir)) return null;
+  // 전체 미디어 풀 (항상 이미지 포함을 보장)
+  const allMedia = ["adsense-revenue.png", "homepage.png", "program-run-1.mp4", "program-run-2.mp4", "program-run-3.mp4"];
 
-  // 카테고리별 미디어 매핑 (이미지 + 영상)
+  // 카테고리별 우선 미디어 매핑
   const categoryMediaMap = {
     empathy: ["adsense-revenue.png", "homepage.png"],
     blog_tips: ["adsense-revenue.png", "homepage.png"],
@@ -182,19 +183,28 @@ function selectMedia(categoryType) {
     wordpress_tips: ["homepage.png", "adsense-revenue.png"],
   };
 
-  const candidates = categoryMediaMap[categoryType] || [];
-  // 후보 중 랜덤 선택
+  const candidates = categoryMediaMap[categoryType] || allMedia;
+
+  // 실제 존재하는 파일만 필터
   const available = candidates.filter((name) => fs.existsSync(path.join(imagesDir, name)));
   if (available.length > 0) {
     const pick = available[Math.floor(Math.random() * available.length)];
     return path.join(imagesDir, pick);
   }
 
-  // fallback: 아무 미디어 선택 (항상 이미지 포함하기 위해)
+  // fallback: 전체 미디어 풀에서 선택
+  const fallback = allMedia.filter((name) => fs.existsSync(path.join(imagesDir, name)));
+  if (fallback.length > 0) {
+    const pick = fallback[Math.floor(Math.random() * fallback.length)];
+    return path.join(imagesDir, pick);
+  }
+
+  // 최종 fallback: 디렉토리 내 아무 파일
   try {
     const files = fs.readdirSync(imagesDir).filter((f) => /\.(png|jpg|jpeg|mp4)$/i.test(f));
     if (files.length > 0) return path.join(imagesDir, files[Math.floor(Math.random() * files.length)]);
   } catch {}
+  console.log("⚠️ 사용 가능한 미디어 없음");
   return null;
 }
 
@@ -779,11 +789,13 @@ async function main() {
     let finalMedia = null; // { fileName, filePath, isVideo } or null
 
     if (isTelegramMode) {
-      // 승인 전에 미디어 선택 (미리보기에 표시하기 위해)
+      // 승인 전에 미디어 선택 (항상 이미지 포함)
       const mediaPath = selectMedia(category.type);
       const mediaInfo = buildMediaInfo(mediaPath);
       if (mediaInfo) {
         console.log(`📸 미디어 자동 선택: ${mediaInfo.fileName} (${mediaInfo.isVideo ? "영상" : "이미지"})`);
+      } else {
+        console.log("⚠️ 미디어 파일을 찾을 수 없습니다. 텔레그램에서 사진 없이 발행 여부를 결정하세요.");
       }
 
       // Telegram 승인 루프 (미디어 정보 포함)
