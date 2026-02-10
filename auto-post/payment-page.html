@@ -1,0 +1,385 @@
+<style>.page-id-73,.page-id-73 html,.page-id-73 body{overflow-x:hidden!important;margin:0!important;padding:0!important}.page-id-73 .site-header,.page-id-73 header#masthead,.page-id-73 .entry-header,.page-id-73 .entry-title,.page-id-73 #secondary,.page-id-73 .sidebar,.page-id-73 aside,.page-id-73 .widget-area,.page-id-73 .site-footer,.page-id-73 footer#colophon,.page-id-73 .navigation,.page-id-73 .nav-links,.page-id-73 .post-navigation{display:none!important}.page-id-73 #page,.page-id-73 .site.grid-container,.page-id-73 .grid-container{max-width:100%!important;width:100%!important;padding:0!important;margin:0!important;overflow-x:hidden!important}.page-id-73 .site-content,.page-id-73 #content,.page-id-73 .content-area,.page-id-73 #primary,.page-id-73 .site-main,.page-id-73 #main,.page-id-73 article,.page-id-73 .post-73,.page-id-73 .inside-article,.page-id-73 .entry-content{width:100%!important;max-width:100%!important;margin:0!important;padding:0!important;float:none!important;overflow:visible!important}.page-id-73.separate-containers .inside-article,.page-id-73.separate-containers .site-main>article{padding:0!important;margin:0!important;background:transparent!important;box-shadow:none!important;border:none!important}.page-id-73.separate-containers .site-main{margin:0!important}
+#floating-pay-bar,#floating-pay-bar *{box-sizing:border-box!important;margin-top:0!important;margin-bottom:0!important}
+#floating-pay-bar{padding:18px 20px!important}
+#floating-pay-bar button{padding:14px 35px!important}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.5}}
+@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+#pay-btn{display:block!important;width:100%!important;margin:0!important;padding:20px!important;text-align:center!important;line-height:1.4!important}
+.ap-plan-cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.ap-plan-card{background:white;border-radius:20px;padding:30px;box-shadow:0 4px 20px rgba(0,0,0,0.08);border:2px solid transparent;cursor:pointer;transition:all 0.3s;position:relative}
+.ap-plan-card:hover{transform:translateY(-3px);box-shadow:0 8px 30px rgba(0,0,0,0.12)}
+.ap-plan-card.selected{border-color:#667eea;box-shadow:0 8px 30px rgba(102,126,234,0.25)}
+.ap-plan-card.pro{border-color:#764ba2}
+.ap-plan-card.pro.selected{border-color:#764ba2;box-shadow:0 8px 30px rgba(118,75,162,0.25)}
+.ap-pro-badge{position:absolute;top:-12px;right:20px;background:linear-gradient(135deg,#ff4757,#ff6b81);color:white;padding:5px 16px;border-radius:50px;font-size:0.75rem;font-weight:800}
+.ap-compare-table{width:100%;border-collapse:collapse;font-size:0.88rem}
+.ap-compare-table th{background:#f8f9fa;padding:12px 10px;text-align:center;font-weight:700;color:#555;border-bottom:2px solid #e0e0e0}
+.ap-compare-table th:first-child{text-align:left}
+.ap-compare-table td{padding:11px 10px;text-align:center;border-bottom:1px solid #f0f0f0;color:#555}
+.ap-compare-table td:first-child{text-align:left;font-weight:600;color:#333}
+.ap-compare-table tr:last-child td{border-bottom:none}
+.ap-check{color:#667eea;font-weight:700;font-size:1.1rem}
+.ap-check-pro{color:#764ba2;font-weight:700;font-size:1.1rem}
+.ap-dash{color:#ddd}
+@media (max-width: 768px) {
+    #floating-pay-bar{padding:12px 15px!important;gap:10px!important}
+    #floating-pay-bar div{font-size:0.8rem!important}
+    #floating-pay-bar button{padding:12px 20px!important;font-size:0.9rem!important}
+    .ap-pay-header{padding:40px 15px!important}
+    .ap-pay-header h1{font-size:1.6rem!important}
+    .ap-pay-header .ap-badge-urgency{font-size:12px!important;padding:8px 18px!important}
+    .ap-pay-header .ap-badge-round{font-size:11px!important;padding:6px 15px!important}
+    .ap-pay-card{padding:22px 18px!important;border-radius:16px!important}
+    .ap-pay-card h2{font-size:1.05rem!important}
+    .ap-pay-price{font-size:1.5rem!important}
+    .ap-pay-grid{grid-template-columns:1fr!important;gap:8px!important}
+    .ap-pay-grid div{font-size:0.85rem!important}
+    .ap-pay-input{padding:13px 15px!important;font-size:0.95rem!important}
+    #pay-btn{font-size:1.1rem!important;padding:17px!important}
+    .ap-transfer-modal{padding:10px!important}
+    .ap-transfer-modal-inner{margin:5vh auto!important;padding:28px 20px!important;border-radius:20px!important}
+    .ap-transfer-modal-inner h2{font-size:1.25rem!important}
+    .ap-transfer-account{font-size:0.95rem!important;letter-spacing:0.5px!important}
+    .ap-transfer-kakao{font-size:1rem!important;padding:15px!important}
+    .ap-plan-cards{grid-template-columns:1fr!important}
+    .ap-compare-table{font-size:0.8rem!important}
+    .ap-compare-table th,.ap-compare-table td{padding:9px 6px!important}
+}
+</style>
+<div style="font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif; line-height: 1.6; color: #333; width: 100%; max-width: 100%; margin: 0; padding: 0; position: relative; background: #f8f9fa; min-height: 100vh; overflow-x: hidden;">
+
+<!-- Header -->
+<section class="ap-pay-header" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 60px 20px; text-align: center; margin: 0; width: 100%;">
+    <div style="max-width: 600px; margin: 0 auto;">
+        <div class="ap-badge-urgency" style="background: #ff4757; padding: 10px 25px; border-radius: 50px; font-size: 14px; font-weight: 700; margin-bottom: 12px; display: inline-block; color: white; animation: pulse 2s infinite;">🔥 3차 선착순 판매 — 잔여 수량 한정</div>
+        <div class="ap-badge-round" style="background: rgba(255,71,87,0.3); padding: 8px 20px; border-radius: 50px; font-size: 12px; font-weight: 700; margin-bottom: 25px; display: inline-block; color: white;">1차 189,000원 마감 · 2차 239,000원 마감 → 3차 진행 중</div>
+        <h1 style="font-size: 2.2rem; font-weight: 900; margin-bottom: 10px; color: white;">AutoPost SEO Writer</h1>
+        <p style="opacity: 0.8; font-size: 1.1rem; color: white;">플랜을 선택하고 결제하세요</p>
+    </div>
+</section>
+
+<!-- 결제 폼 -->
+<div style="max-width: 620px; margin: 0 auto; padding: 30px 20px 80px; position: relative; z-index: 1;">
+
+    <!-- 플랜 선택 카드 -->
+    <div class="ap-plan-cards" style="margin-bottom: 20px;">
+        <!-- Basic -->
+        <div class="ap-plan-card selected" id="plan-basic" onclick="selectPlan('basic')">
+            <div style="margin-bottom: 15px;">
+                <span style="background:#e7f3ff;color:#667eea;padding:4px 12px;border-radius:50px;font-size:0.75rem;font-weight:700;">BASIC</span>
+            </div>
+            <h3 style="font-size: 1.1rem; font-weight: 800; color: #333; margin-bottom: 6px;">AutoPost SEO Writer</h3>
+            <p style="color: #aaa; font-size: 0.8rem; margin-bottom: 15px;">키워드 1개씩 · 즉시발행</p>
+            <div>
+                <span style="color: #bbb; font-size: 0.78rem; text-decoration: line-through;">1,290,000원</span><br>
+                <span style="font-size: 1.6rem; font-weight: 900; color: #667eea;">289,000<span style="font-size: 0.85rem;">원</span></span>
+            </div>
+            <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid #f0f0f0; font-size: 0.78rem; color: #888;">3차 판매가</div>
+        </div>
+
+        <!-- V2 Pro -->
+        <div class="ap-plan-card pro" id="plan-pro" onclick="selectPlan('pro')">
+            <div class="ap-pro-badge">BEST</div>
+            <div style="margin-bottom: 15px;">
+                <span style="background:linear-gradient(135deg,#f0e6ff,#e6d5ff);color:#764ba2;padding:4px 12px;border-radius:50px;font-size:0.75rem;font-weight:700;">V2 PRO</span>
+            </div>
+            <h3 style="font-size: 1.1rem; font-weight: 800; color: #333; margin-bottom: 6px;">AutoPost V2 Pro</h3>
+            <p style="color: #aaa; font-size: 0.8rem; margin-bottom: 15px;">대량등록 · 예약발행 · 자동색인</p>
+            <div>
+                <span style="color: #bbb; font-size: 0.78rem; text-decoration: line-through;">1,890,000원</span><br>
+                <span style="font-size: 1.6rem; font-weight: 900; color: #764ba2;">389,000<span style="font-size: 0.85rem;">원</span></span>
+            </div>
+            <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid #f0f0f0; font-size: 0.78rem; color: #764ba2; font-weight: 600;">+10만원으로 3배 효율</div>
+        </div>
+    </div>
+
+    <!-- 성능 비교표 -->
+    <div style="background: white; border-radius: 20px; padding: 35px; margin-bottom: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.08);" class="ap-pay-card">
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 22px;">
+            <div style="width: 8px; height: 8px; background: #667eea; border-radius: 50%;"></div>
+            <h2 style="font-size: 1.15rem; font-weight: 800; color: #333; margin: 0;">성능 비교</h2>
+        </div>
+        <table class="ap-compare-table">
+            <thead>
+                <tr>
+                    <th style="width:44%">기능</th>
+                    <th style="width:28%">Basic</th>
+                    <th style="width:28%">V2 Pro</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>AI SEO 글 자동 생성</td>
+                    <td><span class="ap-check">&#10003;</span></td>
+                    <td><span class="ap-check-pro">&#10003;</span></td>
+                </tr>
+                <tr>
+                    <td>AI 이미지 자동 생성</td>
+                    <td><span class="ap-check">&#10003;</span></td>
+                    <td><span class="ap-check-pro">&#10003;</span></td>
+                </tr>
+                <tr>
+                    <td>워드프레스 자동 발행</td>
+                    <td><span class="ap-check">&#10003;</span></td>
+                    <td><span class="ap-check-pro">&#10003;</span></td>
+                </tr>
+                <tr>
+                    <td>애드센스 광고 자동 삽입</td>
+                    <td><span class="ap-check">&#10003;</span></td>
+                    <td><span class="ap-check-pro">&#10003;</span></td>
+                </tr>
+                <tr>
+                    <td>키워드 대량 등록 (최대 10개)</td>
+                    <td><span class="ap-dash">—</span></td>
+                    <td><span class="ap-check-pro">&#10003;</span></td>
+                </tr>
+                <tr>
+                    <td>예약 발행 (간격/시간 지정)</td>
+                    <td><span class="ap-dash">—</span></td>
+                    <td><span class="ap-check-pro">&#10003;</span></td>
+                </tr>
+                <tr>
+                    <td>Google 자동 색인 신청</td>
+                    <td><span class="ap-dash">—</span></td>
+                    <td><span class="ap-check-pro">&#10003;</span></td>
+                </tr>
+                <tr>
+                    <td>Naver 자동 색인 신청</td>
+                    <td><span class="ap-dash">—</span></td>
+                    <td><span class="ap-check-pro">&#10003;</span></td>
+                </tr>
+                <tr>
+                    <td>발행 큐 실시간 모니터링</td>
+                    <td><span class="ap-dash">—</span></td>
+                    <td><span class="ap-check-pro">&#10003;</span></td>
+                </tr>
+                <tr style="background:#f8f9fa">
+                    <td style="font-weight:800;color:#333">하루 생산량 (예상)</td>
+                    <td style="font-weight:700;color:#667eea">3~5개</td>
+                    <td style="font-weight:700;color:#764ba2">10~30개</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 포함 사항 -->
+    <div style="background: white; border-radius: 20px; padding: 35px; margin-bottom: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.08);" class="ap-pay-card">
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 22px;">
+            <div style="width: 8px; height: 8px; background: #667eea; border-radius: 50%;"></div>
+            <h2 style="font-size: 1.15rem; font-weight: 800; color: #333; margin: 0;">공통 포함 사항</h2>
+        </div>
+        <div class="ap-pay-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <div style="display: flex; align-items: center; gap: 8px; font-size: 0.9rem; color: #555;"><span style="color: #667eea; font-weight: 700;">&#10003;</span> 프로그램 (평생 소유)</div>
+            <div style="display: flex; align-items: center; gap: 8px; font-size: 0.9rem; color: #555;"><span style="color: #667eea; font-weight: 700;">&#10003;</span> Windows / Mac 중 택1</div>
+            <div style="display: flex; align-items: center; gap: 8px; font-size: 0.9rem; color: #555;"><span style="color: #667eea; font-weight: 700;">&#10003;</span> 사용설명서 + 1:1 안내</div>
+            <div style="display: flex; align-items: center; gap: 8px; font-size: 0.9rem; color: #555;"><span style="color: #667eea; font-weight: 700;">&#10003;</span> 사용법 교육 (30분)</div>
+            <div style="display: flex; align-items: center; gap: 8px; font-size: 0.9rem; color: #555;"><span style="color: #667eea; font-weight: 700;">&#10003;</span> 프로그램 사용법 PDF</div>
+            <div style="display: flex; align-items: center; gap: 8px; font-size: 0.9rem; color: #555;"><span style="color: #667eea; font-weight: 700;">&#10003;</span> AI 이미지 자동 생성</div>
+            <div style="display: flex; align-items: center; gap: 8px; font-size: 0.9rem; color: #555;"><span style="color: #667eea; font-weight: 700;">&#10003;</span> 평생 무료 업데이트</div>
+            <div style="display: flex; align-items: center; gap: 8px; font-size: 0.9rem; color: #555;"><span style="color: #667eea; font-weight: 700;">&#10003;</span> 카카오톡 1:1 지원</div>
+        </div>
+    </div>
+
+    <!-- 주문자 정보 -->
+    <div style="background: white; border-radius: 20px; padding: 35px; margin-bottom: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.08);" class="ap-pay-card">
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 22px;">
+            <div style="width: 8px; height: 8px; background: #667eea; border-radius: 50%;"></div>
+            <h2 style="font-size: 1.15rem; font-weight: 800; color: #333; margin: 0;">주문자 정보</h2>
+        </div>
+        <div style="margin-bottom: 16px;">
+            <label style="display: block; font-size: 0.88rem; font-weight: 600; margin-bottom: 8px; color: #555;">이름 <span style="color: #ff4757;">*</span></label>
+            <input id="buyer-name" type="text" placeholder="홍길동" style="width: 100%; padding: 15px 18px; border: 1.5px solid #e8e8e8; border-radius: 12px; font-size: 1rem; outline: none; font-family: inherit; transition: border 0.2s; background: #fafafa; box-sizing: border-box;" class="ap-pay-input" onfocus="this.style.borderColor='#667eea'; this.style.background='#fff'" onblur="this.style.borderColor='#e8e8e8'; this.style.background='#fafafa'">
+        </div>
+        <div style="margin-bottom: 16px;">
+            <label style="display: block; font-size: 0.88rem; font-weight: 600; margin-bottom: 8px; color: #555;">연락처 <span style="color: #ff4757;">*</span></label>
+            <input id="buyer-tel" type="tel" placeholder="010-1234-5678" style="width: 100%; padding: 15px 18px; border: 1.5px solid #e8e8e8; border-radius: 12px; font-size: 1rem; outline: none; font-family: inherit; transition: border 0.2s; background: #fafafa; box-sizing: border-box;" class="ap-pay-input" onfocus="this.style.borderColor='#667eea'; this.style.background='#fff'" onblur="this.style.borderColor='#e8e8e8'; this.style.background='#fafafa'">
+        </div>
+        <div>
+            <label style="display: block; font-size: 0.88rem; font-weight: 600; margin-bottom: 8px; color: #555;">이메일 <span style="color: #ff4757;">*</span></label>
+            <input id="buyer-email" type="email" placeholder="example@email.com" style="width: 100%; padding: 15px 18px; border: 1.5px solid #e8e8e8; border-radius: 12px; font-size: 1rem; outline: none; font-family: inherit; transition: border 0.2s; background: #fafafa; box-sizing: border-box;" class="ap-pay-input" onfocus="this.style.borderColor='#667eea'; this.style.background='#fff'" onblur="this.style.borderColor='#e8e8e8'; this.style.background='#fafafa'">
+        </div>
+    </div>
+
+    <!-- 결제 수단 -->
+    <div class="ap-pay-card" style="background: white; border-radius: 20px; padding: 35px 35px 25px; margin-bottom: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 18px;">
+            <div style="width: 8px; height: 8px; background: #667eea; border-radius: 50%;"></div>
+            <h2 style="font-size: 1.15rem; font-weight: 800; color: #333; margin: 0;">결제 수단</h2>
+        </div>
+        <div style="display: block; width: 100%; padding: 16px 20px; border: 1.5px solid #667eea; border-radius: 12px; background: #f5f3ff; box-sizing: border-box;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <span style="color: #667eea; font-size: 1.3rem;">🏦</span>
+                <div>
+                    <strong style="font-size: 0.95rem; color: #333;">계좌이체</strong><br>
+                    <span style="color: #aaa; font-size: 0.8rem;">카카오뱅크 계좌이체</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 선착순 안내 -->
+    <div style="background: #fff5f5; border: 1.5px solid #ffcdd2; border-radius: 14px; padding: 14px 22px; margin: 0 0 12px 0; text-align: center;">
+        <span style="color: #ff4757; font-weight: 700; font-size: 0.95rem;">🔥 3차 한정 수량 — 마감 시 가격 인상</span>
+    </div>
+
+    <!-- 결제 버튼 -->
+    <button id="pay-btn" onclick="showTransferInfo()" style="width: 100%; padding: 20px; margin: 0; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 16px; font-size: 1.25rem; font-weight: 900; cursor: pointer; font-family: inherit; box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4); text-align: center; line-height: 1.4;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 15px 40px rgba(102,126,234,0.5)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 30px rgba(102,126,234,0.4)'">289,000원 결제하기 — Basic</button>
+
+    <!-- 안내 문구 -->
+    <div style="margin-top: 25px; text-align: center;">
+        <p style="color: #bbb; font-size: 0.8rem; line-height: 1.8;">
+            결제 완료 후 카카오톡으로 프로그램 전달 및 설치 안내를 드립니다.<br>
+            문의: <a href="https://open.kakao.com/o/sjcFzkei" style="color: #667eea; text-decoration: none; font-weight: 600;">카카오톡 오픈채팅</a>
+        </p>
+    </div>
+
+</div>
+
+<!-- Footer -->
+<footer style="background: #4a3a7a; color: rgba(255, 255, 255, 0.7); padding: 30px 20px 80px; text-align: center; margin: 0; width: 100%;">
+    <p style="color: rgba(255, 255, 255, 0.7); font-size: 0.85rem; margin: 0 0 8px 0;">AutoPost SEO Writer &copy; 2026. All rights reserved.</p>
+    <p style="color: rgba(255, 255, 255, 0.7); font-size: 0.85rem; margin: 0;">문의: <a href="https://open.kakao.com/o/sjcFzkei" style="color: #ffd93d; text-decoration: none;">카카오톡 오픈채팅</a></p>
+</footer>
+
+<!-- 계좌이체 안내 화면 (숨김) -->
+<div id="transfer-info" class="ap-transfer-modal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 99999; padding: 20px; overflow-y: auto;">
+    <div class="ap-transfer-modal-inner" style="max-width: 500px; margin: 10vh auto; background: white; border-radius: 24px; padding: 40px 30px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); position: relative;">
+        <!-- 닫기 버튼 -->
+        <div onclick="document.getElementById('transfer-info').style.display='none'" style="position: absolute; top: 15px; right: 20px; cursor: pointer; font-size: 1.5rem; color: #999; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: #f5f5f5;">&times;</div>
+
+        <div style="text-align: center; margin-bottom: 30px;">
+            <div style="width: 70px; height: 70px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 50%; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center;">
+                <span style="font-size: 2rem;">🏦</span>
+            </div>
+            <h2 style="font-size: 1.5rem; font-weight: 900; color: #333; margin-bottom: 8px;">계좌이체 안내</h2>
+            <p id="modal-plan-name" style="color: #888; font-size: 0.95rem;">아래 계좌로 입금해주세요</p>
+        </div>
+
+        <!-- 계좌 정보 -->
+        <div style="background: #f8f9fa; border-radius: 16px; padding: 25px; margin-bottom: 20px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid #eee;">
+                <span style="color: #888; font-size: 0.9rem;">은행</span>
+                <strong style="color: #333; font-size: 1rem;">카카오뱅크</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid #eee;">
+                <span style="color: #888; font-size: 0.9rem;">계좌번호</span>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <strong id="account-number" class="ap-transfer-account" style="color: #333; font-size: 1.1rem; letter-spacing: 1px;">79798373736</strong>
+                    <button onclick="copyAccount()" style="background: #667eea; color: white; border: none; padding: 6px 14px; border-radius: 8px; font-size: 0.78rem; cursor: pointer; font-family: inherit; font-weight: 600;">복사</button>
+                </div>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid #eee;">
+                <span style="color: #888; font-size: 0.9rem;">상품</span>
+                <strong id="modal-product" style="color: #333; font-size: 0.95rem;">Basic</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="color: #888; font-size: 0.9rem;">입금액</span>
+                <strong id="modal-price" style="color: #667eea; font-size: 1.3rem;">289,000원</strong>
+            </div>
+        </div>
+
+        <!-- 주의사항 -->
+        <div style="background: #fff5f5; border: 1.5px solid #ffcdd2; border-radius: 14px; padding: 18px 20px; margin-bottom: 20px;">
+            <div style="display: flex; align-items: flex-start; gap: 10px;">
+                <span style="font-size: 1.2rem; flex-shrink: 0;">⏰</span>
+                <div>
+                    <p style="color: #ff4757; font-weight: 700; font-size: 0.95rem; margin-bottom: 6px;">10분 이내로 입금해주세요</p>
+                    <p style="color: #888; font-size: 0.85rem; line-height: 1.6; margin: 0;">입금자명은 주문자 이름과 동일하게 해주세요.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 입금 후 안내 -->
+        <div style="background: linear-gradient(135deg, rgba(102,126,234,0.08), rgba(118,75,162,0.08)); border-radius: 14px; padding: 18px 20px; margin-bottom: 25px;">
+            <div style="display: flex; align-items: flex-start; gap: 10px;">
+                <span style="font-size: 1.2rem; flex-shrink: 0;">💬</span>
+                <div>
+                    <p style="color: #667eea; font-weight: 700; font-size: 0.95rem; margin-bottom: 6px;">입금 후 카카오톡으로 연락해주세요</p>
+                    <p style="color: #888; font-size: 0.85rem; line-height: 1.6; margin: 0;">입금 확인 후 프로그램 파일과 사용설명서를 전달해드리며<br>1:1 카카오톡 안내를 진행해드립니다.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 카카오톡 버튼 -->
+        <a href="https://open.kakao.com/o/sjcFzkei" class="ap-transfer-kakao" style="display: block; width: 100%; padding: 18px; background: #fef01b; color: #333; border-radius: 14px; font-weight: 800; font-size: 1.1rem; text-decoration: none; text-align: center; box-sizing: border-box;">💬 카카오톡으로 입금 확인 요청하기</a>
+    </div>
+</div>
+
+<script>
+var selectedPlan = 'basic';
+var planData = {
+    basic: { name: 'AutoPost SEO Writer (Basic)', price: 289000, priceText: '289,000', label: 'Basic' },
+    pro: { name: 'AutoPost SEO Writer V2 Pro', price: 389000, priceText: '389,000', label: 'V2 Pro' }
+};
+
+function selectPlan(plan) {
+    selectedPlan = plan;
+    document.getElementById('plan-basic').classList.remove('selected');
+    document.getElementById('plan-pro').classList.remove('selected');
+    document.getElementById('plan-' + plan).classList.add('selected');
+
+    var d = planData[plan];
+    var btn = document.getElementById('pay-btn');
+    if (plan === 'pro') {
+        btn.textContent = d.priceText + '\uC6D0 \uACB0\uC81C\uD558\uAE30 \u2014 V2 Pro';
+        btn.style.background = 'linear-gradient(135deg, #764ba2 0%, #667eea 100%)';
+    } else {
+        btn.textContent = d.priceText + '\uC6D0 \uACB0\uC81C\uD558\uAE30 \u2014 Basic';
+        btn.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    document.body.style.overflow='hidden';document.body.style.overflowY='auto';document.body.style.overflowX='hidden';document.documentElement.style.overflowX='hidden';
+    var page=document.getElementById('page');if(page){page.style.maxWidth='100%';page.style.overflow='hidden';page.style.padding='0';page.style.margin='0';}
+    var el=document.querySelector('.entry-content');while(el){el.style.padding='0';el.style.margin='0';el.style.maxWidth='100%';el.style.width='100%';if(el.tagName==='BODY')break;el=el.parentElement;}
+
+    var bar=document.createElement('div');bar.id='floating-pay-bar';bar.style.cssText='position:fixed;bottom:0;left:0;right:0;z-index:99998;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);padding:18px 20px;box-shadow:0 -5px 30px rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;gap:15px;box-sizing:border-box;margin:0;';
+    var lbl=document.createElement('div');lbl.id='floating-label';lbl.style.cssText='color:white;font-size:0.95rem;font-weight:700;line-height:1;margin:0;padding:0;animation:blink 1.5s infinite;';lbl.textContent='\uD83D\uDD34 3\uCC28 \uD55C\uC815 \uD310\uB9E4';
+    var fbtn=document.createElement('button');fbtn.id='floating-btn';fbtn.onclick=function(){showTransferInfo();};fbtn.style.cssText='background:#ff4757;color:white;padding:14px 35px;border-radius:50px;font-weight:700;font-size:1rem;white-space:nowrap;box-shadow:0 5px 20px rgba(255,71,87,0.4);border:none;cursor:pointer;font-family:inherit;line-height:1;animation:pulse 2s infinite;';fbtn.textContent='289,000\uC6D0 \u2014 \uC9C0\uAE08 \uAD6C\uB9E4\uD558\uAE30';
+    bar.appendChild(lbl);bar.appendChild(fbtn);document.body.appendChild(bar);
+
+    updateFloatingBar();
+});
+
+function updateFloatingBar() {
+    var fbtn = document.getElementById('floating-btn');
+    if (!fbtn) return;
+    var d = planData[selectedPlan];
+    fbtn.textContent = d.priceText + '\uC6D0 \u2014 \uC9C0\uAE08 \uAD6C\uB9E4\uD558\uAE30';
+}
+
+function showTransferInfo() {
+    var name = document.getElementById('buyer-name').value.trim();
+    var tel = document.getElementById('buyer-tel').value.trim();
+    var email = document.getElementById('buyer-email').value.trim();
+    if (!name) { alert('\uC774\uB984\uC744 \uC785\uB825\uD574\uC8FC\uC138\uC694.'); return; }
+    if (!tel) { alert('\uC5F0\uB77D\uCC98\uB97C \uC785\uB825\uD574\uC8FC\uC138\uC694.'); return; }
+    if (!email) { alert('\uC774\uBA54\uC77C\uC744 \uC785\uB825\uD574\uC8FC\uC138\uC694.'); return; }
+
+    var d = planData[selectedPlan];
+
+    document.getElementById('modal-plan-name').textContent = d.name;
+    document.getElementById('modal-product').textContent = d.label;
+    document.getElementById('modal-price').textContent = d.priceText + '\uC6D0';
+
+    if (typeof fbq === 'function') {
+        fbq('track', 'Lead', { content_name: d.name, content_category: 'software', value: d.price, currency: 'KRW' });
+    }
+    fetch('https://script.google.com/macros/s/AKfycbxCquDFPqe1k7Te7_N2x8juXUIu5UdcOiO1Yx6aijY6RDaoDqPe_cfcvl1W0Tvdi7wD/exec', {
+        method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: name, tel: "'" + tel, email: email, amount: d.priceText, plan: d.label })
+    }).catch(function() {});
+
+    document.getElementById('transfer-info').style.display = 'block';
+}
+
+function copyAccount() {
+    var num = '79798373736';
+    if (navigator.clipboard) { navigator.clipboard.writeText(num).then(function() { alert('\uACC4\uC88C\uBC88\uD638\uAC00 \uBCF5\uC0AC\uB418\uC5C8\uC2B5\uB2C8\uB2E4.'); }); }
+    else { var t = document.createElement('textarea'); t.value = num; document.body.appendChild(t); t.select(); document.execCommand('copy'); document.body.removeChild(t); alert('\uACC4\uC88C\uBC88\uD638\uAC00 \uBCF5\uC0AC\uB418\uC5C8\uC2B5\uB2C8\uB2E4.'); }
+}
+</script>
+
+</div>
