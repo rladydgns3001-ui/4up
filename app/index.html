@@ -565,7 +565,10 @@
 
       <div class="loading" id="loading">
         <div class="spinner"></div>
-        <p>AI가 글을 작성하고 있습니다...</p>
+        <div class="progress-bar-container" style="margin: 15px 0;">
+          <div id="writeProgressBar" class="progress-bar" style="width: 0%">0%</div>
+        </div>
+        <p id="writeStep" style="font-size: 14px; color: #333; font-weight: 600;">준비 중...</p>
         <p style="font-size: 12px; color: #888; margin-top: 10px;">잠시만 기다려주세요</p>
       </div>
 
@@ -869,6 +872,27 @@
       }
     }
 
+    // 글 작성 진행률 이벤트 수신
+    const writeProgressBar = document.getElementById('writeProgressBar');
+    const writeStep = document.getElementById('writeStep');
+
+    window.api.onWriteProgress((data) => {
+      if (writeProgressBar) {
+        writeProgressBar.style.width = `${data.percent}%`;
+        writeProgressBar.textContent = `${data.percent}%`;
+      }
+      if (writeStep) {
+        writeStep.textContent = data.step;
+      }
+      // 큐 모드에서도 현재 키워드의 단계 표시
+      if (data.keyword && queuePanel.classList.contains('show')) {
+        const queueCurrentInfo = document.getElementById('queueCurrentInfo');
+        if (queueCurrentInfo) {
+          queueCurrentInfo.textContent = `"${data.keyword}" - ${data.step} (${data.percent}%)`;
+        }
+      }
+    });
+
     // 큐 진행 이벤트 수신
     window.api.onQueueProgress(updateQueueUI);
 
@@ -1018,6 +1042,15 @@
         loading.classList.add('show');
         result.className = 'result';
         result.style.display = 'none';
+
+        // 진행률 초기화
+        if (writeProgressBar) {
+          writeProgressBar.style.width = '0%';
+          writeProgressBar.textContent = '0%';
+        }
+        if (writeStep) {
+          writeStep.textContent = '준비 중...';
+        }
 
         try {
           const res = await window.api.writePost({

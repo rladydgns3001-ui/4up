@@ -127,10 +127,12 @@ async function generateArticle(keyword, webContext = '', wpContext = '', style =
 - 본문 중 적절한 위치에 **반드시 1개의 이미지 마커**를 삽입하세요
 - 형식: [IMAGE:이미지에 대한 구체적인 설명]
 - 설명은 영어로 작성 (DALL-E 이미지 생성용), 키워드의 핵심 주제를 반영
+- **이미지에 텍스트/글자/숫자/문자가 포함되지 않는 순수 일러스트레이션으로 설명하세요**
+- 설명에 반드시 "no text, no letters, no words, no writing" 포함
 - 예시:
-  - 키워드 "청년 전세대출" → [IMAGE:young Korean person signing apartment lease contract in modern office]
-  - 키워드 "강아지 예방접종" → [IMAGE:veterinarian giving vaccine injection to cute puppy at clean clinic]
-  - 키워드 "2026 월배당 ETF" → [IMAGE:professional stock market chart showing monthly dividend growth on screen]
+  - 키워드 "청년 전세대출" → [IMAGE:young Korean person signing apartment lease contract in modern office, no text, no letters, no words, no writing]
+  - 키워드 "강아지 예방접종" → [IMAGE:veterinarian giving vaccine injection to cute puppy at clean clinic, no text, no letters, no words, no writing]
+  - 키워드 "2026 월배당 ETF" → [IMAGE:professional stock market chart showing monthly dividend growth on screen, no text, no letters, no words, no writing]
 - 이미지는 본문의 핵심 내용을 시각적으로 보여주는 위치에 배치
 
 ## 말투 규칙

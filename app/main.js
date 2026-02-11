@@ -127,7 +127,15 @@ ipcMain.handle('write-post', async (event, options) => {
     const { getSearchContext } = require('../src/search');
     const { generateArticle } = require('../src/writer');
 
+    // 진행률 전송 헬퍼
+    const sendProgress = (step, percent) => {
+      if (mainWindow && !mainWindow.isDestroyed()) {
+        mainWindow.webContents.send('write-progress', { step, percent });
+      }
+    };
+
     // 1. WordPress 연결
+    sendProgress('WordPress 연결 중...', 5);
     const wp = new WordPressAPI();
     const connected = await wp.testConnection();
     if (!connected) {
@@ -135,9 +143,11 @@ ipcMain.handle('write-post', async (event, options) => {
     }
 
     // 2. 웹 검색 컨텍스트
+    sendProgress('웹 검색 중...', 20);
     const webContext = await getSearchContext(keyword);
 
     // 3. 기존 글 분석
+    sendProgress('기존 글 분석 중...', 25);
     let wpContext = '';
     const existingPosts = await wp.searchPosts(keyword, 3);
     if (existingPosts.length > 0) {
@@ -147,12 +157,14 @@ ipcMain.handle('write-post', async (event, options) => {
     }
 
     // 4. AI 글 생성
+    sendProgress('AI 글 생성 중...', 60);
     const article = await generateArticle(keyword, webContext, wpContext, style, length);
     if (!article.success) {
       return { success: false, error: article.error };
     }
 
     // 4.5. 이미지 처리: DALL-E 3로 이미지 생성 후 WordPress에 업로드
+    sendProgress('이미지 생성 중...', 80);
     let contentWithImages = article.content;
     if (article.imageMarkers && article.imageMarkers.length > 0 && config.OPENAI_API_KEY) {
       for (let i = 0; i < article.imageMarkers.length; i++) {
@@ -162,7 +174,7 @@ ipcMain.handle('write-post', async (event, options) => {
           // DALL-E 3으로 이미지 생성
           const dalleResponse = await axios.post('https://api.openai.com/v1/images/generations', {
             model: 'dall-e-3',
-            prompt: `Blog illustration: ${description}. Professional, clean, informative style, suitable for Korean blog post.`,
+            prompt: `Blog illustration: ${description}. Professional, clean, informative style. ABSOLUTELY NO TEXT, NO LETTERS, NO WORDS, NO NUMBERS, NO WRITING, NO CHARACTERS in the image. Pure visual illustration only.`,
             n: 1,
             size: '1024x1024',
             quality: 'standard'
@@ -238,12 +250,15 @@ ipcMain.handle('write-post', async (event, options) => {
     }
 
     // 5. WordPress에 저장
+    sendProgress('WordPress 저장 중...', 95);
     const status = publish ? 'publish' : 'draft';
     const result = await wp.createPost(article.title, contentWithImages, status);
 
     if (!result.success) {
       return { success: false, error: result.error };
     }
+
+    sendProgress('완료!', 100);
 
     return {
       success: true,
@@ -267,14 +282,24 @@ async function processOneKeyword(keyword, style, length, publish) {
   const { getSearchContext } = require('../src/search');
   const { generateArticle } = require('../src/writer');
 
+  // 큐 모드 진행률 전송 헬퍼
+  const sendProgress = (step, percent) => {
+    if (mainWindow && !mainWindow.isDestroyed()) {
+      mainWindow.webContents.send('write-progress', { step, percent, keyword });
+    }
+  };
+
+  sendProgress('WordPress 연결 중...', 5);
   const wp = new WordPressAPI();
   const connected = await wp.testConnection();
   if (!connected) {
     throw new Error('WordPress 연결 실패');
   }
 
+  sendProgress('웹 검색 중...', 20);
   const webContext = await getSearchContext(keyword);
 
+  sendProgress('기존 글 분석 중...', 25);
   let wpContext = '';
   const existingPosts = await wp.searchPosts(keyword, 3);
   if (existingPosts.length > 0) {
@@ -283,12 +308,14 @@ async function processOneKeyword(keyword, style, length, publish) {
     ).join('\n\n');
   }
 
+  sendProgress('AI 글 생성 중...', 60);
   const article = await generateArticle(keyword, webContext, wpContext, style, length);
   if (!article.success) {
     throw new Error(article.error);
   }
 
   // 이미지 처리
+  sendProgress('이미지 생성 중...', 80);
   let contentWithImages = article.content;
   if (article.imageMarkers && article.imageMarkers.length > 0 && config.OPENAI_API_KEY) {
     for (let i = 0; i < article.imageMarkers.length; i++) {
@@ -297,7 +324,7 @@ async function processOneKeyword(keyword, style, length, publish) {
         const axios = require('axios');
         const dalleResponse = await axios.post('https://api.openai.com/v1/images/generations', {
           model: 'dall-e-3',
-          prompt: `Blog illustration: ${description}. Professional, clean, informative style, suitable for Korean blog post.`,
+          prompt: `Blog illustration: ${description}. Professional, clean, informative style. ABSOLUTELY NO TEXT, NO LETTERS, NO WORDS, NO NUMBERS, NO WRITING, NO CHARACTERS in the image. Pure visual illustration only.`,
           n: 1,
           size: '1024x1024',
           quality: 'standard'
@@ -365,12 +392,15 @@ async function processOneKeyword(keyword, style, length, publish) {
   }
 
   // WordPress에 저장
+  sendProgress('WordPress 저장 중...', 95);
   const postStatus = publish ? 'publish' : 'draft';
   const result = await wp.createPost(article.title, contentWithImages, postStatus);
 
   if (!result.success) {
     throw new Error(result.error);
   }
+
+  sendProgress('완료!', 100);
 
   // 색인 요청
   let indexingResults = {};

@@ -18,6 +18,9 @@ contextBridge.exposeInMainWorld('api', {
   getQueueStatus: () => ipcRenderer.invoke('get-queue-status'),
   onQueueProgress: (callback) => ipcRenderer.on('queue-progress', (_, data) => callback(data)),
 
+  // 글 작성 진행률 수신
+  onWriteProgress: (callback) => ipcRenderer.on('write-progress', (_, data) => callback(data)),
+
   // Google 서비스 계정 JSON 파일 선택
   selectJsonFile: () => ipcRenderer.invoke('select-json-file')
 });
