@@ -4,7 +4,7 @@ on:
   schedule:
     - cron: '0 23 * * *'   # KST 08:00 — 출근길 직장인 타겟
     - cron: '0 12 * * *'   # KST 21:00 — 퇴근 후 쉬는 시간 타겟
-  workflow_dispatch:
+  workflow_dispatch:        # 수동 실행 가능
 
 permissions:
   contents: write
@@ -12,7 +12,7 @@ permissions:
 jobs:
   post:
     runs-on: ubuntu-latest
-    timeout-minutes: 130
+    timeout-minutes: 45
 
     steps:
       - name: Checkout repository
@@ -32,19 +32,25 @@ jobs:
       - name: Create .env.threads
         working-directory: ./auto-post
         run: |
-          cat <<EOF > .env.threads
+          cat > .env.threads << 'ENVEOF'
           CLAUDE_API_KEY=${{ secrets.CLAUDE_API_KEY }}
           THREADS_USER_ID=${{ secrets.THREADS_USER_ID }}
           THREADS_ACCESS_TOKEN=${{ secrets.THREADS_ACCESS_TOKEN }}
           TELEGRAM_BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID=${{ secrets.TELEGRAM_CHAT_ID }}
-          EOF
-          echo "=== .env.threads 내용 (마스킹) ==="
+          ENVEOF
+          # 앞뒤 공백 제거
+          sed -i 's/^[[:space:]]*//' .env.threads
+          sed -i 's/[[:space:]]*$//' .env.threads
+          sed -i '/^$/d' .env.threads
+          echo "=== .env.threads 확인 ==="
           sed 's/=.*/=***/' .env.threads
 
       - name: Generate and post to Threads (Telegram approval)
         working-directory: ./auto-post
-        run: node threads-post.js --telegram
+        env:
+          CLAUDE_API_KEY: ${{ secrets.CLAUDE_API_KEY }}
+        run: node threads-run-once.js
 
       - name: Commit updated post history
         run: |
