@@ -160,7 +160,18 @@ async function generateArticle(keyword, webContext = '', wpContext = '', style =
 - <h2>: 각 섹션 제목 (키워드 포함, 질문형 또는 "~하는 법" 형태) - **반드시 id 속성 포함** (예: <h2 id="sec1">)
 - <h3>: 세부 항목
 - <p>: 일반 문단
-- <table>, <tr>, <th>, <td>: 비교, 항목 설명에 활용
+- <table>: 비교, 항목 설명에 활용. **반드시 인라인 스타일 포함!** 예시:
+  <table style="width:100%;border-collapse:collapse;margin:20px 0;font-size:15px;">
+    <thead><tr style="background:#667eea;color:#fff;">
+      <th style="padding:12px 16px;text-align:left;border:1px solid #ddd;">항목</th>
+    </tr></thead>
+    <tbody><tr style="background:#f9f9f9;">
+      <td style="padding:12px 16px;border:1px solid #ddd;">내용</td>
+    </tr></tbody>
+  </table>
+  - <th>: 보라색 배경(#667eea) + 흰 글씨 + border + padding 필수
+  - <td>: border + padding 필수, 짝수 행은 background:#f9f9f9
+  - 테이블 스타일 없이 <table> 태그만 쓰는 것은 금지
 - <ul>, <li>: 체크리스트, 나열
 - <strong>: 굵게 강조 (**사용 금지, <strong> 사용)
 - <em>: 기울임 강조
@@ -305,10 +316,6 @@ ${h2Matches.map((h, i) => `<li style="margin:8px 0;"><a href="#${h.id}" style="c
         content = tocHtml + content;
       }
     }
-
-    // === 후처리: 글 제목(H1) 크기 조정 CSS 삽입 ===
-    const postStyleCss = `<style>.entry-title{font-size:1.8rem!important;line-height:1.4!important}</style>`;
-    content = postStyleCss + content;
 
     return {
       success: true,
