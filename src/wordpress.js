@@ -76,10 +76,11 @@ class WordPressAPI {
     }
   }
 
-  async createPost(title, content, status = 'draft', categories = null, tags = null) {
+  async createPost(title, content, status = 'draft', categories = null, tags = null, featuredMediaId = null) {
     const data = { title, content, status };
     if (categories) data.categories = categories;
     if (tags) data.tags = tags;
+    if (featuredMediaId) data.featured_media = featuredMediaId;
 
     try {
       const response = await axios.post(`${this.baseUrl}/posts`, data, {

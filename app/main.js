@@ -166,6 +166,7 @@ ipcMain.handle('write-post', async (event, options) => {
     // 4.5. 이미지 처리: DALL-E 3로 이미지 생성 후 WordPress에 업로드
     sendProgress('이미지 생성 중...', 80);
     let contentWithImages = article.content;
+    let featuredImageId = null;
     if (article.imageMarkers && article.imageMarkers.length > 0 && config.OPENAI_API_KEY) {
       for (let i = 0; i < article.imageMarkers.length; i++) {
         const description = article.imageMarkers[i];
@@ -191,6 +192,8 @@ ipcMain.handle('write-post', async (event, options) => {
           // WordPress에 이미지 업로드
           const imgResult = await wp.uploadImage(imageUrl, `${keyword.replace(/\s+/g, '-')}-${i + 1}`);
           if (imgResult.success) {
+            // 첫 번째 이미지를 특성 이미지로 지정
+            if (i === 0) featuredImageId = imgResult.id;
             const imgHtml = `<figure style="margin:30px 0;text-align:center;"><img src="${imgResult.url}" alt="${keyword} 관련 이미지" style="max-width:100%;height:auto;border-radius:10px;" /><figcaption style="color:#888;font-size:0.85rem;margin-top:8px;">${keyword}</figcaption></figure>`;
             contentWithImages = contentWithImages.replace(`<!--IMAGE_PLACEHOLDER_${i}-->`, imgHtml);
           } else {
@@ -252,7 +255,7 @@ ipcMain.handle('write-post', async (event, options) => {
     // 5. WordPress에 저장
     sendProgress('WordPress 저장 중...', 95);
     const status = publish ? 'publish' : 'draft';
-    const result = await wp.createPost(article.title, contentWithImages, status);
+    const result = await wp.createPost(article.title, contentWithImages, status, null, null, featuredImageId);
 
     if (!result.success) {
       return { success: false, error: result.error };
@@ -317,6 +320,7 @@ async function processOneKeyword(keyword, style, length, publish) {
   // 이미지 처리
   sendProgress('이미지 생성 중...', 80);
   let contentWithImages = article.content;
+  let featuredImageId = null;
   if (article.imageMarkers && article.imageMarkers.length > 0 && config.OPENAI_API_KEY) {
     for (let i = 0; i < article.imageMarkers.length; i++) {
       const description = article.imageMarkers[i];
@@ -339,6 +343,8 @@ async function processOneKeyword(keyword, style, length, publish) {
         const imageUrl = dalleResponse.data.data[0].url;
         const imgResult = await wp.uploadImage(imageUrl, `${keyword.replace(/\s+/g, '-')}-${i + 1}`);
         if (imgResult.success) {
+          // 첫 번째 이미지를 특성 이미지로 지정
+          if (i === 0) featuredImageId = imgResult.id;
           const imgHtml = `<figure style="margin:30px 0;text-align:center;"><img src="${imgResult.url}" alt="${keyword} 관련 이미지" style="max-width:100%;height:auto;border-radius:10px;" /><figcaption style="color:#888;font-size:0.85rem;margin-top:8px;">${keyword}</figcaption></figure>`;
           contentWithImages = contentWithImages.replace(`<!--IMAGE_PLACEHOLDER_${i}-->`, imgHtml);
         } else {
@@ -394,7 +400,7 @@ async function processOneKeyword(keyword, style, length, publish) {
   // WordPress에 저장
   sendProgress('WordPress 저장 중...', 95);
   const postStatus = publish ? 'publish' : 'draft';
-  const result = await wp.createPost(article.title, contentWithImages, postStatus);
+  const result = await wp.createPost(article.title, contentWithImages, postStatus, null, null, featuredImageId);
 
   if (!result.success) {
     throw new Error(result.error);
