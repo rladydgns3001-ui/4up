@@ -410,15 +410,20 @@
         margin-bottom: 20px;
     }
 
+    .ap-demo-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 16px;
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
     .ap-demo-card {
-        display: inline-block;
         background: white;
-        border-radius: 20px;
-        padding: 30px;
-        box-shadow: 0 10px 40px rgba(102, 126, 234, 0.2);
+        border-radius: 16px;
+        padding: 22px;
+        box-shadow: 0 4px 20px rgba(102, 126, 234, 0.15);
         cursor: pointer;
-        max-width: 600px;
-        width: 100%;
         text-align: left;
         transition: all 0.3s;
         border: 2px solid transparent;
@@ -1230,6 +1235,10 @@
             padding: 16px;
         }
 
+        .ap-demo-grid {
+            grid-template-columns: 1fr;
+        }
+
         .ap-demo-card {
             padding: 22px;
         }
@@ -1489,6 +1498,14 @@ AutoPost를 사용하면서 글 쓰는 시간을 완전히 절약하게 됐고, 
         </div>
     </section>
 
+    <!-- ========== 스티키 탭 네비게이션 ========== -->
+    <nav class="ap-tab-nav">
+        <a class="ap-tab active" href="#section-intro">제품 소개</a>
+        <a class="ap-tab" href="#section-compare">성능 비교</a>
+        <a class="ap-tab" href="#section-reviews">리뷰 999+</a>
+        <a class="ap-tab" href="#section-faq">FAQ</a>
+    </nav>
+
     <!-- ========== 3. 신뢰 뱃지 (2x2) ========== -->
     <section class="ap-trust" id="section-intro">
         <div class="ap-trust-grid">
@@ -1517,10 +1534,11 @@ AutoPost를 사용하면서 글 쓰는 시간을 완전히 절약하게 됐고, 
 
     <!-- ========== 4. 실제 작성된 글 샘플 (LIVE DEMO) ========== -->
     <section class="ap-demo-section">
-        <div style="max-width: 800px; margin: 0 auto; text-align: center;">
+        <div style="max-width: 960px; margin: 0 auto; text-align: center;">
             <span class="ap-demo-badge">LIVE DEMO</span>
             <h2 class="ap-section-title">실제 프로그램으로 <span>작성된 글</span></h2>
             <p class="ap-section-subtitle" style="margin-bottom: 35px;">아래 글은 AutoPost SEO Writer가 키워드 하나로 자동 작성한 실제 블로그 글입니다.</p>
+            <div class="ap-demo-grid">
             <div class="ap-demo-card" onclick="window.open('https://wpauto.kr/%EC%B2%AD%EB%85%84%EB%AF%B8%EB%9E%98%EC%A0%81%EA%B8%88-%EC%99%84%EC%A0%84-%EC%A0%95%EB%B3%B5-2026%EB%85%84-%EC%B5%9C%EC%8B%A0-%ED%98%9C%ED%83%9D%EA%B3%BC-%EA%B0%80%EC%9E%85-%EB%B0%A9%EB%B2%95/','_blank')">
                 <span style="background: #667eea; color: white; padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 700;">AI 자동 작성</span>
                 <span style="color: #aaa; font-size: 0.8rem; margin-left: 8px;">wpauto.kr</span>
@@ -1541,6 +1559,7 @@ AutoPost를 사용하면서 글 쓰는 시간을 완전히 절약하게 됐고, 
                 <h3 style="font-size: 1.15rem; font-weight: 800; color: #333; margin: 12px 0 10px; line-height: 1.5;">소상공인 바우처 2026년 신청 방법 총정리 — 지원금액부터 조건까지</h3>
                 <div style="color: #888; font-size: 0.9rem; line-height: 1.6; margin-bottom: 15px;">SEO 최적화 구조, 목차, FAQ까지 모두 자동으로 생성된 실제 글입니다.</div>
                 <div style="display: flex; align-items: center; gap: 8px; color: #667eea; font-weight: 700; font-size: 0.95rem;">실제 글 확인하기 <span style="font-size: 1.2rem;">→</span></div>
+            </div>
             </div>
         </div>
     </section>
