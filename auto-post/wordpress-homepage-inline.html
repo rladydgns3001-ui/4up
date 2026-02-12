@@ -26,6 +26,7 @@
 .ap-m-feature-card:hover { border-color: #667eea; box-shadow: 0 10px 30px rgba(102,126,234,0.1); }
 .ap-m-feature-card.pro-feat { background: #faf8ff !important; border-color: #e6d5ff !important; }
 .ap-m-feature-card.pro-feat:hover { border-color: #764ba2 !important; box-shadow: 0 10px 30px rgba(118,75,162,0.15) !important; }
+.page-id-17 .entry-content ul, .page-id-17 .entry-content li { list-style: none !important; margin-left: 0 !important; padding-left: 0 !important; }
 .ap-m-faq-item .ap-m-faq-answer { display: none; }
 .ap-m-faq-item.active .ap-m-faq-answer { display: block; }
 .ap-m-faq-item.active .ap-m-faq-arrow { transform: rotate(180deg); }
@@ -109,7 +110,7 @@
                 <span style="color: #999; font-size: 0.85rem;">(999+ 리뷰)</span>
             </div>
 
-            <ul style="list-style: none; margin-bottom: 10px; padding: 0;">
+            <ul style="list-style: none; margin: 0 0 10px 0; padding: 0;">
                 <li style="padding: 2px 0; font-size: 0.95rem; display: flex; align-items: center; gap: 8px; color: #555;"><span style="color: #667eea; font-weight: 700; font-size: 1.1rem;">&#10003;</span> Claude AI 최신 모델 — 사람이 쓴 듯한 고품질 글</li>
                 <li style="padding: 2px 0; font-size: 0.95rem; display: flex; align-items: center; gap: 8px; color: #555;"><span style="color: #667eea; font-weight: 700; font-size: 1.1rem;">&#10003;</span> 구글 SEO 완벽 최적화 — 검색 상위 노출</li>
                 <li style="padding: 2px 0; font-size: 0.95rem; display: flex; align-items: center; gap: 8px; color: #555;"><span style="color: #667eea; font-weight: 700; font-size: 1.1rem;">&#10003;</span> 애드센스 광고 자동 삽입 — 즉시 수익화</li>
@@ -585,13 +586,15 @@ function selectPlan(plan) {
 /* 리뷰 더보기 토글 */
 function toggleReview(n) {
     var el = document.getElementById('rv-text-' + n);
-    el.classList.toggle('expanded');
+    var btn = el.nextElementSibling;
     if (el.style.maxHeight === 'none') {
         el.style.maxHeight = '160px';
-        el.nextElementSibling.textContent = '[더보기]';
+        el.style.overflow = 'hidden';
+        btn.textContent = '[더보기]';
     } else {
         el.style.maxHeight = 'none';
-        el.nextElementSibling.textContent = '[접기]';
+        el.style.overflow = 'visible';
+        btn.textContent = '[접기]';
     }
 }
 
