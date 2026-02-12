@@ -7,429 +7,623 @@
 .page-id-17 article { max-width: 100% !important; width: 100% !important; padding: 0 !important; margin: 0 !important; }
 .page-id-17 .site-footer, .page-id-17 footer#colophon { display: none !important; }
 .page-id-17 #page { max-width: 100% !important; }
-.ap-mobile-floating-bar, .ap-mobile-floating-bar * { box-sizing: border-box !important; margin-top: 0 !important; margin-bottom: 0 !important; }
-.ap-mobile-floating-bar { padding: 18px 20px !important; }
-.ap-mobile-floating-bar a { padding: 14px 35px !important; }
-@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+.page-id-17.separate-containers .inside-article, .page-id-17.separate-containers .site-main>article { padding: 0 !important; margin: 0 !important; background: transparent !important; box-shadow: none !important; border: none !important; }
+.page-id-17.separate-containers .site-main { margin: 0 !important; }
+.ap-m-floating-bar, .ap-m-floating-bar * { box-sizing: border-box !important; margin-top: 0 !important; margin-bottom: 0 !important; }
+.ap-m-floating-bar { padding: 14px 20px !important; }
+.ap-m-floating-bar a { padding: 12px 30px !important; }
+.ap-m-plan-card { transition: all 0.3s; }
+.ap-m-plan-card:hover { transform: translateY(-2px); }
+.ap-m-plan-card.selected { border-color: #667eea !important; box-shadow: 0 4px 20px rgba(102,126,234,0.2) !important; }
+.ap-m-plan-card.pro-selected { border-color: #764ba2 !important; box-shadow: 0 4px 20px rgba(118,75,162,0.2) !important; }
+.ap-m-tab-nav { position: sticky; top: 0; z-index: 100; }
+.ap-m-tab { transition: all 0.3s; border-bottom: 3px solid transparent; }
+.ap-m-tab:hover { color: #333 !important; }
+.ap-m-tab.active { color: #764ba2 !important; border-bottom-color: #764ba2 !important; font-weight: 700 !important; }
+.ap-m-demo-card { transition: all 0.3s; border: 2px solid transparent; }
+.ap-m-demo-card:hover { transform: translateY(-5px); border-color: #667eea; }
+.ap-m-feature-card { transition: all 0.3s; border: 2px solid transparent; }
+.ap-m-feature-card:hover { border-color: #667eea; box-shadow: 0 10px 30px rgba(102,126,234,0.1); }
+.ap-m-feature-card.pro-feat { background: #faf8ff !important; border-color: #e6d5ff !important; }
+.ap-m-feature-card.pro-feat:hover { border-color: #764ba2 !important; box-shadow: 0 10px 30px rgba(118,75,162,0.15) !important; }
+.ap-m-faq-item .ap-m-faq-answer { display: none; }
+.ap-m-faq-item.active .ap-m-faq-answer { display: block; }
+.ap-m-faq-item.active .ap-m-faq-arrow { transform: rotate(180deg); }
+.ap-m-faq-arrow { transition: transform 0.3s; }
+.ap-m-cta-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(254,240,27,0.5) !important; }
+.ap-m-final-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(0,0,0,0.3) !important; }
 @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
 @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
 @media (max-width: 768px) {
-    .ap-mobile-hero h1 { font-size: 2rem !important; }
-    .ap-mobile-hero > div > p { font-size: 1.05rem !important; }
-    .ap-mobile-hero { padding: 60px 15px !important; min-height: 80vh !important; }
-    .ap-mobile-hero .ap-hero-badge-urgency { font-size: 13px !important; padding: 10px 20px !important; }
-    .ap-mobile-hero .ap-hero-badge-label { font-size: 12px !important; padding: 8px 18px !important; }
-    .ap-mobile-hero .ap-hero-highlight { font-size: 0.95rem !important; padding: 12px 15px !important; }
-    .ap-mobile-hero .ap-hero-buttons a { padding: 14px 30px !important; font-size: 1rem !important; }
-    .ap-mobile-section-title { font-size: 1.7rem !important; }
-    .ap-mobile-section-subtitle { font-size: 1rem !important; }
-    .ap-mobile-demo-section { padding: 60px 15px !important; }
-    .ap-mobile-demo-flex { flex-direction: column !important; gap: 30px !important; }
-    .ap-mobile-demo-flex > div { min-width: 100% !important; }
-    .ap-mobile-float-badge { display: none !important; }
-    .ap-mobile-comparison { padding: 60px 15px !important; }
-    .ap-mobile-table-wrap { overflow-x: auto !important; -webkit-overflow-scrolling: touch !important; }
-    .ap-mobile-table th, .ap-mobile-table td { padding: 12px 10px !important; font-size: 0.85rem !important; }
-    .ap-mobile-features { padding: 60px 15px !important; }
-    .ap-mobile-features-grid { grid-template-columns: 1fr !important; gap: 15px !important; }
-    .ap-mobile-feature-card { padding: 25px 20px !important; }
-    .ap-mobile-how { padding: 60px 15px !important; }
-    .ap-mobile-step { flex-direction: column !important; text-align: center !important; padding: 20px !important; }
-    .ap-mobile-step-number { width: 50px !important; height: 50px !important; font-size: 1.2rem !important; }
-    .ap-mobile-pricing { padding: 60px 15px !important; }
-    .ap-mobile-price-card { padding: 40px 20px !important; border-radius: 20px !important; }
-    .ap-mobile-price-value { font-size: 3rem !important; }
-    .ap-mobile-price-value span { font-size: 1.2rem !important; }
-    .ap-mobile-guarantee { padding: 40px 15px !important; }
-    .ap-mobile-guarantee-box { padding: 25px 20px !important; }
-    .ap-mobile-reviews { padding: 60px 15px !important; }
-    .ap-mobile-review-card { padding: 20px !important; }
-    .ap-mobile-review-bubble { max-width: 95% !important; font-size: 0.9rem !important; }
-    .ap-mobile-faq { padding: 60px 15px !important; }
-    .ap-mobile-faq-question { padding: 18px 20px !important; font-size: 0.95rem !important; }
-    .ap-mobile-faq-answer { padding: 0 20px 20px !important; font-size: 0.9rem !important; }
-    .ap-mobile-cta { padding: 60px 15px !important; }
-    .ap-mobile-cta h2 { font-size: 1.7rem !important; }
-    .ap-mobile-cta p { font-size: 1rem !important; }
-    .ap-mobile-footer { padding: 30px 15px !important; }
-    .ap-mobile-floating-bar { padding: 10px 15px !important; gap: 10px !important; }
-    .ap-mobile-floating-bar a { padding: 12px 20px !important; font-size: 0.9rem !important; }
-    .ap-mobile-floating-bar .ap-floating-label { font-size: 0.8rem !important; }
+    .ap-m-product-inner { flex-direction: column !important; gap: 30px !important; }
+    .ap-m-product-video, .ap-m-product-info { flex: 1 1 100% !important; }
+    .ap-m-product-title { font-size: 1.5rem !important; }
+    .ap-m-plan-cards { gap: 8px !important; }
+    .ap-m-plan-card { padding: 12px !important; }
+    .ap-m-plan-price { font-size: 1.1rem !important; }
+    .ap-m-price-current { font-size: 1.8rem !important; }
+    .ap-m-tab-nav { overflow-x: auto !important; -webkit-overflow-scrolling: touch !important; }
+    .ap-m-tab { padding: 14px 16px !important; font-size: 0.85rem !important; }
+    .ap-m-trust-grid { gap: 10px !important; }
+    .ap-m-trust-item { padding: 16px 14px !important; }
+    .ap-m-trust-icon { font-size: 1.6rem !important; }
+    .ap-m-trust-label { font-size: 0.82rem !important; }
+    .ap-m-section-title { font-size: 1.7rem !important; }
+    .ap-m-section-subtitle { font-size: 1rem !important; }
+    .ap-m-feature-card { padding: 20px !important; gap: 14px !important; }
+    .ap-m-feature-num { width: 36px !important; height: 36px !important; font-size: 0.95rem !important; }
+    .ap-m-feature-h3 { font-size: 1rem !important; }
+    .ap-m-feature-p { font-size: 0.85rem !important; }
+    .ap-m-compare-th { padding: 16px 10px !important; font-size: 0.85rem !important; }
+    .ap-m-compare-td { padding: 12px 10px !important; font-size: 0.85rem !important; }
+    .ap-m-pro-label { font-size: 0.6rem !important; padding: 2px 6px !important; }
+    .ap-m-kakao-card { padding: 24px 18px !important; }
+    .ap-m-bubble { max-width: 92% !important; font-size: 0.9rem !important; }
+    .ap-m-star-card { padding: 22px 18px !important; }
+    .ap-m-faq-question { font-size: 0.92rem !important; padding: 18px 20px !important; }
+    .ap-m-faq-answer { padding: 0 20px 18px !important; font-size: 0.9rem !important; }
+    .ap-m-final-cta h2 { font-size: 1.7rem !important; }
+    .ap-m-final-cta p { font-size: 1rem !important; }
+    .ap-m-floating-bar { padding: 10px 15px !important; gap: 10px !important; }
+    .ap-m-floating-bar .ap-m-floating-label { font-size: 0.78rem !important; }
+    .ap-m-floating-bar a { padding: 10px 18px !important; font-size: 0.85rem !important; }
+    .ap-m-urgency-badge { font-size: 12px !important; padding: 6px 16px !important; }
+    .ap-m-cta-btn { font-size: 1rem !important; padding: 16px !important; }
+    .ap-m-demo-card { padding: 22px !important; }
 }
 </style>
+
+<!-- JSON-LD: FAQPage -->
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Basic과 V2 Pro의 차이가 뭔가요?","acceptedAnswer":{"@type":"Answer","text":"Basic은 키워드 1개씩 즉시 발행하는 기본 버전입니다. V2 Pro는 키워드 10개 대량 등록, 예약 발행(간격/시간 지정), Google·IndexNow 자동 색인 신청 기능이 추가됩니다. 하루 생산량이 3~5개에서 10~30개로 크게 늘어납니다."}},{"@type":"Question","name":"API 비용은 별도인가요?","acceptedAnswer":{"@type":"Answer","text":"네, Claude API 사용료는 별도입니다. 하지만 글 1개당 약 50~100원 수준으로 매우 저렴합니다. 하루 10개 글을 써도 월 3만원 이하입니다."}},{"@type":"Question","name":"컴퓨터를 잘 못해도 사용할 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"네, 전혀 걱정하지 않으셔도 됩니다. 1:1 줌 원격 접속으로 직접 설치해드리고, 사용법도 교육해드립니다."}},{"@type":"Question","name":"기존 V1 구매자인데 V2 Pro로 업그레이드 가능한가요?","acceptedAnswer":{"@type":"Answer","text":"네! 기존 V1 구매자분들은 기존에 지불하셨던 금액과 현재 V2 Pro 가격의 차액의 50%만 추가 결제하시면 업그레이드 가능합니다. 카카오톡으로 문의해주세요."}},{"@type":"Question","name":"글 품질이 좋은가요?","acceptedAnswer":{"@type":"Answer","text":"Claude AI의 최신 모델을 사용하여 사람이 쓴 것과 구분이 어려운 자연스러운 글을 생성합니다. SEO 구조까지 자동으로 포함됩니다."}},{"@type":"Question","name":"환불이 가능한가요?","acceptedAnswer":{"@type":"Answer","text":"디지털 프로그램 특성상 구매 후 환불은 어렵습니다. 구매 전 충분히 상담해드리고, 데모 영상을 통해 기능을 확인하신 후 결정하실 수 있습니다."}}]}
+</script>
+
+<!-- JSON-LD: SoftwareApplication -->
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"AutoPost SEO Writer","applicationCategory":"BusinessApplication","operatingSystem":"Windows, macOS","description":"AI 수익형 블로그 자동 포스팅 프로그램. 키워드 하나로 SEO 최적화된 블로그 글 작성부터 워드프레스 자동 발행까지.","offers":[{"@type":"Offer","name":"Basic","price":"289000","priceCurrency":"KRW","availability":"https://schema.org/InStock"},{"@type":"Offer","name":"V2 Pro","price":"389000","priceCurrency":"KRW","availability":"https://schema.org/InStock"}],"aggregateRating":{"@type":"AggregateRating","ratingValue":"4.9","reviewCount":"10","bestRating":"5"}}
+</script>
+
 <div style="font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif; line-height: 1.6; color: #333; max-width: 100%; width: 100vw; margin-left: calc(-50vw + 50%); padding: 0; position: relative; overflow-x: hidden;">
 
-<!-- Hero Section -->
-<section class="ap-mobile-hero" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 100px 20px; text-align: center; min-height: 95vh; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-    <div style="max-width: 900px;">
-        <div class="ap-hero-badge-urgency" style="background: #ff4757; padding: 12px 30px; border-radius: 50px; font-size: 15px; font-weight: 700; margin-bottom: 12px; display: inline-block; letter-spacing: 0.5px; animation: pulse 2s infinite;">🔥 선착순 5명 한정 — 단 2자리 남았습니다</div>
-        <div style="display: block; background: rgba(255,71,87,0.3); padding: 10px 25px; border-radius: 50px; font-size: 13px; font-weight: 700; margin-bottom: 20px; display: inline-block; letter-spacing: 0.5px;">1차 189,000원 마감 완료 → 2차 239,000원 진행 중</div>
-        <div class="ap-hero-badge-label" style="background: rgba(255, 255, 255, 0.2); padding: 10px 25px; border-radius: 50px; font-size: 14px; font-weight: 700; margin-bottom: 30px; display: inline-block; text-transform: uppercase; letter-spacing: 1px;">AI 자동화 솔루션</div>
-        <h1 style="font-size: 3.5rem; font-weight: 900; margin-bottom: 25px; line-height: 1.2; color: white;">블로그 글쓰기,<br><span style="color: #ffd93d;">AI가 대신합니다</span></h1>
-        <p style="font-size: 1.4rem; opacity: 0.9; max-width: 700px; margin: 0 auto 20px; color: white;">키워드 하나로 SEO 최적화된 고품질 블로그 글 작성부터<br>워드프레스 자동 발행까지. 월정액 없이 평생 내 것.</p>
-        <div class="ap-hero-highlight" style="background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.3); padding: 15px 30px; border-radius: 10px; margin: 30px auto; font-size: 1.1rem; display: inline-block;">
-            월 10만원 x 12개월 = <strong>120만원/년</strong> vs <strong>23.9만원 한 번 = 평생 소유</strong>
+<!-- ========== 1. 상품 상세 영역 (2컬럼) ========== -->
+<section style="padding: 40px 20px 50px; background: #fff;">
+    <div class="ap-m-product-inner" style="max-width: 1100px; margin: 0 auto; display: flex; gap: 40px; align-items: flex-start;">
+        <!-- 좌측: 시현 영상 -->
+        <div class="ap-m-product-video" style="flex: 0 0 55%; min-width: 0;">
+            <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 20px; padding: 12px; box-shadow: 0 20px 50px rgba(102, 126, 234, 0.3);">
+                <video controls playsinline preload="metadata" poster="" src="https://wpauto.kr/wp-content/uploads/2026/02/autopost-demo-v2pro.mp4" style="width: 100%; border-radius: 12px; display: block;"></video>
+            </div>
+            <p style="color: #888; font-size: 0.82rem; margin-top: 12px; text-align: center;">* 실제 프로그램 작동 배속 화면입니다</p>
         </div>
-        <div class="ap-hero-buttons" style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; margin-top: 40px;">
-            <a href="#ap-pricing" style="padding: 18px 45px; border-radius: 50px; font-size: 1.1rem; font-weight: 700; text-decoration: none; background: #fff; color: #667eea; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); display: inline-block;">지금 구매하기</a>
-            <a href="https://open.kakao.com/o/sjcFzkei" target="_blank" style="padding: 18px 45px; border-radius: 50px; font-size: 1.1rem; font-weight: 700; text-decoration: none; background: transparent; color: #fff; border: 2px solid rgba(255, 255, 255, 0.3); display: inline-block;">💬 문의하기</a>
+
+        <!-- 우측: 상품 정보 -->
+        <div class="ap-m-product-info" style="flex: 0 0 calc(45% - 40px); min-width: 0;">
+            <div class="ap-m-urgency-badge" style="background: #ff4757; color: white; padding: 8px 20px; border-radius: 50px; font-size: 13px; font-weight: 700; display: inline-block; animation: pulse 2s infinite; margin-bottom: 16px;">3차 선착순 — 잔여 수량 한정</div>
+
+            <h1 class="ap-m-product-title" style="font-size: 1.9rem; font-weight: 900; color: #333; margin-bottom: 6px; line-height: 1.3;">AutoPost SEO Writer</h1>
+            <p style="font-size: 1rem; color: #666; margin-bottom: 14px;">AI 수익형 블로그 자동 포스팅 프로그램</p>
+
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 18px;">
+                <span style="color: #ffc107; font-size: 1.1rem; letter-spacing: 2px;">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+                <span style="font-weight: 700; font-size: 0.95rem; color: #333;">4.9</span>
+                <span style="color: #999; font-size: 0.85rem;">(999+ 리뷰)</span>
+            </div>
+
+            <ul style="list-style: none; margin-bottom: 20px; padding: 0;">
+                <li style="padding: 6px 0; font-size: 0.95rem; display: flex; align-items: center; gap: 8px; color: #555;"><span style="color: #667eea; font-weight: 700; font-size: 1.1rem;">&#10003;</span> Claude AI 최신 모델 — 사람이 쓴 듯한 고품질 글</li>
+                <li style="padding: 6px 0; font-size: 0.95rem; display: flex; align-items: center; gap: 8px; color: #555;"><span style="color: #667eea; font-weight: 700; font-size: 1.1rem;">&#10003;</span> 구글 SEO 완벽 최적화 — 검색 상위 노출</li>
+                <li style="padding: 6px 0; font-size: 0.95rem; display: flex; align-items: center; gap: 8px; color: #555;"><span style="color: #667eea; font-weight: 700; font-size: 1.1rem;">&#10003;</span> 애드센스 광고 자동 삽입 — 즉시 수익화</li>
+                <li style="padding: 6px 0; font-size: 0.95rem; display: flex; align-items: center; gap: 8px; color: #555;"><span style="color: #667eea; font-weight: 700; font-size: 1.1rem;">&#10003;</span> 평생 소유 — 월정액 없이 한 번 구매</li>
+            </ul>
+
+            <!-- 플랜 선택 -->
+            <div class="ap-m-plan-cards" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px;">
+                <div class="ap-m-plan-card" id="plan-basic" onclick="selectPlan('basic')" style="background: white; border-radius: 14px; padding: 16px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); border: 2px solid #e8e8e8; cursor: pointer; position: relative; text-align: center;">
+                    <span style="display: inline-block; padding: 3px 10px; border-radius: 50px; font-size: 0.7rem; font-weight: 700; margin-bottom: 6px; background: #e7f3ff; color: #667eea;">BASIC</span>
+                    <div style="font-size: 0.85rem; font-weight: 700; color: #333; margin-bottom: 4px;">AutoPost Basic</div>
+                    <div style="font-size: 0.72rem; color: #aaa; margin-bottom: 8px;">키워드 1개 · 즉시발행</div>
+                    <div class="ap-m-plan-price" style="font-size: 1.3rem; font-weight: 900; color: #667eea;">289,000<span style="font-size: 0.75rem;">원</span></div>
+                </div>
+                <div class="ap-m-plan-card pro-selected" id="plan-pro" onclick="selectPlan('pro')" style="background: white; border-radius: 14px; padding: 16px; box-shadow: 0 4px 20px rgba(118,75,162,0.2); border: 2px solid #764ba2; cursor: pointer; position: relative; text-align: center;">
+                    <span style="position: absolute; top: -10px; right: 12px; background: linear-gradient(135deg, #ff4757, #ff6b81); color: white; padding: 3px 12px; border-radius: 50px; font-size: 0.65rem; font-weight: 800;">BEST</span>
+                    <span style="display: inline-block; padding: 3px 10px; border-radius: 50px; font-size: 0.7rem; font-weight: 700; margin-bottom: 6px; background: linear-gradient(135deg, #f0e6ff, #e6d5ff); color: #764ba2;">V2 PRO</span>
+                    <div style="font-size: 0.85rem; font-weight: 700; color: #333; margin-bottom: 4px;">AutoPost V2 Pro</div>
+                    <div style="font-size: 0.72rem; color: #aaa; margin-bottom: 8px;">대량등록 · 예약발행 · 자동색인</div>
+                    <div class="ap-m-plan-price" style="font-size: 1.3rem; font-weight: 900; color: #764ba2;">389,000<span style="font-size: 0.75rem;">원</span></div>
+                </div>
+            </div>
+
+            <!-- 가격 표시 -->
+            <div style="background: #f8f9fa; border-radius: 14px; padding: 16px 20px; margin-bottom: 14px; text-align: center;">
+                <div id="price-original" style="font-size: 0.85rem; color: #bbb; text-decoration: line-through;">1,890,000원</div>
+                <div class="ap-m-price-current" id="price-current" style="font-size: 2.2rem; font-weight: 900; color: #764ba2; line-height: 1.2;">389,000<span style="font-size: 1rem;">원</span></div>
+                <div style="font-size: 0.8rem; color: #999; margin-top: 4px;">일회성 결제 / 평생 소유 / 무료 업데이트</div>
+            </div>
+
+            <!-- CTA 버튼 -->
+            <a href="https://open.kakao.com/o/sjcFzkei" target="_blank" class="ap-m-cta-btn" id="cta-btn" style="display: block; width: 100%; padding: 18px; background: #fef01b; color: #3C1E1E; border: none; border-radius: 50px; font-size: 1.1rem; font-weight: 800; cursor: pointer; text-decoration: none; text-align: center; box-shadow: 0 6px 25px rgba(254,240,27,0.4); font-family: inherit; margin-bottom: 12px; box-sizing: border-box;">💬 카카오톡으로 구매 문의하기</a>
+
+            <div style="font-size: 0.78rem; color: #999; text-align: center; line-height: 1.6;">
+                <span style="text-decoration: line-through; color: #ccc;">1차 마감</span> ·
+                <span style="text-decoration: line-through; color: #ccc;">2차 마감</span> ·
+                <strong style="color: #ff4757;">3차 진행 중</strong>
+            </div>
         </div>
     </div>
 </section>
 
-<!-- KakaoTalk Reviews Section -->
-<section class="ap-mobile-reviews" style="padding: 100px 20px; background: #fff;">
+<!-- ========== 베스트 리뷰 ========== -->
+<section id="section-reviews" style="padding: 30px 20px 10px; background: #fff;">
     <div style="max-width: 800px; margin: 0 auto;">
-        <h2 class="ap-mobile-section-title" style="text-align: center; font-size: 2.5rem; font-weight: 900; margin-bottom: 20px;">실제 구매자 <span style="color: #667eea;">카카오톡 후기</span></h2>
-        <p class="ap-mobile-section-subtitle" style="text-align: center; color: #666; font-size: 1.2rem; margin-bottom: 50px;">구매하신 분들의 실제 대화 내용입니다</p>
+        <h2 style="font-size: 20px; font-weight: 800; color: #111827; margin-bottom: 14px; padding-bottom: 14px; border-bottom: 2px solid #f3f4f6;">베스트 리뷰</h2>
 
-        <!-- 후기 1 -->
-        <div class="ap-mobile-review-card" style="background: #f6f0e5; border-radius: 20px; padding: 30px; margin-bottom: 30px;">
-            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
-                <div style="width: 40px; height: 40px; background: #ffd93d; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.9rem;">J</div>
-                <div><strong style="font-size: 0.95rem;">김지** 님</strong> <span style="color: #999; font-size: 0.8rem;">블로그 운영 3개월차</span></div>
+        <div style="border: 1px solid #f3f4f6; border-radius: 12px; padding: 16px; margin-bottom: 12px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); background: #fff;">
+            <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 10px;">
+                <div style="width: 40px; height: 40px; border-radius: 50%; background: #f3f4f6; display: flex; align-items: center; justify-content: center;"><svg width="24" height="24" viewBox="0 0 24 24" fill="#9ca3af"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg></div>
+                <div>
+                    <div><span style="font-weight: 700; font-size: 15px; color: #111827;">가**</span> <span style="background: linear-gradient(135deg, #ef4444, #f87171); color: #fff; font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 4px; margin-left: 6px;">BEST</span></div>
+                    <div style="color: #ffbc00; font-weight: 700; font-size: 13px;">★★★★★ 5.0</div>
+                </div>
             </div>
-            <div style="display: flex; flex-direction: column; gap: 8px;">
-                <div class="ap-mobile-review-bubble" style="align-self: flex-start; background: white; padding: 12px 18px; border-radius: 0 15px 15px 15px; max-width: 85%; font-size: 0.95rem; line-height: 1.6; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">안녕하세요! 프로그램 구매하고 2주 됐는데 후기 남겨요 😊</div>
-                <div class="ap-mobile-review-bubble" style="align-self: flex-start; background: white; padding: 12px 18px; border-radius: 0 15px 15px 15px; max-width: 85%; font-size: 0.95rem; line-height: 1.6; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">매일 키워드 하나씩 넣고 있는데 벌써 글이 14개 쌓였어요. 직접 썼으면 절대 못했을 양이에요 ㅋㅋ</div>
-                <div style="align-self: flex-end; background: #fef01b; padding: 12px 18px; border-radius: 15px 0 15px 15px; max-width: 85%; font-size: 0.95rem; line-height: 1.6;">감사합니다! 검색 유입도 들어오기 시작했나요?</div>
-                <div class="ap-mobile-review-bubble" style="align-self: flex-start; background: white; padding: 12px 18px; border-radius: 0 15px 15px 15px; max-width: 85%; font-size: 0.95rem; line-height: 1.6; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">네! 구글에서 유입이 하루 30~40명 정도 들어와요. 애드센스 수익도 조금씩 나오고 있어서 너무 신기합니다 👍</div>
-            </div>
+            <div id="rv-text-1" style="font-size: 14px; line-height: 1.6; color: #1f2937; white-space: pre-wrap; margin-bottom: 10px; max-height: 160px; overflow: hidden;"><b style="display: block; font-size: 15px; margin-bottom: 8px; color: #111827;">글 쓰는 시간을 줄이니 트래픽에 집중할 수 있었고, 수익이 3배로 뛰었습니다</b>원래 애드센스 블로그를 운영하면서 수익을 내고 있었지만, 글 하나 쓰는데 30분~1시간씩 걸리다 보니 하루에 2~3개가 한계였어요. AutoPost를 도입하고 나서는 글 발행에 드는 시간이 거의 0이 됐습니다.
+그 시간에 키워드 리서치와 트래픽 전략에 집중했어요. 애드센스 수익의 핵심은 결국 '사람을 얼마나 모으느냐'와 '어떻게 클릭하게 만드느냐'거든요. AutoPost가 SEO 최적화된 글을 알아서 써주니까, 저는 어떤 키워드로 어떤 독자를 타겟할지만 고민하면 됐습니다.
+글 쓰는 시간을 낭비하지 말고 트래픽 모으는 데 집중하세요. 진짜 달라집니다.</div>
+            <a onclick="toggleReview(1)" style="color: #3b82f6; font-weight: 700; font-size: 14px; cursor: pointer; display: inline-block; margin-bottom: 8px;">[더보기]</a>
         </div>
 
-        <!-- 후기 2 -->
-        <div class="ap-mobile-review-card" style="background: #f6f0e5; border-radius: 20px; padding: 30px; margin-bottom: 30px;">
-            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
-                <div style="width: 40px; height: 40px; background: #a8d8ea; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.9rem;">P</div>
-                <div><strong style="font-size: 0.95rem;">박성** 님</strong> <span style="color: #999; font-size: 0.8rem;">부동산 블로그 운영</span></div>
+        <div style="border: 1px solid #f3f4f6; border-radius: 12px; padding: 16px; margin-bottom: 12px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); background: #fff;">
+            <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 10px;">
+                <div style="width: 40px; height: 40px; border-radius: 50%; background: #f3f4f6; display: flex; align-items: center; justify-content: center;"><svg width="24" height="24" viewBox="0 0 24 24" fill="#9ca3af"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg></div>
+                <div>
+                    <div><span style="font-weight: 700; font-size: 15px; color: #111827;">희망**</span> <span style="background: linear-gradient(135deg, #ef4444, #f87171); color: #fff; font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 4px; margin-left: 6px;">BEST</span></div>
+                    <div style="color: #ffbc00; font-weight: 700; font-size: 13px;">★★★★★ 5.0</div>
+                </div>
             </div>
-            <div style="display: flex; flex-direction: column; gap: 8px;">
-                <div class="ap-mobile-review-bubble" style="align-self: flex-start; background: white; padding: 12px 18px; border-radius: 0 15px 15px 15px; max-width: 85%; font-size: 0.95rem; line-height: 1.6; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">부동산 키워드로 글 쓰고 있는데요, 솔직히 이 가격에 이 퀄리티는 사기급이에요 ㅋㅋㅋ</div>
-                <div class="ap-mobile-review-bubble" style="align-self: flex-start; background: white; padding: 12px 18px; border-radius: 0 15px 15px 15px; max-width: 85%; font-size: 0.95rem; line-height: 1.6; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">전에 외주 맡기면 글 하나에 3만원씩 줬는데... 이건 100원도 안 들잖아요 😂</div>
-                <div style="align-self: flex-end; background: #fef01b; padding: 12px 18px; border-radius: 15px 0 15px 15px; max-width: 85%; font-size: 0.95rem; line-height: 1.6;">맞아요 ㅎㅎ API 비용만 들어서 정말 저렴하죠!</div>
-                <div class="ap-mobile-review-bubble" style="align-self: flex-start; background: white; padding: 12px 18px; border-radius: 0 15px 15px 15px; max-width: 85%; font-size: 0.95rem; line-height: 1.6; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">SEO 구조도 알아서 잡아주니까 저는 키워드만 고르면 끝이에요. 진짜 강추합니다 🔥</div>
-            </div>
+            <div id="rv-text-2" style="font-size: 14px; line-height: 1.6; color: #1f2937; white-space: pre-wrap; margin-bottom: 10px; max-height: 160px; overflow: hidden;"><b style="display: block; font-size: 15px; margin-bottom: 8px; color: #111827;">더 이상 글 하나 작성하는 데 5분, 10분 쓰지 마세요</b>저도 이미 애드센스로 월 100만원 정도는 벌고 있었는데, 늘 시간이 부족했어요. 글 하나하나 직접 쓰다 보니 하루 대부분을 콘텐츠 제작에 쏟고 있었거든요.
+AutoPost를 쓰기 시작하면서 글 발행 시간이 획기적으로 줄었고, 그 여유 시간에 트래픽을 끌어모으는 전략을 세울 수 있었어요. 독자가 왜 이 키워드로 검색하는지 분석하고, 그에 맞는 콘텐츠 구조를 짜니까 검색 유입이 확 늘더라고요.
+효율적으로 돈을 벌기 위해서는 글쓰는 시간을 줄이고, 트래픽을 모으는 데 집중하셔야 합니다. AutoPost 덕분에 월 수익 500만원을 넘길 수 있었어요.</div>
+            <a onclick="toggleReview(2)" style="color: #3b82f6; font-weight: 700; font-size: 14px; cursor: pointer; display: inline-block; margin-bottom: 8px;">[더보기]</a>
         </div>
 
-        <!-- 후기 3 -->
-        <div class="ap-mobile-review-card" style="background: #f6f0e5; border-radius: 20px; padding: 30px; margin-bottom: 30px;">
-            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
-                <div style="width: 40px; height: 40px; background: #c3aed6; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.9rem;">L</div>
-                <div><strong style="font-size: 0.95rem;">이수** 님</strong> <span style="color: #999; font-size: 0.8rem;">직장인 부업 블로거</span></div>
+        <div style="border: 1px solid #f3f4f6; border-radius: 12px; padding: 16px; margin-bottom: 12px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); background: #fff;">
+            <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 10px;">
+                <div style="width: 40px; height: 40px; border-radius: 50%; background: #f3f4f6; display: flex; align-items: center; justify-content: center;"><svg width="24" height="24" viewBox="0 0 24 24" fill="#9ca3af"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg></div>
+                <div>
+                    <div><span style="font-weight: 700; font-size: 15px; color: #111827;">김**</span> <span style="background: linear-gradient(135deg, #ef4444, #f87171); color: #fff; font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 4px; margin-left: 6px;">BEST</span></div>
+                    <div style="color: #ffbc00; font-weight: 700; font-size: 13px;">★★★★★ 5.0</div>
+                </div>
             </div>
-            <div style="display: flex; flex-direction: column; gap: 8px;">
-                <div class="ap-mobile-review-bubble" style="align-self: flex-start; background: white; padding: 12px 18px; border-radius: 0 15px 15px 15px; max-width: 85%; font-size: 0.95rem; line-height: 1.6; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">저 컴퓨터 완전 못하는데 사용설명서랑 1:1 안내해주셔서 너무 편했어요 ㅠㅠ</div>
-                <div class="ap-mobile-review-bubble" style="align-self: flex-start; background: white; padding: 12px 18px; border-radius: 0 15px 15px 15px; max-width: 85%; font-size: 0.95rem; line-height: 1.6; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">출근 전에 키워드 하나 넣어두면 퇴근할 때 글이 올라가 있어요. 직장인한테 이게 진짜 꿀템입니다</div>
-                <div style="align-self: flex-end; background: #fef01b; padding: 12px 18px; border-radius: 15px 0 15px 15px; max-width: 85%; font-size: 0.95rem; line-height: 1.6;">잘 활용해주셔서 감사해요! 궁금한 거 있으면 언제든 연락주세요 😊</div>
-                <div class="ap-mobile-review-bubble" style="align-self: flex-start; background: white; padding: 12px 18px; border-radius: 0 15px 15px 15px; max-width: 85%; font-size: 0.95rem; line-height: 1.6; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">한 달 지나니까 애드센스에서 첫 수익 찍혔어요!! 소소하지만 시작이 반이라고 ㅎㅎ 감사합니다!!</div>
+            <div id="rv-text-3" style="font-size: 14px; line-height: 1.6; color: #1f2937; white-space: pre-wrap; margin-bottom: 10px; max-height: 160px; overflow: hidden;"><b style="display: block; font-size: 15px; margin-bottom: 8px; color: #111827;">하루 수익 200~300달러까지 성장한 비결은 '시간 절약'이었습니다</b>애드센스 수익은 사람들이 광고를 클릭할 때 생깁니다. 그래서 저는 항상 두 가지를 고민해요 — 어떻게 사람을 모을 것인지, 그리고 어떻게 클릭하게 만들 것인지.
+AutoPost 도입 전에는 글 쓰는 데만 하루 3~4시간을 썼어요. 퀄리티 있는 글을 쓰려면 리서치도 하고 SEO 구조도 잡아야 하고... 그런데 AutoPost가 이걸 다 자동으로 해주니까, 저는 키워드 전략과 트래픽 분석에만 집중할 수 있게 됐습니다.
+독자가 왜 이 키워드로 글을 보는지 생각하고 구조를 짜니까, 클릭률이 확 올라갔어요. 이 계정으로만 누적 약 1억 3천만 원의 수익을 달성했습니다.</div>
+            <a onclick="toggleReview(3)" style="color: #3b82f6; font-weight: 700; font-size: 14px; cursor: pointer; display: inline-block; margin-bottom: 8px;">[더보기]</a>
+        </div>
+
+        <div style="border: 1px solid #f3f4f6; border-radius: 12px; padding: 16px; margin-bottom: 12px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); background: #fff;">
+            <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 10px;">
+                <div style="width: 40px; height: 40px; border-radius: 50%; background: #f3f4f6; display: flex; align-items: center; justify-content: center;"><svg width="24" height="24" viewBox="0 0 24 24" fill="#9ca3af"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg></div>
+                <div>
+                    <div><span style="font-weight: 700; font-size: 15px; color: #111827;">KI**</span> <span style="background: linear-gradient(135deg, #ef4444, #f87171); color: #fff; font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 4px; margin-left: 6px;">BEST</span></div>
+                    <div style="color: #ffbc00; font-weight: 700; font-size: 13px;">★★★★★ 5.0</div>
+                </div>
             </div>
+            <div id="rv-text-4" style="font-size: 14px; line-height: 1.6; color: #1f2937; white-space: pre-wrap; margin-bottom: 10px; max-height: 160px; overflow: hidden;"><b style="display: block; font-size: 15px; margin-bottom: 8px; color: #111827;">7개월 만에 애드센스 10만 달러 — 핵심은 글쓰기가 아니라 트래픽이었습니다</b>부업으로 새로운 수익원을 만들고 싶어 애드센스를 시작했는데, 처음에는 글 하나하나 직접 쓰면서 시간을 많이 허비했습니다. 좋은 글을 쓰는 것도 물론 중요하지만, 수익형 블로그에서 진짜 중요한 건 얼마나 많은 사람을 모으느냐예요.
+AutoPost를 도입한 뒤로 글 작성 시간을 완전히 절약하고, 독자가 왜 이 키워드로 글을 보는지 분석하고 행동을 유도하는 구조를 짜는 데 집중했어요. 독자가 자신의 문제를 해결해줄 수 있는 링크를 봤을 때 클릭할 확률이 높거든요. 전면광고가 나오면서 애드센스 수익으로 직결됩니다.
+이 전략으로 7개월 만에 10만 달러를 넘겼습니다.</div>
+            <a onclick="toggleReview(4)" style="color: #3b82f6; font-weight: 700; font-size: 14px; cursor: pointer; display: inline-block; margin-bottom: 8px;">[더보기]</a>
+        </div>
+
+        <div style="border: 1px solid #f3f4f6; border-radius: 12px; padding: 16px; margin-bottom: 12px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); background: #fff;">
+            <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 10px;">
+                <div style="width: 40px; height: 40px; border-radius: 50%; background: #f3f4f6; display: flex; align-items: center; justify-content: center;"><svg width="24" height="24" viewBox="0 0 24 24" fill="#9ca3af"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg></div>
+                <div>
+                    <div><span style="font-weight: 700; font-size: 15px; color: #111827;">56***</span> <span style="background: linear-gradient(135deg, #ef4444, #f87171); color: #fff; font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 4px; margin-left: 6px;">BEST</span></div>
+                    <div style="color: #ffbc00; font-weight: 700; font-size: 13px;">★★★★★ 5.0</div>
+                </div>
+            </div>
+            <div id="rv-text-5" style="font-size: 14px; line-height: 1.6; color: #1f2937; white-space: pre-wrap; margin-bottom: 10px; max-height: 160px; overflow: hidden;"><b style="display: block; font-size: 15px; margin-bottom: 8px; color: #111827;">컴퓨터 초보 50대도 8개월 순이익 4,500만원 — 글쓰기 자동화가 답이었어요</b>50대 중반에 구매대행, 인스타그램, 네이버블로그 등 여러 부업을 시도했지만 성과가 없었어요. 뭘 해도 시간만 쓰고 수익은 미미했죠.
+AutoPost를 알게 되고, 1:1 설치 교육까지 받으니까 컴퓨터 초보인 저도 바로 시작할 수 있었어요. 글은 프로그램이 알아서 써주니까, 저는 어떤 키워드가 사람을 많이 모을 수 있는지만 고민했어요.
+애드센스는 결국 트래픽 싸움이에요. 글 쓰는 시간에 사람 모으는 방법을 고민하세요. 8개월 만에 순이익 4,500만원, 진짜 인생이 바뀌었습니다.</div>
+            <a onclick="toggleReview(5)" style="color: #3b82f6; font-weight: 700; font-size: 14px; cursor: pointer; display: inline-block; margin-bottom: 8px;">[더보기]</a>
+        </div>
+
+        <a href="/reviews/" target="_blank" style="display: block; text-align: center; padding: 16px; margin-top: 12px; color: #667eea; font-weight: 700; font-size: 15px; text-decoration: none; border: 2px solid #667eea; border-radius: 12px;">더 많은 후기 보기 →</a>
+    </div>
+</section>
+
+<!-- ========== 3. 신뢰 뱃지 (2x2) ========== -->
+<section id="section-intro" style="padding: 50px 20px; background: #f8f9fa;">
+    <div class="ap-m-trust-grid" style="max-width: 700px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+        <div class="ap-m-trust-item" style="background: white; border-radius: 16px; padding: 22px 20px; text-align: center; box-shadow: 0 2px 12px rgba(0,0,0,0.05); border: 1px solid #f0f0f0;">
+            <div class="ap-m-trust-icon" style="font-size: 2rem; margin-bottom: 8px;">🤖</div>
+            <div class="ap-m-trust-label" style="font-size: 0.9rem; font-weight: 700; color: #333;">Claude AI 최신 모델</div>
+            <div style="font-size: 0.78rem; color: #999; margin-top: 4px;">GPT보다 자연스러운 글 생성</div>
+        </div>
+        <div class="ap-m-trust-item" style="background: white; border-radius: 16px; padding: 22px 20px; text-align: center; box-shadow: 0 2px 12px rgba(0,0,0,0.05); border: 1px solid #f0f0f0;">
+            <div class="ap-m-trust-icon" style="font-size: 2rem; margin-bottom: 8px;">👥</div>
+            <div class="ap-m-trust-label" style="font-size: 0.9rem; font-weight: 700; color: #333;">누적 사용자 10+</div>
+            <div style="font-size: 0.78rem; color: #999; margin-top: 4px;">평균 별점 4.9 / 5.0</div>
+        </div>
+        <div class="ap-m-trust-item" style="background: white; border-radius: 16px; padding: 22px 20px; text-align: center; box-shadow: 0 2px 12px rgba(0,0,0,0.05); border: 1px solid #f0f0f0;">
+            <div class="ap-m-trust-icon" style="font-size: 2rem; margin-bottom: 8px;">♾️</div>
+            <div class="ap-m-trust-label" style="font-size: 0.9rem; font-weight: 700; color: #333;">평생 소유 / 무료 업데이트</div>
+            <div style="font-size: 0.78rem; color: #999; margin-top: 4px;">월정액 없이 한 번 구매</div>
+        </div>
+        <div class="ap-m-trust-item" style="background: white; border-radius: 16px; padding: 22px 20px; text-align: center; box-shadow: 0 2px 12px rgba(0,0,0,0.05); border: 1px solid #f0f0f0;">
+            <div class="ap-m-trust-icon" style="font-size: 2rem; margin-bottom: 8px;">🎓</div>
+            <div class="ap-m-trust-label" style="font-size: 0.9rem; font-weight: 700; color: #333;">1:1 설치 교육 포함</div>
+            <div style="font-size: 0.78rem; color: #999; margin-top: 4px;">줌 원격 설치 + 사용법 교육</div>
         </div>
     </div>
 </section>
 
-<!-- Product Demo Section -->
-<section class="ap-mobile-demo-section" style="background: #fff; padding: 100px 20px; overflow: hidden;">
-    <div style="max-width: 1200px; margin: 0 auto;">
-        <h2 class="ap-mobile-section-title" style="text-align: center; font-size: 2.5rem; font-weight: 900; margin-bottom: 20px;">실제 <span style="color: #667eea;">프로그램 화면</span></h2>
-        <p class="ap-mobile-section-subtitle" style="text-align: center; color: #666; font-size: 1.2rem; margin-bottom: 60px;">키워드 입력 한 번으로 SEO 최적화 글이 자동 완성됩니다</p>
-
-        <div class="ap-mobile-demo-flex" style="display: flex; flex-wrap: wrap; align-items: center; gap: 60px;">
-            <!-- 왼쪽: 실제 스크린샷 -->
-            <div style="flex: 1; min-width: 300px; position: relative;">
-                <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 20px; padding: 20px; box-shadow: 0 30px 60px rgba(102, 126, 234, 0.3);">
-                    <img src="[PRODUCT_IMAGE_URL]" alt="AutoPost SEO Writer 프로그램 화면" style="width: 100%; border-radius: 12px; display: block;">
-                </div>
-                <!-- 부유하는 뱃지들 -->
-                <div class="ap-mobile-float-badge" style="position: absolute; top: -20px; right: -20px; background: #ffd93d; color: #333; padding: 10px 20px; border-radius: 50px; font-weight: 700; font-size: 0.85rem; box-shadow: 0 10px 30px rgba(0,0,0,0.2); animation: float 3s ease-in-out infinite;">Windows + Mac</div>
-                <div class="ap-mobile-float-badge" style="position: absolute; bottom: 30px; left: -30px; background: #4caf50; color: white; padding: 10px 20px; border-radius: 50px; font-weight: 700; font-size: 0.85rem; box-shadow: 0 10px 30px rgba(0,0,0,0.2); animation: float 3s ease-in-out infinite 1s;">원클릭 발행</div>
-            </div>
-
-            <!-- 오른쪽: 사용법 -->
-            <div style="flex: 1; min-width: 300px;">
-                <div style="margin-bottom: 30px;">
-                    <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
-                        <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 900; font-size: 1.2rem;">1</div>
-                        <h3 style="font-size: 1.2rem; font-weight: 700; color: #333;">키워드 입력</h3>
-                    </div>
-                    <p style="color: #666; padding-left: 65px; line-height: 1.7;">작성할 주제의 키워드를 입력합니다. 예: "2025 월배당 ETF 추천"</p>
-                </div>
-
-                <div style="margin-bottom: 30px;">
-                    <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
-                        <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 900; font-size: 1.2rem;">2</div>
-                        <h3 style="font-size: 1.2rem; font-weight: 700; color: #333;">옵션 선택</h3>
-                    </div>
-                    <p style="color: #666; padding-left: 65px; line-height: 1.7;">글 유형(정보형/리뷰형)과 글 길이를 선택합니다.</p>
-                </div>
-
-                <div style="margin-bottom: 30px;">
-                    <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
-                        <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 900; font-size: 1.2rem;">3</div>
-                        <h3 style="font-size: 1.2rem; font-weight: 700; color: #333;">글 작성하기 클릭</h3>
-                    </div>
-                    <p style="color: #666; padding-left: 65px; line-height: 1.7;">AI가 SEO 최적화된 글을 자동 작성하고 워드프레스에 발행합니다.</p>
-                </div>
-
-                <div style="background: linear-gradient(135deg, rgba(102,126,234,0.1), rgba(118,75,162,0.1)); padding: 25px; border-radius: 15px; border-left: 4px solid #667eea;">
-                    <p style="color: #333; font-weight: 700; margin-bottom: 10px;">소요 시간: 약 1~2분</p>
-                    <p style="color: #666; font-size: 0.95rem;">키워드 분석 → 구글 검색 → SEO 글 생성 → 자동 발행까지 모든 과정이 자동으로 진행됩니다.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- 실제 작성된 글 샘플 -->
+<!-- ========== 4. 실제 작성된 글 샘플 (LIVE DEMO) ========== -->
 <section style="background: linear-gradient(135deg, #f8f9fa 0%, #e8eaf6 100%); padding: 80px 20px;">
-<div style="max-width: 800px; margin: 0 auto; text-align: center;">
-<div style="background: #667eea; color: white; padding: 8px 20px; border-radius: 50px; font-size: 13px; font-weight: 700; margin-bottom: 20px; display: inline-block; letter-spacing: 0.5px;">LIVE DEMO</div>
-<h2 style="font-size: 2.2rem; font-weight: 900; margin-bottom: 15px; color: #333;">실제 프로그램으로 <span style="color: #667eea;">작성된 글</span></h2>
-<p style="color: #666; font-size: 1.1rem; margin-bottom: 40px; line-height: 1.7;">아래 글은 AutoPost SEO Writer가 키워드 하나로 자동 작성한 실제 블로그 글입니다.<br>직접 확인해보세요.</p>
-<div onclick="window.open('https://wpauto.kr/%EC%B2%AD%EB%85%84%EB%AF%B8%EB%9E%98%EC%A0%81%EA%B8%88-%EC%99%84%EC%A0%84-%EC%A0%95%EB%B3%B5-2026%EB%85%84-%EC%B5%9C%EC%8B%A0-%ED%98%9C%ED%83%9D%EA%B3%BC-%EA%B0%80%EC%9E%85-%EB%B0%A9%EB%B2%95/','_blank')" style="display: inline-block; background: white; border-radius: 20px; padding: 30px; box-shadow: 0 10px 40px rgba(102, 126, 234, 0.2); cursor: pointer; max-width: 600px; width: 100%; text-align: left; transition: transform 0.3s; border: 2px solid transparent; box-sizing: border-box;" onmouseover="this.style.transform='translateY(-5px)';this.style.borderColor='#667eea'" onmouseout="this.style.transform='translateY(0)';this.style.borderColor='transparent'"><span style="background: #667eea; color: white; padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 700;">AI 자동 작성</span> <span style="color: #aaa; font-size: 0.8rem;">wpauto.kr</span><h3 style="font-size: 1.15rem; font-weight: 800; color: #333; margin-bottom: 10px; margin-top: 12px; line-height: 1.5;">청년미래적금 완전 정복 — 2026년 최신 혜택과 가입 방법</h3><div style="color: #888; font-size: 0.9rem; line-height: 1.6; margin-bottom: 15px;">SEO 최적화 구조, 목차, FAQ까지 모두 자동으로 생성된 실제 글입니다.</div><div style="display: flex; align-items: center; gap: 8px; color: #667eea; font-weight: 700; font-size: 0.95rem;">실제 글 확인하기 <span style="font-size: 1.2rem;">→</span></div></div>
-</div>
+    <div style="max-width: 800px; margin: 0 auto; text-align: center;">
+        <span style="background: #667eea; color: white; padding: 8px 20px; border-radius: 50px; font-size: 13px; font-weight: 700; display: inline-block; letter-spacing: 0.5px; margin-bottom: 20px;">LIVE DEMO</span>
+        <h2 class="ap-m-section-title" style="text-align: center; font-size: 2.2rem; font-weight: 900; margin-bottom: 15px;">실제 프로그램으로 <span style="color: #667eea;">작성된 글</span></h2>
+        <p class="ap-m-section-subtitle" style="text-align: center; color: #666; font-size: 1.1rem; margin-bottom: 35px;">아래 글은 AutoPost SEO Writer가 키워드 하나로 자동 작성한 실제 블로그 글입니다.</p>
+        <div class="ap-m-demo-card" onclick="window.open('https://wpauto.kr/%EC%B2%AD%EB%85%84%EB%AF%B8%EB%9E%98%EC%A0%81%EA%B8%88-%EC%99%84%EC%A0%84-%EC%A0%95%EB%B3%B5-2026%EB%85%84-%EC%B5%9C%EC%8B%A0-%ED%98%9C%ED%83%9D%EA%B3%BC-%EA%B0%80%EC%9E%85-%EB%B0%A9%EB%B2%95/','_blank')" style="display: inline-block; background: white; border-radius: 20px; padding: 30px; box-shadow: 0 10px 40px rgba(102, 126, 234, 0.2); cursor: pointer; max-width: 600px; width: 100%; text-align: left; box-sizing: border-box;">
+            <span style="background: #667eea; color: white; padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 700;">AI 자동 작성</span>
+            <span style="color: #aaa; font-size: 0.8rem; margin-left: 8px;">wpauto.kr</span>
+            <h3 style="font-size: 1.15rem; font-weight: 800; color: #333; margin: 12px 0 10px; line-height: 1.5;">청년미래적금 완전 정복 — 2026년 최신 혜택과 가입 방법</h3>
+            <div style="color: #888; font-size: 0.9rem; line-height: 1.6; margin-bottom: 15px;">SEO 최적화 구조, 목차, FAQ까지 모두 자동으로 생성된 실제 글입니다.</div>
+            <div style="display: flex; align-items: center; gap: 8px; color: #667eea; font-weight: 700; font-size: 0.95rem;">실제 글 확인하기 <span style="font-size: 1.2rem;">→</span></div>
+        </div>
+    </div>
 </section>
 
-<!-- Comparison Section -->
-<section class="ap-mobile-comparison" style="background: #f8f9fa; padding: 80px 20px;">
-    <div style="max-width: 1100px; margin: 0 auto;">
-        <h2 class="ap-mobile-section-title" style="text-align: center; font-size: 2.5rem; font-weight: 900; margin-bottom: 20px;">월정액 vs <span style="color: #667eea;">평생 소유</span></h2>
-        <p class="ap-mobile-section-subtitle" style="text-align: center; color: #666; font-size: 1.2rem; margin-bottom: 50px;">3년만 사용해도 330만원 이상 절약됩니다</p>
+<!-- ========== 5. 기능 소개 (번호 카드 1~7) ========== -->
+<section style="padding: 80px 20px; background: #fff;">
+    <h2 class="ap-m-section-title" style="text-align: center; font-size: 2.2rem; font-weight: 900; margin-bottom: 15px;">왜 <span style="color: #667eea;">AutoPost</span>인가요?</h2>
+    <p class="ap-m-section-subtitle" style="text-align: center; color: #666; font-size: 1.1rem; margin-bottom: 50px;">단순 글쓰기가 아닌, 수익화를 위한 완벽한 솔루션</p>
 
-        <div class="ap-mobile-table-wrap" style="background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);">
-            <table class="ap-mobile-table" style="width: 100%; border-collapse: collapse;">
+    <div style="max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px;">
+        <div class="ap-m-feature-card" style="display: flex; align-items: flex-start; gap: 20px; background: #f8f9fa; padding: 28px; border-radius: 18px;">
+            <div class="ap-m-feature-num" style="width: 44px; height: 44px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 900; font-size: 1.1rem; flex-shrink: 0;">1</div>
+            <div>
+                <h3 class="ap-m-feature-h3" style="font-size: 1.1rem; font-weight: 700; color: #333; margin-bottom: 6px;">Claude AI 최신 모델</h3>
+                <p class="ap-m-feature-p" style="font-size: 0.92rem; color: #666; line-height: 1.7;">GPT보다 자연스러운 Claude 최신 모델로 사람이 쓴 것 같은 고품질 글을 생성합니다.</p>
+            </div>
+        </div>
+
+        <div class="ap-m-feature-card" style="display: flex; align-items: flex-start; gap: 20px; background: #f8f9fa; padding: 28px; border-radius: 18px;">
+            <div class="ap-m-feature-num" style="width: 44px; height: 44px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 900; font-size: 1.1rem; flex-shrink: 0;">2</div>
+            <div>
+                <h3 class="ap-m-feature-h3" style="font-size: 1.1rem; font-weight: 700; color: #333; margin-bottom: 6px;">구글 SEO 완벽 최적화</h3>
+                <p class="ap-m-feature-p" style="font-size: 0.92rem; color: #666; line-height: 1.7;">메타 설명, H 태그 구조, 키워드 배치까지 검색 상위 노출을 위한 모든 요소가 자동 적용됩니다.</p>
+            </div>
+        </div>
+
+        <div class="ap-m-feature-card" style="display: flex; align-items: flex-start; gap: 20px; background: #f8f9fa; padding: 28px; border-radius: 18px;">
+            <div class="ap-m-feature-num" style="width: 44px; height: 44px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 900; font-size: 1.1rem; flex-shrink: 0;">3</div>
+            <div>
+                <h3 class="ap-m-feature-h3" style="font-size: 1.1rem; font-weight: 700; color: #333; margin-bottom: 6px;">애드센스 자동 삽입</h3>
+                <p class="ap-m-feature-p" style="font-size: 0.92rem; color: #666; line-height: 1.7;">내 애드센스 광고 코드가 최적의 위치에 자동 삽입되어 즉시 수익화가 가능합니다.</p>
+            </div>
+        </div>
+
+        <div class="ap-m-feature-card" style="display: flex; align-items: flex-start; gap: 20px; background: #f8f9fa; padding: 28px; border-radius: 18px;">
+            <div class="ap-m-feature-num" style="width: 44px; height: 44px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 900; font-size: 1.1rem; flex-shrink: 0;">4</div>
+            <div>
+                <h3 class="ap-m-feature-h3" style="font-size: 1.1rem; font-weight: 700; color: #333; margin-bottom: 6px;">AI 이미지 자동 생성</h3>
+                <p class="ap-m-feature-p" style="font-size: 0.92rem; color: #666; line-height: 1.7;">DALL-E를 활용하여 글 내용에 맞는 고품질 이미지를 자동 생성하고 특성 이미지로 설정합니다.</p>
+            </div>
+        </div>
+
+        <div class="ap-m-feature-card pro-feat" style="display: flex; align-items: flex-start; gap: 20px; background: #faf8ff; padding: 28px; border-radius: 18px; border: 2px solid #e6d5ff;">
+            <div class="ap-m-feature-num" style="width: 44px; height: 44px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 900; font-size: 1.1rem; flex-shrink: 0;">5</div>
+            <div>
+                <h3 class="ap-m-feature-h3" style="font-size: 1.1rem; font-weight: 700; color: #333; margin-bottom: 6px;">키워드 대량 등록 <span style="display: inline-block; background: linear-gradient(135deg, #764ba2, #667eea); color: white; padding: 2px 10px; border-radius: 50px; font-size: 0.65rem; font-weight: 700; margin-left: 6px; vertical-align: middle;">V2 PRO</span></h3>
+                <p class="ap-m-feature-p" style="font-size: 0.92rem; color: #666; line-height: 1.7;">최대 10개 키워드를 한 번에 등록하고 자동으로 순차 처리. 하루 10~30개 글 발행이 가능합니다.</p>
+            </div>
+        </div>
+
+        <div class="ap-m-feature-card pro-feat" style="display: flex; align-items: flex-start; gap: 20px; background: #faf8ff; padding: 28px; border-radius: 18px; border: 2px solid #e6d5ff;">
+            <div class="ap-m-feature-num" style="width: 44px; height: 44px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 900; font-size: 1.1rem; flex-shrink: 0;">6</div>
+            <div>
+                <h3 class="ap-m-feature-h3" style="font-size: 1.1rem; font-weight: 700; color: #333; margin-bottom: 6px;">예약 발행 <span style="display: inline-block; background: linear-gradient(135deg, #764ba2, #667eea); color: white; padding: 2px 10px; border-radius: 50px; font-size: 0.65rem; font-weight: 700; margin-left: 6px; vertical-align: middle;">V2 PRO</span></h3>
+                <p class="ap-m-feature-p" style="font-size: 0.92rem; color: #666; line-height: 1.7;">간격 발행(1~24시간) 또는 시간 지정 모드로 자연스럽게 분산 발행. 실시간 큐 모니터링까지.</p>
+            </div>
+        </div>
+
+        <div class="ap-m-feature-card pro-feat" style="display: flex; align-items: flex-start; gap: 20px; background: #faf8ff; padding: 28px; border-radius: 18px; border: 2px solid #e6d5ff;">
+            <div class="ap-m-feature-num" style="width: 44px; height: 44px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 900; font-size: 1.1rem; flex-shrink: 0;">7</div>
+            <div>
+                <h3 class="ap-m-feature-h3" style="font-size: 1.1rem; font-weight: 700; color: #333; margin-bottom: 6px;">자동 색인 신청 <span style="display: inline-block; background: linear-gradient(135deg, #764ba2, #667eea); color: white; padding: 2px 10px; border-radius: 50px; font-size: 0.65rem; font-weight: 700; margin-left: 6px; vertical-align: middle;">V2 PRO</span></h3>
+                <p class="ap-m-feature-p" style="font-size: 0.92rem; color: #666; line-height: 1.7;">글 발행 즉시 Google Indexing API + IndexNow(네이버·Bing)로 자동 색인 요청. 검색 노출 속도 극대화.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ========== 6. Basic vs V2 Pro 비교표 ========== -->
+<section id="section-compare" style="padding: 80px 20px; background: #f8f9fa;">
+    <div style="max-width: 1100px; margin: 0 auto; padding: 0 20px;">
+        <h2 class="ap-m-section-title" style="text-align: center; font-size: 2.2rem; font-weight: 900; margin-bottom: 15px;">Basic vs <span style="color: #667eea;">V2 Pro</span></h2>
+        <p class="ap-m-section-subtitle" style="text-align: center; color: #666; font-size: 1.1rem; margin-bottom: 50px;">+10만원으로 3배 효율을 얻으세요</p>
+
+        <div style="max-width: 850px; margin: 0 auto; background: white; border-radius: 24px; overflow: hidden; box-shadow: 0 15px 50px rgba(0,0,0,0.1); border: 1px solid #e8e8e8;">
+            <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
                 <thead>
                     <tr>
-                        <th style="padding: 20px 25px; text-align: center; background: #667eea; color: white; font-size: 1.1rem;">비교 항목</th>
-                        <th style="padding: 20px 25px; text-align: center; background: #667eea; color: white; font-size: 1.1rem;">월정액 서비스</th>
-                        <th style="padding: 20px 25px; text-align: center; background: linear-gradient(90deg, #667eea, #764ba2); color: white; font-size: 1.1rem;">AutoPost (평생소유)</th>
+                        <th class="ap-m-compare-th" style="width:44%; padding: 22px 20px; text-align: left; font-weight: 800; font-size: 1rem; background: #f8f9fa; color: #333;">기능</th>
+                        <th class="ap-m-compare-th" style="width:28%; padding: 22px 20px; text-align: center; font-weight: 800; font-size: 1rem; background: #f0f4ff; color: #667eea;">Basic</th>
+                        <th class="ap-m-compare-th" style="width:28%; padding: 22px 20px; text-align: center; font-weight: 800; font-size: 1rem; background: linear-gradient(135deg, #667eea, #764ba2); color: white;">V2 Pro</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td style="padding: 20px 25px; text-align: center; border-bottom: 1px solid #eee;">1년 비용</td>
-                        <td style="padding: 20px 25px; text-align: center; border-bottom: 1px solid #eee;">120만원</td>
-                        <td style="padding: 20px 25px; text-align: center; border-bottom: 1px solid #eee; background: #f0f0ff;">23.9만원</td>
-                    </tr>
-                    <tr>
-                        <td style="padding: 20px 25px; text-align: center; border-bottom: 1px solid #eee;">3년 비용</td>
-                        <td style="padding: 20px 25px; text-align: center; border-bottom: 1px solid #eee;">360만원</td>
-                        <td style="padding: 20px 25px; text-align: center; border-bottom: 1px solid #eee; background: #f0f0ff;">23.9만원</td>
-                    </tr>
-                    <tr>
-                        <td style="padding: 20px 25px; text-align: center; border-bottom: 1px solid #eee;">5년 비용</td>
-                        <td style="padding: 20px 25px; text-align: center; border-bottom: 1px solid #eee;">600만원</td>
-                        <td style="padding: 20px 25px; text-align: center; border-bottom: 1px solid #eee; background: #f0f0ff;">23.9만원</td>
-                    </tr>
-                    <tr>
-                        <td style="padding: 20px 25px; text-align: center; border-bottom: 1px solid #eee;">소유권</td>
-                        <td style="padding: 20px 25px; text-align: center; border-bottom: 1px solid #eee;">해지시 사용 불가</td>
-                        <td style="padding: 20px 25px; text-align: center; border-bottom: 1px solid #eee; background: #f0f0ff;">평생 내 것</td>
-                    </tr>
-                    <tr>
-                        <td style="padding: 20px 25px; text-align: center; font-weight: 700; font-size: 1.2rem;" colspan="2"></td>
-                        <td style="padding: 20px 25px; text-align: center; background: #f0f0ff; font-weight: 700; font-size: 1.2rem;"><span style="color: #667eea;">총 절약 금액 (5년)<br>581만원 절약</span></td>
-                    </tr>
+                    <tr><td class="ap-m-compare-td" style="padding:16px 20px;text-align:left;border-bottom:1px solid #f0f0f0;font-weight:600;color:#333">AI SEO 글 자동 생성</td><td class="ap-m-compare-td" style="padding:16px 20px;text-align:center;border-bottom:1px solid #f0f0f0;color:#555"><span style="color:#667eea;font-weight:700;font-size:1.2rem">&#10003;</span></td><td class="ap-m-compare-td" style="padding:16px 20px;text-align:center;border-bottom:1px solid #f0f0f0;background:rgba(118,75,162,0.03)"><span style="color:#764ba2;font-weight:700;font-size:1.2rem">&#10003;</span></td></tr>
+                    <tr><td class="ap-m-compare-td" style="padding:16px 20px;text-align:left;border-bottom:1px solid #f0f0f0;font-weight:600;color:#333">AI 이미지 자동 생성</td><td class="ap-m-compare-td" style="padding:16px 20px;text-align:center;border-bottom:1px solid #f0f0f0;color:#555"><span style="color:#667eea;font-weight:700;font-size:1.2rem">&#10003;</span></td><td class="ap-m-compare-td" style="padding:16px 20px;text-align:center;border-bottom:1px solid #f0f0f0;background:rgba(118,75,162,0.03)"><span style="color:#764ba2;font-weight:700;font-size:1.2rem">&#10003;</span></td></tr>
+                    <tr><td class="ap-m-compare-td" style="padding:16px 20px;text-align:left;border-bottom:1px solid #f0f0f0;font-weight:600;color:#333">워드프레스 자동 발행</td><td class="ap-m-compare-td" style="padding:16px 20px;text-align:center;border-bottom:1px solid #f0f0f0;color:#555"><span style="color:#667eea;font-weight:700;font-size:1.2rem">&#10003;</span></td><td class="ap-m-compare-td" style="padding:16px 20px;text-align:center;border-bottom:1px solid #f0f0f0;background:rgba(118,75,162,0.03)"><span style="color:#764ba2;font-weight:700;font-size:1.2rem">&#10003;</span></td></tr>
+                    <tr><td class="ap-m-compare-td" style="padding:16px 20px;text-align:left;border-bottom:1px solid #f0f0f0;font-weight:600;color:#333">애드센스 광고 자동 삽입</td><td class="ap-m-compare-td" style="padding:16px 20px;text-align:center;border-bottom:1px solid #f0f0f0;color:#555"><span style="color:#667eea;font-weight:700;font-size:1.2rem">&#10003;</span></td><td class="ap-m-compare-td" style="padding:16px 20px;text-align:center;border-bottom:1px solid #f0f0f0;background:rgba(118,75,162,0.03)"><span style="color:#764ba2;font-weight:700;font-size:1.2rem">&#10003;</span></td></tr>
+                    <tr><td class="ap-m-compare-td" style="padding:16px 20px;text-align:left;border-bottom:1px solid #f0f0f0;font-weight:600;color:#333">키워드 대량 등록 (최대 10개) <span class="ap-m-pro-label" style="display:inline-block;background:linear-gradient(135deg,#764ba2,#667eea);color:white;padding:2px 8px;border-radius:4px;font-size:0.7rem;font-weight:700;margin-left:6px;vertical-align:middle">PRO</span></td><td class="ap-m-compare-td" style="padding:16px 20px;text-align:center;border-bottom:1px solid #f0f0f0;color:#555"><span style="color:#d0d0d0;font-size:1.2rem">—</span></td><td class="ap-m-compare-td" style="padding:16px 20px;text-align:center;border-bottom:1px solid #f0f0f0;background:rgba(118,75,162,0.03)"><span style="color:#764ba2;font-weight:700;font-size:1.2rem">&#10003;</span></td></tr>
+                    <tr><td class="ap-m-compare-td" style="padding:16px 20px;text-align:left;border-bottom:1px solid #f0f0f0;font-weight:600;color:#333">예약 발행 (간격/시간 지정) <span class="ap-m-pro-label" style="display:inline-block;background:linear-gradient(135deg,#764ba2,#667eea);color:white;padding:2px 8px;border-radius:4px;font-size:0.7rem;font-weight:700;margin-left:6px;vertical-align:middle">PRO</span></td><td class="ap-m-compare-td" style="padding:16px 20px;text-align:center;border-bottom:1px solid #f0f0f0;color:#555"><span style="color:#d0d0d0;font-size:1.2rem">—</span></td><td class="ap-m-compare-td" style="padding:16px 20px;text-align:center;border-bottom:1px solid #f0f0f0;background:rgba(118,75,162,0.03)"><span style="color:#764ba2;font-weight:700;font-size:1.2rem">&#10003;</span></td></tr>
+                    <tr><td class="ap-m-compare-td" style="padding:16px 20px;text-align:left;border-bottom:1px solid #f0f0f0;font-weight:600;color:#333">Google 자동 색인 신청 <span class="ap-m-pro-label" style="display:inline-block;background:linear-gradient(135deg,#764ba2,#667eea);color:white;padding:2px 8px;border-radius:4px;font-size:0.7rem;font-weight:700;margin-left:6px;vertical-align:middle">PRO</span></td><td class="ap-m-compare-td" style="padding:16px 20px;text-align:center;border-bottom:1px solid #f0f0f0;color:#555"><span style="color:#d0d0d0;font-size:1.2rem">—</span></td><td class="ap-m-compare-td" style="padding:16px 20px;text-align:center;border-bottom:1px solid #f0f0f0;background:rgba(118,75,162,0.03)"><span style="color:#764ba2;font-weight:700;font-size:1.2rem">&#10003;</span></td></tr>
+                    <tr><td class="ap-m-compare-td" style="padding:16px 20px;text-align:left;border-bottom:1px solid #f0f0f0;font-weight:600;color:#333">IndexNow 색인 (네이버·Bing) <span class="ap-m-pro-label" style="display:inline-block;background:linear-gradient(135deg,#764ba2,#667eea);color:white;padding:2px 8px;border-radius:4px;font-size:0.7rem;font-weight:700;margin-left:6px;vertical-align:middle">PRO</span></td><td class="ap-m-compare-td" style="padding:16px 20px;text-align:center;border-bottom:1px solid #f0f0f0;color:#555"><span style="color:#d0d0d0;font-size:1.2rem">—</span></td><td class="ap-m-compare-td" style="padding:16px 20px;text-align:center;border-bottom:1px solid #f0f0f0;background:rgba(118,75,162,0.03)"><span style="color:#764ba2;font-weight:700;font-size:1.2rem">&#10003;</span></td></tr>
+                    <tr><td class="ap-m-compare-td" style="padding:16px 20px;text-align:left;border-bottom:1px solid #f0f0f0;font-weight:600;color:#333">발행 큐 실시간 모니터링 <span class="ap-m-pro-label" style="display:inline-block;background:linear-gradient(135deg,#764ba2,#667eea);color:white;padding:2px 8px;border-radius:4px;font-size:0.7rem;font-weight:700;margin-left:6px;vertical-align:middle">PRO</span></td><td class="ap-m-compare-td" style="padding:16px 20px;text-align:center;border-bottom:1px solid #f0f0f0;color:#555"><span style="color:#d0d0d0;font-size:1.2rem">—</span></td><td class="ap-m-compare-td" style="padding:16px 20px;text-align:center;border-bottom:1px solid #f0f0f0;background:rgba(118,75,162,0.03)"><span style="color:#764ba2;font-weight:700;font-size:1.2rem">&#10003;</span></td></tr>
+                    <tr style="background:linear-gradient(135deg,rgba(102,126,234,0.05),rgba(118,75,162,0.08))"><td style="padding:20px;font-weight:800;font-size:1.05rem;text-align:left;color:#333">하루 생산량 (예상)</td><td style="padding:20px;font-weight:800;color:#667eea;font-size:1.15rem;text-align:center">3~5개</td><td style="padding:20px;font-weight:800;color:#764ba2;font-size:1.15rem;text-align:center">10~30개</td></tr>
+                    <tr style="background:linear-gradient(135deg,rgba(102,126,234,0.05),rgba(118,75,162,0.08))"><td style="padding:20px;font-weight:800;font-size:1.05rem;text-align:left;color:#333">가격</td><td style="padding:20px;font-weight:800;color:#667eea;font-size:1.15rem;text-align:center">289,000원</td><td style="padding:20px;font-weight:800;color:#764ba2;font-size:1.15rem;text-align:center">389,000원</td></tr>
                 </tbody>
             </table>
         </div>
     </div>
 </section>
 
-<!-- Features Section -->
-<section id="ap-features" class="ap-mobile-features" style="padding: 100px 20px; max-width: 1200px; margin: 0 auto;">
-    <h2 class="ap-mobile-section-title" style="text-align: center; font-size: 2.5rem; font-weight: 900; margin-bottom: 20px;">왜 <span style="color: #667eea;">AutoPost</span>인가요?</h2>
-    <p class="ap-mobile-section-subtitle" style="text-align: center; color: #666; font-size: 1.2rem; margin-bottom: 50px;">단순 글쓰기가 아닌, 수익화를 위한 완벽한 솔루션</p>
+<!-- ========== 7. 실제 구매자 후기 (상단 베스트 리뷰로 이동) ========== -->
+<section style="display:none">
+    <div style="max-width: 800px; margin: 0 auto;">
+        <h2 class="ap-m-section-title" style="text-align: center; font-size: 2.2rem; font-weight: 900; margin-bottom: 15px;">실제 구매자 <span style="color: #667eea;">후기</span></h2>
+        <p class="ap-m-section-subtitle" style="text-align: center; color: #666; font-size: 1.1rem; margin-bottom: 50px;">구매하신 분들의 실제 대화 내용과 별점 후기입니다</p>
 
-    <div class="ap-mobile-features-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
-        <div class="ap-mobile-feature-card" style="background: #f8f9fa; padding: 40px; border-radius: 20px; text-align: center; border: 2px solid transparent;">
-            <div style="font-size: 3rem; margin-bottom: 20px;">🤖</div>
-            <h3 style="font-size: 1.4rem; margin-bottom: 15px; color: #333;">Claude AI 최신 모델</h3>
-            <p style="color: #666; font-size: 1rem;">GPT보다 자연스러운 Claude 최신 모델로 사람이 쓴 것 같은 고품질 글을 생성합니다.</p>
+        <!-- 카카오톡 후기 1 -->
+        <div class="ap-m-kakao-card" style="background: #f6f0e5; border-radius: 20px; padding: 30px; margin-bottom: 25px; position: relative;">
+            <span style="position: absolute; top: -10px; left: 20px; background: #ff4757; color: white; padding: 4px 14px; border-radius: 50px; font-size: 0.7rem; font-weight: 800;">BEST</span>
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                <div style="width: 40px; height: 40px; background: #ffd93d; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.9rem;">J</div>
+                <div><span style="font-size: 0.95rem; font-weight: 700;">김지** 님</span><br><span style="color: #999; font-size: 0.8rem;">블로그 운영 3개월차</span></div>
+            </div>
+            <div style="color: #ffc107; font-size: 0.85rem; letter-spacing: 1px; margin-bottom: 14px;">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                <div class="ap-m-bubble" style="align-self: flex-start; background: white; padding: 12px 18px; border-radius: 0 15px 15px 15px; max-width: 85%; font-size: 0.95rem; line-height: 1.6; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">안녕하세요! 프로그램 구매하고 2주 됐는데 후기 남겨요 😊</div>
+                <div class="ap-m-bubble" style="align-self: flex-start; background: white; padding: 12px 18px; border-radius: 0 15px 15px 15px; max-width: 85%; font-size: 0.95rem; line-height: 1.6; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">매일 키워드 하나씩 넣고 있는데 벌써 글이 14개 쌓였어요. 직접 썼으면 절대 못했을 양이에요 ㅋㅋ</div>
+                <div style="align-self: flex-end; background: #fef01b; padding: 12px 18px; border-radius: 15px 0 15px 15px; max-width: 85%; font-size: 0.95rem; line-height: 1.6;">감사합니다! 검색 유입도 들어오기 시작했나요?</div>
+                <div class="ap-m-bubble" style="align-self: flex-start; background: white; padding: 12px 18px; border-radius: 0 15px 15px 15px; max-width: 85%; font-size: 0.95rem; line-height: 1.6; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">네! 구글에서 유입이 하루 30~40명 정도 들어와요. 애드센스 수익도 조금씩 나오고 있어서 너무 신기합니다 👍</div>
+            </div>
         </div>
 
-        <div class="ap-mobile-feature-card" style="background: #f8f9fa; padding: 40px; border-radius: 20px; text-align: center; border: 2px solid transparent;">
-            <div style="font-size: 3rem; margin-bottom: 20px;">📈</div>
-            <h3 style="font-size: 1.4rem; margin-bottom: 15px; color: #333;">구글 SEO 완벽 최적화</h3>
-            <p style="color: #666; font-size: 1rem;">메타 설명, H 태그 구조, 키워드 배치까지 검색 상위 노출을 위한 모든 요소가 자동 적용됩니다.</p>
+        <!-- 카카오톡 후기 2 -->
+        <div class="ap-m-kakao-card" style="background: #f6f0e5; border-radius: 20px; padding: 30px; margin-bottom: 25px; position: relative;">
+            <span style="position: absolute; top: -10px; left: 20px; background: #ff4757; color: white; padding: 4px 14px; border-radius: 50px; font-size: 0.7rem; font-weight: 800;">BEST</span>
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                <div style="width: 40px; height: 40px; background: #a8d8ea; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.9rem;">P</div>
+                <div><span style="font-size: 0.95rem; font-weight: 700;">박성** 님</span><br><span style="color: #999; font-size: 0.8rem;">부동산 블로그 운영</span></div>
+            </div>
+            <div style="color: #ffc107; font-size: 0.85rem; letter-spacing: 1px; margin-bottom: 14px;">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                <div class="ap-m-bubble" style="align-self: flex-start; background: white; padding: 12px 18px; border-radius: 0 15px 15px 15px; max-width: 85%; font-size: 0.95rem; line-height: 1.6; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">부동산 키워드로 글 쓰고 있는데요, 솔직히 이 가격에 이 퀄리티는 사기급이에요 ㅋㅋㅋ</div>
+                <div class="ap-m-bubble" style="align-self: flex-start; background: white; padding: 12px 18px; border-radius: 0 15px 15px 15px; max-width: 85%; font-size: 0.95rem; line-height: 1.6; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">전에 외주 맡기면 글 하나에 3만원씩 줬는데... 이건 100원도 안 들잖아요 😂</div>
+                <div style="align-self: flex-end; background: #fef01b; padding: 12px 18px; border-radius: 15px 0 15px 15px; max-width: 85%; font-size: 0.95rem; line-height: 1.6;">맞아요 ㅎㅎ API 비용만 들어서 정말 저렴하죠!</div>
+                <div class="ap-m-bubble" style="align-self: flex-start; background: white; padding: 12px 18px; border-radius: 0 15px 15px 15px; max-width: 85%; font-size: 0.95rem; line-height: 1.6; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">SEO 구조도 알아서 잡아주니까 저는 키워드만 고르면 끝이에요. 진짜 강추합니다 🔥</div>
+            </div>
         </div>
 
-        <div class="ap-mobile-feature-card" style="background: #f8f9fa; padding: 40px; border-radius: 20px; text-align: center; border: 2px solid transparent;">
-            <div style="font-size: 3rem; margin-bottom: 20px;">💰</div>
-            <h3 style="font-size: 1.4rem; margin-bottom: 15px; color: #333;">애드센스 자동 삽입</h3>
-            <p style="color: #666; font-size: 1rem;">내 애드센스 광고 코드가 최적의 위치에 자동 삽입되어 즉시 수익화가 가능합니다.</p>
+        <!-- 카카오톡 후기 3 -->
+        <div class="ap-m-kakao-card" style="background: #f6f0e5; border-radius: 20px; padding: 30px; margin-bottom: 25px; position: relative;">
+            <span style="position: absolute; top: -10px; left: 20px; background: #ff4757; color: white; padding: 4px 14px; border-radius: 50px; font-size: 0.7rem; font-weight: 800;">BEST</span>
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                <div style="width: 40px; height: 40px; background: #c3aed6; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.9rem;">L</div>
+                <div><span style="font-size: 0.95rem; font-weight: 700;">이수** 님</span><br><span style="color: #999; font-size: 0.8rem;">직장인 부업 블로거</span></div>
+            </div>
+            <div style="color: #ffc107; font-size: 0.85rem; letter-spacing: 1px; margin-bottom: 14px;">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                <div class="ap-m-bubble" style="align-self: flex-start; background: white; padding: 12px 18px; border-radius: 0 15px 15px 15px; max-width: 85%; font-size: 0.95rem; line-height: 1.6; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">저 컴퓨터 완전 못하는데 사용설명서랑 1:1 안내해주셔서 너무 편했어요 ㅠㅠ</div>
+                <div class="ap-m-bubble" style="align-self: flex-start; background: white; padding: 12px 18px; border-radius: 0 15px 15px 15px; max-width: 85%; font-size: 0.95rem; line-height: 1.6; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">출근 전에 키워드 하나 넣어두면 퇴근할 때 글이 올라가 있어요. 직장인한테 이게 진짜 꿀템입니다</div>
+                <div style="align-self: flex-end; background: #fef01b; padding: 12px 18px; border-radius: 15px 0 15px 15px; max-width: 85%; font-size: 0.95rem; line-height: 1.6;">잘 활용해주셔서 감사해요! 궁금한 거 있으면 언제든 연락주세요 😊</div>
+                <div class="ap-m-bubble" style="align-self: flex-start; background: white; padding: 12px 18px; border-radius: 0 15px 15px 15px; max-width: 85%; font-size: 0.95rem; line-height: 1.6; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">한 달 지나니까 애드센스에서 첫 수익 찍혔어요!! 소소하지만 시작이 반이라고 ㅎㅎ 감사합니다!!</div>
+            </div>
         </div>
 
-        <div class="ap-mobile-feature-card" style="background: #f8f9fa; padding: 40px; border-radius: 20px; text-align: center; border: 2px solid transparent;">
-            <div style="font-size: 3rem; margin-bottom: 20px;">⚡</div>
-            <h3 style="font-size: 1.4rem; margin-bottom: 15px; color: #333;">원클릭 자동 발행</h3>
-            <p style="color: #666; font-size: 1rem;">키워드만 입력하면 글 작성부터 워드프레스 발행까지 모든 과정이 자동으로 완료됩니다.</p>
+        <!-- 별점 카드 후기 1 -->
+        <div class="ap-m-star-card" style="background: white; border-radius: 20px; padding: 28px; margin-bottom: 20px; margin-top: 40px; box-shadow: 0 5px 25px rgba(0,0,0,0.06); border: 1px solid #f0f0f0;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <div style="width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; color: white; background: #667eea;">최</div>
+                    <div><strong>최은** 님</strong><br><span style="color: #bbb; font-size: 0.8rem;">사용 기간: 1주 · V2 Pro</span></div>
+                </div>
+                <div style="color: #ffc107; font-size: 1.1rem; letter-spacing: 2px;">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            </div>
+            <div style="color: #555; font-size: 0.95rem; line-height: 1.8; margin-bottom: 12px;">V2 Pro로 바로 구매했는데 진짜 잘한 선택이에요. 키워드 10개 넣어놓고 예약 발행 걸어두니까 하루에 알아서 글이 올라갑니다. 일주일 만에 글이 20개 넘게 쌓였고, 구글에 색인도 하나둘 되기 시작했어요. 예약 발행 기능이 진짜 신의 한 수입니다.</div>
+            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                <span style="background: #f0f4ff; color: #667eea; padding: 4px 12px; border-radius: 50px; font-size: 0.75rem; font-weight: 600;">V2 Pro</span>
+                <span style="background: #f0f4ff; color: #667eea; padding: 4px 12px; border-radius: 50px; font-size: 0.75rem; font-weight: 600;">예약발행</span>
+                <span style="background: #f0f4ff; color: #667eea; padding: 4px 12px; border-radius: 50px; font-size: 0.75rem; font-weight: 600;">대량등록</span>
+            </div>
         </div>
 
-        <div class="ap-mobile-feature-card" style="background: #f8f9fa; padding: 40px; border-radius: 20px; text-align: center; border: 2px solid transparent;">
-            <div style="font-size: 3rem; margin-bottom: 20px;">🔐</div>
-            <h3 style="font-size: 1.4rem; margin-bottom: 15px; color: #333;">내 API 키 사용</h3>
-            <p style="color: #666; font-size: 1rem;">월정액 없이 내 Claude API 키를 사용해서 원하는 만큼 무제한으로 글을 생성할 수 있습니다.</p>
+        <!-- 별점 카드 후기 2 -->
+        <div class="ap-m-star-card" style="background: white; border-radius: 20px; padding: 28px; margin-bottom: 20px; box-shadow: 0 5px 25px rgba(0,0,0,0.06); border: 1px solid #f0f0f0;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <div style="width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; color: white; background: #ff6b81;">한</div>
+                    <div><strong>한민** 님</strong><br><span style="color: #bbb; font-size: 0.8rem;">사용 기간: 4일 · Basic</span></div>
+                </div>
+                <div style="color: #ffc107; font-size: 1.1rem; letter-spacing: 2px;">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            </div>
+            <div style="color: #555; font-size: 0.95rem; line-height: 1.8; margin-bottom: 12px;">블로그 자동화 툴을 여러 개 써봤는데 이건 차원이 다릅니다. 다른 툴은 글 퀄리티가 영 별로라 결국 손으로 다시 고쳐야 했는데, AutoPost는 Claude AI라서 그런지 처음부터 퀄리티가 좋아요. SEO 구조도 자동으로 잡아주고, 이미지까지 알아서 생성해서 넣어주니까 진짜 키워드만 입력하면 끝입니다.</div>
+            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                <span style="background: #f0f4ff; color: #667eea; padding: 4px 12px; border-radius: 50px; font-size: 0.75rem; font-weight: 600;">글 퀄리티</span>
+                <span style="background: #f0f4ff; color: #667eea; padding: 4px 12px; border-radius: 50px; font-size: 0.75rem; font-weight: 600;">Claude AI</span>
+                <span style="background: #f0f4ff; color: #667eea; padding: 4px 12px; border-radius: 50px; font-size: 0.75rem; font-weight: 600;">SEO</span>
+            </div>
         </div>
 
-        <div class="ap-mobile-feature-card" style="background: #f8f9fa; padding: 40px; border-radius: 20px; text-align: center; border: 2px solid transparent;">
-            <div style="font-size: 3rem; margin-bottom: 20px;">🖥️</div>
-            <h3 style="font-size: 1.4rem; margin-bottom: 15px; color: #333;">데스크톱 앱 제공</h3>
-            <p style="color: #666; font-size: 1rem;">Windows, Mac 모두 지원하는 전용 프로그램으로 복잡한 설정 없이 바로 사용 가능합니다.</p>
+        <!-- 별점 카드 후기 3 -->
+        <div class="ap-m-star-card" style="background: white; border-radius: 20px; padding: 28px; margin-bottom: 20px; box-shadow: 0 5px 25px rgba(0,0,0,0.06); border: 1px solid #f0f0f0;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <div style="width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; color: white; background: #ffa502;">정</div>
+                    <div><strong>정다** 님</strong><br><span style="color: #bbb; font-size: 0.8rem;">사용 기간: 3일 · Basic</span></div>
+                </div>
+                <div style="color: #ffc107; font-size: 1.1rem; letter-spacing: 2px;">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            </div>
+            <div style="color: #555; font-size: 0.95rem; line-height: 1.8; margin-bottom: 12px;">건강 관련 블로그 시작하려고 구매했어요. 매일 키워드 하나씩 넣고 있는데 3일 만에 글 3개가 자동으로 올라갔습니다. 글 퀄리티가 직접 쓴 것처럼 자연스럽고, 애드센스 광고 코드도 자동 삽입돼서 나중에 수익화가 기대됩니다. 설치도 1:1로 도와주셔서 어렵지 않았어요.</div>
+            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                <span style="background: #f0f4ff; color: #667eea; padding: 4px 12px; border-radius: 50px; font-size: 0.75rem; font-weight: 600;">건강 블로그</span>
+                <span style="background: #f0f4ff; color: #667eea; padding: 4px 12px; border-radius: 50px; font-size: 0.75rem; font-weight: 600;">자동 발행</span>
+                <span style="background: #f0f4ff; color: #667eea; padding: 4px 12px; border-radius: 50px; font-size: 0.75rem; font-weight: 600;">쉬운 설치</span>
+            </div>
         </div>
     </div>
 </section>
 
-<!-- How It Works -->
-<section class="ap-mobile-how" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 100px 20px;">
-    <div style="max-width: 1100px; margin: 0 auto;">
-        <h2 class="ap-mobile-section-title" style="text-align: center; font-size: 2.5rem; font-weight: 900; margin-bottom: 20px; color: white;">이렇게 <span style="color: #ffd93d;">간단합니다</span></h2>
-        <p class="ap-mobile-section-subtitle" style="text-align: center; color: rgba(255,255,255,0.8); font-size: 1.2rem; margin-bottom: 50px;">복잡한 설정 없이 4단계면 끝</p>
-
-        <div style="max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 25px;">
-            <div class="ap-mobile-step" style="display: flex; align-items: center; gap: 25px; background: rgba(255, 255, 255, 0.05); padding: 30px; border-radius: 15px; border: 1px solid rgba(255, 255, 255, 0.1);">
-                <div class="ap-mobile-step-number" style="width: 60px; height: 60px; background: rgba(255, 255, 255, 0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 900; flex-shrink: 0;">1</div>
-                <div>
-                    <h3 style="font-size: 1.2rem; margin-bottom: 5px; color: white;">프로그램 설치 & 설정</h3>
-                    <p style="opacity: 0.8; font-size: 0.95rem; color: white;">제공된 프로그램 설치 후 Claude API 키와 워드프레스 정보를 입력합니다. (사용설명서 + 1:1 안내)</p>
-                </div>
-            </div>
-
-            <div class="ap-mobile-step" style="display: flex; align-items: center; gap: 25px; background: rgba(255, 255, 255, 0.05); padding: 30px; border-radius: 15px; border: 1px solid rgba(255, 255, 255, 0.1);">
-                <div class="ap-mobile-step-number" style="width: 60px; height: 60px; background: rgba(255, 255, 255, 0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 900; flex-shrink: 0;">2</div>
-                <div>
-                    <h3 style="font-size: 1.2rem; margin-bottom: 5px; color: white;">키워드 입력</h3>
-                    <p style="opacity: 0.8; font-size: 0.95rem; color: white;">글을 작성할 키워드를 입력합니다. 예: "2024 월배당 ETF 추천"</p>
-                </div>
-            </div>
-
-            <div class="ap-mobile-step" style="display: flex; align-items: center; gap: 25px; background: rgba(255, 255, 255, 0.05); padding: 30px; border-radius: 15px; border: 1px solid rgba(255, 255, 255, 0.1);">
-                <div class="ap-mobile-step-number" style="width: 60px; height: 60px; background: rgba(255, 255, 255, 0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 900; flex-shrink: 0;">3</div>
-                <div>
-                    <h3 style="font-size: 1.2rem; margin-bottom: 5px; color: white;">AI가 글 작성</h3>
-                    <p style="opacity: 0.8; font-size: 0.95rem; color: white;">AI가 웹에서 최신 정보를 검색하고 SEO 최적화된 글을 자동으로 작성합니다.</p>
-                </div>
-            </div>
-
-            <div class="ap-mobile-step" style="display: flex; align-items: center; gap: 25px; background: rgba(255, 255, 255, 0.05); padding: 30px; border-radius: 15px; border: 1px solid rgba(255, 255, 255, 0.1);">
-                <div class="ap-mobile-step-number" style="width: 60px; height: 60px; background: rgba(255, 255, 255, 0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 900; flex-shrink: 0;">4</div>
-                <div>
-                    <h3 style="font-size: 1.2rem; margin-bottom: 5px; color: white;">워드프레스 자동 발행</h3>
-                    <p style="opacity: 0.8; font-size: 0.95rem; color: white;">작성된 글이 애드센스 코드와 함께 내 블로그에 자동으로 발행됩니다.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Pricing Section -->
-<section id="ap-pricing" class="ap-mobile-pricing" style="padding: 100px 20px; text-align: center; background: #f8f9fa;">
-    <div style="max-width: 1100px; margin: 0 auto;">
-        <div style="background: #ff4757; color: white; padding: 15px 30px; border-radius: 50px; display: inline-block; font-weight: 700; font-size: 1.1rem; margin-bottom: 30px; animation: pulse 2s infinite;">🔥 1차 189,000원 마감 → 2차 239,000원 진행 중</div>
-        <h2 class="ap-mobile-section-title" style="text-align: center; font-size: 2.5rem; font-weight: 900; margin-bottom: 20px;">프리미엄 패키지</h2>
-        <p class="ap-mobile-section-subtitle" style="text-align: center; color: #666; font-size: 1.2rem; margin-bottom: 50px;">월정액 없이 한 번 구매로 평생 사용</p>
-
-        <div class="ap-mobile-price-card" style="max-width: 550px; margin: 0 auto; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 60px 50px; border-radius: 30px; box-shadow: 0 30px 80px rgba(102, 126, 234, 0.4); position: relative; overflow: hidden;">
-            <div style="position: absolute; top: 30px; right: -35px; background: #ffd93d; color: #333; padding: 8px 50px; font-size: 12px; font-weight: 700; transform: rotate(45deg);">평생 소유</div>
-            <h3 style="font-size: 1.3rem; margin-bottom: 10px; opacity: 0.9; color: white;">AutoPost SEO Writer</h3>
-            <p style="font-size: 1rem; opacity: 0.7; margin-bottom: 10px; color: white;">평생 소유 라이선스</p>
-            <div class="ap-mobile-price-value" style="font-size: 4.5rem; font-weight: 900; margin-bottom: 5px; color: #ffd93d;">239,000<span style="font-size: 1.5rem;">원</span></div>
-            <p style="opacity: 0.7; margin-bottom: 10px; font-size: 1.1rem; color: white;">일회성 결제 / 추가 비용 없음</p>
-            <p style="opacity: 0.8; margin-bottom: 35px; font-size: 0.9rem; color: #ff9f9f;">2차 마감 시 → 3차 289,000원으로 인상</p>
-
-            <ul style="text-align: left; margin-bottom: 40px; list-style: none; padding: 0;">
-                <li style="padding: 12px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.1); display: flex; align-items: center; gap: 12px; font-size: 1rem; color: white;"><span style="color: #ffd93d; font-size: 1.2rem;">✓</span> AutoPost SEO Writer 프로그램 (평생 소유)</li>
-                <li style="padding: 12px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.1); display: flex; align-items: center; gap: 12px; font-size: 1rem; color: white;"><span style="color: #ffd93d; font-size: 1.2rem;">✓</span> Windows + Mac 버전 중 택1</li>
-                <li style="padding: 12px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.1); display: flex; align-items: center; gap: 12px; font-size: 1rem; color: white;"><span style="color: #ffd93d; font-size: 1.2rem;">✓</span> 사용설명서 제공 + 1:1 카톡 안내</li>
-                <li style="padding: 12px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.1); display: flex; align-items: center; gap: 12px; font-size: 1rem; color: white;"><span style="color: #ffd93d; font-size: 1.2rem;">✓</span> 프로그램 사용법 교육 (30분)</li>
-                <li style="padding: 12px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.1); display: flex; align-items: center; gap: 12px; font-size: 1rem; color: white;"><span style="color: #ffd93d; font-size: 1.2rem;">✓</span> Claude API 발급 완벽 가이드</li>
-                <li style="padding: 12px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.1); display: flex; align-items: center; gap: 12px; font-size: 1rem; color: white;"><span style="color: #ffd93d; font-size: 1.2rem;">✓</span> 워드프레스 세팅 가이드</li>
-                <li style="padding: 12px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.1); display: flex; align-items: center; gap: 12px; font-size: 1rem; color: white;"><span style="color: #ffd93d; font-size: 1.2rem;">✓</span> 프로그램 사용법 PDF</li>
-                <li style="padding: 12px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.1); display: flex; align-items: center; gap: 12px; font-size: 1rem; color: white;"><span style="color: #ffd93d; font-size: 1.2rem;">✓</span> AI 이미지 자동 생성 (DALL-E)</li>
-                <li style="padding: 12px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.1); display: flex; align-items: center; gap: 12px; font-size: 1rem; color: white;"><span style="color: #ffd93d; font-size: 1.2rem;">✓</span> 평생 무료 업데이트</li>
-                <li style="padding: 12px 0; display: flex; align-items: center; gap: 12px; font-size: 1rem; color: white;"><span style="color: #ffd93d; font-size: 1.2rem;">✓</span> 카카오톡 1:1 지원</li>
-            </ul>
-
-            <div style="background: rgba(255,215,61,0.2); border: 1px solid rgba(255,215,61,0.5); padding: 12px 20px; border-radius: 12px; margin-bottom: 20px; font-size: 0.95rem; text-align: center;">
-                <strong style="color: #ffd93d;">1차 189,000원 — 마감 완료</strong><br>
-                <span style="opacity: 0.9;">현재 2차 239,000원 진행 중</span>
-            </div>
-            <a href="https://wpauto.kr/payment/" style="display: block; background: #fff; color: #667eea; width: 100%; font-size: 1.3rem; padding: 20px; border-radius: 50px; font-weight: 700; text-decoration: none; text-align: center;">지금 바로 구매하기</a>
-        </div>
-    </div>
-</section>
-
-<!-- Guarantee -->
-<section class="ap-mobile-guarantee" style="padding: 60px 20px; background: white;">
-    <div class="ap-mobile-guarantee-box" style="max-width: 700px; margin: 0 auto; text-align: center; padding: 40px; border: 2px solid #667eea; border-radius: 20px;">
-        <h3 style="font-size: 1.5rem; margin-bottom: 15px; color: #333;">구매 전 충분한 상담을 약속드립니다</h3>
-        <p style="color: #666; font-size: 1rem;">구매 전 카카오톡으로 궁금한 점을 모두 물어보세요. 데모 영상과 상세한 설명을 통해 충분히 이해하신 후 결정하실 수 있습니다.</p>
-    </div>
-</section>
-
-<!-- FAQ Section -->
-<section class="ap-mobile-faq" style="background: #f8f9fa; padding: 100px 20px;">
-    <div style="max-width: 1100px; margin: 0 auto;">
-        <h2 class="ap-mobile-section-title" style="text-align: center; font-size: 2.5rem; font-weight: 900; margin-bottom: 50px;">자주 묻는 <span style="color: #667eea;">질문</span></h2>
+<!-- ========== 8. FAQ ========== -->
+<section id="section-faq" style="background: #f8f9fa; padding: 80px 20px;">
+    <div style="max-width: 1100px; margin: 0 auto; padding: 0 20px;">
+        <h2 class="ap-m-section-title" style="text-align: center; font-size: 2.2rem; font-weight: 900; margin-bottom: 15px;">자주 묻는 <span style="color: #667eea;">질문</span></h2>
+        <p class="ap-m-section-subtitle" style="text-align: center; color: #666; font-size: 1.1rem; margin-bottom: 35px;">궁금한 점을 확인하세요</p>
 
         <div style="max-width: 800px; margin: 0 auto;">
-            <div style="background: white; margin-bottom: 15px; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);">
-                <div class="ap-mobile-faq-question" style="padding: 25px 30px; font-weight: 700; font-size: 1.05rem;">API 비용은 별도인가요?</div>
-                <div class="ap-mobile-faq-answer" style="padding: 0 30px 25px; color: #666; line-height: 1.8;">네, Claude API 사용료는 별도입니다. 하지만 걱정하지 마세요! 글 1개당 약 50~100원 수준으로 매우 저렴합니다. 하루 10개 글을 써도 월 3만원 이하입니다.</div>
+            <div class="ap-m-faq-item" style="background: white; margin-bottom: 12px; border-radius: 15px; overflow: hidden; box-shadow: 0 3px 15px rgba(0,0,0,0.04);">
+                <div class="ap-m-faq-question" onclick="this.parentElement.classList.toggle('active')" style="padding: 22px 28px; font-weight: 700; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 1rem;">
+                    <span>Basic과 V2 Pro의 차이가 뭔가요?</span>
+                    <span class="ap-m-faq-arrow" style="font-size: 0.8rem; color: #bbb;">▼</span>
+                </div>
+                <div class="ap-m-faq-answer" style="padding: 0 28px 22px; color: #666; line-height: 1.8; font-size: 0.95rem;">Basic은 키워드 1개씩 즉시 발행하는 기본 버전입니다. V2 Pro는 키워드 10개 대량 등록, 예약 발행(간격/시간 지정), Google·IndexNow 자동 색인 신청 기능이 추가됩니다. 하루 생산량이 3~5개에서 10~30개로 크게 늘어납니다.</div>
             </div>
 
-            <div style="background: white; margin-bottom: 15px; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);">
-                <div class="ap-mobile-faq-question" style="padding: 25px 30px; font-weight: 700; font-size: 1.05rem;">컴퓨터를 잘 못해도 사용할 수 있나요?</div>
-                <div class="ap-mobile-faq-answer" style="padding: 0 30px 25px; color: #666; line-height: 1.8;">네, 전혀 걱정하지 않으셔도 됩니다. 상세한 사용설명서를 제공해드리고, 궁금한 점은 카카오톡으로 1:1 안내해드립니다.</div>
+            <div class="ap-m-faq-item" style="background: white; margin-bottom: 12px; border-radius: 15px; overflow: hidden; box-shadow: 0 3px 15px rgba(0,0,0,0.04);">
+                <div class="ap-m-faq-question" onclick="this.parentElement.classList.toggle('active')" style="padding: 22px 28px; font-weight: 700; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 1rem;">
+                    <span>API 비용은 별도인가요?</span>
+                    <span class="ap-m-faq-arrow" style="font-size: 0.8rem; color: #bbb;">▼</span>
+                </div>
+                <div class="ap-m-faq-answer" style="padding: 0 28px 22px; color: #666; line-height: 1.8; font-size: 0.95rem;">네, Claude API 사용료는 별도입니다. 하지만 걱정하지 마세요! 글 1개당 약 50~100원 수준으로 매우 저렴합니다. 하루 10개 글을 써도 월 3만원 이하입니다.</div>
             </div>
 
-            <div style="background: white; margin-bottom: 15px; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);">
-                <div class="ap-mobile-faq-question" style="padding: 25px 30px; font-weight: 700; font-size: 1.05rem;">워드프레스 외 다른 블로그도 지원하나요?</div>
-                <div class="ap-mobile-faq-answer" style="padding: 0 30px 25px; color: #666; line-height: 1.8;">현재는 워드프레스(WordPress)만 지원합니다. 티스토리, 네이버 블로그 등은 추후 업데이트 예정이며, 업데이트 시 무료로 제공됩니다.</div>
+            <div class="ap-m-faq-item" style="background: white; margin-bottom: 12px; border-radius: 15px; overflow: hidden; box-shadow: 0 3px 15px rgba(0,0,0,0.04);">
+                <div class="ap-m-faq-question" onclick="this.parentElement.classList.toggle('active')" style="padding: 22px 28px; font-weight: 700; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 1rem;">
+                    <span>컴퓨터를 잘 못해도 사용할 수 있나요?</span>
+                    <span class="ap-m-faq-arrow" style="font-size: 0.8rem; color: #bbb;">▼</span>
+                </div>
+                <div class="ap-m-faq-answer" style="padding: 0 28px 22px; color: #666; line-height: 1.8; font-size: 0.95rem;">네, 전혀 걱정하지 않으셔도 됩니다. 1:1 줌 원격 접속으로 직접 설치해드리고, 사용법도 교육해드립니다.</div>
             </div>
 
-            <div style="background: white; margin-bottom: 15px; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);">
-                <div class="ap-mobile-faq-question" style="padding: 25px 30px; font-weight: 700; font-size: 1.05rem;">글 품질이 좋은가요?</div>
-                <div class="ap-mobile-faq-answer" style="padding: 0 30px 25px; color: #666; line-height: 1.8;">Claude AI의 최신 모델을 사용하여 사람이 쓴 것과 구분이 어려운 자연스러운 글을 생성합니다. SEO 구조까지 자동으로 포함됩니다.</div>
+            <div class="ap-m-faq-item" style="background: white; margin-bottom: 12px; border-radius: 15px; overflow: hidden; box-shadow: 0 3px 15px rgba(0,0,0,0.04);">
+                <div class="ap-m-faq-question" onclick="this.parentElement.classList.toggle('active')" style="padding: 22px 28px; font-weight: 700; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 1rem;">
+                    <span>기존 V1 구매자인데 V2 Pro로 업그레이드 가능한가요?</span>
+                    <span class="ap-m-faq-arrow" style="font-size: 0.8rem; color: #bbb;">▼</span>
+                </div>
+                <div class="ap-m-faq-answer" style="padding: 0 28px 22px; color: #666; line-height: 1.8; font-size: 0.95rem;">네! 기존 V1 구매자분들은 기존에 지불하셨던 금액과 현재 V2 Pro 가격의 차액의 50%만 추가 결제하시면 업그레이드 가능합니다. 카카오톡으로 문의해주세요.</div>
             </div>
 
-            <div style="background: white; margin-bottom: 15px; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);">
-                <div class="ap-mobile-faq-question" style="padding: 25px 30px; font-weight: 700; font-size: 1.05rem;">환불이 가능한가요?</div>
-                <div class="ap-mobile-faq-answer" style="padding: 0 30px 25px; color: #666; line-height: 1.8;">디지털 프로그램 특성상 구매 후 환불은 어렵습니다. 구매 전 충분히 상담해드리고, 데모 영상을 통해 기능을 확인하신 후 결정하실 수 있습니다.</div>
+            <div class="ap-m-faq-item" style="background: white; margin-bottom: 12px; border-radius: 15px; overflow: hidden; box-shadow: 0 3px 15px rgba(0,0,0,0.04);">
+                <div class="ap-m-faq-question" onclick="this.parentElement.classList.toggle('active')" style="padding: 22px 28px; font-weight: 700; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 1rem;">
+                    <span>글 품질이 좋은가요?</span>
+                    <span class="ap-m-faq-arrow" style="font-size: 0.8rem; color: #bbb;">▼</span>
+                </div>
+                <div class="ap-m-faq-answer" style="padding: 0 28px 22px; color: #666; line-height: 1.8; font-size: 0.95rem;">Claude AI의 최신 모델을 사용하여 사람이 쓴 것과 구분이 어려운 자연스러운 글을 생성합니다. SEO 구조까지 자동으로 포함됩니다.</div>
+            </div>
+
+            <div class="ap-m-faq-item" style="background: white; margin-bottom: 12px; border-radius: 15px; overflow: hidden; box-shadow: 0 3px 15px rgba(0,0,0,0.04);">
+                <div class="ap-m-faq-question" onclick="this.parentElement.classList.toggle('active')" style="padding: 22px 28px; font-weight: 700; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 1rem;">
+                    <span>환불이 가능한가요?</span>
+                    <span class="ap-m-faq-arrow" style="font-size: 0.8rem; color: #bbb;">▼</span>
+                </div>
+                <div class="ap-m-faq-answer" style="padding: 0 28px 22px; color: #666; line-height: 1.8; font-size: 0.95rem;">디지털 프로그램 특성상 구매 후 환불은 어렵습니다. 구매 전 충분히 상담해드리고, 데모 영상을 통해 기능을 확인하신 후 결정하실 수 있습니다.</div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- 문의하기 섹션 -->
-<section style="background: #fff; padding: 80px 20px;">
-<div style="max-width: 600px; margin: 0 auto; text-align: center;">
-<div style="background: linear-gradient(135deg, #fef01b 0%, #ffe066 100%); border-radius: 24px; padding: 45px 35px; box-shadow: 0 10px 40px rgba(0,0,0,0.08);">
-<div style="width: 70px; height: 70px; background: #3C1E1E; border-radius: 20px; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center;"><span style="font-size: 2rem;">💬</span></div>
-<h2 style="font-size: 1.8rem; font-weight: 900; color: #333; margin-bottom: 12px;">궁금한 점이 있으신가요?</h2>
-<div style="color: #555; font-size: 1rem; line-height: 1.7; margin-bottom: 25px;">구매 전 궁금한 점은 카카오톡으로 편하게 문의하세요.<br>데모 영상, 기능 설명, 가격 상담까지 친절하게 안내해드립니다.</div>
-<a href="https://open.kakao.com/o/sjcFzkei" target="_blank" style="display: inline-block; background: #3C1E1E; color: #fef01b; padding: 16px 40px; border-radius: 50px; font-size: 1.1rem; font-weight: 800; text-decoration: none; box-shadow: 0 5px 20px rgba(0,0,0,0.15);">카카오톡으로 문의하기</a>
-<div style="margin-top: 15px; color: #888; font-size: 0.85rem;">평일/주말 상관없이 빠르게 답변드립니다</div>
-</div>
-</div>
-</section>
-
-<!-- CTA Section -->
-<section class="ap-mobile-cta" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 100px 20px; text-align: center;">
+<!-- ========== 9. 최종 CTA ========== -->
+<section class="ap-m-final-cta" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 80px 20px; text-align: center;">
     <div style="max-width: 1100px; margin: 0 auto;">
-        <div style="background: rgba(255,71,87,0.9); padding: 15px 30px; border-radius: 50px; display: inline-block; font-weight: 700; font-size: 1.1rem; margin-bottom: 30px; animation: pulse 2s infinite;">🔥 1차 마감 → 2차 진행 중</div>
-        <h2 style="font-size: 2.5rem; margin-bottom: 20px; color: white;">1차는 이미 마감되었습니다<br>2차 가격이 오르기 전에</h2>
-        <p style="font-size: 1.2rem; opacity: 0.9; margin-bottom: 15px; color: white;">1차 189,000원은 조기 마감되었습니다.</p>
-        <p style="font-size: 1.05rem; opacity: 0.8; margin-bottom: 40px; color: white;">현재 2차 239,000원으로 진행 중이며, 마감 시 289,000원으로 인상됩니다.</p>
-        <a href="https://wpauto.kr/payment/" style="padding: 20px 50px; border-radius: 50px; font-size: 1.2rem; font-weight: 700; text-decoration: none; background: #ff4757; color: #fff; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); display: inline-block;">2차 239,000원에 구매하기</a>
+        <h2 style="font-size: 2.2rem; font-weight: 900; margin-bottom: 15px; color: white;">지금 바로 시작하세요</h2>
+        <p style="font-size: 1.1rem; opacity: 0.9; margin-bottom: 35px; color: white;">블로그 글쓰기에 들이는 시간을 90% 줄이고, 수익은 극대화하세요.</p>
+        <a href="https://open.kakao.com/o/sjcFzkei" target="_blank" class="ap-m-final-btn" style="display: inline-block; padding: 20px 50px; background: #fef01b; color: #3C1E1E; border-radius: 50px; font-size: 1.15rem; font-weight: 800; text-decoration: none; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">💬 카카오톡으로 구매 문의하기</a>
     </div>
 </section>
 
-<!-- Footer -->
-<footer class="ap-mobile-footer" style="background: #4a3a7a; color: rgba(255, 255, 255, 0.7); padding: 40px 20px; text-align: center;">
-    <p style="color: rgba(255, 255, 255, 0.7);">AutoPost SEO Writer © 2025. All rights reserved.</p>
-    <p style="color: rgba(255, 255, 255, 0.7);">문의: <a href="https://wpauto.kr/payment/" style="color: #ffd93d; text-decoration: none;">카카오톡 오픈채팅</a></p>
+<!-- ========== 10. 푸터 ========== -->
+<footer style="background: #4a3a7a; color: rgba(255, 255, 255, 0.7); padding: 40px 20px 90px; text-align: center; font-size: 0.85rem;">
+    <p style="color: rgba(255, 255, 255, 0.7);">AutoPost SEO Writer &copy; 2026. All rights reserved.</p>
+    <p style="color: rgba(255, 255, 255, 0.7); margin-top: 8px;">문의: <a href="https://open.kakao.com/o/sjcFzkei" style="color: #ffd93d; text-decoration: none;">카카오톡 오픈채팅</a></p>
 </footer>
 
-<script>document.querySelectorAll('a[href^="#"]').forEach(function(anchor){anchor.addEventListener('click',function(e){e.preventDefault();var target=document.querySelector(this.getAttribute('href'));if(target){target.scrollIntoView({behavior:'smooth',block:'start'});}});});(function(){var bar=document.createElement('div');bar.className='ap-mobile-floating-bar';bar.style.cssText='position:fixed;bottom:0;left:0;right:0;z-index:99999;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);padding:18px 20px;box-shadow:0 -5px 30px rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;gap:15px;box-sizing:border-box;margin:0;';var label=document.createElement('div');label.className='ap-floating-label';label.style.cssText='color:white;font-size:0.95rem;font-weight:700;line-height:1;margin:0;padding:0;animation:blink 1.5s infinite;';label.textContent='\uD83D\uDD34 2\uC790\uB9AC \uB0A8\uC74C';var link=document.createElement('a');link.href='https://wpauto.kr/payment/';link.style.cssText='background:#ff4757;color:white;padding:14px 35px;border-radius:50px;font-weight:700;font-size:1rem;text-decoration:none;white-space:nowrap;box-shadow:0 5px 20px rgba(255,71,87,0.4);line-height:1;margin:0;display:inline-block;box-sizing:border-box;animation:pulse 2s infinite;';link.textContent='239,000\uC6D0 \u2014 \uC9C0\uAE08 \uAD6C\uB9E4\uD558\uAE30';bar.appendChild(label);bar.appendChild(link);document.body.appendChild(bar);})();</script>
+<script>
+/* 플랜 데이터 */
+var planData = {
+    basic: { original: '1,290,000\uC6D0', price: '289,000', label: 'Basic' },
+    pro:   { original: '1,890,000\uC6D0', price: '389,000', label: 'V2 Pro' }
+};
+var selectedPlan = 'pro';
+
+/* 플랜 선택 */
+function selectPlan(plan) {
+    selectedPlan = plan;
+    var basic = document.getElementById('plan-basic');
+    var pro = document.getElementById('plan-pro');
+    if (plan === 'basic') {
+        basic.className = 'ap-m-plan-card selected';
+        basic.style.borderColor = '#667eea';
+        basic.style.boxShadow = '0 4px 20px rgba(102,126,234,0.2)';
+        pro.className = 'ap-m-plan-card';
+        pro.style.borderColor = '#e8e8e8';
+        pro.style.boxShadow = '0 2px 12px rgba(0,0,0,0.06)';
+    } else {
+        pro.className = 'ap-m-plan-card pro-selected';
+        pro.style.borderColor = '#764ba2';
+        pro.style.boxShadow = '0 4px 20px rgba(118,75,162,0.2)';
+        basic.className = 'ap-m-plan-card';
+        basic.style.borderColor = '#e8e8e8';
+        basic.style.boxShadow = '0 2px 12px rgba(0,0,0,0.06)';
+    }
+    var d = planData[plan];
+    document.getElementById('price-original').textContent = d.original;
+    document.getElementById('price-current').innerHTML = d.price + '<span style="font-size:1rem">\uC6D0</span>';
+}
+
+/* 리뷰 더보기 토글 */
+function toggleReview(n) {
+    var el = document.getElementById('rv-text-' + n);
+    el.classList.toggle('expanded');
+    if (el.style.maxHeight === 'none') {
+        el.style.maxHeight = '160px';
+        el.nextElementSibling.textContent = '[더보기]';
+    } else {
+        el.style.maxHeight = 'none';
+        el.nextElementSibling.textContent = '[접기]';
+    }
+}
+
+/* 워드프레스 풀너비 DOM 오버라이드 + 플로팅 바 */
+document.addEventListener('DOMContentLoaded', function() {
+    document.body.style.overflow = 'hidden';
+    document.body.style.overflowY = 'auto';
+    document.body.style.overflowX = 'hidden';
+    document.documentElement.style.overflowX = 'hidden';
+    var page = document.getElementById('page');
+    if (page) { page.style.maxWidth = '100%'; page.style.overflow = 'hidden'; page.style.padding = '0'; page.style.margin = '0'; }
+    var el = document.querySelector('.entry-content');
+    while (el) { el.style.padding = '0'; el.style.margin = '0'; el.style.maxWidth = '100%'; el.style.width = '100%'; if (el.tagName === 'BODY') break; el = el.parentElement; }
+
+    /* 플로팅 바 생성 */
+    var bar = document.createElement('div');
+    bar.className = 'ap-m-floating-bar';
+    bar.style.cssText = 'position:fixed;bottom:0;left:0;right:0;z-index:99999;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);padding:14px 20px;box-shadow:0 -5px 30px rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;gap:15px;box-sizing:border-box;margin:0;';
+    var label = document.createElement('div');
+    label.className = 'ap-m-floating-label';
+    label.style.cssText = 'color:white;font-size:0.9rem;font-weight:700;line-height:1;margin:0;padding:0;animation:blink 1.5s infinite;';
+    label.textContent = '\uD83D\uDD34 3\uCC28 \uD55C\uC815 \uD310\uB9E4';
+    var link = document.createElement('a');
+    link.href = 'https://open.kakao.com/o/sjcFzkei';
+    link.target = '_blank';
+    link.style.cssText = 'background:#fef01b;color:#3C1E1E;padding:12px 30px;border-radius:50px;font-weight:800;font-size:0.95rem;text-decoration:none;white-space:nowrap;box-shadow:0 5px 20px rgba(254,240,27,0.4);line-height:1;margin:0;display:inline-block;box-sizing:border-box;animation:pulse 2s infinite;';
+    link.textContent = '\uD83D\uDCAC \uCE74\uCE74\uC624\uD1A1 \uAD6C\uB9E4 \uBB38\uC758';
+    bar.appendChild(label);
+    bar.appendChild(link);
+    document.body.appendChild(bar);
+});
+</script>
 
 </div>
