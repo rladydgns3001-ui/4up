@@ -118,7 +118,7 @@
     "seo_adsense",
     "wordpress_tips"
   ],
-  "cyclePosition": 2,
+  "cyclePosition": 3,
   "postHistory": [
     {
       "categoryType": "empathy",
@@ -143,6 +143,14 @@
       "postId": "17846373990684541",
       "publishedAt": "2026-02-10T12:42:55.023Z",
       "textLength": 159
+    },
+    {
+      "categoryType": "user_reviews",
+      "topic": "하루 10분으로 글 10개 발행한 후기",
+      "topicTag": "10분글쓰기후기",
+      "postId": "17959717622908050",
+      "publishedAt": "2026-02-12T01:27:41.373Z",
+      "textLength": 224
     }
   ],
   "lastCategoryIndex": 1
