@@ -118,7 +118,7 @@
     "seo_adsense",
     "wordpress_tips"
   ],
-  "cyclePosition": 3,
+  "cyclePosition": 4,
   "postHistory": [
     {
       "categoryType": "empathy",
@@ -151,6 +151,14 @@
       "postId": "17959717622908050",
       "publishedAt": "2026-02-12T01:27:41.373Z",
       "textLength": 224
+    },
+    {
+      "categoryType": "product_promo",
+      "topic": "AI로 글 쓴다면서 왜 10분이나 걸려?",
+      "topicTag": "AI_블로깅_자동화",
+      "postId": "18120249607582376",
+      "publishedAt": "2026-02-12T14:43:41.871Z",
+      "textLength": 251
     }
   ],
   "lastCategoryIndex": 1
