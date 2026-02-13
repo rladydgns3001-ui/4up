@@ -1,4 +1,7 @@
+<meta charset="UTF-8">
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap');
+
 /* WordPress 테마 요소 숨김 + 풀 너비 */
 .page-id-209,.page-id-209 html,.page-id-209 body{overflow-x:hidden!important;margin:0!important;padding:0!important}
 .page-id-209 .site-header,.page-id-209 header#masthead,.page-id-209 .entry-header,.page-id-209 .entry-title,.page-id-209 #secondary,.page-id-209 .sidebar,.page-id-209 aside,.page-id-209 .widget-area,.page-id-209 .site-footer,.page-id-209 footer#colophon,.page-id-209 .navigation,.page-id-209 .nav-links,.page-id-209 .post-navigation{display:none!important}
@@ -6,240 +9,353 @@
 .page-id-209 .site-content,.page-id-209 #content,.page-id-209 .content-area,.page-id-209 #primary,.page-id-209 .site-main,.page-id-209 #main,.page-id-209 article,.page-id-209 .post-209,.page-id-209 .inside-article,.page-id-209 .entry-content{width:100%!important;max-width:100%!important;margin:0!important;padding:0!important;float:none!important;overflow:visible!important}
 .page-id-209.separate-containers .inside-article,.page-id-209.separate-containers .site-main>article{padding:0!important;margin:0!important;background:transparent!important;box-shadow:none!important;border:none!important}
 .page-id-209.separate-containers .site-main{margin:0!important}
+
+/* 페이지 기본 */
 .rv-page,.rv-page *{box-sizing:border-box;margin:0;padding:0}
-.rv-page{font-family:'Noto Sans KR',-apple-system,BlinkMacSystemFont,sans-serif;line-height:1.6;color:#333;max-width:100%;overflow-x:hidden}
-.rv-hero{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:white;padding:80px 20px;text-align:center}
-.rv-hero h1{font-size:2.5rem;font-weight:900;margin-bottom:12px}
+.rv-page{font-family:'Noto Sans KR',-apple-system,BlinkMacSystemFont,'Malgun Gothic',sans-serif;line-height:1.6;color:#333;max-width:100%;overflow-x:hidden;background:#fff}
+
+/* 히어로 */
+.rv-hero{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:#fff;padding:56px 20px 48px;text-align:center}
+.rv-hero h1{font-size:2rem;font-weight:900;margin-bottom:8px;letter-spacing:-0.5px}
 .rv-hero h1 span{color:#ffd93d}
-.rv-hero p{opacity:0.85;font-size:1.1rem;margin-bottom:20px}
-.rv-hero-stat{display:inline-flex;gap:30px;background:rgba(255,255,255,0.1);padding:15px 30px;border-radius:50px}
-.rv-hero-stat div{text-align:center}
-.rv-hero-stat strong{display:block;font-size:1.5rem;color:#ffd93d}
-.rv-hero-stat span{font-size:0.8rem;opacity:0.7}
-.rv-container{max-width:900px;margin:0 auto;padding:0 20px}
-.rv-section{padding:80px 20px}
-.rv-section-title{font-size:2rem;font-weight:900;text-align:center;margin-bottom:12px}
-.rv-section-title span{color:#667eea}
-.rv-section-subtitle{text-align:center;color:#666;font-size:1rem;margin-bottom:50px}
-/* 카카오톡 스타일 후기 */
-.rv-kakao-card{background:#f6f0e5;border-radius:20px;padding:30px;margin-bottom:25px}
-.rv-kakao-header{display:flex;align-items:center;gap:10px;margin-bottom:18px}
-.rv-kakao-avatar{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.9rem;color:#333}
-.rv-kakao-name{font-size:0.95rem;font-weight:700}
-.rv-kakao-desc{color:#999;font-size:0.8rem}
-.rv-kakao-bubbles{display:flex;flex-direction:column;gap:8px}
-.rv-bubble-left{align-self:flex-start;background:white;padding:12px 18px;border-radius:0 15px 15px 15px;max-width:85%;font-size:0.95rem;line-height:1.6;box-shadow:0 1px 3px rgba(0,0,0,0.05)}
-.rv-bubble-right{align-self:flex-end;background:#fef01b;padding:12px 18px;border-radius:15px 0 15px 15px;max-width:85%;font-size:0.95rem;line-height:1.6}
-/* 별점 카드 후기 */
-.rv-star-card{background:white;border-radius:20px;padding:30px;margin-bottom:20px;box-shadow:0 5px 25px rgba(0,0,0,0.06);border:1px solid #f0f0f0}
-.rv-star-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:15px}
-.rv-star-user{display:flex;align-items:center;gap:10px}
-.rv-star-avatar{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.85rem;color:white}
-.rv-star-rating{color:#ffd93d;font-size:1.1rem;letter-spacing:2px}
-.rv-star-date{color:#bbb;font-size:0.8rem}
-.rv-star-body{color:#555;font-size:0.95rem;line-height:1.8}
-.rv-star-tags{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
-.rv-star-tag{background:#f0f4ff;color:#667eea;padding:4px 12px;border-radius:50px;font-size:0.75rem;font-weight:600}
+.rv-hero p{opacity:.85;font-size:1rem;margin-bottom:20px}
+.rv-hero-stats{display:inline-flex;gap:28px;background:rgba(255,255,255,.12);padding:14px 28px;border-radius:50px}
+.rv-hero-stats div{text-align:center}
+.rv-hero-stats strong{display:block;font-size:1.4rem;color:#ffd93d}
+.rv-hero-stats span{font-size:.75rem;opacity:.7}
+
+/* 게시판 래퍼 */
+.rv-board-wrap{max-width:920px;margin:0 auto;padding:32px 20px 48px}
+
+/* 카테고리 탭 */
+.rv-tabs{display:flex;gap:0;border-bottom:2px solid #667eea;margin-bottom:0}
+.rv-tab{padding:10px 24px;cursor:pointer;background:#f8f9fa;border:1px solid #e5e7eb;border-bottom:none;font-size:.88rem;font-weight:600;color:#666;border-radius:6px 6px 0 0;margin-right:2px;transition:all .15s;user-select:none}
+.rv-tab:hover{background:#eef1ff;color:#667eea}
+.rv-tab.active{background:#667eea;color:#fff;border-color:#667eea}
+.rv-tab .rv-tab-count{font-size:.75rem;opacity:.7;margin-left:4px}
+
+/* 게시판 테이블 */
+.rv-board{width:100%;border-top:2px solid #333}
+.rv-board-header{display:flex;align-items:center;background:#f8f9fa;border-bottom:1px solid #e5e7eb;padding:11px 0;font-weight:700;font-size:.8rem;color:#666;letter-spacing:-.2px}
+.rv-board-row{display:flex;align-items:center;border-bottom:1px solid #f0f0f0;padding:13px 0;cursor:pointer;transition:background .12s}
+.rv-board-row:hover{background:#f8f9ff}
+.rv-board-row.expanded{background:#f0f3ff;border-bottom-color:#e0e4f5}
+
+/* 컬럼 */
+.rv-col-no{width:52px;text-align:center;flex-shrink:0;font-size:.82rem;color:#999}
+.rv-col-title{flex:1;font-size:.93rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding-right:12px;color:#333}
+.rv-col-title:hover{color:#667eea}
+.rv-col-author{width:72px;text-align:center;flex-shrink:0;font-size:.82rem;color:#555}
+.rv-col-date{width:56px;text-align:center;flex-shrink:0;font-size:.8rem;color:#aaa}
+.rv-col-rating{width:56px;text-align:center;flex-shrink:0;font-size:.82rem;color:#ffa502;font-weight:600}
+
+/* 배지 */
+.rv-badge{display:inline-block;padding:1px 7px;border-radius:3px;font-size:.68rem;font-weight:700;margin-right:6px;vertical-align:middle;letter-spacing:-.3px}
+.rv-badge-paid{background:#e8f4fd;color:#1e90ff}
+.rv-badge-new{background:#fff0f0;color:#ff4757}
+.rv-badge-pro{background:#f0e8ff;color:#764ba2}
+
+/* 아코디언 상세 */
+.rv-board-detail{max-height:0;overflow:hidden;transition:max-height .35s ease;background:#fafbfc;border-bottom:1px solid transparent}
+.rv-board-detail.open{max-height:400px;border-bottom-color:#e5e7eb}
+.rv-detail-inner{padding:24px 20px 24px 52px}
+.rv-detail-stars{color:#ffd93d;font-size:1.05rem;letter-spacing:2px;margin-bottom:10px}
+.rv-detail-meta{font-size:.8rem;color:#999;margin-bottom:12px}
+.rv-detail-body{color:#444;font-size:.93rem;line-height:1.85;margin-bottom:16px;white-space:pre-wrap}
+.rv-detail-tags{display:flex;gap:6px;flex-wrap:wrap}
+.rv-detail-tag{background:#f0f4ff;color:#667eea;padding:3px 11px;border-radius:50px;font-size:.73rem;font-weight:600}
+
+/* 하단 액션 바 */
+.rv-board-actions{display:flex;justify-content:space-between;align-items:center;padding:18px 0;flex-wrap:wrap;gap:12px}
+.rv-pagination{display:flex;align-items:center;gap:3px}
+.rv-page-btn{padding:6px 11px;border:1px solid #e5e7eb;background:#fff;cursor:pointer;font-size:.82rem;border-radius:4px;color:#555;font-family:inherit;transition:all .12s}
+.rv-page-btn:hover{border-color:#667eea;color:#667eea}
+.rv-page-btn.active{background:#667eea;color:#fff;border-color:#667eea}
+.rv-page-btn:disabled{opacity:.4;cursor:default}
+.rv-write-btn{display:inline-flex;align-items:center;gap:6px;padding:10px 22px;background:#667eea;color:#fff;border:none;border-radius:6px;font-size:.88rem;font-weight:700;cursor:pointer;font-family:inherit;transition:all .15s;letter-spacing:-.2px}
+.rv-write-btn:hover{background:#5a6fd6;transform:translateY(-1px);box-shadow:0 4px 12px rgba(102,126,234,.3)}
+
+/* 동적 로딩 */
+.rv-loading{text-align:center;padding:30px 0}
+.rv-loading-spinner{display:inline-block;width:28px;height:28px;border:3px solid #e8e8e8;border-top:3px solid #667eea;border-radius:50%;animation:rv-spin .7s linear infinite}
+@keyframes rv-spin{to{transform:rotate(360deg)}}
+.rv-no-reviews{text-align:center;padding:24px;color:#aaa;font-size:.88rem;border-bottom:1px solid #f0f0f0}
+
 /* 후기 작성 폼 */
-.rv-form-section{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);padding:80px 20px;color:white}
-.rv-form-card{background:white;color:#333;border-radius:24px;padding:40px 30px;max-width:600px;margin:0 auto;box-shadow:0 20px 60px rgba(0,0,0,0.2)}
-.rv-form-title{font-size:1.5rem;font-weight:800;margin-bottom:8px;text-align:center}
-.rv-form-desc{color:#666;font-size:0.95rem;margin-bottom:25px;text-align:center}
-.rv-incentive{background:linear-gradient(135deg,rgba(102,126,234,0.08),rgba(118,75,162,0.08));border-radius:14px;padding:20px;margin-bottom:25px;text-align:center}
-.rv-incentive-title{color:#667eea;font-weight:800;font-size:1.05rem;margin-bottom:6px}
-.rv-incentive-desc{color:#666;font-size:0.9rem}
-.rv-form-group{margin-bottom:18px}
-.rv-form-label{display:block;font-weight:600;font-size:0.9rem;margin-bottom:6px;color:#333}
-.rv-form-input,.rv-form-textarea,.rv-form-select{width:100%;padding:14px 16px;border:2px solid #e8e8e8;border-radius:12px;font-size:0.95rem;font-family:inherit;transition:border-color 0.3s;outline:none}
+.rv-form-section{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);padding:64px 20px;color:#fff}
+.rv-form-header{text-align:center;margin-bottom:36px}
+.rv-form-header h2{font-size:1.8rem;font-weight:900;margin-bottom:8px}
+.rv-form-header p{color:rgba(255,255,255,.8);font-size:1rem}
+.rv-form-card{background:#fff;color:#333;border-radius:20px;padding:36px 28px;max-width:600px;margin:0 auto;box-shadow:0 20px 60px rgba(0,0,0,.2)}
+.rv-incentive{background:linear-gradient(135deg,rgba(102,126,234,.08),rgba(118,75,162,.08));border-radius:14px;padding:18px;margin-bottom:24px;text-align:center}
+.rv-incentive-title{color:#667eea;font-weight:800;font-size:1rem;margin-bottom:4px}
+.rv-incentive-desc{color:#666;font-size:.88rem;line-height:1.6}
+.rv-form-group{margin-bottom:16px}
+.rv-form-label{display:block;font-weight:600;font-size:.88rem;margin-bottom:5px;color:#333}
+.rv-form-input,.rv-form-textarea,.rv-form-select{width:100%;padding:12px 14px;border:2px solid #e8e8e8;border-radius:10px;font-size:.93rem;font-family:inherit;transition:border-color .2s;outline:none}
 .rv-form-input:focus,.rv-form-textarea:focus,.rv-form-select:focus{border-color:#667eea}
-.rv-form-textarea{min-height:120px;resize:vertical}
-.rv-star-input{display:flex;gap:8px;margin-bottom:4px}
-.rv-star-input span{font-size:2rem;cursor:pointer;color:#ddd;transition:color 0.2s}
+.rv-form-textarea{min-height:110px;resize:vertical}
+.rv-star-input{display:flex;gap:6px;margin-bottom:4px}
+.rv-star-input span{font-size:1.8rem;cursor:pointer;color:#ddd;transition:color .15s}
 .rv-star-input span.active{color:#ffd93d}
-.rv-form-submit{width:100%;padding:18px;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:white;border:none;border-radius:14px;font-size:1.1rem;font-weight:800;cursor:pointer;font-family:inherit}
-.rv-form-submit:hover{opacity:0.95;transform:translateY(-1px)}
-.rv-success{display:none;text-align:center;padding:30px}
-.rv-success h3{font-size:1.3rem;font-weight:800;color:#333;margin-bottom:15px}
-.rv-success p{color:#666;font-size:0.95rem;margin-bottom:20px}
-.rv-download-btn{display:inline-block;padding:16px 40px;background:linear-gradient(135deg,#667eea,#764ba2);color:white;border-radius:50px;font-weight:700;font-size:1rem;text-decoration:none}
-.rv-download-btn:hover{color:white;transform:translateY(-2px);box-shadow:0 10px 30px rgba(102,126,234,0.4)}
-.rv-footer{background:#4a3a7a;color:rgba(255,255,255,0.7);padding:40px 20px;text-align:center;font-size:0.85rem}
+.rv-form-submit{width:100%;padding:16px;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:#fff;border:none;border-radius:12px;font-size:1.05rem;font-weight:800;cursor:pointer;font-family:inherit;transition:all .15s}
+.rv-form-submit:hover{opacity:.95;transform:translateY(-1px)}
+.rv-form-hint{font-size:.78rem;color:#999;margin-top:4px;display:block}
+.rv-success{display:none;text-align:center;padding:28px}
+.rv-success h3{font-size:1.2rem;font-weight:800;color:#333;margin-bottom:12px}
+.rv-success p{color:#666;font-size:.93rem;margin-bottom:18px}
+.rv-download-btn{display:inline-block;padding:14px 36px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border-radius:50px;font-weight:700;font-size:1rem;text-decoration:none;transition:all .15s}
+.rv-download-btn:hover{color:#fff;transform:translateY(-2px);box-shadow:0 10px 30px rgba(102,126,234,.4)}
+
+/* CTA */
+.rv-cta{background:#fff;padding:52px 20px;text-align:center;border-top:1px solid #f0f0f0}
+.rv-cta h2{font-size:1.6rem;font-weight:900;color:#333;margin-bottom:10px}
+.rv-cta p{color:#666;font-size:.95rem;margin-bottom:28px}
+.rv-cta-btn{display:inline-block;padding:15px 38px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border-radius:50px;font-weight:700;font-size:1rem;text-decoration:none;transition:all .15s}
+.rv-cta-btn:hover{color:#fff;transform:translateY(-2px);box-shadow:0 10px 30px rgba(102,126,234,.3)}
+
+/* 푸터 */
+.rv-footer{background:#4a3a7a;color:rgba(255,255,255,.7);padding:36px 20px;text-align:center;font-size:.82rem}
 .rv-footer a{color:#ffd93d;text-decoration:none}
+
+/* 반응형 */
 @media(max-width:768px){
-.rv-hero h1{font-size:1.8rem}
-.rv-hero-stat{flex-direction:row;gap:20px;padding:12px 20px}
-.rv-section-title{font-size:1.5rem}
-.rv-form-card{padding:28px 20px}
+    .rv-hero{padding:40px 16px 36px}
+    .rv-hero h1{font-size:1.6rem}
+    .rv-hero-stats{gap:16px;padding:10px 18px}
+    .rv-hero-stats strong{font-size:1.15rem}
+    .rv-board-wrap{padding:20px 12px 36px}
+    .rv-tab{padding:8px 16px;font-size:.82rem}
+    .rv-col-no{display:none}
+    .rv-col-date{display:none}
+    .rv-col-rating{width:44px;font-size:.78rem}
+    .rv-col-author{width:56px;font-size:.78rem}
+    .rv-col-title{font-size:.88rem}
+    .rv-board-row{padding:11px 4px}
+    .rv-board-header{padding:9px 4px}
+    .rv-detail-inner{padding:18px 14px}
+    .rv-board-actions{justify-content:center;flex-direction:column-reverse;gap:10px}
+    .rv-form-section{padding:48px 16px}
+    .rv-form-card{padding:28px 18px}
+    .rv-form-header h2{font-size:1.4rem}
+    .rv-cta h2{font-size:1.3rem}
 }
 </style>
 
 <div class="rv-page">
 
-    <!-- Hero -->
+    <!-- 히어로 -->
     <section class="rv-hero">
-        <h1>실제 사용자 <span>후기</span></h1>
+        <h1>사용자 <span>후기</span></h1>
         <p>AutoPost SEO Writer를 사용 중인 분들의 솔직한 후기입니다</p>
-        <div class="rv-hero-stat">
+        <div class="rv-hero-stats">
             <div><strong>4.9</strong><span>평균 별점</span></div>
-            <div><strong>10+</strong><span>누적 후기</span></div>
+            <div><strong id="rv-total-count">10+</strong><span>누적 후기</span></div>
             <div><strong>98%</strong><span>만족도</span></div>
         </div>
     </section>
 
-    <!-- 카카오톡 후기 -->
-    <section class="rv-section" style="background:#fff">
-        <div class="rv-container">
-            <h2 class="rv-section-title">카카오톡 <span>실제 대화</span></h2>
-            <p class="rv-section-subtitle">구매자분들과의 실제 카카오톡 대화 내용입니다</p>
+    <!-- 게시판 -->
+    <section class="rv-board-wrap">
 
-            <!-- 카톡 후기 1 -->
-            <div class="rv-kakao-card">
-                <div class="rv-kakao-header">
-                    <div class="rv-kakao-avatar" style="background:#ffd93d">J</div>
-                    <div><span class="rv-kakao-name">김지** 님</span><br><span class="rv-kakao-desc">블로그 막 시작</span></div>
-                </div>
-                <div class="rv-kakao-bubbles">
-                    <div class="rv-bubble-left">안녕하세요! 프로그램 구매하고 3일 됐는데 후기 남겨요 😊</div>
-                    <div class="rv-bubble-left">하루에 키워드 하나씩 넣고 있는데 벌써 글이 3개 올라갔어요. 직접 썼으면 절대 못했을 퀄리티에요 ㅋㅋ</div>
-                    <div class="rv-bubble-right">감사합니다! 글 퀄리티 만족하시나요?</div>
-                    <div class="rv-bubble-left">네! SEO 구조도 자동으로 잡아주고 이미지까지 넣어주니까 진짜 키워드만 넣으면 끝이에요. 이 퀄리티면 검색 유입 기대해봐도 될 것 같아요 👍</div>
+        <!-- 카테고리 탭 -->
+        <div class="rv-tabs">
+            <div class="rv-tab active" data-filter="all" onclick="filterTab(this)">전체<span class="rv-tab-count" id="rv-tab-all-count">(10)</span></div>
+            <div class="rv-tab" data-filter="paid" onclick="filterTab(this)">유료후기<span class="rv-tab-count" id="rv-tab-paid-count">(10)</span></div>
+        </div>
+
+        <!-- 테이블 -->
+        <div class="rv-board">
+            <!-- 헤더 -->
+            <div class="rv-board-header">
+                <div class="rv-col-no">번호</div>
+                <div class="rv-col-title">제목</div>
+                <div class="rv-col-author">작성자</div>
+                <div class="rv-col-date">날짜</div>
+                <div class="rv-col-rating">별점</div>
+            </div>
+
+            <!-- 동적 후기 (Google Sheets - 상단 표시) -->
+            <div id="rv-dynamic-rows"></div>
+
+            <!-- 정적 후기 10개 -->
+            <div class="rv-board-row" data-cat="paid" onclick="toggleDetail(this)">
+                <div class="rv-col-no">10</div>
+                <div class="rv-col-title"><span class="rv-badge rv-badge-new">NEW</span>IT 블로그에 딱! Claude AI가 기술 글도 잘 써줍니다</div>
+                <div class="rv-col-author">오현**</div>
+                <div class="rv-col-date">02.13</div>
+                <div class="rv-col-rating">★ 5.0</div>
+            </div>
+            <div class="rv-board-detail">
+                <div class="rv-detail-inner">
+                    <div class="rv-detail-stars">★★★★★</div>
+                    <div class="rv-detail-meta">오현** · Basic · 사용 6일</div>
+                    <div class="rv-detail-body">IT/개발 분야 블로그인데 전문적인 글도 잘 써줍니다. Claude AI가 확실히 GPT보다 기술 글 퀄리티가 좋은 것 같아요. 메타 설명, H태그, FAQ 섹션까지 SEO 구조가 잘 잡혀서 나오니까 따로 손댈 게 없어요. 6일 동안 글 6개 올렸는데 이 페이스면 블로그 키우는 데 시간이 확 줄 것 같습니다.</div>
+                    <div class="rv-detail-tags"><span class="rv-detail-tag">IT/개발</span><span class="rv-detail-tag">SEO 구조</span><span class="rv-detail-tag">글 퀄리티</span></div>
                 </div>
             </div>
 
-            <!-- 카톡 후기 2 -->
-            <div class="rv-kakao-card">
-                <div class="rv-kakao-header">
-                    <div class="rv-kakao-avatar" style="background:#a8d8ea">P</div>
-                    <div><span class="rv-kakao-name">박성** 님</span><br><span class="rv-kakao-desc">부동산 블로그 운영</span></div>
-                </div>
-                <div class="rv-kakao-bubbles">
-                    <div class="rv-bubble-left">부동산 키워드로 글 쓰고 있는데요, 솔직히 이 가격에 이 퀄리티는 사기급이에요 ㅋㅋㅋ</div>
-                    <div class="rv-bubble-left">전에 외주 맡기면 글 하나에 3만원씩 줬는데... 이건 100원도 안 들잖아요 😂</div>
-                    <div class="rv-bubble-right">맞아요 ㅎㅎ API 비용만 들어서 정말 저렴하죠!</div>
-                    <div class="rv-bubble-left">SEO 구조도 알아서 잡아주니까 저는 키워드만 고르면 끝이에요. 진짜 강추합니다 🔥</div>
+            <div class="rv-board-row" data-cat="paid" onclick="toggleDetail(this)">
+                <div class="rv-col-no">9</div>
+                <div class="rv-col-title"><span class="rv-badge rv-badge-new">NEW</span>Basic인데 벌써 Pro 업그레이드 고민 중이에요</div>
+                <div class="rv-col-author">강민**</div>
+                <div class="rv-col-date">02.12</div>
+                <div class="rv-col-rating">★ 5.0</div>
+            </div>
+            <div class="rv-board-detail">
+                <div class="rv-detail-inner">
+                    <div class="rv-detail-stars">★★★★★</div>
+                    <div class="rv-detail-meta">강민** · Basic · 사용 4일</div>
+                    <div class="rv-detail-body">Basic으로 시작했는데 벌써 Pro 업그레이드 고민 중이에요. 하루에 키워드 하나씩 넣고 있는데 글 퀄리티가 진짜 좋아서 놀랐습니다. 4일 만에 글 4개 올렸는데 손으로 쓴 것보다 훨씬 낫더라고요. 대량 등록 기능 쓰고 싶어서 곧 Pro로 갈아탈 것 같습니다.</div>
+                    <div class="rv-detail-tags"><span class="rv-detail-tag">글 퀄리티</span><span class="rv-detail-tag">Pro 업그레이드 고민</span></div>
                 </div>
             </div>
 
-            <!-- 카톡 후기 3 -->
-            <div class="rv-kakao-card">
-                <div class="rv-kakao-header">
-                    <div class="rv-kakao-avatar" style="background:#c3aed6">L</div>
-                    <div><span class="rv-kakao-name">이수** 님</span><br><span class="rv-kakao-desc">직장인 부업 준비 중</span></div>
+            <div class="rv-board-row" data-cat="paid" onclick="toggleDetail(this)">
+                <div class="rv-col-no">8</div>
+                <div class="rv-col-title"><span class="rv-badge rv-badge-pro">Pro</span>자동 색인 요청 기능이 편해서 V2 Pro 선택했어요</div>
+                <div class="rv-col-author">윤서**</div>
+                <div class="rv-col-date">02.12</div>
+                <div class="rv-col-rating">★ 5.0</div>
+            </div>
+            <div class="rv-board-detail">
+                <div class="rv-detail-inner">
+                    <div class="rv-detail-stars">★★★★★</div>
+                    <div class="rv-detail-meta">윤서** · V2 Pro · 사용 1주</div>
+                    <div class="rv-detail-body">재테크 블로그를 시작하려고 V2 Pro로 구매했어요. 자동 색인 요청 기능이 편해서 선택했는데, 글 발행하면 알아서 색인 신청까지 해주니까 제가 따로 할 게 없어요. 일주일 만에 글 15개 쌓였고, 색인도 조금씩 되기 시작해서 앞으로가 기대됩니다.</div>
+                    <div class="rv-detail-tags"><span class="rv-detail-tag">자동 색인</span><span class="rv-detail-tag">재테크</span><span class="rv-detail-tag">대량 발행</span></div>
                 </div>
-                <div class="rv-kakao-bubbles">
-                    <div class="rv-bubble-left">저 컴퓨터 완전 못하는데 사용설명서랑 1:1 안내해주셔서 너무 편했어요 ㅠㅠ</div>
-                    <div class="rv-bubble-left">설치부터 첫 글 발행까지 30분이면 끝나더라고요. 직장인한테 이게 진짜 꿀템입니다</div>
-                    <div class="rv-bubble-right">잘 활용해주셔서 감사해요! 궁금한 거 있으면 언제든 연락주세요 😊</div>
-                    <div class="rv-bubble-left">이틀 만에 글 5개 올렸는데 이 속도면 한 달이면 글이 엄청 쌓이겠죠? ㅎㅎ 수익화가 기대됩니다 감사합니다!!</div>
+            </div>
+
+            <div class="rv-board-row" data-cat="paid" onclick="toggleDetail(this)">
+                <div class="rv-col-no">7</div>
+                <div class="rv-col-title"><span class="rv-badge rv-badge-paid">후기</span>원격 설치 지원 덕분에 30분 만에 설정 완료!</div>
+                <div class="rv-col-author">송재**</div>
+                <div class="rv-col-date">02.11</div>
+                <div class="rv-col-rating">★ 4.0</div>
+            </div>
+            <div class="rv-board-detail">
+                <div class="rv-detail-inner">
+                    <div class="rv-detail-stars">★★★★☆</div>
+                    <div class="rv-detail-meta">송재** · Basic · 사용 2일</div>
+                    <div class="rv-detail-body">설치할 때 직접 원격 접속해서 해주셔서 좋았어요. 저는 컴퓨터를 잘 모르는데 30분 만에 다 설정 끝나고, 바로 첫 글 발행까지 해봤습니다. 글 퀄리티는 정말 만족스럽고, 워드프레스에 자동으로 올라가는 게 신기해요. 이대로 꾸준히 쌓으면 수익 나올 것 같아서 기대됩니다!</div>
+                    <div class="rv-detail-tags"><span class="rv-detail-tag">1:1 설치 지원</span><span class="rv-detail-tag">왕초보</span></div>
+                </div>
+            </div>
+
+            <div class="rv-board-row" data-cat="paid" onclick="toggleDetail(this)">
+                <div class="rv-col-no">6</div>
+                <div class="rv-col-title"><span class="rv-badge rv-badge-paid">후기</span>건강 블로그 시작, 3일 만에 글 3개 자동 발행</div>
+                <div class="rv-col-author">정다**</div>
+                <div class="rv-col-date">02.11</div>
+                <div class="rv-col-rating">★ 5.0</div>
+            </div>
+            <div class="rv-board-detail">
+                <div class="rv-detail-inner">
+                    <div class="rv-detail-stars">★★★★★</div>
+                    <div class="rv-detail-meta">정다** · Basic · 사용 3일</div>
+                    <div class="rv-detail-body">건강 관련 블로그 시작하려고 구매했어요. 매일 키워드 하나씩 넣고 있는데 3일 만에 글 3개가 자동으로 올라갔습니다. 글 퀄리티가 직접 쓴 것처럼 자연스럽고, 애드센스 광고 코드도 자동 삽입돼서 나중에 수익화가 기대됩니다. 설치도 1:1로 도와주셔서 어렵지 않았어요.</div>
+                    <div class="rv-detail-tags"><span class="rv-detail-tag">건강 블로그</span><span class="rv-detail-tag">자동 발행</span><span class="rv-detail-tag">쉬운 설치</span></div>
+                </div>
+            </div>
+
+            <div class="rv-board-row" data-cat="paid" onclick="toggleDetail(this)">
+                <div class="rv-col-no">5</div>
+                <div class="rv-col-title"><span class="rv-badge rv-badge-paid">후기</span>블로그 자동화 툴 여러 개 써봤지만 차원이 다릅니다</div>
+                <div class="rv-col-author">한민**</div>
+                <div class="rv-col-date">02.10</div>
+                <div class="rv-col-rating">★ 5.0</div>
+            </div>
+            <div class="rv-board-detail">
+                <div class="rv-detail-inner">
+                    <div class="rv-detail-stars">★★★★★</div>
+                    <div class="rv-detail-meta">한민** · Basic · 사용 4일</div>
+                    <div class="rv-detail-body">블로그 자동화 툴을 여러 개 써봤는데 이건 차원이 다릅니다. 다른 툴은 글 퀄리티가 영 별로라 결국 손으로 다시 고쳐야 했는데, AutoPost는 Claude AI라서 그런지 처음부터 퀄리티가 좋아요. SEO 구조도 자동으로 잡아주고, 이미지까지 알아서 생성해서 넣어주니까 진짜 키워드만 입력하면 끝입니다.</div>
+                    <div class="rv-detail-tags"><span class="rv-detail-tag">글 퀄리티</span><span class="rv-detail-tag">Claude AI</span><span class="rv-detail-tag">SEO</span></div>
+                </div>
+            </div>
+
+            <div class="rv-board-row" data-cat="paid" onclick="toggleDetail(this)">
+                <div class="rv-col-no">4</div>
+                <div class="rv-col-title"><span class="rv-badge rv-badge-pro">Pro</span>V2 Pro 예약 발행, 일주일 만에 글 20개 쌓였어요</div>
+                <div class="rv-col-author">최은**</div>
+                <div class="rv-col-date">02.10</div>
+                <div class="rv-col-rating">★ 5.0</div>
+            </div>
+            <div class="rv-board-detail">
+                <div class="rv-detail-inner">
+                    <div class="rv-detail-stars">★★★★★</div>
+                    <div class="rv-detail-meta">최은** · V2 Pro · 사용 1주</div>
+                    <div class="rv-detail-body">V2 Pro로 바로 구매했는데 진짜 잘한 선택이에요. 키워드 10개 넣어놓고 예약 발행 걸어두니까 하루에 알아서 글이 올라갑니다. 일주일 만에 글이 20개 넘게 쌓였고, 구글에 색인도 하나둘 되기 시작했어요. 예약 발행 기능이 진짜 신의 한 수입니다.</div>
+                    <div class="rv-detail-tags"><span class="rv-detail-tag">V2 Pro</span><span class="rv-detail-tag">예약발행</span><span class="rv-detail-tag">대량등록</span></div>
+                </div>
+            </div>
+
+            <div class="rv-board-row" data-cat="paid" onclick="toggleDetail(this)">
+                <div class="rv-col-no">3</div>
+                <div class="rv-col-title"><span class="rv-badge rv-badge-paid">후기</span>직장인 부업으로 딱! 설치부터 발행까지 30분</div>
+                <div class="rv-col-author">이수**</div>
+                <div class="rv-col-date">02.09</div>
+                <div class="rv-col-rating">★ 5.0</div>
+            </div>
+            <div class="rv-board-detail">
+                <div class="rv-detail-inner">
+                    <div class="rv-detail-stars">★★★★★</div>
+                    <div class="rv-detail-meta">이수** · 직장인 부업 · 사용 3일</div>
+                    <div class="rv-detail-body">저 컴퓨터 완전 못하는데 사용설명서랑 1:1 안내해주셔서 너무 편했어요. 설치부터 첫 글 발행까지 30분이면 끝나더라고요. 직장인한테 이게 진짜 꿀템입니다. 이틀 만에 글 5개 올렸는데 이 속도면 한 달이면 글이 엄청 쌓이겠죠? 수익화가 기대됩니다!</div>
+                    <div class="rv-detail-tags"><span class="rv-detail-tag">직장인 부업</span><span class="rv-detail-tag">쉬운 설치</span><span class="rv-detail-tag">빠른 발행</span></div>
+                </div>
+            </div>
+
+            <div class="rv-board-row" data-cat="paid" onclick="toggleDetail(this)">
+                <div class="rv-col-no">2</div>
+                <div class="rv-col-title"><span class="rv-badge rv-badge-paid">후기</span>부동산 키워드로 글 쓰는데 외주비 대비 가성비 최고</div>
+                <div class="rv-col-author">박성**</div>
+                <div class="rv-col-date">02.09</div>
+                <div class="rv-col-rating">★ 5.0</div>
+            </div>
+            <div class="rv-board-detail">
+                <div class="rv-detail-inner">
+                    <div class="rv-detail-stars">★★★★★</div>
+                    <div class="rv-detail-meta">박성** · 부동산 블로그 · 사용 5일</div>
+                    <div class="rv-detail-body">부동산 키워드로 글 쓰고 있는데요, 솔직히 이 가격에 이 퀄리티는 사기급이에요. 전에 외주 맡기면 글 하나에 3만원씩 줬는데... 이건 100원도 안 들잖아요. SEO 구조도 알아서 잡아주니까 저는 키워드만 고르면 끝이에요. 진짜 강추합니다.</div>
+                    <div class="rv-detail-tags"><span class="rv-detail-tag">부동산</span><span class="rv-detail-tag">가성비</span><span class="rv-detail-tag">SEO</span></div>
+                </div>
+            </div>
+
+            <div class="rv-board-row" data-cat="paid" onclick="toggleDetail(this)">
+                <div class="rv-col-no">1</div>
+                <div class="rv-col-title"><span class="rv-badge rv-badge-paid">후기</span>키워드만 넣으면 끝! 3일 만에 글 3개, 퀄리티 대만족</div>
+                <div class="rv-col-author">김지**</div>
+                <div class="rv-col-date">02.08</div>
+                <div class="rv-col-rating">★ 5.0</div>
+            </div>
+            <div class="rv-board-detail">
+                <div class="rv-detail-inner">
+                    <div class="rv-detail-stars">★★★★★</div>
+                    <div class="rv-detail-meta">김지** · 블로그 초보 · 사용 3일</div>
+                    <div class="rv-detail-body">하루에 키워드 하나씩 넣고 있는데 벌써 글이 3개 올라갔어요. 직접 썼으면 절대 못했을 퀄리티에요. SEO 구조도 자동으로 잡아주고 이미지까지 넣어주니까 진짜 키워드만 넣으면 끝이에요. 이 퀄리티면 검색 유입 기대해봐도 될 것 같아요.</div>
+                    <div class="rv-detail-tags"><span class="rv-detail-tag">블로그 초보</span><span class="rv-detail-tag">글 퀄리티</span><span class="rv-detail-tag">SEO</span></div>
                 </div>
             </div>
         </div>
-    </section>
 
-    <!-- 별점 후기 -->
-    <section class="rv-section" style="background:#f8f9fa">
-        <div class="rv-container">
-            <h2 class="rv-section-title">사용자 <span>별점 후기</span></h2>
-            <p class="rv-section-subtitle">구매 후 직접 작성해주신 후기입니다</p>
-
-            <!-- 후기 4 -->
-            <div class="rv-star-card">
-                <div class="rv-star-header">
-                    <div class="rv-star-user">
-                        <div class="rv-star-avatar" style="background:#667eea">최</div>
-                        <div><strong>최은** 님</strong><br><span class="rv-star-date">사용 기간: 1주 · V2 Pro</span></div>
-                    </div>
-                    <div class="rv-star-rating">★★★★★</div>
-                </div>
-                <div class="rv-star-body">V2 Pro로 바로 구매했는데 진짜 잘한 선택이에요. 키워드 10개 넣어놓고 예약 발행 걸어두니까 하루에 알아서 글이 올라갑니다. 일주일 만에 글이 20개 넘게 쌓였고, 구글에 색인도 하나둘 되기 시작했어요. 예약 발행 기능이 진짜 신의 한 수입니다.</div>
-                <div class="rv-star-tags"><span class="rv-star-tag">V2 Pro</span><span class="rv-star-tag">예약발행</span><span class="rv-star-tag">대량등록</span></div>
+        <!-- 하단: 페이지네이션 + 글쓰기 버튼 -->
+        <div class="rv-board-actions">
+            <div class="rv-pagination">
+                <button class="rv-page-btn" disabled>&laquo;</button>
+                <button class="rv-page-btn active">1</button>
+                <button class="rv-page-btn" disabled>&raquo;</button>
             </div>
-
-            <!-- 후기 5 -->
-            <div class="rv-star-card">
-                <div class="rv-star-header">
-                    <div class="rv-star-user">
-                        <div class="rv-star-avatar" style="background:#ff6b81">한</div>
-                        <div><strong>한민** 님</strong><br><span class="rv-star-date">사용 기간: 4일 · Basic</span></div>
-                    </div>
-                    <div class="rv-star-rating">★★★★★</div>
-                </div>
-                <div class="rv-star-body">블로그 자동화 툴을 여러 개 써봤는데 이건 차원이 다릅니다. 다른 툴은 글 퀄리티가 영 별로라 결국 손으로 다시 고쳐야 했는데, AutoPost는 Claude AI라서 그런지 처음부터 퀄리티가 좋아요. SEO 구조도 자동으로 잡아주고, 이미지까지 알아서 생성해서 넣어주니까 진짜 키워드만 입력하면 끝입니다.</div>
-                <div class="rv-star-tags"><span class="rv-star-tag">글 퀄리티</span><span class="rv-star-tag">Claude AI</span><span class="rv-star-tag">SEO</span></div>
-            </div>
-
-            <!-- 후기 6 -->
-            <div class="rv-star-card">
-                <div class="rv-star-header">
-                    <div class="rv-star-user">
-                        <div class="rv-star-avatar" style="background:#ffa502">정</div>
-                        <div><strong>정다** 님</strong><br><span class="rv-star-date">사용 기간: 3일 · Basic</span></div>
-                    </div>
-                    <div class="rv-star-rating">★★★★★</div>
-                </div>
-                <div class="rv-star-body">건강 관련 블로그 시작하려고 구매했어요. 매일 키워드 하나씩 넣고 있는데 3일 만에 글 3개가 자동으로 올라갔습니다. 글 퀄리티가 직접 쓴 것처럼 자연스럽고, 애드센스 광고 코드도 자동 삽입돼서 나중에 수익화가 기대됩니다. 설치도 1:1로 도와주셔서 어렵지 않았어요.</div>
-                <div class="rv-star-tags"><span class="rv-star-tag">건강 블로그</span><span class="rv-star-tag">자동 발행</span><span class="rv-star-tag">쉬운 설치</span></div>
-            </div>
-
-            <!-- 후기 7 -->
-            <div class="rv-star-card">
-                <div class="rv-star-header">
-                    <div class="rv-star-user">
-                        <div class="rv-star-avatar" style="background:#2ed573">송</div>
-                        <div><strong>송재** 님</strong><br><span class="rv-star-date">사용 기간: 2일 · Basic</span></div>
-                    </div>
-                    <div class="rv-star-rating">★★★★☆</div>
-                </div>
-                <div class="rv-star-body">설치할 때 직접 원격 접속해서 해주셔서 좋았어요. 저는 컴퓨터를 잘 모르는데 30분 만에 다 설정 끝나고, 바로 첫 글 발행까지 해봤습니다. 글 퀄리티는 정말 만족스럽고, 워드프레스에 자동으로 올라가는 게 신기해요. 이대로 꾸준히 쌓으면 수익 나올 것 같아서 기대됩니다!</div>
-                <div class="rv-star-tags"><span class="rv-star-tag">1:1 설치 지원</span><span class="rv-star-tag">왕초보</span></div>
-            </div>
-
-            <!-- 후기 8 -->
-            <div class="rv-star-card">
-                <div class="rv-star-header">
-                    <div class="rv-star-user">
-                        <div class="rv-star-avatar" style="background:#5352ed">윤</div>
-                        <div><strong>윤서** 님</strong><br><span class="rv-star-date">사용 기간: 1주 · V2 Pro</span></div>
-                    </div>
-                    <div class="rv-star-rating">★★★★★</div>
-                </div>
-                <div class="rv-star-body">재테크 블로그를 시작하려고 V2 Pro로 구매했어요. 자동 색인 요청 기능이 편해서 선택했는데, 글 발행하면 알아서 색인 신청까지 해주니까 제가 따로 할 게 없어요. 일주일 만에 글 15개 쌓였고, 색인도 조금씩 되기 시작해서 앞으로가 기대됩니다.</div>
-                <div class="rv-star-tags"><span class="rv-star-tag">자동 색인</span><span class="rv-star-tag">재테크</span><span class="rv-star-tag">대량 발행</span></div>
-            </div>
-
-            <!-- 후기 9 -->
-            <div class="rv-star-card">
-                <div class="rv-star-header">
-                    <div class="rv-star-user">
-                        <div class="rv-star-avatar" style="background:#ff4757">강</div>
-                        <div><strong>강민** 님</strong><br><span class="rv-star-date">사용 기간: 4일 · Basic</span></div>
-                    </div>
-                    <div class="rv-star-rating">★★★★★</div>
-                </div>
-                <div class="rv-star-body">Basic으로 시작했는데 벌써 Pro 업그레이드 고민 중이에요. 하루에 키워드 하나씩 넣고 있는데 글 퀄리티가 진짜 좋아서 놀랐습니다. 4일 만에 글 4개 올렸는데 손으로 쓴 것보다 훨씬 낫더라고요. 대량 등록 기능 쓰고 싶어서 곧 Pro로 갈아탈 것 같습니다.</div>
-                <div class="rv-star-tags"><span class="rv-star-tag">글 퀄리티</span><span class="rv-star-tag">Pro 업그레이드 고민</span></div>
-            </div>
-
-            <!-- 후기 10 -->
-            <div class="rv-star-card">
-                <div class="rv-star-header">
-                    <div class="rv-star-user">
-                        <div class="rv-star-avatar" style="background:#1e90ff">오</div>
-                        <div><strong>오현** 님</strong><br><span class="rv-star-date">사용 기간: 6일 · Basic</span></div>
-                    </div>
-                    <div class="rv-star-rating">★★★★★</div>
-                </div>
-                <div class="rv-star-body">IT/개발 분야 블로그인데 전문적인 글도 잘 써줍니다. Claude AI가 확실히 GPT보다 기술 글 퀄리티가 좋은 것 같아요. 메타 설명, H태그, FAQ 섹션까지 SEO 구조가 잘 잡혀서 나오니까 따로 손댈 게 없어요. 6일 동안 글 6개 올렸는데 이 페이스면 블로그 키우는 데 시간이 확 줄 것 같습니다.</div>
-                <div class="rv-star-tags"><span class="rv-star-tag">IT/개발</span><span class="rv-star-tag">SEO 구조</span><span class="rv-star-tag">글 퀄리티</span></div>
-            </div>
+            <button class="rv-write-btn" onclick="document.getElementById('rv-form-section').scrollIntoView({behavior:'smooth'})">후기 작성하기 ✏️</button>
         </div>
     </section>
 
     <!-- 후기 작성 폼 -->
-    <section class="rv-form-section">
-        <div style="text-align:center;margin-bottom:40px">
-            <h2 style="font-size:2rem;font-weight:900;color:white;margin-bottom:12px">후기를 남겨주세요</h2>
-            <p style="color:rgba(255,255,255,0.8);font-size:1.05rem">구매자 후기 작성 시 수익화 키워드 30개를 무료로 드립니다</p>
+    <section id="rv-form-section" class="rv-form-section">
+        <div class="rv-form-header">
+            <h2>후기를 남겨주세요</h2>
+            <p>구매자 후기 작성 시 수익화 키워드 30개를 무료로 드립니다</p>
         </div>
 
         <div class="rv-form-card">
@@ -252,7 +368,7 @@
                 <div class="rv-form-group">
                     <label class="rv-form-label">구매 인증 코드 <span style="color:#ff4757">*</span></label>
                     <input type="text" id="rv-code" class="rv-form-input" placeholder="프로그램 전달 시 안내받은 인증 코드">
-                    <span style="font-size:0.8rem;color:#999;margin-top:4px;display:block">구매자에게만 제공되는 인증 코드를 입력해주세요.</span>
+                    <span class="rv-form-hint">구매자에게만 제공되는 인증 코드를 입력해주세요.</span>
                 </div>
 
                 <div class="rv-form-group">
@@ -292,6 +408,12 @@
                 </div>
 
                 <div class="rv-form-group">
+                    <label class="rv-form-label">관심 키워드/분야</label>
+                    <input type="text" id="rv-keyword" class="rv-form-input" placeholder="예: 건강, 재테크, IT, 여행, 부동산 등">
+                    <span class="rv-form-hint">수익화 키워드 추천에 참고됩니다.</span>
+                </div>
+
+                <div class="rv-form-group">
                     <label class="rv-form-label">이메일 (키워드 파일 발송용)</label>
                     <input type="email" id="rv-email" class="rv-form-input" placeholder="example@email.com">
                 </div>
@@ -301,20 +423,20 @@
 
             <!-- 작성 완료 -->
             <div class="rv-success" id="rv-success">
-                <div style="font-size:3rem;margin-bottom:15px">🎉</div>
+                <div style="font-size:3rem;margin-bottom:12px">🎉</div>
                 <h3>후기 감사합니다!</h3>
                 <p>아래 버튼을 눌러 수익화 키워드 30개를 다운로드하세요.</p>
-                <a href="https://docs.google.com/spreadsheets/d/1example/export?format=xlsx" class="rv-download-btn" id="rv-download-link">📥 키워드 30개 다운로드</a>
-                <p style="margin-top:20px;color:#999;font-size:0.85rem">이메일로도 발송해드렸습니다.</p>
+                <a href="https://docs.google.com/spreadsheets/d/1sGmv-q3cMFm7v8Wjh5lNjr2xQp64D3Sm3Q3KV7h_OQo/export?format=xlsx" class="rv-download-btn" id="rv-download-link">📥 키워드 30개 다운로드</a>
+                <p style="margin-top:16px;color:#999;font-size:.82rem">이메일로도 발송해드렸습니다.</p>
             </div>
         </div>
     </section>
 
     <!-- CTA -->
-    <section style="background:white;padding:60px 20px;text-align:center">
-        <h2 style="font-size:1.8rem;font-weight:900;color:#333;margin-bottom:12px">아직 구매 전이신가요?</h2>
-        <p style="color:#666;font-size:1rem;margin-bottom:30px">지금 시작하면 다음 후기의 주인공은 당신입니다.</p>
-        <a href="/payment/" style="display:inline-block;padding:16px 40px;background:linear-gradient(135deg,#667eea,#764ba2);color:white;border-radius:50px;font-weight:700;font-size:1rem;text-decoration:none">구매하러 가기 →</a>
+    <section class="rv-cta">
+        <h2>아직 구매 전이신가요?</h2>
+        <p>지금 시작하면 다음 후기의 주인공은 당신입니다.</p>
+        <a href="/payment/" class="rv-cta-btn">구매하러 가기 →</a>
     </section>
 
     <footer class="rv-footer">
@@ -324,7 +446,108 @@
 </div>
 
 <script>
-// 별점 클릭
+var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxCquDFPqe1k7Te7_N2x8juXUIu5UdcOiO1Yx6aijY6RDaoDqPe_cfcvl1W0Tvdi7wD/exec';
+var KEYWORD_DOWNLOAD_URL = 'https://docs.google.com/spreadsheets/d/1sGmv-q3cMFm7v8Wjh5lNjr2xQp64D3Sm3Q3KV7h_OQo/export?format=xlsx';
+var HARDCODED_REVIEW_COUNT = 10;
+
+/* XSS 방지 */
+function escapeHtml(str) {
+    var div = document.createElement('div');
+    div.appendChild(document.createTextNode(str));
+    return div.innerHTML;
+}
+
+/* 아코디언 토글 */
+function toggleDetail(row) {
+    var detail = row.nextElementSibling;
+    if (!detail || !detail.classList.contains('rv-board-detail')) return;
+
+    var wasOpen = detail.classList.contains('open');
+
+    // 다른 열려있는 것 닫기
+    document.querySelectorAll('.rv-board-detail.open').forEach(function(el) {
+        el.classList.remove('open');
+        el.previousElementSibling.classList.remove('expanded');
+    });
+
+    // 토글
+    if (!wasOpen) {
+        detail.classList.add('open');
+        row.classList.add('expanded');
+    }
+}
+
+/* 카테고리 탭 필터 */
+function filterTab(tab) {
+    document.querySelectorAll('.rv-tab').forEach(function(t) { t.classList.remove('active'); });
+    tab.classList.add('active');
+    // 현재는 전체/유료후기 모두 동일 (모든 후기가 유료)
+}
+
+/* 동적 후기 로드 (Google Sheets) */
+function loadReviews() {
+    var container = document.getElementById('rv-dynamic-rows');
+    container.innerHTML = '<div class="rv-loading"><div class="rv-loading-spinner"></div></div>';
+
+    fetch(APPS_SCRIPT_URL + '?action=getReviews')
+        .then(function(res) { return res.json(); })
+        .then(function(data) {
+            var reviews = data.reviews || [];
+            if (reviews.length === 0) {
+                container.innerHTML = '';
+                return;
+            }
+
+            var html = '';
+            var today = new Date();
+            reviews.forEach(function(r, i) {
+                var num = HARDCODED_REVIEW_COUNT + reviews.length - i;
+                var name = escapeHtml(r.name || '익명');
+                var maskedName = name.length > 1 ? name.charAt(0) + name.substring(1).replace(/./g, '*').substring(0, 2) : name;
+                var stars = '';
+                for (var s = 0; s < 5; s++) { stars += s < r.rating ? '★' : '☆'; }
+                var ratingNum = r.rating ? parseFloat(r.rating).toFixed(1) : '5.0';
+                var dateStr = r.date ? r.date.substring(5, 10).replace('-', '.') : (('0' + (today.getMonth() + 1)).slice(-2) + '.' + ('0' + today.getDate()).slice(-2));
+
+                var tags = '';
+                if (r.plan) tags += '<span class="rv-detail-tag">' + escapeHtml(r.plan) + '</span>';
+                if (r.period) tags += '<span class="rv-detail-tag">' + escapeHtml(r.period) + '</span>';
+
+                var titleText = escapeHtml(r.content || '').substring(0, 40);
+                if ((r.content || '').length > 40) titleText += '...';
+
+                html += '<div class="rv-board-row" data-cat="paid" onclick="toggleDetail(this)">'
+                    + '<div class="rv-col-no">' + num + '</div>'
+                    + '<div class="rv-col-title"><span class="rv-badge rv-badge-new">NEW</span>' + titleText + '</div>'
+                    + '<div class="rv-col-author">' + escapeHtml(maskedName) + '</div>'
+                    + '<div class="rv-col-date">' + dateStr + '</div>'
+                    + '<div class="rv-col-rating">★ ' + ratingNum + '</div>'
+                    + '</div>'
+                    + '<div class="rv-board-detail">'
+                    + '<div class="rv-detail-inner">'
+                    + '<div class="rv-detail-stars">' + stars + '</div>'
+                    + '<div class="rv-detail-meta">' + escapeHtml(maskedName) + ' · ' + escapeHtml(r.plan || '') + ' · 사용 ' + escapeHtml(r.period || '') + '</div>'
+                    + '<div class="rv-detail-body">' + escapeHtml(r.content || '') + '</div>'
+                    + (tags ? '<div class="rv-detail-tags">' + tags + '</div>' : '')
+                    + '</div></div>';
+            });
+            container.innerHTML = html;
+
+            // 통계 업데이트
+            var totalCount = HARDCODED_REVIEW_COUNT + reviews.length;
+            var countEl = document.getElementById('rv-total-count');
+            if (countEl) countEl.textContent = totalCount + '+';
+            var tabAllCount = document.getElementById('rv-tab-all-count');
+            if (tabAllCount) tabAllCount.textContent = '(' + totalCount + ')';
+            var tabPaidCount = document.getElementById('rv-tab-paid-count');
+            if (tabPaidCount) tabPaidCount.textContent = '(' + totalCount + ')';
+        })
+        .catch(function() {
+            container.innerHTML = '';
+        });
+}
+
+/* 별점 클릭 */
 var starRating = 5;
 document.querySelectorAll('.rv-star-input span').forEach(function(s) {
     s.addEventListener('click', function() {
@@ -335,6 +558,7 @@ document.querySelectorAll('.rv-star-input span').forEach(function(s) {
     });
 });
 
+/* 후기 제출 */
 var VALID_CODES = ['AUTOPOST2026'];
 function submitReview() {
     var code = document.getElementById('rv-code').value.trim().toUpperCase();
@@ -342,6 +566,7 @@ function submitReview() {
     var plan = document.getElementById('rv-plan').value;
     var period = document.getElementById('rv-period').value;
     var content = document.getElementById('rv-content').value.trim();
+    var keyword = document.getElementById('rv-keyword').value.trim();
     var email = document.getElementById('rv-email').value.trim();
 
     if (!code || VALID_CODES.indexOf(code) === -1) { alert('유효하지 않은 인증 코드입니다. 프로그램 전달 시 안내받은 코드를 입력해주세요.'); return; }
@@ -349,8 +574,7 @@ function submitReview() {
     if (content.length < 30) { alert('후기를 30자 이상 작성해주세요. (현재 ' + content.length + '자)'); return; }
     if (!email) { alert('이메일을 입력해주세요.'); return; }
 
-    // Google Sheets로 전송
-    fetch('https://script.google.com/macros/s/AKfycbxCquDFPqe1k7Te7_N2x8juXUIu5UdcOiO1Yx6aijY6RDaoDqPe_cfcvl1W0Tvdi7wD/exec', {
+    fetch(APPS_SCRIPT_URL, {
         method: 'POST', mode: 'no-cors',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -360,19 +584,20 @@ function submitReview() {
             period: period,
             rating: starRating,
             content: content,
+            keyword: keyword,
             email: email
         })
     }).catch(function(){});
 
-    // 성공 화면 표시
     document.getElementById('rv-form-area').style.display = 'none';
     document.getElementById('rv-success').style.display = 'block';
 }
 
-// WordPress 풀 너비
+/* 초기화 */
 document.addEventListener('DOMContentLoaded', function() {
     document.body.style.overflowX = 'hidden';
     var el = document.querySelector('.entry-content');
     while (el) { el.style.padding='0'; el.style.margin='0'; el.style.maxWidth='100%'; el.style.width='100%'; if (el.tagName==='BODY') break; el=el.parentElement; }
+    loadReviews();
 });
 </script>
