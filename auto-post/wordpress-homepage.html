@@ -26,13 +26,23 @@
     border-radius: 0;
 }
 
-/* ══════════ PRODUCT THUMBNAIL ══════════ */
+/* ══════════ PRODUCT TOP (이미지 + 결제) ══════════ */
+.ap-product-top {
+    max-width: 1100px; margin: 0 auto; padding: 20px 20px 10px;
+    display: flex; gap: 30px; align-items: flex-start;
+}
 .ap-product-thumb {
-    max-width: 1100px; margin: 0 auto; padding: 20px 20px 0;
+    flex: 1; min-width: 0;
 }
 .ap-product-thumb img {
-    width: 100%; border-radius: 16px;
+    width: 100%; height: auto; border-radius: 16px;
     box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+}
+.ap-top-sidebar {
+    flex: 0 0 300px; padding: 24px;
+    background: #fff; border-radius: 16px;
+    box-shadow: 0 5px 30px rgba(0,0,0,0.08);
+    border: 1px solid #f0f0f0;
 }
 
 /* ══════════ VIDEO SECTION ══════════ */
@@ -466,7 +476,8 @@
     .ap-rv-text { font-size: 13px; max-height: 140px; }
     .ap-faq-q { font-size: 0.9rem; padding: 16px 20px; }
     .ap-faq-a { padding: 0 20px 16px; font-size: 0.88rem; }
-    .ap-product-thumb { padding: 12px 12px 0; }
+    .ap-product-top { flex-direction: column; padding: 12px 12px 0; gap: 16px; }
+    .ap-top-sidebar { flex: none; width: 100%; display: none; }
     .ap-video-wrap { border-radius: 12px; }
     .ap-final-cta h2 { font-size: 1.6rem; }
     .ap-ctable thead th { padding: 14px 8px; font-size: 0.82rem; }
@@ -508,9 +519,40 @@
 
 <div class="ap-wrapper">
 
-<!-- ══════════ PRODUCT THUMBNAIL ══════════ -->
-<div class="ap-product-thumb">
-    <img src="product-thumbnail.png" alt="AutoPost SEO Writer - AI 수익형 블로그 자동 포스팅 프로그램">
+<!-- ══════════ PRODUCT TOP (이미지 + 결제) ══════════ -->
+<div class="ap-product-top">
+    <div class="ap-product-thumb">
+        <img src="product-thumbnail.png" alt="AutoPost SEO Writer - AI 수익형 블로그 자동 포스팅 프로그램">
+    </div>
+    <div class="ap-top-sidebar">
+        <div class="ap-sidebar-title">AutoPost SEO Writer</div>
+        <div class="ap-sidebar-subtitle">AI 수익형 블로그 자동 포스팅</div>
+        <div class="ap-sidebar-rating">
+            <span class="stars">★★★★★</span>
+            <span class="score">4.9</span>
+            <span class="count">(999+ 리뷰)</span>
+        </div>
+        <ul class="ap-sidebar-points">
+            <li><span class="check">✓</span> Claude AI 고품질 글 생성</li>
+            <li><span class="check">✓</span> 구글 SEO 완벽 최적화</li>
+            <li><span class="check">✓</span> 평생 소유 / 무료 업데이트</li>
+        </ul>
+        <select class="ap-sidebar-select" id="top-plan-select" onchange="sidebarPlanChange(this.value)">
+            <option value="pro">V2 Pro — 대량등록·예약·색인</option>
+            <option value="basic">Basic — 키워드 1개 즉시발행</option>
+        </select>
+        <div class="ap-sidebar-price">
+            <div class="original" id="sidebar-price-original">1,890,000원</div>
+            <div class="current" id="sidebar-price-current">389,000<span>원</span></div>
+            <div class="note">일회성 결제 / 평생 소유 / 무료 업데이트</div>
+        </div>
+        <a href="https://open.kakao.com/o/sjcFzkei" target="_blank" class="ap-sidebar-cta">💬 카카오톡으로 구매 문의하기</a>
+        <div class="ap-sidebar-info">
+            <span style="text-decoration: line-through; color: #ccc;">1차 마감</span> ·
+            <span style="text-decoration: line-through; color: #ccc;">2차 마감</span> ·
+            <strong>3차 진행 중</strong>
+        </div>
+    </div>
 </div>
 
 <!-- ══════════ STICKY TAB NAV ══════════ -->
@@ -533,22 +575,6 @@
     <p class="ap-hero-sub">수익형 블로그를 운영하고 싶은데 시간이 없으신가요?</p>
     <p class="ap-hero-sub">SEO 최적화가 어렵고, 콘텐츠 작성이 부담스러우신가요?</p>
     <div class="ap-hero-highlight">시간을 절약하고, 품질은 높이고,<br>수익을 극대화하세요!</div>
-</div>
-
-<!-- ── 상세페이지 이미지 스트립 ── -->
-<div class="ap-detail-strip">
-    <img src="https://wpauto.kr/wp-content/uploads/2026/02/detail-01-1770949665336.png" alt="AutoPost SEO Writer 소개" loading="lazy">
-    <img src="https://wpauto.kr/wp-content/uploads/2026/02/detail-02-1770949669383.png" alt="프로그램 인터페이스" loading="lazy">
-    <img src="https://wpauto.kr/wp-content/uploads/2026/02/detail-03-1770949676235.png" alt="이런 고민 있으셨나요?" loading="lazy">
-    <img src="https://wpauto.kr/wp-content/uploads/2026/02/detail-04-1770949683178.png" alt="AutoPost SEO Writer란?" loading="lazy">
-    <img src="https://wpauto.kr/wp-content/uploads/2026/02/detail-05-1770949689999.png" alt="주요 기능 01-04" loading="lazy">
-    <img src="https://wpauto.kr/wp-content/uploads/2026/02/detail-06-1770949694849.png" alt="주요 기능 05-07" loading="lazy">
-    <img src="https://wpauto.kr/wp-content/uploads/2026/02/detail-07-1770949700705.png" alt="AutoPost는 다릅니다" loading="lazy">
-    <img src="https://wpauto.kr/wp-content/uploads/2026/02/detail-08-1770949709722.png" alt="추천 대상 및 데모 샘플" loading="lazy">
-    <img src="https://wpauto.kr/wp-content/uploads/2026/02/detail-09-1770949722217.png" alt="구매자 성과 모음" loading="lazy">
-    <img src="https://wpauto.kr/wp-content/uploads/2026/02/detail-10-1770949739407.png" alt="가격 안내" loading="lazy">
-    <img src="https://wpauto.kr/wp-content/uploads/2026/02/detail-11-1770949748264.png" alt="자주 묻는 질문" loading="lazy">
-    <img src="https://wpauto.kr/wp-content/uploads/2026/02/detail-12-1770949756579.png" alt="지금 바로 시작하세요" loading="lazy">
 </div>
 
 <!-- 2. TRUST CARDS (Gradient) -->
@@ -873,6 +899,12 @@
         <div class="ap-rec-item"><span class="cc">✓</span> 글쓰기는 프로그램에 맡기고 전략에 집중하고 싶은 분</div>
         <div class="ap-rec-item"><span class="cc">✓</span> 효율적인 블로그 관리가 필요한 분</div>
     </div>
+</div>
+
+<!-- ── 추가 상세 이미지 (기존 콘텐츠에 없는 부분) ── -->
+<div class="ap-detail-strip">
+    <img src="https://wpauto.kr/wp-content/uploads/2026/02/detail-02-1770949669383.png" alt="프로그램 인터페이스 미리보기" loading="lazy">
+    <img src="https://wpauto.kr/wp-content/uploads/2026/02/detail-09-1770949722217.png" alt="구매자 분들의 성과 모음" loading="lazy">
 </div>
 
 </div><!-- /tab-intro -->
