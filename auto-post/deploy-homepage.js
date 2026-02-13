@@ -45,7 +45,7 @@ async function main() {
   }
 
   // 2. 시현 영상 업로드
-  const videoPath = path.join(__dirname, '녹화_2026_02_13_02_19_49_484.mp4');
+  const videoPath = path.join(__dirname, '0211(3).mp4');
   let videoUrl = '';
   if (fs.existsSync(videoPath)) {
     videoUrl = await uploadMedia(videoPath, `autopost-demo-${Date.now()}.mp4`, 'video/mp4');

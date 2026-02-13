@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { width: 800px; height: 800px; overflow: hidden; }
+
+.thumb {
+    width: 800px; height: 800px;
+    background: linear-gradient(145deg, #0a0e27 0%, #1a1040 30%, #0d1137 60%, #0a0e27 100%);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    position: relative; overflow: hidden; font-family: 'Inter', 'Noto Sans KR', sans-serif;
+}
+
+/* 배경 그리드 */
+.grid-bg {
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background-image:
+        linear-gradient(rgba(102,126,234,0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(102,126,234,0.06) 1px, transparent 1px);
+    background-size: 40px 40px;
+}
+
+/* 글로우 오브 */
+.glow-1 {
+    position: absolute; top: -100px; right: -100px; width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(102,126,234,0.25) 0%, transparent 70%);
+    border-radius: 50%; filter: blur(40px);
+}
+.glow-2 {
+    position: absolute; bottom: -80px; left: -80px; width: 350px; height: 350px;
+    background: radial-gradient(circle, rgba(118,75,162,0.2) 0%, transparent 70%);
+    border-radius: 50%; filter: blur(40px);
+}
+.glow-3 {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(102,126,234,0.08) 0%, transparent 60%);
+    border-radius: 50%;
+}
+
+/* 플로팅 파티클 */
+.particle {
+    position: absolute; width: 4px; height: 4px; background: rgba(102,126,234,0.5);
+    border-radius: 50%;
+}
+.particle:nth-child(1) { top: 15%; left: 20%; width: 3px; height: 3px; background: rgba(102,126,234,0.4); }
+.particle:nth-child(2) { top: 25%; right: 15%; width: 5px; height: 5px; background: rgba(118,75,162,0.5); }
+.particle:nth-child(3) { bottom: 20%; left: 30%; width: 4px; height: 4px; background: rgba(255,217,61,0.3); }
+.particle:nth-child(4) { top: 60%; right: 25%; width: 3px; height: 3px; background: rgba(102,126,234,0.3); }
+.particle:nth-child(5) { top: 40%; left: 10%; width: 6px; height: 6px; background: rgba(118,75,162,0.3); }
+
+/* 메인 콘텐츠 */
+.content { position: relative; z-index: 10; text-align: center; padding: 0 60px; }
+
+/* AI 아이콘 */
+.ai-icon {
+    width: 90px; height: 90px; margin: 0 auto 28px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 24px; display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 8px 40px rgba(102,126,234,0.4), 0 0 80px rgba(102,126,234,0.15);
+    position: relative;
+}
+.ai-icon::after {
+    content: ''; position: absolute; inset: -3px; border-radius: 27px;
+    background: linear-gradient(135deg, rgba(102,126,234,0.5), rgba(118,75,162,0.5));
+    z-index: -1; filter: blur(2px);
+}
+.ai-icon svg { width: 48px; height: 48px; }
+
+/* 타이틀 */
+.title {
+    font-size: 52px; font-weight: 900; color: #fff; letter-spacing: -1.5px;
+    line-height: 1.2; margin-bottom: 8px;
+}
+.title .highlight {
+    background: linear-gradient(135deg, #667eea, #a78bfa, #ffd93d);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.subtitle {
+    font-size: 20px; font-weight: 600; color: rgba(255,255,255,0.5);
+    letter-spacing: 4px; text-transform: uppercase; margin-bottom: 36px;
+}
+
+/* 키워드 → 글 시각화 */
+.flow-visual {
+    display: flex; align-items: center; justify-content: center; gap: 20px;
+    margin-bottom: 36px;
+}
+.flow-box {
+    background: rgba(255,255,255,0.06); border: 1px solid rgba(102,126,234,0.2);
+    border-radius: 16px; padding: 18px 28px; backdrop-filter: blur(10px);
+}
+.flow-box .label { font-size: 11px; color: rgba(255,255,255,0.4); letter-spacing: 1px; margin-bottom: 6px; text-transform: uppercase; }
+.flow-box .value { font-size: 16px; color: #fff; font-weight: 700; }
+.flow-box .value span { color: #ffd93d; }
+.flow-arrow {
+    color: #667eea; font-size: 28px; opacity: 0.6;
+}
+
+/* 특징 배지 */
+.badges {
+    display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
+}
+.badge {
+    background: rgba(102,126,234,0.12); border: 1px solid rgba(102,126,234,0.25);
+    padding: 8px 20px; border-radius: 50px; font-size: 14px; font-weight: 600;
+    color: rgba(255,255,255,0.8); letter-spacing: -0.3px;
+}
+.badge .icon { margin-right: 6px; }
+
+/* 하단 가격 */
+.price-bar {
+    position: absolute; bottom: 0; left: 0; right: 0; padding: 24px 40px;
+    background: linear-gradient(0deg, rgba(10,14,39,0.95) 0%, transparent 100%);
+    display: flex; align-items: center; justify-content: space-between; z-index: 10;
+}
+.price-bar .start { font-size: 14px; color: rgba(255,255,255,0.4); }
+.price-bar .amount { font-size: 32px; font-weight: 900; color: #ffd93d; letter-spacing: -1px; }
+.price-bar .amount small { font-size: 16px; font-weight: 600; }
+.price-bar .own { font-size: 13px; color: rgba(255,255,255,0.35); background: rgba(255,255,255,0.06); padding: 6px 16px; border-radius: 50px; }
+</style>
+</head>
+<body>
+<div class="thumb">
+    <div class="grid-bg"></div>
+    <div class="glow-1"></div>
+    <div class="glow-2"></div>
+    <div class="glow-3"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+
+    <div class="content">
+        <div class="ai-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                <path d="M2 17l10 5 10-5"/>
+                <path d="M2 12l10 5 10-5"/>
+            </svg>
+        </div>
+        <div class="subtitle">AI SEO Automation</div>
+        <div class="title">
+            <span class="highlight">AutoPost</span><br>
+            SEO Writer
+        </div>
+
+        <div style="height:32px"></div>
+
+        <div class="flow-visual">
+            <div class="flow-box">
+                <div class="label">Input</div>
+                <div class="value"><span>키워드</span> 입력</div>
+            </div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-box">
+                <div class="label">AI Output</div>
+                <div class="value">SEO 글 <span>자동 발행</span></div>
+            </div>
+        </div>
+
+        <div class="badges">
+            <div class="badge"><span class="icon">🤖</span>Claude AI</div>
+            <div class="badge"><span class="icon">📊</span>구글 SEO</div>
+            <div class="badge"><span class="icon">💰</span>애드센스</div>
+            <div class="badge"><span class="icon">♾️</span>평생 소유</div>
+        </div>
+    </div>
+
+    <div class="price-bar">
+        <div>
+            <div class="start">시작가</div>
+            <div class="amount">289,000<small>원~</small></div>
+        </div>
+        <div class="own">일회성 결제 / 평생 소유</div>
+    </div>
+</div>
+</body>
+</html>
