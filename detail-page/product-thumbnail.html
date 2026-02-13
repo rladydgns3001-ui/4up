@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: 'Noto Sans KR', sans-serif;
+    width: 860px; height: 860px;
+    overflow: hidden;
+}
+.thumb {
+    width: 860px; height: 860px;
+    background: linear-gradient(145deg, #1a0e2e 0%, #2d1b69 40%, #667eea 100%);
+    position: relative; display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center; color: white;
+    overflow: hidden;
+}
+
+/* Decorative circles */
+.deco1 {
+    position: absolute; top: -120px; right: -80px;
+    width: 350px; height: 350px; border-radius: 50%;
+    background: rgba(102,126,234,0.15);
+}
+.deco2 {
+    position: absolute; bottom: -100px; left: -60px;
+    width: 300px; height: 300px; border-radius: 50%;
+    background: rgba(118,75,162,0.15);
+}
+.deco3 {
+    position: absolute; top: 50%; left: -40px;
+    width: 180px; height: 180px; border-radius: 50%;
+    background: rgba(254,240,27,0.06);
+}
+
+.content { position: relative; z-index: 2; padding: 0 60px; }
+
+.badge {
+    display: inline-block;
+    background: rgba(254,240,27,0.15);
+    border: 1px solid rgba(254,240,27,0.3);
+    color: #fef01b; padding: 8px 24px;
+    border-radius: 50px; font-size: 0.85rem; font-weight: 700;
+    margin-bottom: 28px; letter-spacing: 1px;
+}
+
+h1 {
+    font-size: 3.2rem; font-weight: 900;
+    line-height: 1.25; margin-bottom: 8px;
+}
+h1 .auto { color: #a78bfa; }
+h1 .post { color: white; }
+
+.subtitle {
+    font-size: 1.3rem; font-weight: 600;
+    color: rgba(255,255,255,0.7);
+    margin-bottom: 36px;
+}
+
+/* App preview mockup */
+.preview {
+    width: 520px; margin: 0 auto 36px;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 16px; padding: 20px 24px;
+    backdrop-filter: blur(10px);
+}
+.preview-bar {
+    display: flex; align-items: center; gap: 8px;
+    margin-bottom: 14px;
+}
+.dot { width: 8px; height: 8px; border-radius: 50%; }
+.dot.r { background: #ff5f57; }
+.dot.y { background: #febd2f; }
+.dot.g { background: #28c840; }
+.preview-bar span { color: rgba(255,255,255,0.5); font-size: 0.75rem; margin-left: 8px; }
+
+.preview-content {
+    display: flex; gap: 16px; align-items: center;
+}
+.preview-left {
+    flex: 1; text-align: left;
+}
+.preview-label { font-size: 0.72rem; color: rgba(255,255,255,0.4); margin-bottom: 4px; }
+.preview-kw {
+    font-size: 0.82rem; color: #a78bfa; font-weight: 600;
+    line-height: 1.7;
+}
+.preview-arrow {
+    font-size: 1.5rem; color: rgba(255,255,255,0.3);
+    flex-shrink: 0;
+}
+.preview-right {
+    flex: 1; text-align: left;
+}
+.preview-out {
+    font-size: 0.78rem; color: rgba(255,255,255,0.6);
+    line-height: 1.6;
+}
+.preview-out .hl { color: #fef01b; font-weight: 700; }
+
+/* Features row */
+.features {
+    display: flex; justify-content: center; gap: 20px;
+    margin-bottom: 32px;
+}
+.feat {
+    display: flex; align-items: center; gap: 8px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 12px; padding: 12px 20px;
+}
+.feat .icon { font-size: 1.2rem; }
+.feat .text { font-size: 0.88rem; font-weight: 700; }
+
+/* Bottom price */
+.price-row {
+    display: flex; align-items: center; justify-content: center; gap: 16px;
+}
+.price-from {
+    font-size: 0.9rem; color: rgba(255,255,255,0.5);
+}
+.price-val {
+    font-size: 2rem; font-weight: 900;
+    color: #fef01b;
+}
+.price-val span { font-size: 0.9rem; }
+.price-note {
+    font-size: 0.8rem; color: rgba(255,255,255,0.4);
+    padding: 4px 12px; border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 50px;
+}
+</style>
+</head>
+<body>
+<div class="thumb">
+    <div class="deco1"></div>
+    <div class="deco2"></div>
+    <div class="deco3"></div>
+
+    <div class="content">
+        <div class="badge">AI 수익형 블로그 자동 포스팅</div>
+
+        <h1><span class="auto">AutoPost</span><br><span class="post">SEO Writer</span></h1>
+        <p class="subtitle">키워드만 입력하면 AI가 SEO 최적화 글을 작성합니다</p>
+
+        <div class="preview">
+            <div class="preview-bar">
+                <span class="dot r"></span>
+                <span class="dot y"></span>
+                <span class="dot g"></span>
+                <span>AutoPost SEO Writer</span>
+            </div>
+            <div class="preview-content">
+                <div class="preview-left">
+                    <div class="preview-label">키워드 입력</div>
+                    <div class="preview-kw">
+                        워드프레스 자동화<br>
+                        청년미래적금 신청<br>
+                        50대 보험 추천
+                    </div>
+                </div>
+                <div class="preview-arrow">→</div>
+                <div class="preview-right">
+                    <div class="preview-label">AI 자동 생성</div>
+                    <div class="preview-out">
+                        <span class="hl">SEO 최적화 글</span> 자동 작성<br>
+                        <span class="hl">AI 이미지</span> 자동 생성<br>
+                        <span class="hl">워드프레스</span> 자동 발행
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="features">
+            <div class="feat"><span class="icon">🤖</span><span class="text">Claude AI</span></div>
+            <div class="feat"><span class="icon">📈</span><span class="text">구글 SEO</span></div>
+            <div class="feat"><span class="icon">💰</span><span class="text">애드센스</span></div>
+            <div class="feat"><span class="icon">♾️</span><span class="text">평생 소유</span></div>
+        </div>
+
+        <div class="price-row">
+            <span class="price-from">시작가</span>
+            <span class="price-val">289,000<span>원~</span></span>
+            <span class="price-note">일회성 결제 / 평생 소유</span>
+        </div>
+    </div>
+</div>
+</body>
+</html>

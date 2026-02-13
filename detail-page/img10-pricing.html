@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: 'Noto Sans KR', sans-serif;
+    width: 860px; background: #fff; color: #333; overflow: hidden;
+}
+
+.section { padding: 60px 50px; text-align: center; }
+h2 { font-size: 1.8rem; font-weight: 900; margin-bottom: 8px; color: #111; }
+.sub { color: #888; font-size: 0.95rem; margin-bottom: 40px; }
+
+.plans {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 24px; max-width: 680px; margin: 0 auto;
+}
+
+.plan {
+    background: #f8fafc; border-radius: 20px; padding: 36px 28px;
+    position: relative; text-align: center;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.05);
+    border: 2px solid transparent;
+    transition: all 0.3s;
+}
+.plan.pop {
+    background: #f5f0ff;
+    border-color: #764ba2;
+    box-shadow: 0 10px 40px rgba(118,75,162,0.15);
+}
+.plan .badge {
+    position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+    background: linear-gradient(135deg, #ff4757, #ff6b81);
+    color: white; padding: 6px 22px; border-radius: 50px;
+    font-size: 0.78rem; font-weight: 800; white-space: nowrap;
+}
+.plan .tag {
+    display: inline-block; padding: 5px 16px; border-radius: 50px;
+    font-size: 0.78rem; font-weight: 700; margin-bottom: 12px;
+}
+.plan .tag.basic { background: #e7f3ff; color: #667eea; }
+.plan .tag.pro { background: linear-gradient(135deg, #f0e6ff, #e6d5ff); color: #764ba2; }
+
+.plan .name { font-size: 1.15rem; font-weight: 800; color: #333; margin-bottom: 8px; }
+
+.plan .price-row { margin-bottom: 6px; }
+.plan .original { font-size: 0.85rem; color: #ccc; text-decoration: line-through; }
+.plan .price { font-size: 2.2rem; font-weight: 900; }
+.plan .price span { font-size: 0.9rem; }
+.plan .price.bc { color: #667eea; }
+.plan .price.pc { color: #764ba2; }
+.plan .note { font-size: 0.8rem; color: #999; margin-bottom: 20px; }
+
+.plan .features { text-align: left; list-style: none; margin-bottom: 24px; }
+.plan .features li {
+    padding: 6px 0; font-size: 0.9rem; color: #555;
+    display: flex; align-items: center; gap: 8px;
+}
+.plan .features li .ico { color: #667eea; font-weight: 700; flex-shrink: 0; }
+.plan.pop .features li .ico { color: #764ba2; }
+
+.plan .cta {
+    display: block; width: 100%; padding: 16px;
+    background: #fef01b; color: #3C1E1E; border: none;
+    border-radius: 50px; font-size: 1rem; font-weight: 800;
+    cursor: pointer; text-decoration: none; text-align: center;
+    font-family: inherit;
+    box-shadow: 0 4px 16px rgba(254,240,27,0.3);
+}
+
+.bottom-note {
+    margin-top: 30px; font-size: 0.82rem; color: #999;
+    font-style: italic;
+}
+</style>
+</head>
+<body>
+<div class="section">
+    <h2>플랜 선택</h2>
+    <p class="sub">나에게 맞는 플랜을 선택하세요</p>
+
+    <div class="plans">
+        <div class="plan">
+            <span class="tag basic">BASIC</span>
+            <div class="name">AutoPost Basic</div>
+            <div class="price-row">
+                <div class="original">1,290,000원</div>
+                <div class="price bc">289,000<span>원</span></div>
+            </div>
+            <div class="note">일회성 결제 / 평생 소유</div>
+            <ul class="features">
+                <li><span class="ico">✓</span> AI SEO 글 자동 생성</li>
+                <li><span class="ico">✓</span> AI 이미지 자동 생성 (DALL-E)</li>
+                <li><span class="ico">✓</span> 워드프레스 자동 발행</li>
+                <li><span class="ico">✓</span> 애드센스 광고 자동 삽입</li>
+                <li><span class="ico">✓</span> 키워드 1개 즉시 발행</li>
+                <li><span class="ico">✓</span> 1:1 설치 교육 포함</li>
+            </ul>
+            <a class="cta">💬 카카오톡 구매 문의</a>
+        </div>
+
+        <div class="plan pop">
+            <div class="badge">BEST 인기</div>
+            <span class="tag pro">V2 PRO</span>
+            <div class="name">AutoPost V2 Pro</div>
+            <div class="price-row">
+                <div class="original">1,890,000원</div>
+                <div class="price pc">389,000<span>원</span></div>
+            </div>
+            <div class="note">일회성 결제 / 평생 소유</div>
+            <ul class="features">
+                <li><span class="ico">✓</span> <strong>Basic 기능 전부 포함</strong></li>
+                <li><span class="ico">✓</span> 키워드 대량 등록 (최대 10개)</li>
+                <li><span class="ico">✓</span> 예약 발행 (간격/시간 지정)</li>
+                <li><span class="ico">✓</span> Google 자동 색인 신청</li>
+                <li><span class="ico">✓</span> IndexNow 색인 (네이버·Bing)</li>
+                <li><span class="ico">✓</span> 발행 큐 실시간 모니터링</li>
+            </ul>
+            <a class="cta">💬 카카오톡 구매 문의</a>
+        </div>
+    </div>
+
+    <p class="bottom-note">* 일회성 결제 / 평생 소유 / 무료 업데이트</p>
+</div>
+</body>
+</html>

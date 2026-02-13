@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: 'Noto Sans KR', sans-serif;
+    width: 860px; background: #111; color: white; overflow: hidden;
+}
+
+.section {
+    background: linear-gradient(180deg, #0d0d0d 0%, #1a0e2e 100%);
+    padding: 60px 50px;
+    text-align: center;
+}
+
+h2 {
+    font-size: 1.8rem; font-weight: 900; margin-bottom: 10px;
+}
+.sub {
+    color: rgba(255,255,255,0.6); font-size: 0.95rem;
+    margin-bottom: 40px; line-height: 1.7;
+}
+
+.results-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 20px; max-width: 700px; margin: 0 auto 40px;
+}
+
+.result-card {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 20px; padding: 28px;
+    text-align: left;
+}
+.result-card .tag {
+    display: inline-block;
+    background: rgba(102,126,234,0.2); color: #a78bfa;
+    padding: 4px 12px; border-radius: 50px;
+    font-size: 0.75rem; font-weight: 700; margin-bottom: 12px;
+}
+.result-card .title {
+    font-size: 1rem; font-weight: 800; margin-bottom: 10px;
+    line-height: 1.5; color: white;
+}
+.result-card .desc {
+    font-size: 0.88rem; color: rgba(255,255,255,0.6);
+    line-height: 1.7;
+}
+.result-card .stat {
+    margin-top: 14px; padding-top: 14px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    display: flex; gap: 16px;
+}
+.result-card .stat-item {
+    font-size: 0.8rem; color: rgba(255,255,255,0.5);
+}
+.result-card .stat-item strong {
+    display: block; font-size: 1.1rem; color: #fef01b; font-weight: 800;
+}
+
+/* Quote */
+.quote-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    margin: 0 -50px;
+    padding: 50px 60px;
+    text-align: center;
+    position: relative;
+}
+.quote-mark {
+    font-size: 4rem; opacity: 0.3; line-height: 1;
+    margin-bottom: 10px;
+}
+.quote-text {
+    font-size: 1.5rem; font-weight: 900;
+    line-height: 1.6;
+}
+.quote-note {
+    margin-top: 20px; font-size: 0.82rem;
+    opacity: 0.7;
+}
+</style>
+</head>
+<body>
+<div class="section">
+    <h2>구매자 분들의 성과 모음</h2>
+    <p class="sub">실제 AutoPost 사용자분들의 놀라운 결과입니다</p>
+
+    <div class="results-grid">
+        <div class="result-card">
+            <span class="tag">V2 Pro 구매자</span>
+            <div class="title">AutoPost 하나로<br>누적 수익 5억 돌파</div>
+            <div class="desc">하루 20~30개 자동 발행으로 블로그가 순식간에 성장했습니다.</div>
+            <div class="stat">
+                <div class="stat-item"><strong>5억+</strong>누적 수익</div>
+                <div class="stat-item"><strong>20~30개</strong>일일 발행량</div>
+            </div>
+        </div>
+
+        <div class="result-card">
+            <span class="tag">V2 Pro 구매자</span>
+            <div class="title">하루 수익<br>200~300달러 달성</div>
+            <div class="desc">발행량 증가 + 키워드 분석 여유로 트래픽이 폭발적으로 성장했어요.</div>
+            <div class="stat">
+                <div class="stat-item"><strong>$300+</strong>일 수익</div>
+                <div class="stat-item"><strong>CPC 최적화</strong>전략 수립</div>
+            </div>
+        </div>
+
+        <div class="result-card">
+            <span class="tag">Basic 구매자</span>
+            <div class="title">7개월 만에<br>10만 달러 돌파</div>
+            <div class="desc">부업으로 시작해서 본업보다 많이 벌고 있습니다.</div>
+            <div class="stat">
+                <div class="stat-item"><strong>$100K+</strong>7개월 성과</div>
+                <div class="stat-item"><strong>부업</strong>시간 활용</div>
+            </div>
+        </div>
+
+        <div class="result-card">
+            <span class="tag">Basic 구매자</span>
+            <div class="title">50대 주부, 8개월<br>순이익 4,500만원</div>
+            <div class="desc">컴퓨터를 잘 못해도 1:1 교육으로 바로 시작할 수 있었어요.</div>
+            <div class="stat">
+                <div class="stat-item"><strong>4,500만</strong>8개월 순이익</div>
+                <div class="stat-item"><strong>1:1 교육</strong>쉬운 시작</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="quote-section">
+    <div class="quote-mark">"</div>
+    <div class="quote-text">빨리 시작하시는 분이<br>먼저 경험하실 수 있습니다.</div>
+    <div class="quote-note">* 수강생의 성과는 개인의 노력 및 실행 수준에 따라 달라질 수 있습니다.</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: 'Noto Sans KR', sans-serif;
+    width: 860px; background: #1a0e2e; color: white; overflow: hidden;
+}
+.section { padding: 20px 50px 60px; }
+
+.grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 20px; max-width: 760px; margin: 0 auto;
+}
+
+.card {
+    background: white; border-radius: 20px;
+    padding: 32px; text-align: center; color: #333;
+}
+.card.full { grid-column: 1 / -1; }
+
+.num {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 40px; height: 40px; border-radius: 50%;
+    background: #fef01b; font-weight: 900; font-size: 0.9rem;
+    color: #333; margin-bottom: 14px;
+}
+
+.card h3 {
+    font-size: 1.2rem; font-weight: 900;
+    margin-bottom: 18px; color: #111;
+    line-height: 1.4;
+}
+
+.card .dt {
+    font-weight: 700; font-size: 0.92rem; color: #333;
+    margin-top: 10px;
+}
+.card .dd {
+    font-size: 0.82rem; color: #999;
+    margin-bottom: 4px;
+}
+
+/* Bonus card with special styling */
+.card.bonus {
+    background: linear-gradient(135deg, #fff9e6, #fff);
+    border: 2px solid #fef01b;
+}
+.bonus-tag {
+    display: inline-block;
+    background: linear-gradient(135deg, #ff4757, #ff6b81);
+    color: white; padding: 4px 14px; border-radius: 50px;
+    font-size: 0.75rem; font-weight: 700; margin-bottom: 10px;
+}
+</style>
+</head>
+<body>
+<div class="section">
+    <div class="grid">
+        <div class="card">
+            <div class="num">05</div>
+            <h3>AI 이미지<br>자동 생성</h3>
+            <div class="dt">DALL-E 이미지 생성</div>
+            <div class="dd">글 내용에 맞는 특성이미지 자동 생성</div>
+            <div class="dt">AI 썸네일 자동 생성</div>
+            <div class="dd">클릭률 상승!</div>
+            <div class="dt">글 내용 자동 매칭</div>
+            <div class="dd">컨텍스트에 맞는 이미지 자동 선택</div>
+        </div>
+        <div class="card">
+            <div class="num">06</div>
+            <h3>자동 색인<br>신청</h3>
+            <div class="dt">Google Indexing API</div>
+            <div class="dd">발행 즉시 구글 색인 요청</div>
+            <div class="dt">IndexNow (네이버 · Bing)</div>
+            <div class="dd">네이버, Bing 동시 색인 요청</div>
+            <div class="dt">빠른 검색 노출</div>
+            <div class="dd">SEO 점수 UP!</div>
+        </div>
+        <div class="card full">
+            <div class="num">07</div>
+            <h3>대량 등록 & 예약 발행 시스템</h3>
+            <div class="dt">최대 10개 키워드 일괄 등록</div>
+            <div class="dd">자동 순차 처리로 대량 발행</div>
+            <div class="dt">간격 / 시간 지정 분산 발행</div>
+            <div class="dd">자연스러운 발행 패턴 유지</div>
+            <div class="dt">발행 큐 실시간 모니터링</div>
+            <div class="dd">진행 상황을 한눈에 확인</div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

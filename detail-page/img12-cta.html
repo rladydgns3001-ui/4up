@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: 'Noto Sans KR', sans-serif;
+    width: 860px; overflow: hidden;
+}
+
+/* Dark CTA section */
+.dark-cta {
+    background: linear-gradient(180deg, #1a0e2e 0%, #0d0d0d 60%, #1a0e2e 100%);
+    padding: 60px 50px 40px;
+    text-align: center; color: white;
+}
+.dark-cta .small-text {
+    font-size: 1rem; color: rgba(255,255,255,0.5);
+    margin-bottom: 8px;
+}
+.dark-cta h2 {
+    font-size: 1.8rem; font-weight: 900; margin-bottom: 16px;
+    line-height: 1.5;
+}
+.dark-cta .desc {
+    font-size: 1rem; color: rgba(255,255,255,0.6);
+    margin-bottom: 36px; line-height: 1.7;
+}
+
+/* Main CTA */
+.main-cta {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 60px 50px;
+    text-align: center; color: white;
+}
+.main-cta h2 {
+    font-size: 2rem; font-weight: 900; margin-bottom: 12px;
+}
+.main-cta p {
+    font-size: 1rem; opacity: 0.9; margin-bottom: 36px;
+    line-height: 1.7;
+}
+.cta-btn {
+    display: inline-block; padding: 20px 60px;
+    background: #fef01b; color: #3C1E1E;
+    border-radius: 50px; font-size: 1.2rem; font-weight: 800;
+    text-decoration: none;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+}
+
+.cta-sub {
+    margin-top: 20px; font-size: 0.85rem;
+    opacity: 0.7;
+}
+
+/* Footer */
+.footer {
+    background: #4a3a7a; color: rgba(255,255,255,0.6);
+    padding: 28px; text-align: center; font-size: 0.82rem;
+}
+.footer a { color: #ffd93d; text-decoration: none; }
+
+/* Quick summary */
+.summary {
+    display: flex; justify-content: center; gap: 40px;
+    margin-bottom: 40px;
+}
+.sum-item { text-align: center; }
+.sum-item .val {
+    font-size: 1.6rem; font-weight: 900;
+    background: linear-gradient(135deg, #fef01b, #ffc107);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.sum-item .label {
+    font-size: 0.82rem; color: rgba(255,255,255,0.5);
+    margin-top: 4px;
+}
+</style>
+</head>
+<body>
+<!-- Dark intro -->
+<div class="dark-cta">
+    <div class="small-text">단순한 자동화 프로그램이 아닙니다.</div>
+    <h2>AI + SEO 최적화 + 자동 발행으로<br>수익화가 가능한 블로그 운영을 실현합니다.</h2>
+    <div class="desc">AutoPost SEO Writer와 함께<br>블로그 자동화를 시작하세요!</div>
+
+    <div class="summary">
+        <div class="sum-item">
+            <div class="val">289,000원~</div>
+            <div class="label">일회성 결제</div>
+        </div>
+        <div class="sum-item">
+            <div class="val">평생 소유</div>
+            <div class="label">무료 업데이트</div>
+        </div>
+        <div class="sum-item">
+            <div class="val">1:1 교육</div>
+            <div class="label">줌 원격 설치</div>
+        </div>
+    </div>
+</div>
+
+<!-- Main CTA -->
+<div class="main-cta">
+    <h2>지금 바로 시작하세요</h2>
+    <p>블로그 글쓰기에 들이는 시간을 90% 줄이고,<br>수익은 극대화하세요.</p>
+    <a class="cta-btn">💬 카카오톡으로 구매 문의하기</a>
+    <div class="cta-sub">
+        <span style="text-decoration: line-through; opacity: 0.5;">1차 마감</span> ·
+        <span style="text-decoration: line-through; opacity: 0.5;">2차 마감</span> ·
+        <strong style="color: #fef01b;">3차 진행 중</strong>
+    </div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+    <p>AutoPost SEO Writer &copy; 2026. All rights reserved.</p>
+    <p style="margin-top: 6px;">문의: <a href="#">카카오톡 오픈채팅</a></p>
+</div>
+</body>
+</html>

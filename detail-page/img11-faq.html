@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: 'Noto Sans KR', sans-serif;
+    width: 860px; background: #f8f9fa; color: #333; overflow: hidden;
+}
+.section { padding: 60px 50px; }
+
+h2 {
+    text-align: center; font-size: 1.8rem; font-weight: 900;
+    margin-bottom: 8px; color: #111;
+}
+h2 span { color: #764ba2; }
+.sub {
+    text-align: center; color: #888; font-size: 0.95rem;
+    margin-bottom: 36px;
+}
+
+.faq-list { max-width: 700px; margin: 0 auto; }
+
+.faq-item {
+    background: white; margin-bottom: 12px; border-radius: 16px;
+    overflow: hidden; box-shadow: 0 3px 16px rgba(0,0,0,0.04);
+}
+.faq-q {
+    padding: 22px 28px; font-weight: 700; font-size: 0.98rem;
+    display: flex; justify-content: space-between; align-items: center;
+    color: #222;
+}
+.faq-q .q-icon {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 28px; height: 28px; border-radius: 50%;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white; font-size: 0.8rem; font-weight: 800;
+    margin-right: 12px; flex-shrink: 0;
+}
+.faq-q .text { flex: 1; }
+.faq-q .arrow { color: #ccc; font-size: 0.8rem; }
+
+.faq-a {
+    padding: 0 28px 22px 68px;
+    color: #666; line-height: 1.8; font-size: 0.92rem;
+}
+</style>
+</head>
+<body>
+<div class="section">
+    <h2>자주 묻는 <span>질문</span></h2>
+    <p class="sub">궁금한 점을 확인하세요</p>
+
+    <div class="faq-list">
+        <div class="faq-item">
+            <div class="faq-q">
+                <span class="q-icon">Q</span>
+                <span class="text">Basic과 V2 Pro의 차이가 뭔가요?</span>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="faq-a">Basic은 키워드 1개씩 즉시 발행하는 기본 버전입니다. V2 Pro는 키워드 10개 대량 등록, 예약 발행(간격/시간 지정), Google·IndexNow 자동 색인 신청 기능이 추가됩니다. 하루 생산량이 3~5개에서 10~30개로 크게 늘어납니다.</div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-q">
+                <span class="q-icon">Q</span>
+                <span class="text">API 비용은 별도인가요?</span>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="faq-a">네, Claude API 사용료는 별도입니다. 하지만 걱정하지 마세요! 글 1개당 약 50~100원 수준으로 매우 저렴합니다. 하루 10개 글을 써도 월 3만원 이하입니다.</div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-q">
+                <span class="q-icon">Q</span>
+                <span class="text">컴퓨터를 잘 못해도 사용할 수 있나요?</span>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="faq-a">네, 전혀 걱정하지 않으셔도 됩니다. 1:1 줌 원격 접속으로 직접 설치해드리고, 사용법도 교육해드립니다. 50대 이상 분들도 성공적으로 사용하고 계십니다.</div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-q">
+                <span class="q-icon">Q</span>
+                <span class="text">기존 V1 구매자인데 V2 Pro로 업그레이드 가능한가요?</span>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="faq-a">네! 기존 V1 구매자분들은 기존에 지불하셨던 금액과 현재 V2 Pro 가격의 차액의 50%만 추가 결제하시면 업그레이드 가능합니다. 카카오톡으로 문의해주세요.</div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-q">
+                <span class="q-icon">Q</span>
+                <span class="text">글 품질이 좋은가요?</span>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="faq-a">Claude AI의 최신 모델을 사용하여 사람이 쓴 것과 구분이 어려운 자연스러운 글을 생성합니다. SEO 구조(H태그, 메타 설명, 키워드 배치)까지 자동으로 포함됩니다.</div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-q">
+                <span class="q-icon">Q</span>
+                <span class="text">환불이 가능한가요?</span>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="faq-a">디지털 프로그램 특성상 구매 후 환불은 어렵습니다. 구매 전 충분히 상담해드리고, 데모 영상을 통해 기능을 확인하신 후 결정하실 수 있습니다.</div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

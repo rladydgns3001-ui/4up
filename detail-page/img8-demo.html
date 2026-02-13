@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: 'Noto Sans KR', sans-serif;
+    width: 860px; background: #fff; color: #333; overflow: hidden;
+}
+
+/* Recommend Section */
+.recommend {
+    padding: 60px 50px 40px;
+    text-align: center;
+    background: linear-gradient(180deg, #fff 0%, #f8f9fa 100%);
+}
+.recommend .ico { font-size: 3.5rem; margin-bottom: 16px; }
+.recommend h2 { font-size: 1.7rem; font-weight: 900; margin-bottom: 28px; color: #111; }
+.rec-list { max-width: 480px; margin: 0 auto; }
+.rec-item {
+    display: flex; align-items: center; gap: 14px;
+    border: 1px solid #e8e8e8; border-radius: 50px;
+    padding: 16px 24px; margin-bottom: 12px;
+    font-size: 0.95rem; font-weight: 600;
+    background: white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+}
+.rec-item .cc {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: linear-gradient(135deg, #ffa500, #ff8c00);
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-size: 0.7rem; flex-shrink: 0; font-weight: 700;
+}
+
+/* Demo Section */
+.demo {
+    padding: 40px 50px 60px;
+    text-align: center;
+}
+.demo h2 {
+    font-size: 1.7rem; font-weight: 900; margin-bottom: 8px; color: #111;
+}
+.demo h2 span { color: #764ba2; }
+.demo .sub {
+    color: #666; font-size: 0.95rem; margin-bottom: 30px; line-height: 1.7;
+}
+.demo-grid {
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+}
+.dcard {
+    background: white; border-radius: 16px; padding: 28px 20px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    border: 1px solid #f0f0f0;
+}
+.dcard h3 {
+    font-size: 0.95rem; font-weight: 700; margin-bottom: 8px;
+    color: #333; line-height: 1.5;
+}
+.dcard p { font-size: 0.82rem; color: #888; margin-bottom: 14px; }
+.dcard .dbtn {
+    display: inline-block; background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white; padding: 8px 22px; border-radius: 50px;
+    font-size: 0.82rem; font-weight: 700; text-decoration: none;
+}
+</style>
+</head>
+<body>
+<!-- Recommend -->
+<div class="recommend">
+    <div class="ico">👍</div>
+    <h2>이런 분께 추천합니다.</h2>
+    <div class="rec-list">
+        <div class="rec-item"><span class="cc">✓</span> 블로그 수익화를 꿈꾸는 분</div>
+        <div class="rec-item"><span class="cc">✓</span> 블로그에 많은 시간을 들이기 어려운 분</div>
+        <div class="rec-item"><span class="cc">✓</span> SEO 최적화가 어려운 분</div>
+        <div class="rec-item"><span class="cc">✓</span> 글쓰기는 프로그램에 맡기고 전략에 집중하고 싶은 분</div>
+        <div class="rec-item"><span class="cc">✓</span> 효율적인 블로그 관리가 필요한 분</div>
+    </div>
+</div>
+
+<!-- Demo -->
+<div class="demo">
+    <h2>자동포스팅 결과 <span>샘플</span></h2>
+    <p class="sub">긴 말 보다 확실한 결과로 직접 보여드립니다.<br>자동포스팅의 퀄리티를 아래 링크에서 직접 확인해 보세요.</p>
+    <div class="demo-grid">
+        <div class="dcard">
+            <h3>청년미래적금<br>완전 정복</h3>
+            <p>SEO 최적화된<br>워드프레스 포스팅</p>
+            <span class="dbtn">샘플 확인하기</span>
+        </div>
+        <div class="dcard">
+            <h3>달러종신보험<br>완벽 가이드</h3>
+            <p>SEO 최적화된<br>워드프레스 포스팅</p>
+            <span class="dbtn">샘플 확인하기</span>
+        </div>
+        <div class="dcard">
+            <h3>소상공인 바우처<br>2026 총정리</h3>
+            <p>SEO 최적화된<br>워드프레스 포스팅</p>
+            <span class="dbtn">샘플 확인하기</span>
+        </div>
+    </div>
+</div>
+</body>
+</html>
