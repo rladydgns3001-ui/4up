@@ -118,7 +118,7 @@
     "seo_adsense",
     "wordpress_tips"
   ],
-  "cyclePosition": 4,
+  "cyclePosition": 5,
   "postHistory": [
     {
       "categoryType": "empathy",
@@ -159,6 +159,14 @@
       "postId": "18120249607582376",
       "publishedAt": "2026-02-12T14:43:41.871Z",
       "textLength": 251
+    },
+    {
+      "categoryType": "empathy",
+      "topic": "글 하나 쓰는데 1시간 수익은 몇백원인 현실",
+      "topicTag": "블로그수익현실",
+      "postId": "18173080378381771",
+      "publishedAt": "2026-02-13T00:01:14.468Z",
+      "textLength": 206
     }
   ],
   "lastCategoryIndex": 1
