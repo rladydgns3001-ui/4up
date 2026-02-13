@@ -33,7 +33,8 @@ async function generateImages() {
     const page = await browser.newPage();
     const htmlPath = path.join(__dirname, pages[i]);
 
-    await page.setViewport({ width: 860, height: 3000 });
+    // 2x 해상도 (레티나 대응): 뷰포트 860px + deviceScaleFactor 2 = 1720px 이미지
+    await page.setViewport({ width: 860, height: 3000, deviceScaleFactor: 2 });
     await page.goto(`file://${htmlPath}`, { waitUntil: 'networkidle0' });
 
     // Wait for fonts to load
@@ -45,7 +46,7 @@ async function generateImages() {
       return document.body.scrollHeight;
     });
 
-    await page.setViewport({ width: 860, height: bodyHeight });
+    await page.setViewport({ width: 860, height: bodyHeight, deviceScaleFactor: 2 });
 
     const outputPath = path.join(outputDir, `detail-${String(i + 1).padStart(2, '0')}.png`);
 
