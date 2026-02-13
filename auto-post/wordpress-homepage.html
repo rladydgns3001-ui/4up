@@ -476,8 +476,23 @@
     .ap-rv-text { font-size: 13px; max-height: 140px; }
     .ap-faq-q { font-size: 0.9rem; padding: 16px 20px; }
     .ap-faq-a { padding: 0 20px 16px; font-size: 0.88rem; }
-    .ap-product-top { flex-direction: column; padding: 12px 12px 0; gap: 16px; }
-    .ap-top-sidebar { flex: none; width: 100%; display: none; }
+    .ap-product-top { flex-direction: column; padding: 0; gap: 0; }
+    .ap-product-thumb { max-width: 260px; margin: 16px auto 0; }
+    .ap-product-thumb img { border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+    .ap-top-sidebar {
+        flex: none; width: 100%; display: block !important;
+        padding: 16px 16px 14px; box-shadow: none; border: none; border-radius: 0;
+        border-bottom: 8px solid #f5f5f5;
+    }
+    .ap-top-sidebar .ap-sidebar-title { font-size: 1.1rem; }
+    .ap-top-sidebar .ap-sidebar-subtitle { font-size: 0.82rem; margin-bottom: 8px; }
+    .ap-top-sidebar .ap-sidebar-rating { margin-bottom: 10px; }
+    .ap-top-sidebar .ap-sidebar-points { display: none; }
+    .ap-top-sidebar .ap-sidebar-price { padding: 8px; margin-bottom: 10px; }
+    .ap-top-sidebar .ap-sidebar-price .current { font-size: 1.5rem; }
+    .ap-top-sidebar .ap-sidebar-select { margin-bottom: 8px; padding: 10px 12px; font-size: 0.85rem; }
+    .ap-top-sidebar .ap-sidebar-cta { padding: 13px; font-size: 0.92rem; margin-bottom: 6px; }
+    .ap-top-sidebar .ap-sidebar-info { font-size: 0.7rem; }
     .ap-video-wrap { border-radius: 12px; }
     .ap-final-cta h2 { font-size: 1.6rem; }
     .ap-ctable thead th { padding: 14px 8px; font-size: 0.82rem; }
@@ -568,6 +583,19 @@
 
 <!-- ────── TAB 1: 제품 소개 ────── -->
 <div class="ap-tab-content active" id="tab-intro">
+
+<!-- 시현 영상 -->
+<div class="ap-video-section">
+    <h2>실제 프로그램 <span>작동 화면</span></h2>
+    <p class="vsub">키워드를 입력하면 AI가 SEO 최적화 글을 작성합니다</p>
+    <div class="ap-video-wrap">
+        <video controls preload="metadata" poster="product-thumbnail.png">
+            <source src="threads-images/program-run-1.mp4" type="video/mp4">
+            브라우저가 비디오를 지원하지 않습니다.
+        </video>
+    </div>
+    <p class="ap-video-note">* 실제 프로그램 작동 영상입니다</p>
+</div>
 
 <!-- 1. HERO HEADER -->
 <div class="ap-hero">
@@ -976,18 +1004,6 @@
 
 <!-- ────── TAB 3: 리뷰 999+ ────── -->
 <div class="ap-tab-content" id="tab-reviews">
-<!-- 시현 영상 (리뷰 바로 위) -->
-<div class="ap-video-section">
-    <h2>프로그램 <span>시현 영상</span></h2>
-    <p class="vsub">실제 작동 모습을 직접 확인해보세요</p>
-    <div class="ap-video-wrap">
-        <video controls preload="metadata" poster="product-thumbnail.png">
-            <source src="threads-images/program-run-1.mp4" type="video/mp4">
-            브라우저가 비디오를 지원하지 않습니다.
-        </video>
-    </div>
-    <p class="ap-video-note">* 실제 프로그램 작동 영상입니다</p>
-</div>
 
 <div class="ap-reviews-section">
     <h2 class="ap-sec-title">베스트 <span>리뷰</span></h2>
