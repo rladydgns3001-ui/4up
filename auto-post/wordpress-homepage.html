@@ -530,7 +530,7 @@
         <div class="ap-sidebar-rating">
             <span class="stars">★★★★★</span>
             <span class="score">4.9</span>
-            <span class="count">(999+ 리뷰)</span>
+            <a href="/reviews/" class="count" style="color:#999;text-decoration:none;cursor:pointer">(999+ 리뷰)</a>
         </div>
         <ul class="ap-sidebar-points">
             <li><span class="check">✓</span> Claude AI 고품질 글 생성</li>
@@ -559,7 +559,7 @@
 <nav class="ap-tab-nav">
     <div class="ap-tab active" data-tab="intro" onclick="switchTab('intro')">제품 소개</div>
     <div class="ap-tab" data-tab="compare" onclick="switchTab('compare')">기능 비교</div>
-    <div class="ap-tab" data-tab="reviews" onclick="switchTab('reviews')">리뷰 999+</div>
+    <a href="/reviews/" class="ap-tab" style="text-decoration:none;color:inherit" onclick="event.preventDefault();window.location.href='/reviews/'">리뷰 999+</a>
 </nav>
 
 <!-- ══════════ MAIN LAYOUT ══════════ -->
@@ -1049,6 +1049,10 @@ AutoPost 쓰기 시작하면서 일단 발행량 자체가 확 늘었고, 남는
 8개월 만에 순이익 4,500만원. 인생 진짜 뭐가 될지 모르는 거예요.</div>
         <a class="ap-rv-more" onclick="toggleReview(5)">[더보기]</a>
     </div>
+
+    <div style="text-align:center;padding:24px 0 8px">
+        <a href="/reviews/" style="display:inline-block;padding:14px 36px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border-radius:50px;font-weight:700;font-size:0.95rem;text-decoration:none;transition:all .15s;box-shadow:0 4px 15px rgba(102,126,234,.3)">후기 더보기 →</a>
+    </div>
 </div>
 </div><!-- /tab-reviews -->
 
@@ -1061,7 +1065,7 @@ AutoPost 쓰기 시작하면서 일단 발행량 자체가 확 늘었고, 남는
     <div class="ap-sidebar-rating">
         <span class="stars">★★★★★</span>
         <span class="score">4.9</span>
-        <span class="count">(999+ 리뷰)</span>
+        <a href="/reviews/" class="count" style="color:#999;text-decoration:none;cursor:pointer">(999+ 리뷰)</a>
     </div>
     <ul class="ap-sidebar-points">
         <li><span class="check">✓</span> Claude AI 고품질 글 생성</li>
