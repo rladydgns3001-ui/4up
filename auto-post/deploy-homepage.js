@@ -74,7 +74,7 @@ async function main() {
       Authorization: `Basic ${AUTH}`,
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ content: html }),
+    body: JSON.stringify({ content: `<!-- wp:html -->\n${html}\n<!-- /wp:html -->` }),
   });
 
   if (!pageRes.ok) {
