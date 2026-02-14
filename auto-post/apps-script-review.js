@@ -53,6 +53,11 @@ function doPost(e) {
     var sheet = ss.getSheetByName('reviews') || ss.getSheets()[0];
     var row = sheet.getLastRow() + 1;
 
+    // 예약 후기(needsApproval)는 pending → 텔레그램 승인 필요
+    // 홈페이지 직접 작성은 바로 approved → 자동 발행
+    var needsApproval = body.needsApproval === true;
+    var status = needsApproval ? 'pending' : 'approved';
+
     sheet.getRange(row, 1, 1, 9).setValues([[
       new Date(),
       body.name || '',
@@ -62,10 +67,41 @@ function doPost(e) {
       body.content || '',
       body.keyword || '',
       body.email || '',
-      'pending'
+      status
     ]]);
 
-    sendTelegramNotification(body, row);
+    if (needsApproval) {
+      // 예약 후기: 텔레그램 승인/거절 버튼
+      sendTelegramNotification(body, row);
+    } else {
+      // 홈페이지 직접 작성: 바로 발행 + 텔레그램 알림만
+      try {
+        publishToWordPress(row);
+      } catch (err) {
+        UrlFetchApp.fetch('https://api.telegram.org/bot' + BOT_TOKEN + '/sendMessage', {
+          method: 'post',
+          contentType: 'application/json',
+          payload: JSON.stringify({ chat_id: CHAT_ID, text: '\u26A0\uFE0F WP \uBC30\uD3EC \uC2E4\uD328: ' + err.message })
+        });
+      }
+      // 텔레그램에 알림 (버튼 없이)
+      var stars = '';
+      for (var i = 0; i < (body.rating || 5); i++) stars += '\u2B50';
+      UrlFetchApp.fetch('https://api.telegram.org/bot' + BOT_TOKEN + '/sendMessage', {
+        method: 'post',
+        contentType: 'application/json',
+        payload: JSON.stringify({
+          chat_id: CHAT_ID,
+          text: '\uD83D\uDCDD \uC0C8 \uD6C4\uAE30 \uC790\uB3D9 \uBC1C\uD589!\n\n'
+            + '\uC774\uB984: ' + (body.name || '') + '\n'
+            + '\uD50C\uB79C: ' + (body.plan || '') + '\n'
+            + '\uBCC4\uC810: ' + stars + '\n'
+            + '\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n'
+            + (body.content || '').substring(0, 100) + '...'
+        })
+      });
+    }
+
     return ContentService.createTextOutput('ok');
   } catch (err) {
     return ContentService.createTextOutput('error: ' + err.message);
@@ -196,16 +232,19 @@ function publishToWordPress(approvedRow) {
     content: String(rowData[5])
   };
 
-  // 2. 현재 WordPress 페이지 가져오기
+  // 2. 현재 WordPress 페이지 raw content 가져오기
   var auth = Utilities.base64Encode(wpUser + ':' + wpPass);
-  var pageRes = UrlFetchApp.fetch(wpUrl + '/wp-json/wp/v2/pages/209', {
+  var pageRes = UrlFetchApp.fetch(wpUrl + '/wp-json/wp/v2/pages/209?context=edit', {
     headers: { 'Authorization': 'Basic ' + auth }
   });
   var pageData = JSON.parse(pageRes.getContentText());
-  var content = pageData.content.rendered || '';
+  var rawContent = pageData.content.raw || '';
+
+  // wp:html 래퍼 제거
+  var html = rawContent.replace(/<!--\s*wp:html\s*-->\n?/, '').replace(/\n?<!--\s*\/wp:html\s*-->/, '');
 
   // 3. 현재 후기 수 파악
-  var countMatch = content.match(/HARDCODED_REVIEW_COUNT\s*=\s*(\d+)/);
+  var countMatch = html.match(/HARDCODED_REVIEW_COUNT\s*=\s*(\d+)/);
   var currentCount = countMatch ? parseInt(countMatch[1]) : 13;
   var newNum = currentCount + 1;
 
@@ -239,29 +278,10 @@ function publishToWordPress(approvedRow) {
     + (tags ? '<div class="rv-detail-tags">' + tags + '</div>' : '')
     + '</div></div>\n';
 
-  // 5. 원본 HTML 파일 가져오기 (raw content)
-  var rawRes = UrlFetchApp.fetch(wpUrl + '/wp-json/wp/v2/pages/209', {
-    headers: { 'Authorization': 'Basic ' + auth }
-  });
-  var rawData = JSON.parse(rawRes.getContentText());
-  var rawContent = rawData.content.raw || rawData.content.rendered || '';
-
-  // wp:html 래퍼 제거
-  var html = rawContent.replace(/<!--\s*wp:html\s*-->\n?/, '').replace(/\n?<!--\s*\/wp:html\s*-->/, '');
-
-  // 6. 삽입 위치 찾기 (정적 후기 마커 뒤)
-  var marker = '<!-- \uC815\uC801 \uD6C4\uAE30 -->';
-  var altMarker = '<!-- \uC2B9\uC778\uB41C \uD6C4\uAE30 -->';
-  var insertMarker = html.indexOf(marker) >= 0 ? marker : altMarker;
-
-  if (html.indexOf(insertMarker) >= 0) {
-    html = html.replace(insertMarker, insertMarker + '\n' + newReviewHtml);
-  } else {
-    // 마커 없으면 첫 번째 정적 후기 앞에 삽입
-    var firstRow = html.indexOf('<div class="rv-board-row"', html.indexOf('rv-dynamic-rows'));
-    if (firstRow >= 0) {
-      html = html.substring(0, firstRow) + newReviewHtml + '\n' + html.substring(firstRow);
-    }
+  // 5. 첫 번째 후기 앞에 삽입 (항상 최상단)
+  var firstRow = html.indexOf('<div class="rv-board-row"');
+  if (firstRow >= 0) {
+    html = html.substring(0, firstRow) + newReviewHtml + html.substring(firstRow);
   }
 
   // 7. 카운트 업데이트
@@ -279,7 +299,11 @@ function publishToWordPress(approvedRow) {
     payload: JSON.stringify({ content: wpContent })
   });
 
-  // 9. 성공 알림
+  // 9. 메인 페이지(17) + 상품 페이지(431) 후기 수 업데이트
+  updatePageReviewCount(wpUrl, auth, 17, newNum);
+  updatePageReviewCount(wpUrl, auth, 431, newNum);
+
+  // 10. 성공 알림
   UrlFetchApp.fetch('https://api.telegram.org/bot' + BOT_TOKEN + '/sendMessage', {
     method: 'post',
     contentType: 'application/json',
@@ -288,6 +312,33 @@ function publishToWordPress(approvedRow) {
       text: '\u2705 \uD6C4\uAE30 #' + newNum + ' WordPress \uBC1C\uD589 \uC644\uB8CC!\nhttps://wpauto.kr/reviews/'
     })
   });
+}
+
+// ─── 페이지 후기 수 업데이트 ───
+function updatePageReviewCount(wpUrl, auth, pageId, newCount) {
+  try {
+    var res = UrlFetchApp.fetch(wpUrl + '/wp-json/wp/v2/pages/' + pageId, {
+      headers: { 'Authorization': 'Basic ' + auth }
+    });
+    var page = JSON.parse(res.getContentText());
+    var raw = page.content.raw || page.content.rendered || '';
+
+    // 999+ 리뷰 또는 기존 숫자+ 리뷰 패턴 교체
+    var updated = raw.replace(/\d+\+?\s*리뷰/g, newCount + '+ \uB9AC\uBDF0');
+    // reviewCount JSON 값 교체
+    updated = updated.replace(/"reviewCount":\s*"\d+"/g, '"reviewCount": "' + newCount + '"');
+
+    if (updated !== raw) {
+      UrlFetchApp.fetch(wpUrl + '/wp-json/wp/v2/pages/' + pageId, {
+        method: 'put',
+        contentType: 'application/json',
+        headers: { 'Authorization': 'Basic ' + auth },
+        payload: JSON.stringify({ content: updated })
+      });
+    }
+  } catch (e) {
+    // 실패해도 메인 배포에 영향 없도록 무시
+  }
 }
 
 // ─── HTML 이스케이프 ───

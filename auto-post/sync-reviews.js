@@ -22,7 +22,7 @@ if (fs.existsSync(envPath)) {
   }
 }
 
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbztugoGdS9ip7S7nQGA3leZMlNm7WdB1fI_a21Pc_pNIOf4qvMuaqNTuGGebMWa8eKU/exec';
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwsa6_rs7JoSijOn9HfV2I31nL6jRBBJNvn2_jGU1JTukNYuL-pPfqvbtIxpemAQeCN/exec';
 const HTML_PATH = path.join(__dirname, 'reviews-page.html');
 const WP_URL = process.env.WP_URL;
 const WP_USER = process.env.WP_USER;
@@ -173,6 +173,27 @@ async function main() {
     const err = await wpRes.text();
     console.error('❌ 배포 실패:', err);
     process.exit(1);
+  }
+
+  // 8. 메인 페이지(17) + 상품 페이지(431) 후기 수 업데이트
+  for (const pageId of [17, 431]) {
+    try {
+      const pgRes = await fetch(`${WP_URL}/wp-json/wp/v2/pages/${pageId}`, {
+        headers: { Authorization: `Basic ${auth}` },
+      });
+      const pgData = await pgRes.json();
+      const raw = pgData.content.raw || pgData.content.rendered || '';
+      let updated = raw.replace(/\d+\+?\s*리뷰/g, `${newCount}+ 리뷰`);
+      updated = updated.replace(/"reviewCount":\s*"\d+"/g, `"reviewCount": "${newCount}"`);
+      if (updated !== raw) {
+        await fetch(`${WP_URL}/wp-json/wp/v2/pages/${pageId}`, {
+          method: 'PUT',
+          headers: { Authorization: `Basic ${auth}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ content: updated }),
+        });
+        console.log(`📄 페이지 ${pageId} 후기 수 업데이트 완료`);
+      }
+    } catch (e) { /* 무시 */ }
   }
 
   console.log(`✅ 완료! 후기 ${newCount}개 (${newReviews.length}개 추가)`);
