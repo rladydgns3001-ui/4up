@@ -651,6 +651,33 @@
         </div>
 
         <hr class="divider">
+        <p class="section-title">CTA 링크 버튼 (선택)</p>
+
+        <div class="form-group">
+          <label for="ctaLinkUrl">
+            링크 URL
+            <span class="label-hint">(비우면 기본값 사용)</span>
+          </label>
+          <input type="text" id="ctaLinkUrl" placeholder="https://example.com">
+        </div>
+
+        <div class="form-group">
+          <label for="ctaLinkText">
+            메인 버튼 문구
+            <span class="label-hint">(비우면 AI가 자동 생성)</span>
+          </label>
+          <input type="text" id="ctaLinkText" placeholder="무료 상담받기">
+        </div>
+
+        <div class="form-group">
+          <label for="ctaMidText">
+            중간 버튼 문구
+            <span class="label-hint">(비우면 AI가 자동 생성)</span>
+          </label>
+          <input type="text" id="ctaMidText" placeholder="자세히 알아보기">
+        </div>
+
+        <hr class="divider">
         <p class="section-title">검색엔진 색인 (선택)</p>
 
         <div class="form-group">
@@ -919,6 +946,9 @@
         document.getElementById('adsenseSlotId').value = config.ADSENSE_SLOT_ID || '';
         document.getElementById('googleIndexingJsonPath').value = config.GOOGLE_INDEXING_JSON_PATH || '';
         document.getElementById('indexNowApiKey').value = config.INDEXNOW_API_KEY || '';
+        document.getElementById('ctaLinkUrl').value = config.CTA_LINK_URL || '';
+        document.getElementById('ctaLinkText').value = config.CTA_LINK_TEXT || '';
+        document.getElementById('ctaMidText').value = config.CTA_MID_TEXT || '';
 
         await checkConnection();
       } catch (e) {
@@ -974,7 +1004,10 @@
         ADSENSE_CLIENT_ID: document.getElementById('adsenseClientId').value.trim(),
         ADSENSE_SLOT_ID: document.getElementById('adsenseSlotId').value.trim(),
         GOOGLE_INDEXING_JSON_PATH: document.getElementById('googleIndexingJsonPath').value.trim(),
-        INDEXNOW_API_KEY: document.getElementById('indexNowApiKey').value.trim()
+        INDEXNOW_API_KEY: document.getElementById('indexNowApiKey').value.trim(),
+        CTA_LINK_URL: document.getElementById('ctaLinkUrl').value.trim(),
+        CTA_LINK_TEXT: document.getElementById('ctaLinkText').value.trim(),
+        CTA_MID_TEXT: document.getElementById('ctaMidText').value.trim()
       };
 
       try {

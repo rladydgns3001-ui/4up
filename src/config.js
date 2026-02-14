@@ -29,7 +29,11 @@ function readConfig() {
     ADSENSE_CLIENT_ID: '',
     ADSENSE_SLOT_ID: '',
     GOOGLE_INDEXING_JSON_PATH: '',
-    INDEXNOW_API_KEY: ''
+    INDEXNOW_API_KEY: '',
+    INDEXNOW_KEY_LOCATION: '',
+    CTA_LINK_URL: '',
+    CTA_LINK_TEXT: '',
+    CTA_MID_TEXT: ''
   };
 }
 
@@ -82,6 +86,18 @@ module.exports = {
   },
   get INDEXNOW_API_KEY() {
     return getConfigData().INDEXNOW_API_KEY || '';
+  },
+  get INDEXNOW_KEY_LOCATION() {
+    return getConfigData().INDEXNOW_KEY_LOCATION || '';
+  },
+  get CTA_LINK_URL() {
+    return getConfigData().CTA_LINK_URL || '';
+  },
+  get CTA_LINK_TEXT() {
+    return getConfigData().CTA_LINK_TEXT || '';
+  },
+  get CTA_MID_TEXT() {
+    return getConfigData().CTA_MID_TEXT || '';
   },
 
   // 설정 저장

@@ -10,6 +10,9 @@ const WP_USER = process.env.WP_USER;
 const WP_APP_PASSWORD = process.env.WP_APP_PASSWORD;
 const SERP_API_KEY = process.env.SERP_API_KEY;
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY; // OpenAI DALL-E API
+const CTA_LINK_URL = process.env.CTA_LINK_URL || 'https://wpauto.kr/';
+const CTA_LINK_TEXT = process.env.CTA_LINK_TEXT || '';
+const CTA_MID_TEXT = process.env.CTA_MID_TEXT || '';
 
 // Threads 연동 (선택)
 const THREADS_ENABLED = process.argv.includes("--threads");
@@ -381,7 +384,7 @@ async function generateImages(keyword) {
   }
 
   // 텍스트 없음 강조 문구
-  const noTextClause = ", ABSOLUTELY NO TEXT, NO LETTERS, NO WORDS, NO NUMBERS, NO WRITING, NO CHARACTERS, pure illustration only, clean visual without any typography";
+  const noTextClause = ", ABSOLUTELY NO TEXT, NO LETTERS, NO WORDS, NO NUMBERS, NO WRITING, NO CHARACTERS, NO KOREAN, NO HANGUL, NO ASIAN CHARACTERS, NO TYPOGRAPHY, pure visual illustration only, clean image without any text overlay, no watermarks, no labels, no captions embedded in image";
 
   const images = [];
 
@@ -599,7 +602,7 @@ ${analysis.snippets || ""}
    - **공식 홈페이지 링크 버튼 필수**: 신청/조회/확인 등 행동이 필요한 시점에 삽입
      형식: [OFFICIAL_LINK:공식사이트URL:버튼텍스트]
      예: [OFFICIAL_LINK:https://www.mnuri.kr:문화누리카드 신청하러 가기]
-   - 본문 중간에 자연스럽게 내부 링크 삽입: <a href="https://wpauto.kr/">AI 블로그 자동화 프로그램</a>
+   - 본문 중간에 자연스럽게 내부 링크 삽입: <a href="${CTA_LINK_URL}">AI 블로그 자동화 프로그램</a>
    - 결론: 핵심 3줄 요약 + 다음 행동 유도 + 공식 홈페이지 링크 버튼
    - 글 마지막에 [CTA_PLACEHOLDER] 태그 삽입
 
@@ -787,7 +790,7 @@ JSON 형식으로만 응답 (글 작성 거부 금지!):
       }
 
       // 부드러운 스크롤 CSS
-      const smoothCss = '<style>html{scroll-behavior:smooth}.toc-box a:hover{text-decoration:underline!important;color:#764ba2!important}</style>';
+      const smoothCss = '<style>html{scroll-behavior:smooth}.toc-box a:hover{text-decoration:underline!important;color:#764ba2!important}.entry-content p,.post-content p{font-size:19px!important;line-height:1.85!important}@media(max-width:600px){.entry-content p,.post-content p{font-size:18px!important;line-height:1.8!important}}</style>';
       content = smoothCss + content;
 
       article.content = content;
@@ -807,7 +810,7 @@ JSON 형식으로만 응답 (글 작성 거부 금지!):
   <p style="color: rgba(255,255,255,0.8); font-size: 0.95rem; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 2px;">AI 블로그 자동화 솔루션</p>
   <h3 style="color: #fff; font-size: 1.8rem; margin-bottom: 15px; font-weight: 900;">블로그 글쓰기, AI가 대신해드립니다</h3>
   <p style="color: rgba(255,255,255,0.9); font-size: 1.1rem; margin-bottom: 30px; line-height: 1.7;">키워드 하나로 SEO 최적화 글 작성부터 워드프레스 자동 발행까지!<br><strong style="color: #ffd93d;">월정액 없이 평생 사용</strong>하세요.</p>
-  <a href="https://wpauto.kr/" style="display: inline-block; background: #ffd93d; color: #1a1a2e; padding: 18px 50px; border-radius: 50px; font-weight: 800; text-decoration: none; font-size: 1.15rem; box-shadow: 0 10px 30px rgba(0,0,0,0.3); transition: all 0.3s;">무료 상담받기 →</a>
+  <a href="${CTA_LINK_URL}" style="display: inline-block; background: #ffd93d; color: #1a1a2e; padding: 18px 50px; border-radius: 50px; font-weight: 800; text-decoration: none; font-size: 1.15rem; box-shadow: 0 10px 30px rgba(0,0,0,0.3); transition: all 0.3s;">${CTA_LINK_TEXT || '무료 상담받기'} →</a>
   <p style="color: rgba(255,255,255,0.6); font-size: 0.85rem; margin-top: 15px;">지금 바로 카카오톡으로 문의하세요</p>
 </div>`;
 
@@ -815,7 +818,7 @@ JSON 형식으로만 응답 (글 작성 거부 금지!):
       const midCtaHtml = `
 <div style="background: #f8f9fa; border: 2px solid #667eea; padding: 25px; border-radius: 15px; margin: 30px 0; text-align: center;">
   <p style="color: #333; font-size: 1.05rem; margin-bottom: 15px;">💡 <strong>시간 없이 블로그 운영하고 싶다면?</strong></p>
-  <a href="https://wpauto.kr/" style="display: inline-block; background: #667eea; color: #fff; padding: 12px 30px; border-radius: 8px; font-weight: 700; text-decoration: none; font-size: 1rem;">AI 자동화 프로그램 알아보기</a>
+  <a href="${CTA_LINK_URL}" style="display: inline-block; background: #667eea; color: #fff; padding: 12px 30px; border-radius: 8px; font-weight: 700; text-decoration: none; font-size: 1rem;">${CTA_MID_TEXT || 'AI 자동화 프로그램 알아보기'}</a>
 </div>`;
 
       // 본문 중간에 링크 버튼 삽입 (3번째 H2 태그 앞에)
@@ -1099,6 +1102,34 @@ async function main() {
   console.log(`🖼️ 이미지: ${imagesData.length}개 포함`);
   console.log(`📊 진행률: ${currentIndex + 1}/${keywords.length}`);
   console.log(`${"═".repeat(50)}`);
+
+  // Step 7: 자동 색인 요청 (IndexNow)
+  console.log("\n📍 Step 7: 검색엔진 자동 색인 요청");
+  try {
+    const { requestGoogleIndexing, requestRankMathIndexNow } = require('../src/indexing');
+    const GOOGLE_JSON_PATH = process.env.GOOGLE_INDEXING_JSON_PATH || path.join(__dirname, '..', 'docs', 'gentle-proton-487104-j1-868495522eb6.json');
+
+    const [googleResult, rankMathResult] = await Promise.all([
+      requestGoogleIndexing(post.link, GOOGLE_JSON_PATH),
+      requestRankMathIndexNow(post.link, {
+        WP_SITE_URL: WP_URL,
+        WP_USERNAME: WP_USER,
+        WP_APP_PASSWORD: WP_APP_PASSWORD
+      })
+    ]);
+    if (googleResult.success) {
+      console.log(`✅ ${googleResult.message}`);
+    } else {
+      console.log(`⚠️ ${googleResult.error}`);
+    }
+    if (rankMathResult.success) {
+      console.log(`✅ ${rankMathResult.message}`);
+    } else {
+      console.log(`⚠️ ${rankMathResult.error}`);
+    }
+  } catch (indexError) {
+    console.log(`⚠️ 색인 요청 오류: ${indexError.message}`);
+  }
 
   // Threads 연동 (선택)
   if (THREADS_ENABLED && THREADS_USER_ID && THREADS_ACCESS_TOKEN) {

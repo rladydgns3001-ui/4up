@@ -175,7 +175,7 @@ ipcMain.handle('write-post', async (event, options) => {
           // DALL-E 3으로 이미지 생성
           const dalleResponse = await axios.post('https://api.openai.com/v1/images/generations', {
             model: 'dall-e-3',
-            prompt: `Blog illustration: ${description}. Professional, clean, informative style. ABSOLUTELY NO TEXT, NO LETTERS, NO WORDS, NO NUMBERS, NO WRITING, NO CHARACTERS in the image. Pure visual illustration only.`,
+            prompt: `Blog illustration: ${description}. Professional, clean, informative style. ABSOLUTELY NO TEXT, NO LETTERS, NO WORDS, NO NUMBERS, NO WRITING, NO CHARACTERS, NO KOREAN, NO HANGUL, NO ASIAN CHARACTERS in the image. Pure visual illustration only, no text overlay, no watermarks, no labels.`,
             n: 1,
             size: '1024x1024',
             quality: 'standard'
