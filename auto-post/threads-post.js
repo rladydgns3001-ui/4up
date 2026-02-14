@@ -146,7 +146,8 @@ async function uploadToWordPress(filePath) {
 
   const fileName = path.basename(filePath);
   const fileBuffer = fs.readFileSync(filePath);
-  const mimeType = fileName.endsWith(".png") ? "image/png" : "image/jpeg";
+  const ext = path.extname(fileName).toLowerCase();
+  const mimeType = ext === ".png" ? "image/png" : ext === ".mp4" ? "video/mp4" : "image/jpeg";
 
   const auth = Buffer.from(`${WP_USER}:${WP_APP_PASSWORD}`).toString("base64");
 

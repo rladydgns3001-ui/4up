@@ -57,7 +57,7 @@ async function requestGoogleIndexing(url, jsonKeyPath) {
  * @param {string} apiKey - IndexNow API Key
  * @returns {Promise<{success: boolean, message?: string, error?: string}>}
  */
-async function requestIndexNow(url, apiKey) {
+async function requestIndexNow(url, apiKey, keyLocation = null) {
   try {
     if (!apiKey) {
       return { success: false, error: 'IndexNow API Key가 설정되지 않았습니다.' };
@@ -74,25 +74,31 @@ async function requestIndexNow(url, apiKey) {
     const results = [];
     for (const endpoint of endpoints) {
       try {
-        await axios.get(endpoint, {
-          params: {
-            url: url,
-            key: apiKey
-          },
-          timeout: 15000
+        const params = {
+          url: url,
+          key: apiKey
+        };
+        if (keyLocation) {
+          params.keyLocation = keyLocation;
+        }
+        const res = await axios.get(endpoint, {
+          params,
+          timeout: 15000,
+          validateStatus: (status) => status < 500
         });
-        results.push(endpoint);
-      } catch (e) {
-        // 202/200 모두 성공, 4xx/5xx만 실패
-        if (e.response && (e.response.status === 200 || e.response.status === 202)) {
+        if (res.status === 200 || res.status === 202) {
           results.push(endpoint);
         }
+      } catch (e) {
+        // 네트워크 오류 등 무시
       }
     }
 
     return {
-      success: true,
-      message: `IndexNow 색인 요청 완료 (${results.length}개 엔진): ${url}`
+      success: results.length > 0,
+      message: results.length > 0
+        ? `IndexNow 색인 요청 완료 (${results.length}개 엔진): ${url}`
+        : `IndexNow 색인 요청 실패: 응답한 엔진 없음 (${url})`
     };
   } catch (error) {
     return { success: false, error: `IndexNow 색인 요청 실패: ${error.message}` };
@@ -100,10 +106,47 @@ async function requestIndexNow(url, apiKey) {
 }
 
 /**
+ * Rank Math IndexNow - WordPress Rank Math 플러그인을 통한 색인 요청 (네이버+Bing)
+ * @param {string} url - 색인 요청할 URL
+ * @param {object} wpConfig - WordPress 설정 {WP_SITE_URL, WP_USERNAME, WP_APP_PASSWORD}
+ * @returns {Promise<{success: boolean, message?: string, error?: string}>}
+ */
+async function requestRankMathIndexNow(url, wpConfig) {
+  try {
+    const siteUrl = (wpConfig.WP_SITE_URL || '').replace(/\/$/, '');
+    if (!siteUrl || !wpConfig.WP_USERNAME || !wpConfig.WP_APP_PASSWORD) {
+      return { success: false, error: 'WordPress 연결 정보가 없습니다.' };
+    }
+
+    const auth = Buffer.from(`${wpConfig.WP_USERNAME}:${wpConfig.WP_APP_PASSWORD}`).toString('base64');
+
+    const res = await axios.post(
+      `${siteUrl}/wp-json/rankmath/v1/in/submitUrls`,
+      `urls=${encodeURIComponent(url)}`,
+      {
+        headers: {
+          'Authorization': `Basic ${auth}`,
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        timeout: 15000,
+        validateStatus: () => true
+      }
+    );
+
+    if (res.status === 200 && res.data?.success) {
+      return { success: true, message: `Rank Math IndexNow 색인 요청 완료 (네이버+Bing): ${url}` };
+    }
+    return { success: false, error: `Rank Math IndexNow 실패 (${res.status}): ${JSON.stringify(res.data)}` };
+  } catch (error) {
+    return { success: false, error: `Rank Math IndexNow 요청 실패: ${error.message}` };
+  }
+}
+
+/**
  * 설정된 검색엔진에 색인 요청 (Google + IndexNow)
  * @param {string} url - 색인 요청할 URL
- * @param {object} config - 설정 객체 (GOOGLE_INDEXING_JSON_PATH, INDEXNOW_API_KEY)
- * @returns {Promise<{google?: object, indexnow?: object}>}
+ * @param {object} config - 설정 객체 (GOOGLE_INDEXING_JSON_PATH, INDEXNOW_API_KEY, WP_SITE_URL 등)
+ * @returns {Promise<{google?: object, indexnow?: object, rankmath?: object}>}
  */
 async function requestIndexing(url, config) {
   const results = {};
@@ -113,7 +156,11 @@ async function requestIndexing(url, config) {
   }
 
   if (config.INDEXNOW_API_KEY) {
-    results.indexnow = await requestIndexNow(url, config.INDEXNOW_API_KEY);
+    results.indexnow = await requestIndexNow(url, config.INDEXNOW_API_KEY, config.INDEXNOW_KEY_LOCATION || null);
+  }
+
+  if (config.WP_SITE_URL && config.WP_USERNAME && config.WP_APP_PASSWORD) {
+    results.rankmath = await requestRankMathIndexNow(url, config);
   }
 
   return results;
@@ -122,5 +169,6 @@ async function requestIndexing(url, config) {
 module.exports = {
   requestGoogleIndexing,
   requestIndexNow,
+  requestRankMathIndexNow,
   requestIndexing
 };

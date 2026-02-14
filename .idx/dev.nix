@@ -7,6 +7,8 @@
   packages = [
     pkgs.nodejs_20
     pkgs.python3
+    pkgs.ttyd
+    pkgs.tmux
   ];
   # Sets environment variables in the workspace
   env = {};
@@ -37,8 +39,8 @@
       };
       # Runs when the workspace is (re)started
       onStart = {
-        # Example: start a background task to watch and re-build backend code
-        # watch-backend = "npm run watch-backend";
+        # 모바일 웹 터미널 자동 시작
+        mobile-terminal = "bash /home/user/mobile-terminal.sh 9090 &";
       };
     };
   };
