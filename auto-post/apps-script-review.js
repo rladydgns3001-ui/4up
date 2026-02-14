@@ -1,257 +1,316 @@
 /**
  * Google Apps Script - 후기 승인 시스템
  *
- * 이 코드를 Google Apps Script 에디터에 복사하세요.
- * (script.google.com → 새 프로젝트 → 코드 붙여넣기 → 배포)
- *
- * 스프레드시트 구조 (첫 행 헤더):
- * A: timestamp | B: name | C: plan | D: period | E: rating | F: content | G: keyword | H: email | I: status
- *
- * 스크립트 속성 설정 (프로젝트 설정 → 스크립트 속성):
- * - TELEGRAM_BOT_TOKEN: 텔레그램 봇 토큰
- * - TELEGRAM_CHAT_ID: 알림 받을 채팅 ID
- * - SPREADSHEET_ID: 후기 저장할 스프레드시트 ID
- * - SHEET_NAME: 시트 이름 (기본값: "reviews")
+ * Script Properties에 다음 값을 설정하세요:
+ *   TELEGRAM_BOT_TOKEN  - 텔레그램 봇 토큰
+ *   TELEGRAM_CHAT_ID    - 텔레그램 채팅 ID
+ *   SPREADSHEET_ID      - 후기 스프레드시트 ID
+ *   WP_URL              - https://wpauto.kr
+ *   WP_USER             - WordPress 사용자 이메일
+ *   WP_APP_PASSWORD     - WordPress 앱 비밀번호
  */
 
-// ─── 설정 ───
-function getConfig() {
-  var props = PropertiesService.getScriptProperties();
-  return {
-    BOT_TOKEN: props.getProperty('TELEGRAM_BOT_TOKEN'),
-    CHAT_ID: props.getProperty('TELEGRAM_CHAT_ID'),
-    SPREADSHEET_ID: props.getProperty('SPREADSHEET_ID'),
-    SHEET_NAME: props.getProperty('SHEET_NAME') || 'reviews'
-  };
-}
+var PROPS = PropertiesService.getScriptProperties();
+var BOT_TOKEN = PROPS.getProperty('TELEGRAM_BOT_TOKEN');
+var CHAT_ID = PROPS.getProperty('TELEGRAM_CHAT_ID');
+var SHEET_ID = PROPS.getProperty('SPREADSHEET_ID');
 
-function getSheet() {
-  var config = getConfig();
-  var ss = SpreadsheetApp.openById(config.SPREADSHEET_ID);
-  var sheet = ss.getSheetByName(config.SHEET_NAME);
-  if (!sheet) {
-    sheet = ss.insertSheet(config.SHEET_NAME);
-    sheet.appendRow(['timestamp', 'name', 'plan', 'period', 'rating', 'content', 'keyword', 'email', 'status']);
-  }
-  return sheet;
-}
-
-// ─── doGet: 승인된 후기 반환 ───
+// ─── doGet: 승인된 후기 JSON 반환 ───
 function doGet(e) {
   var action = (e && e.parameter && e.parameter.action) || '';
-
   if (action === 'getReviews') {
-    var sheet = getSheet();
+    var ss = SpreadsheetApp.openById(SHEET_ID);
+    var sheet = ss.getSheetByName('reviews') || ss.getSheets()[0];
     var data = sheet.getDataRange().getValues();
     var reviews = [];
-
-    // 헤더 건너뛰고 (row 0), 데이터 읽기
     for (var i = 1; i < data.length; i++) {
-      var status = (data[i][8] || '').toString().trim();
-      if (status !== 'approved') continue;
-
-      reviews.push({
-        date: formatDate(data[i][0]),
-        name: data[i][1] || '',
-        plan: data[i][2] || '',
-        period: data[i][3] || '',
-        rating: data[i][4] || 5,
-        content: data[i][5] || ''
-      });
+      if (data[i][8] === 'approved') {
+        reviews.push({
+          date: Utilities.formatDate(new Date(data[i][0]), 'Asia/Seoul', 'yyyy-MM-dd'),
+          name: data[i][1],
+          plan: data[i][2],
+          period: data[i][3],
+          rating: data[i][4],
+          content: data[i][5],
+          keyword: data[i][6],
+          email: data[i][7]
+        });
+      }
     }
-
-    // 최신순 정렬
-    reviews.reverse();
-
-    var output = JSON.stringify({ reviews: reviews });
-    return ContentService.createTextOutput(output)
+    return ContentService.createTextOutput(JSON.stringify({ reviews: reviews }))
       .setMimeType(ContentService.MimeType.JSON);
   }
-
-  // 기본 응답
-  return ContentService.createTextOutput(JSON.stringify({ status: 'ok' }))
-    .setMimeType(ContentService.MimeType.JSON);
+  return ContentService.createTextOutput('OK');
 }
 
-// ─── doPost: 폼 제출 + Telegram 콜백 처리 ───
+// ─── doPost: 후기 폼 제출 처리 ───
 function doPost(e) {
-  var body;
   try {
-    body = JSON.parse(e.postData.contents);
+    var body = JSON.parse(e.postData.contents);
+    if (body.type !== 'review') return ContentService.createTextOutput('ignored');
+
+    var ss = SpreadsheetApp.openById(SHEET_ID);
+    var sheet = ss.getSheetByName('reviews') || ss.getSheets()[0];
+    var row = sheet.getLastRow() + 1;
+
+    sheet.getRange(row, 1, 1, 9).setValues([[
+      new Date(),
+      body.name || '',
+      body.plan || '',
+      body.period || '',
+      body.rating || 5,
+      body.content || '',
+      body.keyword || '',
+      body.email || '',
+      'pending'
+    ]]);
+
+    sendTelegramNotification(body, row);
+    return ContentService.createTextOutput('ok');
   } catch (err) {
-    return jsonResponse({ error: 'Invalid JSON' });
+    return ContentService.createTextOutput('error: ' + err.message);
   }
-
-  // Telegram webhook callback_query
-  if (body.callback_query) {
-    return handleTelegramCallback(body.callback_query);
-  }
-
-  // 후기 폼 제출
-  if (body.type === 'review') {
-    return handleReviewSubmission(body);
-  }
-
-  return jsonResponse({ status: 'ignored' });
-}
-
-// ─── 후기 제출 처리 ───
-function handleReviewSubmission(data) {
-  var sheet = getSheet();
-  var timestamp = new Date();
-
-  var row = [
-    timestamp,
-    data.name || '',
-    data.plan || '',
-    data.period || '',
-    data.rating || 5,
-    data.content || '',
-    data.keyword || '',
-    data.email || '',
-    'pending'
-  ];
-  sheet.appendRow(row);
-
-  // 방금 추가한 행 번호
-  var rowNum = sheet.getLastRow();
-
-  // 텔레그램 알림 전송
-  sendTelegramNotification(data, rowNum);
-
-  return jsonResponse({ status: 'submitted' });
 }
 
 // ─── 텔레그램 알림 전송 ───
-function sendTelegramNotification(data, rowNum) {
-  var config = getConfig();
+function sendTelegramNotification(body, row) {
   var stars = '';
-  for (var i = 0; i < 5; i++) {
-    stars += i < (data.rating || 5) ? '★' : '☆';
-  }
+  for (var i = 0; i < (body.rating || 5); i++) stars += '\u2B50';
 
-  var message = [
-    '📝 *새 후기가 접수되었습니다*',
-    '─'.repeat(20),
-    '👤 이름: ' + (data.name || '익명'),
-    '⭐ 별점: ' + stars + ' (' + (data.rating || 5) + '/5)',
-    '📦 플랜: ' + (data.plan || '-'),
-    '⏱ 사용기간: ' + (data.period || '-'),
-    '─'.repeat(20),
-    (data.content || '').substring(0, 500),
-    '─'.repeat(20),
-    '',
-    '승인 또는 거절을 선택해주세요.'
-  ].join('\n');
+  var text = '\uD83D\uDCDD \uC0C8 \uD6C4\uAE30 \uC811\uC218!\n\n'
+    + '\uC774\uB984: ' + (body.name || '') + '\n'
+    + '\uD50C\uB79C: ' + (body.plan || '') + '\n'
+    + '\uAE30\uAC04: ' + (body.period || '') + '\n'
+    + '\uBCC4\uC810: ' + stars + '\n'
+    + '\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n'
+    + (body.content || '') + '\n'
+    + '\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n'
+    + '\uD0A4\uC6CC\uB4DC: ' + (body.keyword || '') + '\n'
+    + '\uC774\uBA54\uC77C: ' + (body.email || '');
 
   var payload = {
-    chat_id: config.CHAT_ID,
-    text: message,
-    parse_mode: 'Markdown',
+    chat_id: CHAT_ID,
+    text: text,
     reply_markup: JSON.stringify({
-      inline_keyboard: [
-        [
-          { text: '✅ 승인', callback_data: 'review_approve_' + rowNum },
-          { text: '❌ 거절', callback_data: 'review_reject_' + rowNum }
-        ]
-      ]
+      inline_keyboard: [[
+        { text: '\u2705 \uC2B9\uC778', callback_data: 'approve_' + row },
+        { text: '\u274C \uAC70\uC808', callback_data: 'reject_' + row }
+      ]]
     })
   };
 
-  UrlFetchApp.fetch('https://api.telegram.org/bot' + config.BOT_TOKEN + '/sendMessage', {
+  UrlFetchApp.fetch('https://api.telegram.org/bot' + BOT_TOKEN + '/sendMessage', {
     method: 'post',
     contentType: 'application/json',
-    payload: JSON.stringify(payload),
-    muteHttpExceptions: true
+    payload: JSON.stringify(payload)
   });
 }
 
-// ─── 텔레그램 콜백 처리 ───
-function handleTelegramCallback(callbackQuery) {
-  var config = getConfig();
-  var data = callbackQuery.data || '';
-  var callbackId = callbackQuery.id;
+// ─── 텔레그램 폴링 (1분 트리거) ───
+function checkTelegramUpdates() {
+  var url = 'https://api.telegram.org/bot' + BOT_TOKEN + '/getUpdates?timeout=0&allowed_updates=' + encodeURIComponent('["callback_query"]');
+  var res = UrlFetchApp.fetch(url);
+  var data = JSON.parse(res.getContentText());
 
-  // callback_data 파싱: review_approve_<row> 또는 review_reject_<row>
-  var match = data.match(/^review_(approve|reject)_(\d+)$/);
-  if (!match) {
-    answerCallback(config.BOT_TOKEN, callbackId, '알 수 없는 동작입니다.');
-    return jsonResponse({ status: 'unknown_callback' });
+  if (!data.result || data.result.length === 0) return;
+
+  for (var i = 0; i < data.result.length; i++) {
+    var update = data.result[i];
+    if (update.callback_query) {
+      handleTelegramCallback(update.callback_query);
+    }
   }
 
-  var action = match[1]; // approve 또는 reject
-  var rowNum = parseInt(match[2], 10);
-  var newStatus = action === 'approve' ? 'approved' : 'rejected';
-
-  // 시트 상태 업데이트 (I열 = 9번째 컬럼)
-  var sheet = getSheet();
-  var currentStatus = sheet.getRange(rowNum, 9).getValue();
-
-  if (currentStatus !== 'pending') {
-    answerCallback(config.BOT_TOKEN, callbackId, '이미 처리된 후기입니다.');
-    return jsonResponse({ status: 'already_processed' });
-  }
-
-  sheet.getRange(rowNum, 9).setValue(newStatus);
-
-  // 후기 정보 가져오기
-  var name = sheet.getRange(rowNum, 2).getValue() || '익명';
-
-  // 텔레그램 메시지 편집 (버튼 제거 + 결과 표시)
-  var chatId = callbackQuery.message.chat.id;
-  var messageId = callbackQuery.message.message_id;
-  var resultEmoji = action === 'approve' ? '✅' : '❌';
-  var resultText = action === 'approve' ? '승인됨' : '거절됨';
-  var originalText = callbackQuery.message.text || '';
-
-  editTelegramMessage(config.BOT_TOKEN, chatId, messageId,
-    originalText + '\n\n' + resultEmoji + ' *' + resultText + '* (처리 완료)');
-
-  // 콜백 응답
-  answerCallback(config.BOT_TOKEN, callbackId, resultText + ' 처리 완료!');
-
-  return jsonResponse({ status: newStatus });
+  var lastId = data.result[data.result.length - 1].update_id;
+  UrlFetchApp.fetch('https://api.telegram.org/bot' + BOT_TOKEN + '/getUpdates?offset=' + (lastId + 1) + '&timeout=0');
 }
 
-// ─── 텔레그램 API 헬퍼 ───
-function answerCallback(token, callbackId, text) {
-  UrlFetchApp.fetch('https://api.telegram.org/bot' + token + '/answerCallbackQuery', {
+// ─── 콜백 처리 (승인/거절) ───
+function handleTelegramCallback(cq) {
+  var parts = cq.data.split('_');
+  var action = parts[0];
+  var row = parseInt(parts[1]);
+
+  // 1. 스프레드시트 상태 업데이트
+  var ss = SpreadsheetApp.openById(SHEET_ID);
+  var sheet = ss.getSheetByName('reviews') || ss.getSheets()[0];
+  var status = (action === 'approve') ? 'approved' : 'rejected';
+  sheet.getRange(row, 9).setValue(status);
+
+  // 2. 텔레그램 콜백 응답
+  UrlFetchApp.fetch('https://api.telegram.org/bot' + BOT_TOKEN + '/answerCallbackQuery', {
+    method: 'post',
+    contentType: 'application/json',
+    payload: JSON.stringify({ callback_query_id: cq.id, text: (action === 'approve') ? '\uC2B9\uC778 \uC644\uB8CC!' : '\uAC70\uC808 \uC644\uB8CC!' })
+  });
+
+  // 3. 텔레그램 메시지 편집
+  var emoji = (action === 'approve') ? '\u2705' : '\u274C';
+  var label = (action === 'approve') ? '\uC2B9\uC778\uB428' : '\uAC70\uC808\uB428';
+  UrlFetchApp.fetch('https://api.telegram.org/bot' + BOT_TOKEN + '/editMessageText', {
     method: 'post',
     contentType: 'application/json',
     payload: JSON.stringify({
-      callback_query_id: callbackId,
-      text: text
-    }),
-    muteHttpExceptions: true
+      chat_id: cq.message.chat.id,
+      message_id: cq.message.message_id,
+      text: emoji + ' ' + label + ' (\uCC98\uB9AC \uC644\uB8CC)'
+    })
   });
+
+  // 4. 승인이면 WordPress에 자동 배포
+  if (action === 'approve') {
+    try {
+      publishToWordPress(row);
+    } catch (err) {
+      // 배포 실패 시 텔레그램으로 알림
+      UrlFetchApp.fetch('https://api.telegram.org/bot' + BOT_TOKEN + '/sendMessage', {
+        method: 'post',
+        contentType: 'application/json',
+        payload: JSON.stringify({
+          chat_id: CHAT_ID,
+          text: '\u26A0\uFE0F WP \uBC30\uD3EC \uC2E4\uD328: ' + err.message
+        })
+      });
+    }
+  }
 }
 
-function editTelegramMessage(token, chatId, messageId, newText) {
-  UrlFetchApp.fetch('https://api.telegram.org/bot' + token + '/editMessageText', {
+// ─── WordPress 자동 배포 ───
+function publishToWordPress(approvedRow) {
+  var wpUrl = PROPS.getProperty('WP_URL');
+  var wpUser = PROPS.getProperty('WP_USER');
+  var wpPass = PROPS.getProperty('WP_APP_PASSWORD');
+  if (!wpUrl || !wpUser || !wpPass) return;
+
+  // 1. 승인된 후기 데이터 가져오기
+  var ss = SpreadsheetApp.openById(SHEET_ID);
+  var sheet = ss.getSheetByName('reviews') || ss.getSheets()[0];
+  var rowData = sheet.getRange(approvedRow, 1, 1, 9).getValues()[0];
+
+  var review = {
+    date: Utilities.formatDate(new Date(rowData[0]), 'Asia/Seoul', 'yyyy-MM-dd'),
+    name: String(rowData[1]),
+    plan: String(rowData[2]),
+    period: String(rowData[3]),
+    rating: Number(rowData[4]),
+    content: String(rowData[5])
+  };
+
+  // 2. 현재 WordPress 페이지 가져오기
+  var auth = Utilities.base64Encode(wpUser + ':' + wpPass);
+  var pageRes = UrlFetchApp.fetch(wpUrl + '/wp-json/wp/v2/pages/209', {
+    headers: { 'Authorization': 'Basic ' + auth }
+  });
+  var pageData = JSON.parse(pageRes.getContentText());
+  var content = pageData.content.rendered || '';
+
+  // 3. 현재 후기 수 파악
+  var countMatch = content.match(/HARDCODED_REVIEW_COUNT\s*=\s*(\d+)/);
+  var currentCount = countMatch ? parseInt(countMatch[1]) : 13;
+  var newNum = currentCount + 1;
+
+  // 4. 새 후기 HTML 생성
+  var masked = review.name.length > 2 ? review.name.substring(0, 2) + '**' : review.name.length > 1 ? review.name.charAt(0) + '*' : review.name;
+  var isPro = review.plan.indexOf('Pro') >= 0;
+  var badgeClass = isPro ? 'rv-badge-pro' : 'rv-badge-paid';
+  var badgeText = isPro ? 'Pro' : 'Basic';
+  var ratingNum = review.rating.toFixed(1);
+  var starsHtml = '';
+  for (var s = 0; s < 5; s++) starsHtml += (s < review.rating) ? '\u2605' : '\u2606';
+  var dateStr = review.date.substring(5, 10).replace('-', '.');
+  var titleText = review.content.length > 35 ? htmlEscape(review.content.substring(0, 35)) + '...' : htmlEscape(review.content);
+
+  var tags = '';
+  if (review.plan) tags += '<span class="rv-detail-tag">' + htmlEscape(review.plan) + '</span>';
+  if (review.period) tags += '<span class="rv-detail-tag">' + htmlEscape(review.period) + '</span>';
+
+  var newReviewHtml = '<div class="rv-board-row" data-cat="paid">'
+    + '<div class="rv-col-no">' + newNum + '</div>'
+    + '<div class="rv-col-title"><span class="rv-badge ' + badgeClass + '">' + badgeText + '</span>' + titleText + '</div>'
+    + '<div class="rv-col-author">' + htmlEscape(masked) + '</div>'
+    + '<div class="rv-col-date">' + dateStr + '</div>'
+    + '<div class="rv-col-rating">\u2605 ' + ratingNum + '</div>'
+    + '</div>'
+    + '<div class="rv-board-detail">'
+    + '<div class="rv-detail-inner">'
+    + '<div class="rv-detail-stars">' + starsHtml + '</div>'
+    + '<div class="rv-detail-meta">' + htmlEscape(masked) + ' \u00B7 ' + htmlEscape(review.plan) + ' \u00B7 \uC0AC\uC6A9 ' + htmlEscape(review.period) + '</div>'
+    + '<div class="rv-detail-body">' + htmlEscape(review.content) + '</div>'
+    + (tags ? '<div class="rv-detail-tags">' + tags + '</div>' : '')
+    + '</div></div>\n';
+
+  // 5. 원본 HTML 파일 가져오기 (raw content)
+  var rawRes = UrlFetchApp.fetch(wpUrl + '/wp-json/wp/v2/pages/209', {
+    headers: { 'Authorization': 'Basic ' + auth }
+  });
+  var rawData = JSON.parse(rawRes.getContentText());
+  var rawContent = rawData.content.raw || rawData.content.rendered || '';
+
+  // wp:html 래퍼 제거
+  var html = rawContent.replace(/<!--\s*wp:html\s*-->\n?/, '').replace(/\n?<!--\s*\/wp:html\s*-->/, '');
+
+  // 6. 삽입 위치 찾기 (정적 후기 마커 뒤)
+  var marker = '<!-- \uC815\uC801 \uD6C4\uAE30 -->';
+  var altMarker = '<!-- \uC2B9\uC778\uB41C \uD6C4\uAE30 -->';
+  var insertMarker = html.indexOf(marker) >= 0 ? marker : altMarker;
+
+  if (html.indexOf(insertMarker) >= 0) {
+    html = html.replace(insertMarker, insertMarker + '\n' + newReviewHtml);
+  } else {
+    // 마커 없으면 첫 번째 정적 후기 앞에 삽입
+    var firstRow = html.indexOf('<div class="rv-board-row"', html.indexOf('rv-dynamic-rows'));
+    if (firstRow >= 0) {
+      html = html.substring(0, firstRow) + newReviewHtml + '\n' + html.substring(firstRow);
+    }
+  }
+
+  // 7. 카운트 업데이트
+  html = html.replace(/HARDCODED_REVIEW_COUNT\s*=\s*\d+/, 'HARDCODED_REVIEW_COUNT = ' + newNum);
+  html = html.replace(/(id="rv-total-count">)\d+\+/, '$1' + newNum + '+');
+  html = html.replace(/(id="rv-tab-all-count">\()\d+\)/, '$1' + newNum + ')');
+  html = html.replace(/(id="rv-tab-paid-count">\()\d+\)/, '$1' + newNum + ')');
+
+  // 8. WordPress에 업데이트
+  var wpContent = '<!-- wp:html -->\n' + html + '\n<!-- /wp:html -->';
+  UrlFetchApp.fetch(wpUrl + '/wp-json/wp/v2/pages/209', {
+    method: 'put',
+    contentType: 'application/json',
+    headers: { 'Authorization': 'Basic ' + auth },
+    payload: JSON.stringify({ content: wpContent })
+  });
+
+  // 9. 성공 알림
+  UrlFetchApp.fetch('https://api.telegram.org/bot' + BOT_TOKEN + '/sendMessage', {
     method: 'post',
     contentType: 'application/json',
     payload: JSON.stringify({
-      chat_id: chatId,
-      message_id: messageId,
-      text: newText,
-      parse_mode: 'Markdown'
-    }),
-    muteHttpExceptions: true
+      chat_id: CHAT_ID,
+      text: '\u2705 \uD6C4\uAE30 #' + newNum + ' WordPress \uBC1C\uD589 \uC644\uB8CC!\nhttps://wpauto.kr/reviews/'
+    })
   });
 }
 
-// ─── 유틸리티 ───
-function formatDate(date) {
-  if (!date) return '';
-  if (typeof date === 'string') return date;
-  var d = new Date(date);
-  var yyyy = d.getFullYear();
-  var mm = ('0' + (d.getMonth() + 1)).slice(-2);
-  var dd = ('0' + d.getDate()).slice(-2);
-  return yyyy + '-' + mm + '-' + dd;
+// ─── HTML 이스케이프 ───
+function htmlEscape(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
 }
 
-function jsonResponse(obj) {
-  return ContentService.createTextOutput(JSON.stringify(obj))
-    .setMimeType(ContentService.MimeType.JSON);
+// ─── 트리거 설정 (1회 실행) ───
+function setupPollingTrigger() {
+  // 기존 트리거 제거
+  var triggers = ScriptApp.getProjectTriggers();
+  for (var i = 0; i < triggers.length; i++) {
+    if (triggers[i].getHandlerFunction() === 'checkTelegramUpdates') {
+      ScriptApp.deleteTrigger(triggers[i]);
+    }
+  }
+  // 1분마다 실행
+  ScriptApp.newTrigger('checkTelegramUpdates')
+    .timeBased()
+    .everyMinutes(1)
+    .create();
 }

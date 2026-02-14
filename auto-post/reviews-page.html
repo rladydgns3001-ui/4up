@@ -51,13 +51,13 @@
 
 /* 배지 */
 .rv-badge{display:inline-block;padding:1px 7px;border-radius:3px;font-size:.68rem;font-weight:700;margin-right:6px;vertical-align:middle;letter-spacing:-.3px}
-.rv-badge-paid{background:#e8f4fd;color:#1e90ff}
+.rv-badge-paid{background:#e8f4fd;color:#3b82c6}
 .rv-badge-new{background:#fff0f0;color:#ff4757}
-.rv-badge-pro{background:#f0e8ff;color:#764ba2}
+.rv-badge-pro{background:linear-gradient(135deg,#7c3aed,#a855f7);color:#fff;border:none}
 
 /* 아코디언 상세 */
 .rv-board-detail{max-height:0;overflow:hidden;transition:max-height .35s ease;background:#fafbfc;border-bottom:1px solid transparent}
-.rv-board-detail.open{max-height:400px;border-bottom-color:#e5e7eb}
+.rv-board-detail.open{max-height:1200px;border-bottom-color:#e5e7eb}
 .rv-detail-inner{padding:24px 20px 24px 52px}
 .rv-detail-stars{color:#ffd93d;font-size:1.05rem;letter-spacing:2px;margin-bottom:10px}
 .rv-detail-meta{font-size:.8rem;color:#999;margin-bottom:12px}
@@ -150,7 +150,7 @@
         <p>AutoPost SEO Writer를 사용 중인 분들의 솔직한 후기입니다</p>
         <div class="rv-hero-stats">
             <div><strong>4.9</strong><span>평균 별점</span></div>
-            <div><strong id="rv-total-count">10+</strong><span>누적 후기</span></div>
+            <div><strong id="rv-total-count">14+</strong><span>누적 후기</span></div>
             <div><strong>98%</strong><span>만족도</span></div>
         </div>
     </section>
@@ -160,8 +160,8 @@
 
         <!-- 카테고리 탭 -->
         <div class="rv-tabs">
-            <div class="rv-tab active" data-filter="all" onclick="filterTab(this)">전체<span class="rv-tab-count" id="rv-tab-all-count">(10)</span></div>
-            <div class="rv-tab" data-filter="paid" onclick="filterTab(this)">유료후기<span class="rv-tab-count" id="rv-tab-paid-count">(10)</span></div>
+            <div class="rv-tab active" data-filter="all" onclick="filterTab(this)">전체<span class="rv-tab-count" id="rv-tab-all-count">(14)</span></div>
+            <div class="rv-tab" data-filter="paid" onclick="filterTab(this)">유료후기<span class="rv-tab-count" id="rv-tab-paid-count">(14)</span></div>
         </div>
 
         <!-- 테이블 -->
@@ -178,10 +178,75 @@
             <!-- 동적 후기 (Google Sheets - 상단 표시) -->
             <div id="rv-dynamic-rows"></div>
 
-            <!-- 정적 후기 10개 -->
-            <div class="rv-board-row" data-cat="paid" onclick="toggleDetail(this)">
+            <!-- 승인된 후기 -->
+            <div class="rv-board-row" data-cat="paid">
+                <div class="rv-col-no">14</div>
+                <div class="rv-col-title"><span class="rv-badge rv-badge-pro">Pro</span>진짜 개꿀입니다. 스레드보고 좋아보여서 샀는데 진짜 대만족입니다...</div>
+                <div class="rv-col-author">최철**</div>
+                <div class="rv-col-date">02.14</div>
+                <div class="rv-col-rating">★ 5.0</div>
+            </div>
+            <div class="rv-board-detail">
+                <div class="rv-detail-inner">
+                    <div class="rv-detail-stars">★★★★★</div>
+                    <div class="rv-detail-meta">최철** · V2 Pro · 사용 1~2주</div>
+                    <div class="rv-detail-body">진짜 개꿀입니다. 스레드보고 좋아보여서 샀는데 진짜 대만족입니다. 궁금한거 다 물어봤는데 응대도 잘해주시고 새벽에도 답변해주시네요.. 감사합니다!</div>
+                    <div class="rv-detail-tags"><span class="rv-detail-tag">V2 Pro</span><span class="rv-detail-tag">1~2주</span></div>
+                </div>
+            </div>
+            <div class="rv-board-row" data-cat="paid">
+                <div class="rv-col-no">13</div>
+                <div class="rv-col-title"><span class="rv-badge rv-badge-pro">Pro</span>건기식 브랜드 운영중인데 블로그 글 직접 쓸 시간이 없어서 고민하다...</div>
+                <div class="rv-col-author">박서**</div>
+                <div class="rv-col-date">02.14</div>
+                <div class="rv-col-rating">★ 5.0</div>
+            </div>
+            <div class="rv-board-detail">
+                <div class="rv-detail-inner">
+                    <div class="rv-detail-stars">★★★★★</div>
+                    <div class="rv-detail-meta">박서** · V2 Pro · 사용 1주 미만</div>
+                    <div class="rv-detail-body">건기식 브랜드 운영중인데 블로그 글 직접 쓸 시간이 없어서 고민하다가 AutoPost 구매했습니다. 키워드 5개 세팅해놓으니까 매일 자동으로 글이 올라가는게 너무 신기해요. 글 퀄리티도 직접 쓴 것보다 훨씬 자연스럽고 SEO 구조도 알아서 잡아줘서 정말 키워드만 넣으면 끝이에요. 3일만에 구글 색인도 시작됐고 방문자가 조금씩 늘고 있습니다. 이 가격에 이 퀄리티는 진짜 가성비 최고입니다!</div>
+                    <div class="rv-detail-tags"><span class="rv-detail-tag">V2 Pro</span><span class="rv-detail-tag">1주 미만</span></div>
+                </div>
+            </div>
+            <div class="rv-board-row" data-cat="paid">
+                <div class="rv-col-no">12</div>
+                <div class="rv-col-title"><span class="rv-badge rv-badge-pro">Pro</span>뷰티 브랜드 운영하면서 블로그 글 외주 맡기느라 매달 비용이 꽤 나갔...</div>
+                <div class="rv-col-author">정유**</div>
+                <div class="rv-col-date">02.14</div>
+                <div class="rv-col-rating">★ 5.0</div>
+            </div>
+            <div class="rv-board-detail">
+                <div class="rv-detail-inner">
+                    <div class="rv-detail-stars">★★★★★</div>
+                    <div class="rv-detail-meta">정유** · V2 Pro · 사용 1주 미만</div>
+                    <div class="rv-detail-body">뷰티 브랜드 운영하면서 블로그 글 외주 맡기느라 매달 비용이 꽤 나갔는데 AutoPost 쓰고나서 외주비가 거의 없어졌어요. 키워드 세팅하고 예약 발행 걸어두니까 하루에 글이 알아서 올라가고, 글 퀄리티도 직접 쓴 것처럼 자연스러워서 놀랐습니다. SEO 구조도 자동으로 잡아주니까 구글 검색 유입이 확실히 늘었고요. 설치할 때 1:1로 도와주셔서 초보인 저도 어렵지 않았어요. 이 가격에 이 퀄리티면 진심 가성비 최고입니다!</div>
+                    <div class="rv-detail-tags"><span class="rv-detail-tag">V2 Pro</span><span class="rv-detail-tag">1주 미만</span></div>
+                </div>
+            </div>
+
+            <!-- 정적 후기 -->
+            <div class="rv-board-row" data-cat="paid">
+                <div class="rv-col-no">11</div>
+                <div class="rv-col-title"><span class="rv-badge rv-badge-pro">Pro</span>기존에 조용히 프로그램만 쓰고 있던 사람인데요. 이번에 V2 Pro 업...</div>
+                <div class="rv-col-author">배서**</div>
+                <div class="rv-col-date">02.14</div>
+                <div class="rv-col-rating">★ 5.0</div>
+            </div>
+            <div class="rv-board-detail">
+                <div class="rv-detail-inner">
+                    <div class="rv-detail-stars">★★★★★</div>
+                    <div class="rv-detail-meta">배서** · V2 Pro · 사용 1~2주</div>
+                    <div class="rv-detail-body">기존에 조용히 프로그램만 쓰고 있던 사람인데요. 이번에 V2 Pro 업데이트 된 거 보고 후기 남기게 되었네요 ㅋㅋ
+처음에 Basic 버전만 썼을때도 돈 값하네~ 정도로 생각하고 블로그 자동 발행 혼자 돌려보고 있었거든요.
+이제 슬슬 마무리 단계라 어떤 키워드로 더 돌려야 할지 고민중이었는데 이렇게 Pro 기능까지 나오다니 ㅋ
+나이스 타이밍 입니다 ㅋ</div>
+                    <div class="rv-detail-tags"><span class="rv-detail-tag">V2 Pro</span><span class="rv-detail-tag">1~2주</span></div>
+                </div>
+            </div>
+            <div class="rv-board-row" data-cat="paid">
                 <div class="rv-col-no">10</div>
-                <div class="rv-col-title"><span class="rv-badge rv-badge-new">NEW</span>IT 블로그에 딱! Claude AI가 기술 글도 잘 써줍니다</div>
+                <div class="rv-col-title"><span class="rv-badge rv-badge-paid">Basic</span>IT/개발 분야 블로그인데 전문적인 글도 잘 써줍니다. Claude AI가...</div>
                 <div class="rv-col-author">오현**</div>
                 <div class="rv-col-date">02.13</div>
                 <div class="rv-col-rating">★ 5.0</div>
@@ -195,9 +260,9 @@
                 </div>
             </div>
 
-            <div class="rv-board-row" data-cat="paid" onclick="toggleDetail(this)">
+            <div class="rv-board-row" data-cat="paid">
                 <div class="rv-col-no">9</div>
-                <div class="rv-col-title"><span class="rv-badge rv-badge-new">NEW</span>Basic인데 벌써 Pro 업그레이드 고민 중이에요</div>
+                <div class="rv-col-title"><span class="rv-badge rv-badge-paid">Basic</span>Basic으로 시작했는데 벌써 Pro 업그레이드 고민 중이에요. 하루에 키...</div>
                 <div class="rv-col-author">강민**</div>
                 <div class="rv-col-date">02.12</div>
                 <div class="rv-col-rating">★ 5.0</div>
@@ -211,9 +276,9 @@
                 </div>
             </div>
 
-            <div class="rv-board-row" data-cat="paid" onclick="toggleDetail(this)">
+            <div class="rv-board-row" data-cat="paid">
                 <div class="rv-col-no">8</div>
-                <div class="rv-col-title"><span class="rv-badge rv-badge-pro">Pro</span>자동 색인 요청 기능이 편해서 V2 Pro 선택했어요</div>
+                <div class="rv-col-title"><span class="rv-badge rv-badge-pro">Pro</span>재테크 블로그를 시작하려고 V2 Pro로 구매했어요. 자동 색인 요청 기...</div>
                 <div class="rv-col-author">윤서**</div>
                 <div class="rv-col-date">02.12</div>
                 <div class="rv-col-rating">★ 5.0</div>
@@ -227,9 +292,9 @@
                 </div>
             </div>
 
-            <div class="rv-board-row" data-cat="paid" onclick="toggleDetail(this)">
+            <div class="rv-board-row" data-cat="paid">
                 <div class="rv-col-no">7</div>
-                <div class="rv-col-title"><span class="rv-badge rv-badge-paid">후기</span>원격 설치 지원 덕분에 30분 만에 설정 완료!</div>
+                <div class="rv-col-title"><span class="rv-badge rv-badge-paid">Basic</span>설치할 때 직접 원격 접속해서 해주셔서 좋았어요. 저는 컴퓨터를 잘...</div>
                 <div class="rv-col-author">송재**</div>
                 <div class="rv-col-date">02.11</div>
                 <div class="rv-col-rating">★ 4.0</div>
@@ -243,9 +308,9 @@
                 </div>
             </div>
 
-            <div class="rv-board-row" data-cat="paid" onclick="toggleDetail(this)">
+            <div class="rv-board-row" data-cat="paid">
                 <div class="rv-col-no">6</div>
-                <div class="rv-col-title"><span class="rv-badge rv-badge-paid">후기</span>건강 블로그 시작, 3일 만에 글 3개 자동 발행</div>
+                <div class="rv-col-title"><span class="rv-badge rv-badge-paid">Basic</span>건강 관련 블로그 시작하려고 구매했어요. 매일 키워드 하나씩 넣고...</div>
                 <div class="rv-col-author">정다**</div>
                 <div class="rv-col-date">02.11</div>
                 <div class="rv-col-rating">★ 5.0</div>
@@ -259,9 +324,9 @@
                 </div>
             </div>
 
-            <div class="rv-board-row" data-cat="paid" onclick="toggleDetail(this)">
+            <div class="rv-board-row" data-cat="paid">
                 <div class="rv-col-no">5</div>
-                <div class="rv-col-title"><span class="rv-badge rv-badge-paid">후기</span>블로그 자동화 툴 여러 개 써봤지만 차원이 다릅니다</div>
+                <div class="rv-col-title"><span class="rv-badge rv-badge-paid">Basic</span>블로그 자동화 툴을 여러 개 써봤는데 이건 차원이 다릅니다. 다른 툴...</div>
                 <div class="rv-col-author">한민**</div>
                 <div class="rv-col-date">02.10</div>
                 <div class="rv-col-rating">★ 5.0</div>
@@ -275,9 +340,9 @@
                 </div>
             </div>
 
-            <div class="rv-board-row" data-cat="paid" onclick="toggleDetail(this)">
+            <div class="rv-board-row" data-cat="paid">
                 <div class="rv-col-no">4</div>
-                <div class="rv-col-title"><span class="rv-badge rv-badge-pro">Pro</span>V2 Pro 예약 발행, 일주일 만에 글 20개 쌓였어요</div>
+                <div class="rv-col-title"><span class="rv-badge rv-badge-pro">Pro</span>V2 Pro로 바로 구매했는데 진짜 잘한 선택이에요. 키워드 10개 넣어...</div>
                 <div class="rv-col-author">최은**</div>
                 <div class="rv-col-date">02.10</div>
                 <div class="rv-col-rating">★ 5.0</div>
@@ -291,9 +356,9 @@
                 </div>
             </div>
 
-            <div class="rv-board-row" data-cat="paid" onclick="toggleDetail(this)">
+            <div class="rv-board-row" data-cat="paid">
                 <div class="rv-col-no">3</div>
-                <div class="rv-col-title"><span class="rv-badge rv-badge-paid">후기</span>직장인 부업으로 딱! 설치부터 발행까지 30분</div>
+                <div class="rv-col-title"><span class="rv-badge rv-badge-paid">Basic</span>저 컴퓨터 완전 못하는데 사용설명서랑 1:1 안내해주셔서 너무 편했...</div>
                 <div class="rv-col-author">이수**</div>
                 <div class="rv-col-date">02.09</div>
                 <div class="rv-col-rating">★ 5.0</div>
@@ -307,9 +372,9 @@
                 </div>
             </div>
 
-            <div class="rv-board-row" data-cat="paid" onclick="toggleDetail(this)">
+            <div class="rv-board-row" data-cat="paid">
                 <div class="rv-col-no">2</div>
-                <div class="rv-col-title"><span class="rv-badge rv-badge-paid">후기</span>부동산 키워드로 글 쓰는데 외주비 대비 가성비 최고</div>
+                <div class="rv-col-title"><span class="rv-badge rv-badge-paid">Basic</span>부동산 키워드로 글 쓰고 있는데요, 솔직히 이 가격에 이 퀄리티는...</div>
                 <div class="rv-col-author">박성**</div>
                 <div class="rv-col-date">02.09</div>
                 <div class="rv-col-rating">★ 5.0</div>
@@ -323,9 +388,9 @@
                 </div>
             </div>
 
-            <div class="rv-board-row" data-cat="paid" onclick="toggleDetail(this)">
+            <div class="rv-board-row" data-cat="paid">
                 <div class="rv-col-no">1</div>
-                <div class="rv-col-title"><span class="rv-badge rv-badge-paid">후기</span>키워드만 넣으면 끝! 3일 만에 글 3개, 퀄리티 대만족</div>
+                <div class="rv-col-title"><span class="rv-badge rv-badge-paid">Basic</span>하루에 키워드 하나씩 넣고 있는데 벌써 글이 3개 올라갔어요. 직접...</div>
                 <div class="rv-col-author">김지**</div>
                 <div class="rv-col-date">02.08</div>
                 <div class="rv-col-rating">★ 5.0</div>
@@ -387,11 +452,9 @@
                 <div class="rv-form-group">
                     <label class="rv-form-label">사용 기간</label>
                     <select id="rv-period" class="rv-form-select">
-                        <option value="1주 미만">1주 미만</option>
+                        <option value="1~3일">1~3일</option>
+                        <option value="1주 미만" selected>1주 미만</option>
                         <option value="1~2주">1~2주</option>
-                        <option value="2주~1개월">2주~1개월</option>
-                        <option value="1~3개월" selected>1~3개월</option>
-                        <option value="3개월 이상">3개월 이상</option>
                     </select>
                 </div>
 
@@ -446,9 +509,9 @@
 </div>
 
 <script>
-var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxCquDFPqe1k7Te7_N2x8juXUIu5UdcOiO1Yx6aijY6RDaoDqPe_cfcvl1W0Tvdi7wD/exec';
+var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbztugoGdS9ip7S7nQGA3leZMlNm7WdB1fI_a21Pc_pNIOf4qvMuaqNTuGGebMWa8eKU/exec';
 var KEYWORD_DOWNLOAD_URL = 'https://docs.google.com/spreadsheets/d/1sGmv-q3cMFm7v8Wjh5lNjr2xQp64D3Sm3Q3KV7h_OQo/export?format=xlsx';
-var HARDCODED_REVIEW_COUNT = 10;
+var HARDCODED_REVIEW_COUNT = 14;
 
 /* XSS 방지 */
 function escapeHtml(str) {
@@ -503,7 +566,7 @@ function loadReviews() {
             reviews.forEach(function(r, i) {
                 var num = HARDCODED_REVIEW_COUNT + reviews.length - i;
                 var name = escapeHtml(r.name || '익명');
-                var maskedName = name.length > 1 ? name.charAt(0) + name.substring(1).replace(/./g, '*').substring(0, 2) : name;
+                var maskedName = name.length > 2 ? name.substring(0, 2) + '**' : name.length > 1 ? name.charAt(0) + '*' : name;
                 var stars = '';
                 for (var s = 0; s < 5; s++) { stars += s < r.rating ? '★' : '☆'; }
                 var ratingNum = r.rating ? parseFloat(r.rating).toFixed(1) : '5.0';
@@ -516,9 +579,12 @@ function loadReviews() {
                 var titleText = escapeHtml(r.content || '').substring(0, 40);
                 if ((r.content || '').length > 40) titleText += '...';
 
-                html += '<div class="rv-board-row" data-cat="paid" onclick="toggleDetail(this)">'
+                var isPro = r.plan ? r.plan.indexOf('Pro') >= 0 : false;
+                var badgeClass = isPro ? 'rv-badge-pro' : 'rv-badge-paid';
+                var badgeText = isPro ? 'Pro' : 'Basic';
+                html += '<div class="rv-board-row" data-cat="paid">'
                     + '<div class="rv-col-no">' + num + '</div>'
-                    + '<div class="rv-col-title"><span class="rv-badge rv-badge-new">NEW</span>' + titleText + '</div>'
+                    + '<div class="rv-col-title"><span class="rv-badge ' + badgeClass + '">' + badgeText + '</span>' + titleText + '</div>'
                     + '<div class="rv-col-author">' + escapeHtml(maskedName) + '</div>'
                     + '<div class="rv-col-date">' + dateStr + '</div>'
                     + '<div class="rv-col-rating">★ ' + ratingNum + '</div>'
@@ -593,11 +659,17 @@ function submitReview() {
     document.getElementById('rv-success').style.display = 'block';
 }
 
+/* 이벤트 위임 - 모든 rv-board-row 클릭 처리 */
+document.addEventListener('click', function(e) {
+    var row = e.target.closest('.rv-board-row');
+    if (row) { toggleDetail(row); }
+});
+
 /* 초기화 */
 document.addEventListener('DOMContentLoaded', function() {
     document.body.style.overflowX = 'hidden';
     var el = document.querySelector('.entry-content');
     while (el) { el.style.padding='0'; el.style.margin='0'; el.style.maxWidth='100%'; el.style.width='100%'; if (el.tagName==='BODY') break; el=el.parentElement; }
-    loadReviews();
+    // loadReviews(); // 승인된 후기는 하드코딩으로 관리
 });
 </script>
