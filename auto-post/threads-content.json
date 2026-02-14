@@ -118,7 +118,7 @@
     "seo_adsense",
     "wordpress_tips"
   ],
-  "cyclePosition": 5,
+  "cyclePosition": 6,
   "postHistory": [
     {
       "categoryType": "empathy",
@@ -167,6 +167,14 @@
       "postId": "18173080378381771",
       "publishedAt": "2026-02-13T00:01:14.468Z",
       "textLength": 206
+    },
+    {
+      "categoryType": "seo_adsense",
+      "topic": "애드센스 수익 2배 올리는 전면광고 위치",
+      "topicTag": "애드센스수익최적화",
+      "postId": "18088954066886497",
+      "publishedAt": "2026-02-14T23:50:28.293Z",
+      "textLength": 227
     }
   ],
   "lastCategoryIndex": 1
