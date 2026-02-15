@@ -317,15 +317,15 @@ function publishToWordPress(approvedRow) {
 // ─── 페이지 후기 수 업데이트 ───
 function updatePageReviewCount(wpUrl, auth, pageId, newCount) {
   try {
-    var res = UrlFetchApp.fetch(wpUrl + '/wp-json/wp/v2/pages/' + pageId, {
+    var res = UrlFetchApp.fetch(wpUrl + '/wp-json/wp/v2/pages/' + pageId + '?context=edit', {
       headers: { 'Authorization': 'Basic ' + auth }
     });
     var page = JSON.parse(res.getContentText());
-    var raw = page.content.raw || page.content.rendered || '';
+    var raw = page.content.raw;
+    if (!raw) return;
 
-    // 999+ 리뷰 또는 기존 숫자+ 리뷰 패턴 교체
-    var updated = raw.replace(/\d+\+?\s*리뷰/g, newCount + '+ \uB9AC\uBDF0');
-    // reviewCount JSON 값 교체
+    var updated = raw.replace(/\d+\+\s*리뷰/g, newCount + '+ \uB9AC\uBDF0');
+    updated = updated.replace(/\uB9AC\uBDF0\s*\d+\+/g, '\uB9AC\uBDF0 ' + newCount + '+');
     updated = updated.replace(/"reviewCount":\s*"\d+"/g, '"reviewCount": "' + newCount + '"');
 
     if (updated !== raw) {

@@ -178,12 +178,14 @@ async function main() {
   // 8. 메인 페이지(17) + 상품 페이지(431) 후기 수 업데이트
   for (const pageId of [17, 431]) {
     try {
-      const pgRes = await fetch(`${WP_URL}/wp-json/wp/v2/pages/${pageId}`, {
+      const pgRes = await fetch(`${WP_URL}/wp-json/wp/v2/pages/${pageId}?context=edit`, {
         headers: { Authorization: `Basic ${auth}` },
       });
       const pgData = await pgRes.json();
-      const raw = pgData.content.raw || pgData.content.rendered || '';
-      let updated = raw.replace(/\d+\+?\s*리뷰/g, `${newCount}+ 리뷰`);
+      const raw = pgData.content.raw;
+      if (!raw) { console.log(`⚠️  페이지 ${pageId}: raw 콘텐츠 없음. 스킵.`); continue; }
+      let updated = raw.replace(/\d+\+\s*리뷰/g, `${newCount}+ 리뷰`);
+      updated = updated.replace(/리뷰\s*\d+\+/g, `리뷰 ${newCount}+`);
       updated = updated.replace(/"reviewCount":\s*"\d+"/g, `"reviewCount": "${newCount}"`);
       if (updated !== raw) {
         await fetch(`${WP_URL}/wp-json/wp/v2/pages/${pageId}`, {
