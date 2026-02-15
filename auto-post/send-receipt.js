@@ -141,8 +141,25 @@ async function main() {
     process.exit(1);
   }
 
+  // 환경변수 검증
+  const envErrors = [];
   if (!process.env.RESEND_API_KEY) {
-    console.error('RESEND_API_KEY not found in .env');
+    envErrors.push('RESEND_API_KEY — Resend API 키 누락');
+  } else if (!process.env.RESEND_API_KEY.startsWith('re_')) {
+    envErrors.push('RESEND_API_KEY — 유효하지 않은 형식 (re_ 로 시작해야 함)');
+  }
+  if (!process.env.RESEND_FROM) {
+    envErrors.push('RESEND_FROM — 발신자 이메일 누락');
+  }
+  const placeholders = ['your-server.com', 'change-this', 'example.com'];
+  const baseUrl = process.env.WEBHOOK_BASE_URL || '';
+  if (!baseUrl || placeholders.some(p => baseUrl.toLowerCase().includes(p))) {
+    envErrors.push('WEBHOOK_BASE_URL — 실제 서버 URL 필요 (다운로드 링크 생성용)');
+  }
+  if (envErrors.length > 0) {
+    console.error('❌ .env 환경변수 오류:');
+    envErrors.forEach(e => console.error(`   ${e}`));
+    console.error('\n   auto-post/.env 파일을 확인하세요.');
     process.exit(1);
   }
 

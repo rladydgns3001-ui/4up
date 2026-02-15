@@ -26,6 +26,89 @@ const DOWNLOAD_EXPIRY_DAYS = parseInt(process.env.DOWNLOAD_EXPIRY_DAYS) || 7;
 const DOWNLOADS_DB = path.join(__dirname, 'downloads.json');
 const PRODUCTS_DIR = path.join(__dirname, 'products');
 
+// ── 환경변수 검증 ──────────────────────────────────────────
+const PLACEHOLDERS = [
+  'your-server.com', 'change-this', 'default-secret', 'example.com',
+  'YOUR_', 'xxx', 'CHANGE_ME', 'TODO',
+];
+
+function isPlaceholder(val) {
+  if (!val) return false;
+  const lower = val.toLowerCase();
+  return PLACEHOLDERS.some(p => lower.includes(p.toLowerCase()));
+}
+
+function validateEnv() {
+  const errors = [];
+  const warnings = [];
+
+  // 필수: 이메일 발송에 반드시 필요
+  if (!process.env.RESEND_API_KEY) {
+    errors.push('RESEND_API_KEY — Resend API 키 누락. 이메일 발송 불가.');
+  } else if (!process.env.RESEND_API_KEY.startsWith('re_')) {
+    errors.push('RESEND_API_KEY — 유효하지 않은 형식 (re_ 로 시작해야 함).');
+  }
+
+  if (!process.env.RESEND_FROM) {
+    errors.push('RESEND_FROM — 발신자 이메일 누락. 예: AutoPost SEO Writer <noreply@wpauto.kr>');
+  }
+
+  // 필수: 환불 처리에 반드시 필요
+  if (!process.env.POLAR_ACCESS_TOKEN) {
+    errors.push('POLAR_ACCESS_TOKEN — Polar API 토큰 누락. 자동 환불 불가.');
+  } else if (!process.env.POLAR_ACCESS_TOKEN.startsWith('polar_')) {
+    errors.push('POLAR_ACCESS_TOKEN — 유효하지 않은 형식 (polar_ 로 시작해야 함).');
+  }
+
+  // 필수: 다운로드 URL 생성에 필요
+  if (!process.env.WEBHOOK_BASE_URL || isPlaceholder(process.env.WEBHOOK_BASE_URL)) {
+    errors.push('WEBHOOK_BASE_URL — 실제 서버 URL 필요. 다운로드 링크가 작동하지 않음. 예: https://your-domain.com');
+  }
+
+  // 보안 경고
+  if (!process.env.DOWNLOAD_SECRET || isPlaceholder(process.env.DOWNLOAD_SECRET)) {
+    warnings.push('DOWNLOAD_SECRET — 기본값 사용 중. 보안을 위해 랜덤 문자열로 변경하세요.');
+  }
+
+  if (!process.env.POLAR_WEBHOOK_SECRET) {
+    warnings.push('POLAR_WEBHOOK_SECRET — 미설정. 웹훅 서명 검증이 비활성화됩니다. Polar 대시보드에서 웹훅 등록 후 secret을 입력하세요.');
+  }
+
+  // 상품 파일 확인
+  ['basic', 'pro'].forEach(plan => {
+    const dir = path.join(PRODUCTS_DIR, plan);
+    if (!fs.existsSync(dir)) {
+      warnings.push(`products/${plan}/ 디렉토리 없음.`);
+    } else {
+      const files = fs.readdirSync(dir).filter(f => !f.startsWith('.'));
+      if (files.length === 0) {
+        warnings.push(`products/${plan}/ 에 파일 없음 — 이메일에 다운로드 링크가 포함되지 않습니다.`);
+      }
+    }
+  });
+
+  // 결과 출력
+  if (warnings.length > 0) {
+    console.warn('\n⚠️  경고:');
+    warnings.forEach(w => console.warn(`   ${w}`));
+  }
+
+  if (errors.length > 0) {
+    console.error('\n❌ 필수 환경변수 오류:');
+    errors.forEach(e => console.error(`   ${e}`));
+    console.error('\n   .env 파일을 확인하세요: auto-post/.env');
+    console.error('   서버를 시작할 수 없습니다.\n');
+    process.exit(1);
+  }
+
+  if (warnings.length === 0) {
+    console.log('✅ 환경변수 검증 통과');
+  }
+  console.log('');
+}
+
+validateEnv();
+
 // 상품 ID → 플랜 매핑
 const PRODUCT_MAP = {
   '052ab04d-804d-44bd-89b1-d8b1f638e745': { plan: 'basic', label: 'AutoPost Basic' },
