@@ -1,20 +1,14 @@
 <meta charset="UTF-8">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap');
-
-/* WordPress 테마 요소 숨김 + 풀 너비 */
 .page-id-209,.page-id-209 html,.page-id-209 body{overflow-x:hidden!important;margin:0!important;padding:0!important}
 .page-id-209 .site-header,.page-id-209 header#masthead,.page-id-209 .entry-header,.page-id-209 .entry-title,.page-id-209 #secondary,.page-id-209 .sidebar,.page-id-209 aside,.page-id-209 .widget-area,.page-id-209 .site-footer,.page-id-209 footer#colophon,.page-id-209 .navigation,.page-id-209 .nav-links,.page-id-209 .post-navigation{display:none!important}
 .page-id-209 #page,.page-id-209 .site.grid-container,.page-id-209 .grid-container{max-width:100%!important;width:100%!important;padding:0!important;margin:0!important;overflow-x:hidden!important}
 .page-id-209 .site-content,.page-id-209 #content,.page-id-209 .content-area,.page-id-209 #primary,.page-id-209 .site-main,.page-id-209 #main,.page-id-209 article,.page-id-209 .post-209,.page-id-209 .inside-article,.page-id-209 .entry-content{width:100%!important;max-width:100%!important;margin:0!important;padding:0!important;float:none!important;overflow:visible!important}
 .page-id-209.separate-containers .inside-article,.page-id-209.separate-containers .site-main>article{padding:0!important;margin:0!important;background:transparent!important;box-shadow:none!important;border:none!important}
 .page-id-209.separate-containers .site-main{margin:0!important}
-
-/* 페이지 기본 */
 .rv-page,.rv-page *{box-sizing:border-box;margin:0;padding:0}
 .rv-page{font-family:'Noto Sans KR',-apple-system,BlinkMacSystemFont,'Malgun Gothic',sans-serif;line-height:1.6;color:#333;max-width:100%;overflow-x:hidden;background:#fff}
-
-/* 히어로 */
 .rv-hero{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:#fff;padding:56px 20px 48px;text-align:center}
 .rv-hero h1{font-size:2rem;font-weight:900;margin-bottom:8px;letter-spacing:-0.5px}
 .rv-hero h1 span{color:#ffd93d}
@@ -23,39 +17,27 @@
 .rv-hero-stats div{text-align:center}
 .rv-hero-stats strong{display:block;font-size:1.4rem;color:#ffd93d}
 .rv-hero-stats span{font-size:.75rem;opacity:.7}
-
-/* 게시판 래퍼 */
 .rv-board-wrap{max-width:920px;margin:0 auto;padding:32px 20px 48px}
-
-/* 카테고리 탭 */
 .rv-tabs{display:flex;gap:0;border-bottom:2px solid #667eea;margin-bottom:0}
 .rv-tab{padding:10px 24px;cursor:pointer;background:#f8f9fa;border:1px solid #e5e7eb;border-bottom:none;font-size:.88rem;font-weight:600;color:#666;border-radius:6px 6px 0 0;margin-right:2px;transition:all .15s;user-select:none}
 .rv-tab:hover{background:#eef1ff;color:#667eea}
 .rv-tab.active{background:#667eea;color:#fff;border-color:#667eea}
 .rv-tab .rv-tab-count{font-size:.75rem;opacity:.7;margin-left:4px}
-
-/* 게시판 테이블 */
 .rv-board{width:100%;border-top:2px solid #333}
 .rv-board-header{display:flex;align-items:center;background:#f8f9fa;border-bottom:1px solid #e5e7eb;padding:11px 0;font-weight:700;font-size:.8rem;color:#666;letter-spacing:-.2px}
 .rv-board-row{display:flex;align-items:center;border-bottom:1px solid #f0f0f0;padding:13px 0;cursor:pointer;transition:background .12s}
 .rv-board-row:hover{background:#f8f9ff}
 .rv-board-row.expanded{background:#f0f3ff;border-bottom-color:#e0e4f5}
-
-/* 컬럼 */
 .rv-col-no{width:52px;text-align:center;flex-shrink:0;font-size:.82rem;color:#999}
 .rv-col-title{flex:1;font-size:.93rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding-right:12px;color:#333}
 .rv-col-title:hover{color:#667eea}
 .rv-col-author{width:72px;text-align:center;flex-shrink:0;font-size:.82rem;color:#555}
 .rv-col-date{width:56px;text-align:center;flex-shrink:0;font-size:.8rem;color:#aaa}
 .rv-col-rating{width:56px;text-align:center;flex-shrink:0;font-size:.82rem;color:#ffa502;font-weight:600}
-
-/* 배지 */
 .rv-badge{display:inline-block;padding:1px 7px;border-radius:3px;font-size:.68rem;font-weight:700;margin-right:6px;vertical-align:middle;letter-spacing:-.3px}
 .rv-badge-paid{background:#e8f4fd;color:#3b82c6}
 .rv-badge-new{background:#fff0f0;color:#ff4757}
 .rv-badge-pro{background:linear-gradient(135deg,#7c3aed,#a855f7);color:#fff;border:none}
-
-/* 아코디언 상세 */
 .rv-board-detail{max-height:0;overflow:hidden;transition:max-height .35s ease;background:#fafbfc;border-bottom:1px solid transparent}
 .rv-board-detail.open{max-height:1200px;border-bottom-color:#e5e7eb}
 .rv-detail-inner{padding:24px 20px 24px 52px}
@@ -64,8 +46,6 @@
 .rv-detail-body{color:#444;font-size:.93rem;line-height:1.85;margin-bottom:16px;white-space:pre-wrap}
 .rv-detail-tags{display:flex;gap:6px;flex-wrap:wrap}
 .rv-detail-tag{background:#f0f4ff;color:#667eea;padding:3px 11px;border-radius:50px;font-size:.73rem;font-weight:600}
-
-/* 하단 액션 바 */
 .rv-board-actions{display:flex;justify-content:space-between;align-items:center;padding:18px 0;flex-wrap:wrap;gap:12px}
 .rv-pagination{display:flex;align-items:center;gap:3px}
 .rv-page-btn{padding:6px 11px;border:1px solid #e5e7eb;background:#fff;cursor:pointer;font-size:.82rem;border-radius:4px;color:#555;font-family:inherit;transition:all .12s}
@@ -74,14 +54,10 @@
 .rv-page-btn:disabled{opacity:.4;cursor:default}
 .rv-write-btn{display:inline-flex;align-items:center;gap:6px;padding:10px 22px;background:#667eea;color:#fff;border:none;border-radius:6px;font-size:.88rem;font-weight:700;cursor:pointer;font-family:inherit;transition:all .15s;letter-spacing:-.2px}
 .rv-write-btn:hover{background:#5a6fd6;transform:translateY(-1px);box-shadow:0 4px 12px rgba(102,126,234,.3)}
-
-/* 동적 로딩 */
 .rv-loading{text-align:center;padding:30px 0}
 .rv-loading-spinner{display:inline-block;width:28px;height:28px;border:3px solid #e8e8e8;border-top:3px solid #667eea;border-radius:50%;animation:rv-spin .7s linear infinite}
 @keyframes rv-spin{to{transform:rotate(360deg)}}
 .rv-no-reviews{text-align:center;padding:24px;color:#aaa;font-size:.88rem;border-bottom:1px solid #f0f0f0}
-
-/* 후기 작성 폼 */
 .rv-form-section{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);padding:64px 20px;color:#fff}
 .rv-form-header{text-align:center;margin-bottom:36px}
 .rv-form-header h2{font-size:1.8rem;font-weight:900;margin-bottom:8px}
@@ -106,39 +82,33 @@
 .rv-success p{color:#666;font-size:.93rem;margin-bottom:18px}
 .rv-download-btn{display:inline-block;padding:14px 36px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border-radius:50px;font-weight:700;font-size:1rem;text-decoration:none;transition:all .15s}
 .rv-download-btn:hover{color:#fff;transform:translateY(-2px);box-shadow:0 10px 30px rgba(102,126,234,.4)}
-
-/* CTA */
 .rv-cta{background:#fff;padding:52px 20px;text-align:center;border-top:1px solid #f0f0f0}
 .rv-cta h2{font-size:1.6rem;font-weight:900;color:#333;margin-bottom:10px}
 .rv-cta p{color:#666;font-size:.95rem;margin-bottom:28px}
 .rv-cta-btn{display:inline-block;padding:15px 38px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border-radius:50px;font-weight:700;font-size:1rem;text-decoration:none;transition:all .15s}
 .rv-cta-btn:hover{color:#fff;transform:translateY(-2px);box-shadow:0 10px 30px rgba(102,126,234,.3)}
-
-/* 푸터 */
 .rv-footer{background:#4a3a7a;color:rgba(255,255,255,.7);padding:36px 20px;text-align:center;font-size:.82rem}
 .rv-footer a{color:#ffd93d;text-decoration:none}
-
-/* 반응형 */
 @media(max-width:768px){
-    .rv-hero{padding:40px 16px 36px}
-    .rv-hero h1{font-size:1.6rem}
-    .rv-hero-stats{gap:16px;padding:10px 18px}
-    .rv-hero-stats strong{font-size:1.15rem}
-    .rv-board-wrap{padding:20px 12px 36px}
-    .rv-tab{padding:8px 16px;font-size:.82rem}
-    .rv-col-no{display:none}
-    .rv-col-date{display:none}
-    .rv-col-rating{width:44px;font-size:.78rem}
-    .rv-col-author{width:56px;font-size:.78rem}
-    .rv-col-title{font-size:.88rem}
-    .rv-board-row{padding:11px 4px}
-    .rv-board-header{padding:9px 4px}
-    .rv-detail-inner{padding:18px 14px}
-    .rv-board-actions{justify-content:center;flex-direction:column-reverse;gap:10px}
-    .rv-form-section{padding:48px 16px}
-    .rv-form-card{padding:28px 18px}
-    .rv-form-header h2{font-size:1.4rem}
-    .rv-cta h2{font-size:1.3rem}
+.rv-hero{padding:40px 16px 36px}
+.rv-hero h1{font-size:1.6rem}
+.rv-hero-stats{gap:16px;padding:10px 18px}
+.rv-hero-stats strong{font-size:1.15rem}
+.rv-board-wrap{padding:20px 12px 36px}
+.rv-tab{padding:8px 16px;font-size:.82rem}
+.rv-col-no{display:none}
+.rv-col-date{display:none}
+.rv-col-rating{width:44px;font-size:.78rem}
+.rv-col-author{width:56px;font-size:.78rem}
+.rv-col-title{font-size:.88rem}
+.rv-board-row{padding:11px 4px}
+.rv-board-header{padding:9px 4px}
+.rv-detail-inner{padding:18px 14px}
+.rv-board-actions{justify-content:center;flex-direction:column-reverse;gap:10px}
+.rv-form-section{padding:48px 16px}
+.rv-form-card{padding:28px 18px}
+.rv-form-header h2{font-size:1.4rem}
+.rv-cta h2{font-size:1.3rem}
 }
 </style>
 
@@ -538,6 +508,7 @@
     <footer class="rv-footer">
         <p>AutoPost SEO Writer &copy; 2026. All rights reserved.</p>
         <p style="margin-top:8px">문의: <a href="https://open.kakao.com/o/sjcFzkei">카카오톡 오픈채팅</a> | <a href="/">홈으로</a></p>
+        <p style="margin-top:8px;font-size:12px;opacity:0.7;"><a href="/terms/">이용약관</a> · <a href="/refund-policy/">환불규정</a> · <a href="/privacy-policy/">개인정보처리방침</a></p>
     </footer>
 </div>
 

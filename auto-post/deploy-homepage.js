@@ -43,10 +43,9 @@ function replaceMediaUrls(html, thumbUrl, videoUrl) {
   return html;
 }
 
-async function findOrCreateProductPage() {
-  // slug "product" 페이지 검색
-  console.log('\n🔍 상품 페이지 (slug: product) 검색 중...');
-  const searchRes = await fetch(`${WP_URL}/wp-json/wp/v2/pages?slug=product&status=publish,draft`, {
+async function findOrCreatePage(slug, title) {
+  console.log(`\n🔍 페이지 (slug: ${slug}) 검색 중...`);
+  const searchRes = await fetch(`${WP_URL}/wp-json/wp/v2/pages?slug=${slug}&status=publish,draft`, {
     headers: { Authorization: `Basic ${AUTH}` },
   });
 
@@ -59,12 +58,11 @@ async function findOrCreateProductPage() {
   const pages = await searchRes.json();
 
   if (pages.length > 0) {
-    console.log(`✅ 기존 상품 페이지 발견 (ID: ${pages[0].id})`);
+    console.log(`✅ 기존 페이지 발견 (ID: ${pages[0].id})`);
     return pages[0].id;
   }
 
-  // 없으면 새 페이지 생성
-  console.log('📝 상품 페이지 생성 중...');
+  console.log(`📝 페이지 생성 중: ${title}`);
   const createRes = await fetch(`${WP_URL}/wp-json/wp/v2/pages`, {
     method: 'POST',
     headers: {
@@ -72,8 +70,8 @@ async function findOrCreateProductPage() {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      title: 'AutoPost SEO Writer 상품 상세',
-      slug: 'product',
+      title: title,
+      slug: slug,
       status: 'publish',
       content: '',
     }),
@@ -86,8 +84,43 @@ async function findOrCreateProductPage() {
   }
 
   const newPage = await createRes.json();
-  console.log(`✅ 상품 페이지 생성 완료 (ID: ${newPage.id})`);
+  console.log(`✅ 페이지 생성 완료 (ID: ${newPage.id})`);
   return newPage.id;
+}
+
+async function deployPage(slug, title, htmlFile) {
+  const pageId = await findOrCreatePage(slug, title);
+  if (!pageId) {
+    console.error(`❌ ${title} 처리 실패`);
+    return null;
+  }
+
+  const html = fs.readFileSync(path.join(__dirname, htmlFile), 'utf-8');
+
+  console.log(`📄 ${title} (ID: ${pageId}) 업데이트 중...`);
+  const res = await fetch(`${WP_URL}/wp-json/wp/v2/pages/${pageId}`, {
+    method: 'PUT',
+    headers: {
+      Authorization: `Basic ${AUTH}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      content: `<!-- wp:html -->\n${html}\n<!-- /wp:html -->`,
+      slug: slug,
+      status: 'publish',
+    }),
+  });
+
+  if (!res.ok) {
+    const err = await res.text();
+    console.error(`❌ ${title} 업데이트 실패:`, err);
+    return null;
+  }
+
+  const page = await res.json();
+  console.log(`✅ ${title} 업데이트 완료!`);
+  console.log(`🎉 확인: ${page.link || WP_URL + '/' + slug + '/'}`);
+  return page;
 }
 
 async function main() {
@@ -135,45 +168,35 @@ async function main() {
   console.log('✅ 메인 페이지 업데이트 완료!');
   console.log(`🎉 확인: ${homePage.link || WP_URL}`);
 
-  // 4. 상품 페이지 (slug: product) 찾기 또는 생성
-  const productPageId = await findOrCreateProductPage();
-  if (!productPageId) {
-    console.error('❌ 상품 페이지 처리 실패');
-    process.exit(1);
-  }
+  // 4. 상품 페이지 배포
+  const productPageId = await findOrCreatePage('product', 'AutoPost SEO Writer 상품 상세');
+  if (!productPageId) { console.error('❌ 상품 페이지 처리 실패'); process.exit(1); }
 
-  // 5. 상품 페이지 HTML 읽기 & 미디어 URL 교체
   let productHtml = fs.readFileSync(path.join(__dirname, 'wordpress-product-page.html'), 'utf-8');
   productHtml = replaceMediaUrls(productHtml, thumbUrl, videoUrl);
 
-  // 6. 상품 페이지 업데이트
   console.log(`\n📄 상품 페이지 (ID: ${productPageId}) 업데이트 중...`);
   const productRes = await fetch(`${WP_URL}/wp-json/wp/v2/pages/${productPageId}`, {
     method: 'PUT',
-    headers: {
-      Authorization: `Basic ${AUTH}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      content: `<!-- wp:html -->\n${productHtml}\n<!-- /wp:html -->`,
-      slug: 'product',
-      status: 'publish',
-    }),
+    headers: { Authorization: `Basic ${AUTH}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ content: `<!-- wp:html -->\n${productHtml}\n<!-- /wp:html -->`, slug: 'product', status: 'publish' }),
   });
-
-  if (!productRes.ok) {
-    const err = await productRes.text();
-    console.error('❌ 상품 페이지 업데이트 실패:', err);
-    process.exit(1);
-  }
-
+  if (!productRes.ok) { console.error('❌ 상품 페이지 업데이트 실패:', await productRes.text()); process.exit(1); }
   const productPage = await productRes.json();
   console.log('✅ 상품 페이지 업데이트 완료!');
-  console.log(`🎉 확인: ${productPage.link || WP_URL + '/product/'}`);
+
+  // 5. 법적 페이지 배포
+  console.log('\n📋 법적 페이지 배포 중...');
+  await deployPage('terms', '서비스 이용약관', 'terms.html');
+  await deployPage('refund-policy', '환불 규정', 'refund-policy.html');
+  await deployPage('privacy-policy', '개인정보 처리방침', 'privacy-policy.html');
 
   console.log('\n🎊 모든 배포 완료!');
   console.log('📌 메인 페이지: ' + (homePage.link || WP_URL));
   console.log('📌 상품 페이지: ' + (productPage.link || WP_URL + '/product/'));
+  console.log('📌 이용약관: ' + WP_URL + '/terms/');
+  console.log('📌 환불규정: ' + WP_URL + '/refund-policy/');
+  console.log('📌 개인정보: ' + WP_URL + '/privacy-policy/');
 }
 
 main().catch(console.error);

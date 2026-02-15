@@ -1,12 +1,16 @@
 # AutoPost SEO Writer 프로젝트
 
 ## 프로젝트 개요
-AI 수익형 블로그 자동 포스팅 프로그램(AutoPost SEO Writer) 판매 사이트
+AI 블로그 자동 포스팅 프로그램(AutoPost SEO Writer) 판매 사이트
 
 ## WordPress 사이트
 - URL: https://wpauto.kr
 - 메인 페이지 ID: 17
 - 상품 페이지 ID: 431 (slug: product)
+- 후기 페이지 ID: 209 (slug: reviews)
+- 이용약관 페이지 ID: 563 (slug: terms)
+- 환불규정 페이지 ID: 565 (slug: refund-policy)
+- 개인정보처리방침 페이지 ID: 3 (slug: privacy-policy)
 - 테마: GeneratePress
 
 ## 핵심 파일
@@ -14,14 +18,38 @@ AI 수익형 블로그 자동 포스팅 프로그램(AutoPost SEO Writer) 판매
 - `auto-post/wordpress-homepage-new.html` — 메인 페이지 HTML
 - `auto-post/wordpress-product-page.html` — 상품 상세 페이지 HTML
 - `auto-post/reviews-page.html` — 후기 페이지 HTML
+- `auto-post/terms.html` — 이용약관 페이지 HTML
+- `auto-post/refund-policy.html` — 환불규정 페이지 HTML
+- `auto-post/privacy-policy.html` — 개인정보처리방침 페이지 HTML
 
 ### 배포 스크립트
-- `auto-post/deploy-homepage.js` — 메인+상품 페이지 배포 (node deploy-homepage.js)
+- `auto-post/deploy-homepage.js` — 메인+상품+법적페이지 배포 (node deploy-homepage.js)
 - `auto-post/deploy-reviews.js` — 후기 페이지 배포
 - `auto-post/sync-reviews.js` — 후기 동기화
 
 ### 환경변수
-- `auto-post/.env` — WP_URL, WP_USER, WP_APP_PASSWORD 등
+- `auto-post/.env` — WP_URL, WP_USER, WP_APP_PASSWORD, POLAR_ACCESS_TOKEN 등
+
+## Polar 결제 연동
+- 대시보드: https://polar.sh/dashboard/autopost123
+- Organization ID: `3339f5f7-799c-4f5c-8290-7bd8bad5c053`
+- API Token: `.env` 파일 `POLAR_ACCESS_TOKEN` 참조
+- Polar는 Merchant of Record(MoR) — 결제, 세금, 영수증 처리
+
+### 상품 정보
+| 상품 | Product ID | 가격 | Checkout Link |
+|------|-----------|------|---------------|
+| AutoPost Basic | `052ab04d-804d-44bd-89b1-d8b1f638e745` | $199 | `https://buy.polar.sh/polar_cl_fe87hwMA3m0dVJV1WsgZYXdQsBaN7SPT7MBnt3OxN2F` |
+| AutoPost V2 Pro | `93bce0cc-8514-4e54-afde-5dc1b3c5cf70` | $269 | `https://buy.polar.sh/polar_cl_nNbRQOzhTaLykgm7Dvs40gSiIYsZLHMeRxrYS3as8zS` |
+
+### Checkout 연동 방식
+- Polar Checkout Embed 스크립트 사용 (`data-polar-checkout` 속성)
+- 상품 페이지 JS: `planData` 객체로 Basic/Pro URL 관리, `sidebarPlanChange()`/`floatingPlanChange()`로 드롭다운 변경 시 CTA href 자동 전환
+
+### CTA 버튼 구분
+- **구매 버튼** (Polar checkout): 블루 `#2563EB` bg / `#fff` text
+- **상담 버튼** (카카오톡): 노란 `#FEE500` bg / `#191919` text
+- 카카오톡 오픈채팅: https://open.kakao.com/o/sjcFzkei
 
 ## 상품 페이지 레이아웃 (PC)
 - `.ap-product-top` max-width: 1100px (이미지 + 가격란 컨테이너)
@@ -55,17 +83,20 @@ AI 수익형 블로그 자동 포스팅 프로그램(AutoPost SEO Writer) 판매
   - 진한 틴트: `#BFDBFE`
   - 푸터 링크: `#93C5FD`
   - 그림자: `rgba(37,99,235,...)`, `rgba(59,130,246,...)`
-- 구매 CTA 버튼: 블루 계열
-  - 배경: `#2563EB` / 텍스트: `#fff`
-  - 적용 클래스: `.hp-price-cta`, `.hp-btn-primary[data-polar-checkout]` (홈), `.ap-sidebar-cta`, `.ap-planc .pcta`, `.ap-floating-btn` (상품)
-  - 파란 배경 위: `#fff` bg / `#2563EB` text (`.hp-cta-section .hp-btn-primary[data-polar-checkout]`, `.ap-final-cta-btn`)
-- 카카오톡 상담 버튼: 노란색 계열
-  - 배경: `#FEE500` (카카오 공식 노란색)
-  - 텍스트: `#191919` (다크)
-  - 적용 클래스: `.hp-nav-cta`, `.hp-btn-primary` (기본, 상담용) (홈), `.ap-top-nav-cta` (상품)
 - 기타 고정 색상: 별점 `#ffbc00`, BEST 뱃지 `#ef4444`, 푸터 `#0a1929`
+
+## Polar MoR 규정 준수 (2026-02-15 적용)
+- 수입 금액 주장 제거 (5억, 10만달러, 4500만원, 200~300달러 등)
+- "수익형 블로그" → "블로그" / "AI 블로그"로 완화
+- "수익 극대화" → "콘텐츠 품질에 집중" 등으로 변경
+- "시간 투자 없이 수익화" → "블로그 운영 시간 대폭 절약"
+- 가짜 희소성 제거 (1차 마감/2차 마감/3차 진행 중)
+- 취소선 가격 제거 ($539→$269, $399→$199의 원래가격 삭제)
+- "10~30개/day" 대량 발행 수치 제거/완화
+- 법적 페이지 3개 생성 (이용약관, 환불규정, 개인정보처리방침)
 
 ## 주의사항
 - 배포 시 미디어(썸네일, 영상)도 함께 업로드됨
-- CSS는 minified 한 줄로 관리 (line 5에 전체 스타일)
+- CSS는 minified 한 줄로 관리 (line 6에 전체 스타일)
 - 모바일/PC 반응형 구분 필수 확인
+- Polar MoR 규정 위반 금지: 소득 보장, 가짜 희소성, 가짜 할인가 사용 불가
