@@ -100,26 +100,42 @@ AI 블로그 자동 포스팅 프로그램(AutoPost SEO Writer) 판매 사이트
 - "10~30개/day" 대량 발행 수치 제거/완화
 - 법적 페이지 3개 생성 (이용약관, 환불규정, 개인정보처리방침)
 
-## 웹훅 서버 (Polar → Resend 이메일 + 상품 다운로드)
-- 서버: `node auto-post/webhook-server.js` (포트 3000)
+## 웹훅 서버 (Polar → Resend 이메일 자동 발송)
+- 호스팅: Render (Free tier) — https://fourup.onrender.com
+- 서버: `auto-post/webhook-server.js` (포트 3000)
 - 엔드포인트:
-  - `POST /webhooks/polar` — order.paid 수신 → 다운로드 토큰 생성 → 이메일 발송
-  - `GET /download/:token/:filename` — 토큰 검증 후 상품 파일 다운로드
+  - `POST /webhooks/polar` — order.paid 수신 → Resend 이메일 발송 (실패 시 자동 환불)
   - `GET /health` — 헬스체크
-- 이메일: Resend API (발신: `noreply@wpauto.kr`)
-- 서명 검증: `standardwebhooks` 라이브러리
-- 자동 환불: 이메일 발송 실패 시 Polar API로 전액 환불
+- 이메일: Resend API (발신: `noreply@wpauto.kr`, 도메인 인증 완료)
+- 서명 검증: `standardwebhooks` 라이브러리 (POLAR_WEBHOOK_SECRET)
+- 자동 환불: 이메일 발송 실패 시 Polar Refund API로 전액 환불
 - 수동 발송: `node auto-post/send-receipt.js --email <email> --plan <basic|pro>`
 
-### 상품 파일 디렉토리
-- `auto-post/products/basic/` — Basic 플랜 파일 (zip + PDF)
-- `auto-post/products/pro/` — Pro 플랜 파일 (zip + PDF)
-- `auto-post/downloads.json` — 다운로드 토큰 DB (자동 생성)
+### 상품 전달 방식
+- Google Drive 공유 링크 + 비밀번호 보호 zip 파일
+- Basic/Pro 플랜별 별도 다운로드 URL 및 비밀번호
+- .env 환경변수: `DOWNLOAD_URL_BASIC/PRO`, `DOWNLOAD_PASSWORD_BASIC/PRO`
+- 이메일에 다운로드 버튼 + 압축 해제 비밀번호 포함
 
-### 다운로드 토큰
-- 결제 완료 시 주문별 UUID 토큰 생성 → `downloads.json`에 저장
-- 유효기간: `DOWNLOAD_EXPIRY_DAYS` (기본 7일)
-- 만료된 토큰은 403 에러 페이지 표시
+### Polar 웹훅
+- 웹훅 ID: `72d46607-45a6-4eea-ac24-a62dc6aee9be`
+- URL: `https://fourup.onrender.com/webhooks/polar`
+- 이벤트: `order.paid`
+- Secret: `.env` 파일 `POLAR_WEBHOOK_SECRET` 참조
+
+### Render 배포
+- 서비스: 4up (Web Service, Free tier)
+- GitHub: `rladydgns3001-ui/4up` → `main` 브랜치 자동 배포
+- Root Directory: `auto-post`
+- Build Command: `npm install`
+- Start Command: `node webhook-server.js`
+- 환경변수: Render Environment에 설정 (RESEND_API_KEY, POLAR_ACCESS_TOKEN 등)
+- 주의: Free tier는 비활성 시 스핀다운 (첫 요청 ~50초 지연)
+
+### Resend 이메일
+- 도메인: wpauto.kr (Verified, Tokyo ap-northeast-1)
+- DNS: 가비아에서 DKIM, SPF (MX+TXT), DMARC 레코드 추가 완료
+- 무료 플랜: 월 3,000건 / 일 100건
 
 ## 주의사항
 - 배포 시 미디어(썸네일, 영상)도 함께 업로드됨
