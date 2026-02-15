@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<style>
+body { margin: 0; padding: 40px; background: #f0f0f0; display: flex; gap: 40px; justify-content: center; font-family: 'Noto Sans KR', -apple-system, sans-serif; }
+.card {
+  width: 1280px; height: 720px; border-radius: 24px; padding: 60px 80px;
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
+  text-align: center; position: relative; overflow: hidden;
+}
+.card::before {
+  content: ''; position: absolute; top: -60%; right: -40%; width: 120%; height: 120%;
+  background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
+}
+.card.basic { background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%); color: #fff; }
+.card.pro { background: linear-gradient(135deg, #1e40af 0%, #2563EB 50%, #3B82F6 100%); color: #fff; }
+.badge { display: inline-block; background: rgba(255,255,255,0.2); padding: 6px 20px; border-radius: 50px; font-size: 14px; font-weight: 700; letter-spacing: 1px; margin-bottom: 20px; }
+.pro .badge { background: linear-gradient(135deg, #ff4757, #ff6b81); }
+.logo { font-size: 18px; font-weight: 900; opacity: 0.9; margin-bottom: 32px; letter-spacing: 0.5px; }
+.plan-name { font-size: 42px; font-weight: 900; margin-bottom: 8px; position: relative; }
+.plan-sub { font-size: 16px; opacity: 0.85; margin-bottom: 32px; }
+.price { font-size: 64px; font-weight: 900; margin-bottom: 6px; position: relative; }
+.price span { font-size: 24px; vertical-align: super; }
+.price-note { font-size: 14px; opacity: 0.7; margin-bottom: 36px; }
+.features { list-style: none; padding: 0; margin: 0; text-align: left; }
+.features li { padding: 6px 0; font-size: 16px; font-weight: 600; display: flex; align-items: center; gap: 10px; }
+.features li::before { content: '✓'; display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; background: rgba(255,255,255,0.2); border-radius: 50%; font-size: 12px; flex-shrink: 0; }
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- Basic 상품 이미지 -->
+<div class="card basic" id="basic-card">
+  <div class="badge">ONE-TIME PURCHASE</div>
+  <div class="logo">AutoPost SEO Writer</div>
+  <div class="plan-name">Basic</div>
+  <div class="plan-sub">AI 수익형 블로그 자동 포스팅</div>
+  <div class="price"><span>$</span>199</div>
+  <div class="price-note">일회성 결제 · 평생 소유 · 무료 업데이트</div>
+  <ul class="features">
+    <li>AI SEO 글 자동 생성</li>
+    <li>AI 이미지 자동 생성 (DALL-E)</li>
+    <li>워드프레스 자동 발행</li>
+    <li>애드센스 광고 자동 삽입</li>
+    <li>1:1 줌 설치 교육 포함</li>
+  </ul>
+</div>
+
+<!-- V2 Pro 상품 이미지 -->
+<div class="card pro" id="pro-card">
+  <div class="badge">BEST 인기</div>
+  <div class="logo">AutoPost SEO Writer</div>
+  <div class="plan-name">V2 Pro</div>
+  <div class="plan-sub">대량등록 · 예약발행 · 자동색인</div>
+  <div class="price"><span>$</span>269</div>
+  <div class="price-note">일회성 결제 · 평생 소유 · 무료 업데이트</div>
+  <ul class="features">
+    <li>Basic 기능 전부 포함</li>
+    <li>키워드 대량 등록 (최대 10개)</li>
+    <li>예약 발행 (간격/시간 지정)</li>
+    <li>Google 자동 색인 신청</li>
+    <li>IndexNow (네이버·Bing) 색인</li>
+  </ul>
+</div>
+
+</body>
+</html>

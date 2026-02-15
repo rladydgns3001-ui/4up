@@ -45,16 +45,24 @@ AI 수익형 블로그 자동 포스팅 프로그램(AutoPost SEO Writer) 판매
 - Apps Script 연동: `auto-post/apps-script-review.js`
 
 ## 컬러 스킴
-- 전체 테마: 보라색 계열
-  - 메인 액센트: `#7C3AED` (violet-600)
-  - 서브 액센트: `#A855F7` (purple-500)
-  - 배경 틴트: `#f3e8ff`, `#e9d5ff`, `#f5f0ff` (연보라)
-  - 태그/뱃지 배경: `#ede9fe`
-  - 그림자: `rgba(124,58,237,...)`, `rgba(168,85,247,...)`
-- 카카오톡 CTA 버튼: 노란색 계열
+- 전체 테마: 모던 블루 계열 (Google/Meta 스타일)
+  - 메인 액센트: `#2563EB` (blue-600)
+  - 서브 액센트: `#3B82F6` (blue-500)
+  - 라이트 액센트: `#60A5FA` (blue-400)
+  - 다크 액센트: `#1e40af` (blue-800)
+  - 배경 틴트: `#EFF6FF`, `#DBEAFE` (연한 블루)
+  - 태그/뱃지 배경: `#DBEAFE`
+  - 진한 틴트: `#BFDBFE`
+  - 푸터 링크: `#93C5FD`
+  - 그림자: `rgba(37,99,235,...)`, `rgba(59,130,246,...)`
+- 구매 CTA 버튼: 블루 계열
+  - 배경: `#2563EB` / 텍스트: `#fff`
+  - 적용 클래스: `.hp-price-cta`, `.hp-btn-primary[data-polar-checkout]` (홈), `.ap-sidebar-cta`, `.ap-planc .pcta`, `.ap-floating-btn` (상품)
+  - 파란 배경 위: `#fff` bg / `#2563EB` text (`.hp-cta-section .hp-btn-primary[data-polar-checkout]`, `.ap-final-cta-btn`)
+- 카카오톡 상담 버튼: 노란색 계열
   - 배경: `#FEE500` (카카오 공식 노란색)
   - 텍스트: `#191919` (다크)
-  - 적용 클래스: `.hp-nav-cta`, `.hp-btn-primary`, `.hp-price-cta` (홈), `.ap-top-nav-cta`, `.ap-sidebar-cta`, `.ap-planc .pcta`, `.ap-floating-btn`, `.ap-final-cta-btn` (상품)
+  - 적용 클래스: `.hp-nav-cta`, `.hp-btn-primary` (기본, 상담용) (홈), `.ap-top-nav-cta` (상품)
 - 기타 고정 색상: 별점 `#ffbc00`, BEST 뱃지 `#ef4444`, 푸터 `#0a1929`
 
 ## 주의사항
