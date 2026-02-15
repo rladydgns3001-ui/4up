@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * 수동 구매 확인 이메일 발송 (다운로드 링크 포함)
+ * 수동 구매 확인 이메일 발송 (Google Drive 다운로드 링크 + zip 비밀번호)
  *
  * Usage:
  *   node send-receipt.js --email buyer@example.com --plan pro
@@ -10,26 +10,22 @@
 require('dotenv').config({ path: require('path').join(__dirname, '.env') });
 
 const https = require('https');
-const crypto = require('crypto');
-const fs = require('fs');
-const path = require('path');
 const { purchaseConfirmationHtml } = require('./email-templates');
-
-const BASE_URL = process.env.WEBHOOK_BASE_URL || `http://localhost:${process.env.WEBHOOK_PORT || 3000}`;
-const DOWNLOAD_EXPIRY_DAYS = parseInt(process.env.DOWNLOAD_EXPIRY_DAYS) || 7;
-const DOWNLOADS_DB = path.join(__dirname, 'downloads.json');
-const PRODUCTS_DIR = path.join(__dirname, 'products');
 
 const PLANS = {
   basic: {
     productName: 'AutoPost Basic',
     planLabel: 'AutoPost Basic',
     amount: '$199',
+    downloadUrl: process.env.DOWNLOAD_URL_BASIC || '',
+    downloadPassword: process.env.DOWNLOAD_PASSWORD_BASIC || '',
   },
   pro: {
     productName: 'AutoPost V2 Pro',
     planLabel: 'AutoPost V2 Pro',
     amount: '$269',
+    downloadUrl: process.env.DOWNLOAD_URL_PRO || '',
+    downloadPassword: process.env.DOWNLOAD_PASSWORD_PRO || '',
   },
 };
 
@@ -42,52 +38,6 @@ function parseArgs() {
     else if (args[i] === '--name' && args[i + 1]) result.name = args[++i];
   }
   return result;
-}
-
-function loadDownloads() {
-  try {
-    return JSON.parse(fs.readFileSync(DOWNLOADS_DB, 'utf-8'));
-  } catch {
-    return {};
-  }
-}
-
-function saveDownloads(db) {
-  fs.writeFileSync(DOWNLOADS_DB, JSON.stringify(db, null, 2));
-}
-
-function createDownloadToken(orderId, plan, email) {
-  const token = crypto.randomUUID();
-  const db = loadDownloads();
-  const now = new Date();
-  const expires = new Date(now.getTime() + DOWNLOAD_EXPIRY_DAYS * 24 * 60 * 60 * 1000);
-
-  db[token] = {
-    orderId,
-    plan,
-    email,
-    createdAt: now.toISOString(),
-    expiresAt: expires.toISOString(),
-  };
-
-  saveDownloads(db);
-  return token;
-}
-
-function getProductFiles(plan) {
-  const dir = path.join(PRODUCTS_DIR, plan);
-  if (!fs.existsSync(dir)) return [];
-  return fs.readdirSync(dir).filter(f => !f.startsWith('.'));
-}
-
-function buildDownloadUrls(token, plan) {
-  const files = getProductFiles(plan);
-  return files.map(filename => ({
-    filename,
-    url: `${BASE_URL}/download/${token}/${filename}`,
-    isZip: /\.zip$/i.test(filename),
-    isPdf: /\.pdf$/i.test(filename),
-  }));
 }
 
 function sendEmail({ to, subject, html }) {
@@ -151,29 +101,19 @@ async function main() {
   if (!process.env.RESEND_FROM) {
     envErrors.push('RESEND_FROM — 발신자 이메일 누락');
   }
-  const placeholders = ['your-server.com', 'change-this', 'example.com'];
-  const baseUrl = process.env.WEBHOOK_BASE_URL || '';
-  if (!baseUrl || placeholders.some(p => baseUrl.toLowerCase().includes(p))) {
-    envErrors.push('WEBHOOK_BASE_URL — 실제 서버 URL 필요 (다운로드 링크 생성용)');
-  }
   if (envErrors.length > 0) {
     console.error('❌ .env 환경변수 오류:');
     envErrors.forEach(e => console.error(`   ${e}`));
-    console.error('\n   auto-post/.env 파일을 확인하세요.');
     process.exit(1);
   }
 
   const planInfo = PLANS[plan];
-  const orderId = `manual-${Date.now()}`;
 
-  // 다운로드 토큰 생성
-  const token = createDownloadToken(orderId, plan, email);
-  const downloadFiles = buildDownloadUrls(token, plan);
-
-  if (downloadFiles.length === 0) {
-    console.warn(`WARNING: No files in products/${plan}/ — 이메일에 다운로드 링크가 포함되지 않습니다.`);
-  } else {
-    console.log(`Download files (${plan}):`, downloadFiles.map(f => f.filename).join(', '));
+  if (!planInfo.downloadUrl) {
+    console.warn(`⚠️  DOWNLOAD_URL_${plan.toUpperCase()} 미설정 — 다운로드 링크 없이 발송됩니다.`);
+  }
+  if (!planInfo.downloadPassword) {
+    console.warn(`⚠️  DOWNLOAD_PASSWORD_${plan.toUpperCase()} 미설정 — 비밀번호 없이 발송됩니다.`);
   }
 
   const data = {
@@ -182,9 +122,10 @@ async function main() {
     productName: planInfo.productName,
     planLabel: planInfo.planLabel,
     amount: planInfo.amount,
-    orderId,
+    orderId: `manual-${Date.now()}`,
     purchaseDate: new Date().toISOString().split('T')[0],
-    downloadFiles,
+    downloadUrl: planInfo.downloadUrl,
+    downloadPassword: planInfo.downloadPassword,
   };
 
   const html = purchaseConfirmationHtml(data);
@@ -198,11 +139,6 @@ async function main() {
       html,
     });
     console.log(`Email sent successfully! (id: ${result.id})`);
-    if (downloadFiles.length > 0) {
-      console.log(`Download token: ${token}`);
-      console.log(`Download links:`);
-      downloadFiles.forEach(f => console.log(`  ${f.filename}: ${f.url}`));
-    }
   } catch (err) {
     console.error('Failed to send email:', err.message);
     process.exit(1);

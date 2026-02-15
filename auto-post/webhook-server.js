@@ -1,8 +1,7 @@
 #!/usr/bin/env node
 /**
  * Polar 웹훅 서버
- * - POST /webhooks/polar  → order.paid 수신 → 이메일 발송 (실패 시 자동 환불)
- * - GET  /download/:token/:filename → 토큰 검증 후 파일 다운로드 제공
+ * - POST /webhooks/polar → order.paid 수신 → Resend 이메일 발송 (실패 시 자동 환불)
  * - GET  /health → 헬스체크
  *
  * 실행: node webhook-server.js
@@ -13,36 +12,34 @@ require('dotenv').config({ path: require('path').join(__dirname, '.env') });
 const express = require('express');
 const { Webhook } = require('standardwebhooks');
 const https = require('https');
-const crypto = require('crypto');
-const fs = require('fs');
-const path = require('path');
 const { purchaseConfirmationHtml } = require('./email-templates');
 
 const app = express();
 const PORT = process.env.WEBHOOK_PORT || 3000;
-const BASE_URL = process.env.WEBHOOK_BASE_URL || `http://localhost:${PORT}`;
-const DOWNLOAD_SECRET = process.env.DOWNLOAD_SECRET || 'default-secret-change-me';
-const DOWNLOAD_EXPIRY_DAYS = parseInt(process.env.DOWNLOAD_EXPIRY_DAYS) || 7;
-const DOWNLOADS_DB = path.join(__dirname, 'downloads.json');
-const PRODUCTS_DIR = path.join(__dirname, 'products');
+
+// 상품 ID → 플랜 매핑
+const PRODUCT_MAP = {
+  '052ab04d-804d-44bd-89b1-d8b1f638e745': { plan: 'basic', label: 'AutoPost Basic' },
+  '93bce0cc-8514-4e54-afde-5dc1b3c5cf70': { plan: 'pro', label: 'AutoPost V2 Pro' },
+};
+
+// 플랜별 다운로드 정보 (.env에서 읽기)
+const PLAN_DOWNLOADS = {
+  basic: {
+    url: process.env.DOWNLOAD_URL_BASIC || '',
+    password: process.env.DOWNLOAD_PASSWORD_BASIC || '',
+  },
+  pro: {
+    url: process.env.DOWNLOAD_URL_PRO || '',
+    password: process.env.DOWNLOAD_PASSWORD_PRO || '',
+  },
+};
 
 // ── 환경변수 검증 ──────────────────────────────────────────
-const PLACEHOLDERS = [
-  'your-server.com', 'change-this', 'default-secret', 'example.com',
-  'YOUR_', 'xxx', 'CHANGE_ME', 'TODO',
-];
-
-function isPlaceholder(val) {
-  if (!val) return false;
-  const lower = val.toLowerCase();
-  return PLACEHOLDERS.some(p => lower.includes(p.toLowerCase()));
-}
-
 function validateEnv() {
   const errors = [];
   const warnings = [];
 
-  // 필수: 이메일 발송에 반드시 필요
   if (!process.env.RESEND_API_KEY) {
     errors.push('RESEND_API_KEY — Resend API 키 누락. 이메일 발송 불가.');
   } else if (!process.env.RESEND_API_KEY.startsWith('re_')) {
@@ -50,44 +47,32 @@ function validateEnv() {
   }
 
   if (!process.env.RESEND_FROM) {
-    errors.push('RESEND_FROM — 발신자 이메일 누락. 예: AutoPost SEO Writer <noreply@wpauto.kr>');
+    errors.push('RESEND_FROM — 발신자 이메일 누락.');
   }
 
-  // 필수: 환불 처리에 반드시 필요
   if (!process.env.POLAR_ACCESS_TOKEN) {
     errors.push('POLAR_ACCESS_TOKEN — Polar API 토큰 누락. 자동 환불 불가.');
   } else if (!process.env.POLAR_ACCESS_TOKEN.startsWith('polar_')) {
     errors.push('POLAR_ACCESS_TOKEN — 유효하지 않은 형식 (polar_ 로 시작해야 함).');
   }
 
-  // 필수: 다운로드 URL 생성에 필요
-  if (!process.env.WEBHOOK_BASE_URL || isPlaceholder(process.env.WEBHOOK_BASE_URL)) {
-    errors.push('WEBHOOK_BASE_URL — 실제 서버 URL 필요. 다운로드 링크가 작동하지 않음. 예: https://your-domain.com');
-  }
-
-  // 보안 경고
-  if (!process.env.DOWNLOAD_SECRET || isPlaceholder(process.env.DOWNLOAD_SECRET)) {
-    warnings.push('DOWNLOAD_SECRET — 기본값 사용 중. 보안을 위해 랜덤 문자열로 변경하세요.');
-  }
-
   if (!process.env.POLAR_WEBHOOK_SECRET) {
-    warnings.push('POLAR_WEBHOOK_SECRET — 미설정. 웹훅 서명 검증이 비활성화됩니다. Polar 대시보드에서 웹훅 등록 후 secret을 입력하세요.');
+    warnings.push('POLAR_WEBHOOK_SECRET — 미설정. 웹훅 서명 검증이 비활성화됩니다.');
   }
 
-  // 상품 파일 확인
-  ['basic', 'pro'].forEach(plan => {
-    const dir = path.join(PRODUCTS_DIR, plan);
-    if (!fs.existsSync(dir)) {
-      warnings.push(`products/${plan}/ 디렉토리 없음.`);
-    } else {
-      const files = fs.readdirSync(dir).filter(f => !f.startsWith('.'));
-      if (files.length === 0) {
-        warnings.push(`products/${plan}/ 에 파일 없음 — 이메일에 다운로드 링크가 포함되지 않습니다.`);
-      }
-    }
-  });
+  if (!process.env.DOWNLOAD_URL_BASIC) {
+    warnings.push('DOWNLOAD_URL_BASIC — Basic 플랜 다운로드 URL 미설정.');
+  }
+  if (!process.env.DOWNLOAD_URL_PRO) {
+    warnings.push('DOWNLOAD_URL_PRO — Pro 플랜 다운로드 URL 미설정.');
+  }
+  if (!process.env.DOWNLOAD_PASSWORD_BASIC) {
+    warnings.push('DOWNLOAD_PASSWORD_BASIC — Basic 플랜 zip 비밀번호 미설정.');
+  }
+  if (!process.env.DOWNLOAD_PASSWORD_PRO) {
+    warnings.push('DOWNLOAD_PASSWORD_PRO — Pro 플랜 zip 비밀번호 미설정.');
+  }
 
-  // 결과 출력
   if (warnings.length > 0) {
     console.warn('\n⚠️  경고:');
     warnings.forEach(w => console.warn(`   ${w}`));
@@ -96,7 +81,7 @@ function validateEnv() {
   if (errors.length > 0) {
     console.error('\n❌ 필수 환경변수 오류:');
     errors.forEach(e => console.error(`   ${e}`));
-    console.error('\n   .env 파일을 확인하세요: auto-post/.env');
+    console.error('\n   .env 파일을 확인하세요.');
     console.error('   서버를 시작할 수 없습니다.\n');
     process.exit(1);
   }
@@ -108,69 +93,6 @@ function validateEnv() {
 }
 
 validateEnv();
-
-// 상품 ID → 플랜 매핑
-const PRODUCT_MAP = {
-  '052ab04d-804d-44bd-89b1-d8b1f638e745': { plan: 'basic', label: 'AutoPost Basic' },
-  '93bce0cc-8514-4e54-afde-5dc1b3c5cf70': { plan: 'pro', label: 'AutoPost V2 Pro' },
-};
-
-// ── 다운로드 토큰 DB ────────────────────────────────────────
-function loadDownloads() {
-  try {
-    return JSON.parse(fs.readFileSync(DOWNLOADS_DB, 'utf-8'));
-  } catch {
-    return {};
-  }
-}
-
-function saveDownloads(db) {
-  fs.writeFileSync(DOWNLOADS_DB, JSON.stringify(db, null, 2));
-}
-
-function createDownloadToken(orderId, plan, email) {
-  const token = crypto.randomUUID();
-  const db = loadDownloads();
-  const now = new Date();
-  const expires = new Date(now.getTime() + DOWNLOAD_EXPIRY_DAYS * 24 * 60 * 60 * 1000);
-
-  db[token] = {
-    orderId,
-    plan,
-    email,
-    createdAt: now.toISOString(),
-    expiresAt: expires.toISOString(),
-  };
-
-  saveDownloads(db);
-  console.log(`[DOWNLOAD] Token created: ${token} (plan: ${plan}, expires: ${expires.toISOString()})`);
-  return token;
-}
-
-function validateToken(token) {
-  const db = loadDownloads();
-  const entry = db[token];
-  if (!entry) return null;
-  if (new Date(entry.expiresAt) < new Date()) return null;
-  return entry;
-}
-
-// ── 상품 파일 목록 조회 ─────────────────────────────────────
-function getProductFiles(plan) {
-  const dir = path.join(PRODUCTS_DIR, plan);
-  if (!fs.existsSync(dir)) return [];
-  return fs.readdirSync(dir).filter(f => !f.startsWith('.'));
-}
-
-function buildDownloadUrls(token, plan) {
-  const files = getProductFiles(plan);
-  return files.map(filename => ({
-    filename,
-    url: `${BASE_URL}/download/${token}/${filename}`,
-    isZip: /\.zip$/i.test(filename),
-    isPdf: /\.pdf$/i.test(filename),
-  }));
-}
 
 // ── Polar 자동 환불 ─────────────────────────────────────────
 function refundOrder({ orderId, amount, reason, comment }) {
@@ -294,7 +216,15 @@ function extractOrderData(event) {
     ? new Date(order.created_at).toISOString().split('T')[0]
     : new Date().toISOString().split('T')[0];
 
-  return { customerName, customerEmail, productName, planLabel, plan, amount, orderId, purchaseDate };
+  // 플랜별 다운로드 정보
+  const download = PLAN_DOWNLOADS[plan] || {};
+
+  return {
+    customerName, customerEmail, productName, planLabel, plan,
+    amount, orderId, purchaseDate,
+    downloadUrl: download.url,
+    downloadPassword: download.password,
+  };
 }
 
 // ── POST /webhooks/polar ────────────────────────────────────
@@ -325,7 +255,7 @@ app.post('/webhooks/polar', express.raw({ type: '*/*' }), async (req, res) => {
     return res.status(200).json({ received: true, ignored: event.type });
   }
 
-  // 4. 데이터 추출 + 다운로드 토큰 생성 + 이메일 발송
+  // 4. 데이터 추출 + 이메일 발송 (실패 시 자동 환불)
   const data = extractOrderData(event);
   const order = event.data;
 
@@ -349,19 +279,15 @@ app.post('/webhooks/polar', express.raw({ type: '*/*' }), async (req, res) => {
   }
 
   try {
-    // 다운로드 토큰 생성
-    const token = createDownloadToken(data.orderId, data.plan, data.customerEmail);
-    const downloadFiles = buildDownloadUrls(token, data.plan);
-
-    const html = purchaseConfirmationHtml({ ...data, downloadFiles });
+    const html = purchaseConfirmationHtml(data);
     const result = await sendEmail({
       to: data.customerEmail,
       subject: `[AutoPost] 구매 확인 — ${data.planLabel}`,
       html,
     });
 
-    console.log(`[WEBHOOK] Email sent to ${data.customerEmail} (id: ${result.id}, downloads: ${downloadFiles.length} files)`);
-    return res.status(200).json({ received: true, emailId: result.id, token });
+    console.log(`[WEBHOOK] Email sent to ${data.customerEmail} (id: ${result.id})`);
+    return res.status(200).json({ received: true, emailId: result.id });
   } catch (err) {
     // 이메일 발송 실패 → 자동 환불
     console.error(`[WEBHOOK] Email send FAILED: ${err.message} — triggering auto-refund`);
@@ -384,66 +310,15 @@ app.post('/webhooks/polar', express.raw({ type: '*/*' }), async (req, res) => {
   }
 });
 
-// ── GET /download/:token/:filename ──────────────────────────
-app.get('/download/:token/:filename', (req, res) => {
-  const { token, filename } = req.params;
-
-  // 토큰 검증
-  const entry = validateToken(token);
-  if (!entry) {
-    return res.status(403).send(`
-      <html><body style="font-family:sans-serif;text-align:center;padding:80px 20px;">
-        <h2 style="color:#991B1B;">다운로드 링크가 만료되었거나 유효하지 않습니다.</h2>
-        <p style="color:#666;">링크 유효기간: ${DOWNLOAD_EXPIRY_DAYS}일</p>
-        <p>문의: <a href="https://open.kakao.com/o/sjcFzkei" style="color:#2563EB;">카카오톡 오픈채팅</a></p>
-      </body></html>
-    `);
-  }
-
-  // 경로 순회 공격 방지
-  const safeName = path.basename(filename);
-  const filePath = path.join(PRODUCTS_DIR, entry.plan, safeName);
-
-  if (!fs.existsSync(filePath)) {
-    return res.status(404).send(`
-      <html><body style="font-family:sans-serif;text-align:center;padding:80px 20px;">
-        <h2 style="color:#991B1B;">파일을 찾을 수 없습니다.</h2>
-        <p>문의: <a href="https://open.kakao.com/o/sjcFzkei" style="color:#2563EB;">카카오톡 오픈채팅</a></p>
-      </body></html>
-    `);
-  }
-
-  console.log(`[DOWNLOAD] Serving ${safeName} to ${entry.email} (plan: ${entry.plan}, token: ${token.slice(0, 8)}...)`);
-  res.download(filePath, safeName);
-});
-
 // ── Health check ────────────────────────────────────────────
 app.get('/health', (_req, res) => {
-  const db = loadDownloads();
-  res.json({
-    status: 'ok',
-    time: new Date().toISOString(),
-    activeTokens: Object.keys(db).length,
-  });
+  res.json({ status: 'ok', time: new Date().toISOString() });
 });
 
 // ── Start ───────────────────────────────────────────────────
 app.listen(PORT, () => {
   console.log(`[WEBHOOK] Server running on port ${PORT}`);
-  console.log(`[WEBHOOK] Base URL: ${BASE_URL}`);
   console.log(`[WEBHOOK] Endpoints:`);
   console.log(`  POST /webhooks/polar`);
-  console.log(`  GET  /download/:token/:filename`);
   console.log(`  GET  /health`);
-  console.log(`[WEBHOOK] Products dir: ${PRODUCTS_DIR}`);
-
-  // 상품 파일 확인
-  ['basic', 'pro'].forEach(plan => {
-    const files = getProductFiles(plan);
-    if (files.length === 0) {
-      console.warn(`[WARN] No files in products/${plan}/ — 파일을 넣어주세요`);
-    } else {
-      console.log(`  ${plan}: ${files.join(', ')}`);
-    }
-  });
 });

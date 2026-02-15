@@ -1,5 +1,6 @@
 /**
  * 구매 확인 이메일 HTML 템플릿
+ * - Google Drive 다운로드 링크 + zip 비밀번호 방식
  */
 
 function purchaseConfirmationHtml(data) {
@@ -11,59 +12,40 @@ function purchaseConfirmationHtml(data) {
     amount,
     orderId,
     purchaseDate,
-    downloadFiles = [],
+    downloadUrl = '',
+    downloadPassword = '',
   } = data;
 
   const displayName = customerName || customerEmail || 'Customer';
   const displayDate = purchaseDate || new Date().toISOString().split('T')[0];
 
-  // 다운로드 버튼 HTML 생성
-  const zipFiles = downloadFiles.filter(f => f.isZip);
-  const pdfFiles = downloadFiles.filter(f => f.isPdf);
-  const otherFiles = downloadFiles.filter(f => !f.isZip && !f.isPdf);
-
+  // 다운로드 섹션 (URL과 비밀번호가 모두 있을 때만 표시)
   let downloadSection = '';
-  if (downloadFiles.length > 0) {
-    let buttons = '';
-
-    zipFiles.forEach(f => {
-      buttons += `
-      <tr><td align="center" style="padding:6px 0;">
-        <a href="${escapeHtml(f.url)}" target="_blank" style="display:inline-block;width:100%;max-width:360px;background:#2563EB;color:#ffffff;text-decoration:none;padding:14px 24px;border-radius:8px;font-size:15px;font-weight:700;text-align:center;box-sizing:border-box;">
-          &#128230; 프로그램 다운로드 (${escapeHtml(f.filename)})
-        </a>
-      </td></tr>`;
-    });
-
-    pdfFiles.forEach(f => {
-      buttons += `
-      <tr><td align="center" style="padding:6px 0;">
-        <a href="${escapeHtml(f.url)}" target="_blank" style="display:inline-block;width:100%;max-width:360px;background:#1e40af;color:#ffffff;text-decoration:none;padding:14px 24px;border-radius:8px;font-size:15px;font-weight:700;text-align:center;box-sizing:border-box;">
-          &#128214; 사용 가이드 다운로드 (${escapeHtml(f.filename)})
-        </a>
-      </td></tr>`;
-    });
-
-    otherFiles.forEach(f => {
-      buttons += `
-      <tr><td align="center" style="padding:6px 0;">
-        <a href="${escapeHtml(f.url)}" target="_blank" style="display:inline-block;width:100%;max-width:360px;background:#475569;color:#ffffff;text-decoration:none;padding:14px 24px;border-radius:8px;font-size:15px;font-weight:700;text-align:center;box-sizing:border-box;">
-          &#128196; ${escapeHtml(f.filename)}
-        </a>
-      </td></tr>`;
-    });
-
+  if (downloadUrl && downloadPassword) {
     downloadSection = `
   <!-- Download Section -->
-  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#EFF6FF;border:1px solid #DBEAFE;border-radius:8px;margin:20px 0;padding:4px 0;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#EFF6FF;border:1px solid #DBEAFE;border-radius:8px;margin:20px 0;">
     <tr><td style="padding:20px 24px;">
       <p style="margin:0 0 14px;color:#2563EB;font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">상품 다운로드</p>
+
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
-        ${buttons}
+        <tr><td align="center" style="padding:6px 0;">
+          <a href="${escapeHtml(downloadUrl)}" target="_blank" style="display:inline-block;width:100%;max-width:360px;background:#2563EB;color:#ffffff;text-decoration:none;padding:14px 24px;border-radius:8px;font-size:15px;font-weight:700;text-align:center;box-sizing:border-box;">
+            &#128230; 프로그램 다운로드
+          </a>
+        </td></tr>
       </table>
+
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#ffffff;border:1px solid #DBEAFE;border-radius:6px;margin:14px 0 0;">
+        <tr><td style="padding:14px 16px;">
+          <p style="margin:0 0 4px;color:#64748b;font-size:12px;">압축 해제 비밀번호:</p>
+          <p style="margin:0;color:#1e293b;font-size:18px;font-weight:700;font-family:monospace;letter-spacing:1px;">${escapeHtml(downloadPassword)}</p>
+        </td></tr>
+      </table>
+
       <p style="margin:12px 0 0;color:#64748b;font-size:12px;line-height:1.5;">
-        * 다운로드 링크는 구매일로부터 7일간 유효합니다.<br>
-        * 기간 만료 후에는 카카오톡으로 재발급을 요청해 주세요.
+        * 다운로드 후 비밀번호를 입력하여 압축을 해제하세요.<br>
+        * 이 비밀번호는 구매자 본인만 사용 가능합니다. 타인에게 공유하지 마세요.
       </p>
     </td></tr>
   </table>`;
@@ -138,7 +120,7 @@ function purchaseConfirmationHtml(data) {
         <span style="display:inline-block;width:22px;height:22px;background:#DBEAFE;color:#2563EB;border-radius:50%;text-align:center;line-height:22px;font-size:12px;font-weight:700;">1</span>
       </td>
       <td style="padding:8px 0 8px 8px;color:#475569;font-size:14px;line-height:1.5;">
-        위 버튼으로 프로그램과 사용 가이드를 다운로드해 주세요.
+        위 버튼으로 프로그램을 다운로드하고 비밀번호로 압축을 해제하세요.
       </td>
     </tr>
     <tr>
