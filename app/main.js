@@ -183,7 +183,7 @@ ipcMain.handle('write-post', async (event, options) => {
           // DALL-E 3으로 이미지 생성
           const dalleResponse = await axios.post('https://api.openai.com/v1/images/generations', {
             model: 'dall-e-3',
-            prompt: `Soft watercolor illustration with no text anywhere in the image: ${description}. Gentle pastel color palette, clean minimalist composition, smooth gradients, dreamy atmospheric feel. The image must contain ZERO text, ZERO letters, ZERO numbers, ZERO signs, ZERO labels, ZERO watermarks, ZERO Korean characters, ZERO Asian characters. Pure visual artwork only, like a children's book illustration with no words on any surface, wall, paper, or sign in the scene.`,
+            prompt: `Minimalist flat design illustration: ${description}. Abstract geometric shapes, simple icons, soft pastel gradient background. NO shops, NO storefronts, NO signs, NO streets, NO screens, NO documents, NO books, NO menus. The entire image must be completely free of any text, letters, numbers, characters, symbols, labels, or writing in any language. Clean vector art style with solid color fills.`,
             n: 1,
             size: '1024x1024',
             quality: 'standard'
@@ -344,7 +344,7 @@ async function processOneKeyword(keyword, style, length, publish, keywordSetting
         const axios = require('axios');
         const dalleResponse = await axios.post('https://api.openai.com/v1/images/generations', {
           model: 'dall-e-3',
-          prompt: `Soft watercolor illustration with no text anywhere in the image: ${description}. Gentle pastel color palette, clean minimalist composition, smooth gradients, dreamy atmospheric feel. The image must contain ZERO text, ZERO letters, ZERO numbers, ZERO signs, ZERO labels, ZERO watermarks, ZERO Korean characters, ZERO Asian characters. Pure visual artwork only, like a children's book illustration with no words on any surface, wall, paper, or sign in the scene.`,
+          prompt: `Minimalist flat design illustration: ${description}. Abstract geometric shapes, simple icons, soft pastel gradient background. NO shops, NO storefronts, NO signs, NO streets, NO screens, NO documents, NO books, NO menus. The entire image must be completely free of any text, letters, numbers, characters, symbols, labels, or writing in any language. Clean vector art style with solid color fills.`,
           n: 1,
           size: '1024x1024',
           quality: 'standard'

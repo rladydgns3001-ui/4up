@@ -126,14 +126,22 @@ async function generateArticle(keyword, webContext = '', wpContext = '', style =
 ## 이미지 삽입 규칙 (매우 중요!)
 - 본문 중 적절한 위치에 **반드시 1개의 이미지 마커**를 삽입하세요
 - 형식: [IMAGE:이미지에 대한 구체적인 설명]
-- 설명은 영어로 작성 (DALL-E 이미지 생성용), 키워드의 핵심 주제를 반영
-- **장면에 문서, 간판, 화면, 책 등 글자가 보일 수 있는 물체를 포함하지 마세요**
-- **사람이 서류를 들고 있거나 컴퓨터 화면을 보는 장면 금지** (글자가 생성됨)
-- 대신 자연, 건물 외관, 사람의 행동, 추상적 일러스트 등으로 묘사하세요
+- 설명은 영어로 작성 (DALL-E 이미지 생성용)
+- ⚠️ **절대 금지 장면** (글자가 자동 생성되므로):
+  - 가게, 상점, 거리, 간판이 있는 장면
+  - 서류, 문서, 계약서, 신청서를 들고 있는 장면
+  - 컴퓨터 화면, 스마트폰 화면이 보이는 장면
+  - 책, 메뉴판, 포스터가 보이는 장면
+- ✅ **권장 장면** (글자가 생기지 않음):
+  - 추상적 아이콘/도형 일러스트 (플랫 디자인)
+  - 자연 풍경, 하늘, 꽃밭 배경의 사람 실루엣
+  - 동전, 화살표, 그래프 등 추상 오브젝트
+  - 건물 전경 (멀리서 본 스카이라인)
+  - 사람의 손, 악수, 하이파이브 등 클로즈업
 - 예시:
-  - 키워드 "청년 전세대출" → [IMAGE:young Korean couple happily walking toward a modern apartment building on a sunny day, soft watercolor style]
-  - 키워드 "강아지 예방접종" → [IMAGE:cute golden retriever puppy sitting calmly next to a friendly veterinarian in pastel colored clinic, soft illustration style]
-  - 키워드 "2026 월배당 ETF" → [IMAGE:abstract visualization of growing coins and upward arrows in soft blue and gold gradient, minimalist flat design]
+  - 키워드 "소상공인 바우처" → [IMAGE:abstract flat illustration of golden coins and a gift voucher icon floating above an open hand, soft pastel gradient background, minimalist design]
+  - 키워드 "청년 전세대출" → [IMAGE:minimalist illustration of a small house icon with a golden key and upward arrow, soft blue and white gradient background, flat design style]
+  - 키워드 "종합소득세 절세" → [IMAGE:abstract flat design of a piggy bank with coins and a downward tax arrow, cheerful pastel colors, clean minimalist style]
 - 이미지는 본문의 핵심 내용을 시각적으로 보여주는 위치에 배치
 
 ## 말투 규칙
