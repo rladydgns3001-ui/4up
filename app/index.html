@@ -329,17 +329,14 @@
       background: #fafafa;
     }
 
-    .keyword-card-header input[type="text"] {
+    .keyword-card-header .keyword-label {
       flex: 1;
-      border: none;
-      background: transparent;
-      padding: 4px 0;
-      font-size: 15px;
-      outline: none;
-    }
-
-    .keyword-card-header input[type="text"]:focus {
-      border: none;
+      font-size: 14px;
+      font-weight: 600;
+      color: #333;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     .keyword-toggle-btn {
@@ -620,10 +617,14 @@
 
       <form id="writeForm">
         <div class="form-group">
-          <label>키워드</label>
-          <div id="keywordList"></div>
-          <button type="button" id="addKeywordBtn" class="keyword-add-btn">+ 키워드 추가</button>
+          <label for="keywords">키워드</label>
+          <textarea id="keywords" placeholder="키워드를 한 줄에 하나씩 입력 (최대 10개)&#10;예:&#10;월배당 ETF 투자&#10;주식 초보 가이드&#10;부동산 투자 방법" rows="4"></textarea>
           <div id="keywordCounter" class="keyword-counter">0/10개</div>
+        </div>
+
+        <div id="keywordSettingsPanel" style="display:none;">
+          <label>키워드별 설정 <span class="label-hint">(선택 — 접기/펼치기로 개별 설정)</span></label>
+          <div id="keywordCardList"></div>
         </div>
 
         <div class="form-group">
@@ -829,85 +830,102 @@
     const result = document.getElementById('result');
     const settingsResult = document.getElementById('settingsResult');
     const status = document.getElementById('status');
-    const keywordList = document.getElementById('keywordList');
+    const keywordsTextarea = document.getElementById('keywords');
     const keywordCounter = document.getElementById('keywordCounter');
+    const keywordSettingsPanel = document.getElementById('keywordSettingsPanel');
+    const keywordCardList = document.getElementById('keywordCardList');
     const queuePanel = document.getElementById('queuePanel');
     const cancelQueueBtn = document.getElementById('cancelQueueBtn');
-    const addKeywordBtn = document.getElementById('addKeywordBtn');
 
-    // ===== 키워드 카드 시스템 =====
+    // ===== 키워드 입력 + 설정 카드 시스템 =====
+
+    // textarea에서 키워드 텍스트 배열 추출
+    function getRawKeywords() {
+      return keywordsTextarea.value
+        .split('\n')
+        .map(k => k.trim())
+        .filter(k => k.length > 0);
+    }
+
+    // 키워드 객체 배열 반환 (설정 포함)
     function getKeywords() {
-      const cards = keywordList.querySelectorAll('.keyword-card');
-      const results = [];
-      cards.forEach(card => {
-        const keyword = card.querySelector('.keyword-input').value.trim();
-        if (keyword.length > 0) {
-          results.push({
-            keyword,
-            referenceContent: card.querySelector('.kw-ref-content')?.value.trim() || '',
-            referenceUrl: card.querySelector('.kw-ref-url')?.value.trim() || '',
-            ctaText: card.querySelector('.kw-cta-text')?.value.trim() || '',
-            ctaUrl: card.querySelector('.kw-cta-url')?.value.trim() || ''
-          });
-        }
+      const rawKeywords = getRawKeywords();
+      const cards = keywordCardList.querySelectorAll('.keyword-card');
+      return rawKeywords.map(kw => {
+        // 해당 키워드의 설정 카드 찾기
+        const card = Array.from(cards).find(c => c.dataset.keyword === kw);
+        return {
+          keyword: kw,
+          referenceContent: card?.querySelector('.kw-ref-content')?.value.trim() || '',
+          referenceUrl: card?.querySelector('.kw-ref-url')?.value.trim() || '',
+          ctaText: card?.querySelector('.kw-cta-text')?.value.trim() || '',
+          ctaUrl: card?.querySelector('.kw-cta-url')?.value.trim() || ''
+        };
       });
-      return results;
     }
 
-    function addKeyword(value = '') {
-      const cards = keywordList.querySelectorAll('.keyword-card');
-      if (cards.length >= 10) return;
+    // textarea 변경 시 설정 카드 동기화
+    function syncKeywordCards() {
+      const rawKeywords = getRawKeywords();
+      const count = rawKeywords.length;
 
-      const index = cards.length;
-      const card = document.createElement('div');
-      card.className = 'keyword-card';
-      card.innerHTML = `
-        <div class="keyword-card-header">
-          <input type="text" class="keyword-input" placeholder="키워드 입력" value="${value}">
-          <button type="button" class="keyword-toggle-btn" onclick="toggleSettings(this)">▸ 설정</button>
-          <button type="button" class="keyword-remove-btn" onclick="removeKeyword(this)">✕</button>
-        </div>
-        <div class="keyword-settings">
-          <div class="setting-row">
-            <label>참고 내용 <span class="label-hint">(선택 — AI에게 전달할 참고 정보)</span></label>
-            <textarea class="kw-ref-content" placeholder="이 키워드 글에 반영할 참고 정보를 입력하세요"></textarea>
-          </div>
-          <div class="setting-row">
-            <label>참고 URL <span class="label-hint">(선택 — 해당 URL 내용을 참고자료로 사용)</span></label>
-            <input type="text" class="kw-ref-url" placeholder="https://example.com/reference">
-          </div>
-          <div class="setting-row">
-            <label>링크 버튼 문구 <span class="label-hint">(선택 — CTA 버튼 텍스트)</span></label>
-            <input type="text" class="kw-cta-text" placeholder="자세히 알아보기">
-          </div>
-          <div class="setting-row">
-            <label>링크 버튼 URL <span class="label-hint">(선택 — CTA 버튼 링크)</span></label>
-            <input type="text" class="kw-cta-url" placeholder="https://example.com">
-          </div>
-        </div>
-      `;
-      keywordList.appendChild(card);
+      // 카운터 업데이트
+      keywordCounter.textContent = `${count}/10개`;
+      keywordCounter.classList.toggle('over-limit', count > 10);
 
-      // 키워드 입력 시 카운터 및 시간 입력 갱신
-      card.querySelector('.keyword-input').addEventListener('input', () => {
-        updateKeywordCounter();
-        updateTimeInputs();
-      });
-
-      updateKeywordCounter();
-      updateTimeInputs();
-
-      // 새로 추가된 카드에 포커스
-      if (!value) {
-        card.querySelector('.keyword-input').focus();
+      // 키워드 없으면 패널 숨김
+      if (count === 0) {
+        keywordSettingsPanel.style.display = 'none';
+        return;
       }
-    }
+      keywordSettingsPanel.style.display = '';
 
-    function removeKeyword(btn) {
-      const card = btn.closest('.keyword-card');
-      card.remove();
-      updateKeywordCounter();
-      updateTimeInputs();
+      // 기존 카드의 설정 값 보존
+      const existingData = {};
+      keywordCardList.querySelectorAll('.keyword-card').forEach(card => {
+        const kw = card.dataset.keyword;
+        existingData[kw] = {
+          referenceContent: card.querySelector('.kw-ref-content')?.value || '',
+          referenceUrl: card.querySelector('.kw-ref-url')?.value || '',
+          ctaText: card.querySelector('.kw-cta-text')?.value || '',
+          ctaUrl: card.querySelector('.kw-cta-url')?.value || '',
+          isOpen: card.querySelector('.keyword-settings')?.classList.contains('open') || false
+        };
+      });
+
+      // 카드 리스트 재생성
+      keywordCardList.innerHTML = '';
+      rawKeywords.slice(0, 10).forEach((kw, i) => {
+        const saved = existingData[kw] || {};
+        const card = document.createElement('div');
+        card.className = 'keyword-card';
+        card.dataset.keyword = kw;
+        card.innerHTML = `
+          <div class="keyword-card-header">
+            <span class="keyword-label">${i + 1}. ${kw}</span>
+            <button type="button" class="keyword-toggle-btn" onclick="toggleSettings(this)">${saved.isOpen ? '▾ 설정' : '▸ 설정'}</button>
+          </div>
+          <div class="keyword-settings${saved.isOpen ? ' open' : ''}">
+            <div class="setting-row">
+              <label>참고 내용 <span class="label-hint">(선택 — AI에게 전달할 참고 정보)</span></label>
+              <textarea class="kw-ref-content" placeholder="이 키워드 글에 반영할 참고 정보를 입력하세요">${saved.referenceContent || ''}</textarea>
+            </div>
+            <div class="setting-row">
+              <label>참고 URL <span class="label-hint">(선택 — 해당 URL 내용을 참고자료로 사용)</span></label>
+              <input type="text" class="kw-ref-url" placeholder="https://example.com/reference" value="${saved.referenceUrl || ''}">
+            </div>
+            <div class="setting-row">
+              <label>링크 버튼 문구 <span class="label-hint">(선택 — CTA 버튼 텍스트)</span></label>
+              <input type="text" class="kw-cta-text" placeholder="자세히 알아보기" value="${saved.ctaText || ''}">
+            </div>
+            <div class="setting-row">
+              <label>링크 버튼 URL <span class="label-hint">(선택 — CTA 버튼 링크)</span></label>
+              <input type="text" class="kw-cta-url" placeholder="https://example.com" value="${saved.ctaUrl || ''}">
+            </div>
+          </div>
+        `;
+        keywordCardList.appendChild(card);
+      });
     }
 
     function toggleSettings(btn) {
@@ -918,26 +936,10 @@
       btn.textContent = isOpen ? '▸ 설정' : '▾ 설정';
     }
 
-    function updateKeywordCounter() {
-      const keywords = getKeywords();
-      const count = keywords.length;
-      keywordCounter.textContent = `${count}/10개`;
-
-      if (count > 10) {
-        keywordCounter.classList.add('over-limit');
-      } else {
-        keywordCounter.classList.remove('over-limit');
-      }
-
-      // 10개 이상이면 추가 버튼 숨김
-      const cards = keywordList.querySelectorAll('.keyword-card');
-      addKeywordBtn.style.display = cards.length >= 10 ? 'none' : '';
-    }
-
-    addKeywordBtn.addEventListener('click', () => addKeyword());
-
-    // 초기 카드 1개 추가
-    addKeyword();
+    keywordsTextarea.addEventListener('input', () => {
+      syncKeywordCards();
+      updateTimeInputs();
+    });
 
     // ===== 예약 모드 =====
     const schedRadios = document.querySelectorAll('input[name="scheduleMode"]');
@@ -960,7 +962,7 @@
 
     function updateTimeInputs() {
       const container = document.getElementById('timeInputs');
-      const keywords = getKeywords();
+      const keywords = getRawKeywords();
       const count = Math.min(keywords.length, 10);
 
       container.innerHTML = '';
@@ -987,7 +989,7 @@
 
         const kw = document.createElement('span');
         kw.style.cssText = 'font-size:12px;color:#888;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:200px;';
-        kw.textContent = keywords[i]?.keyword || '';
+        kw.textContent = keywords[i] || '';
 
         wrapper.appendChild(label);
         wrapper.appendChild(input);
