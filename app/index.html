@@ -308,6 +308,132 @@
       font-weight: 600;
     }
 
+    /* 키워드 카드 리스트 */
+    .keyword-card {
+      border: 2px solid #e0e0e0;
+      border-radius: 10px;
+      margin-bottom: 8px;
+      overflow: hidden;
+      transition: border-color 0.3s;
+    }
+
+    .keyword-card:focus-within {
+      border-color: #667eea;
+    }
+
+    .keyword-card-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 12px;
+      background: #fafafa;
+    }
+
+    .keyword-card-header input[type="text"] {
+      flex: 1;
+      border: none;
+      background: transparent;
+      padding: 4px 0;
+      font-size: 15px;
+      outline: none;
+    }
+
+    .keyword-card-header input[type="text"]:focus {
+      border: none;
+    }
+
+    .keyword-toggle-btn {
+      width: auto !important;
+      padding: 4px 10px !important;
+      font-size: 12px !important;
+      background: #e7f3ff !important;
+      color: #667eea !important;
+      border-radius: 6px !important;
+      white-space: nowrap;
+      transform: none !important;
+      box-shadow: none !important;
+    }
+
+    .keyword-toggle-btn:hover:not(:disabled) {
+      background: #d0e4ff !important;
+      transform: none !important;
+      box-shadow: none !important;
+    }
+
+    .keyword-remove-btn {
+      width: auto !important;
+      padding: 4px 8px !important;
+      font-size: 14px !important;
+      background: #f8d7da !important;
+      color: #dc3545 !important;
+      border-radius: 6px !important;
+      transform: none !important;
+      box-shadow: none !important;
+      line-height: 1;
+    }
+
+    .keyword-remove-btn:hover:not(:disabled) {
+      background: #f1b0b7 !important;
+      transform: none !important;
+      box-shadow: none !important;
+    }
+
+    .keyword-settings {
+      display: none;
+      padding: 12px;
+      background: #f8f9fa;
+      border-top: 1px solid #e0e0e0;
+    }
+
+    .keyword-settings.open {
+      display: block;
+    }
+
+    .keyword-settings .setting-row {
+      margin-bottom: 10px;
+    }
+
+    .keyword-settings .setting-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .keyword-settings label {
+      font-size: 13px;
+      font-weight: 500;
+      color: #555;
+      margin-bottom: 4px;
+    }
+
+    .keyword-settings input[type="text"],
+    .keyword-settings textarea {
+      padding: 8px 10px;
+      font-size: 13px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+    }
+
+    .keyword-settings textarea {
+      min-height: 60px;
+    }
+
+    .keyword-add-btn {
+      width: 100%;
+      padding: 10px !important;
+      background: #f0f4ff !important;
+      color: #667eea !important;
+      border: 2px dashed #b6c8ff !important;
+      border-radius: 10px !important;
+      font-size: 14px !important;
+      transform: none !important;
+      box-shadow: none !important;
+    }
+
+    .keyword-add-btn:hover:not(:disabled) {
+      background: #e0e8ff !important;
+      transform: none !important;
+      box-shadow: none !important;
+    }
+
     /* 예약 설정 */
     .schedule-section {
       background: #f8f9fa;
@@ -494,8 +620,9 @@
 
       <form id="writeForm">
         <div class="form-group">
-          <label for="keywords">키워드</label>
-          <textarea id="keywords" placeholder="키워드를 한 줄에 하나씩 입력 (최대 10개)&#10;예:&#10;월배당 ETF 투자&#10;주식 초보 가이드&#10;부동산 투자 방법" rows="4"></textarea>
+          <label>키워드</label>
+          <div id="keywordList"></div>
+          <button type="button" id="addKeywordBtn" class="keyword-add-btn">+ 키워드 추가</button>
           <div id="keywordCounter" class="keyword-counter">0/10개</div>
         </div>
 
@@ -651,33 +778,6 @@
         </div>
 
         <hr class="divider">
-        <p class="section-title">CTA 링크 버튼 (선택)</p>
-
-        <div class="form-group">
-          <label for="ctaLinkUrl">
-            링크 URL
-            <span class="label-hint">(비우면 기본값 사용)</span>
-          </label>
-          <input type="text" id="ctaLinkUrl" placeholder="https://example.com">
-        </div>
-
-        <div class="form-group">
-          <label for="ctaLinkText">
-            메인 버튼 문구
-            <span class="label-hint">(비우면 AI가 자동 생성)</span>
-          </label>
-          <input type="text" id="ctaLinkText" placeholder="무료 상담받기">
-        </div>
-
-        <div class="form-group">
-          <label for="ctaMidText">
-            중간 버튼 문구
-            <span class="label-hint">(비우면 AI가 자동 생성)</span>
-          </label>
-          <input type="text" id="ctaMidText" placeholder="자세히 알아보기">
-        </div>
-
-        <hr class="divider">
         <p class="section-title">검색엔진 색인 (선택)</p>
 
         <div class="form-group">
@@ -729,17 +829,93 @@
     const result = document.getElementById('result');
     const settingsResult = document.getElementById('settingsResult');
     const status = document.getElementById('status');
-    const keywordsTextarea = document.getElementById('keywords');
+    const keywordList = document.getElementById('keywordList');
     const keywordCounter = document.getElementById('keywordCounter');
     const queuePanel = document.getElementById('queuePanel');
     const cancelQueueBtn = document.getElementById('cancelQueueBtn');
+    const addKeywordBtn = document.getElementById('addKeywordBtn');
 
-    // ===== 키워드 카운터 =====
+    // ===== 키워드 카드 시스템 =====
     function getKeywords() {
-      return keywordsTextarea.value
-        .split('\n')
-        .map(k => k.trim())
-        .filter(k => k.length > 0);
+      const cards = keywordList.querySelectorAll('.keyword-card');
+      const results = [];
+      cards.forEach(card => {
+        const keyword = card.querySelector('.keyword-input').value.trim();
+        if (keyword.length > 0) {
+          results.push({
+            keyword,
+            referenceContent: card.querySelector('.kw-ref-content')?.value.trim() || '',
+            referenceUrl: card.querySelector('.kw-ref-url')?.value.trim() || '',
+            ctaText: card.querySelector('.kw-cta-text')?.value.trim() || '',
+            ctaUrl: card.querySelector('.kw-cta-url')?.value.trim() || ''
+          });
+        }
+      });
+      return results;
+    }
+
+    function addKeyword(value = '') {
+      const cards = keywordList.querySelectorAll('.keyword-card');
+      if (cards.length >= 10) return;
+
+      const index = cards.length;
+      const card = document.createElement('div');
+      card.className = 'keyword-card';
+      card.innerHTML = `
+        <div class="keyword-card-header">
+          <input type="text" class="keyword-input" placeholder="키워드 입력" value="${value}">
+          <button type="button" class="keyword-toggle-btn" onclick="toggleSettings(this)">▸ 설정</button>
+          <button type="button" class="keyword-remove-btn" onclick="removeKeyword(this)">✕</button>
+        </div>
+        <div class="keyword-settings">
+          <div class="setting-row">
+            <label>참고 내용 <span class="label-hint">(선택 — AI에게 전달할 참고 정보)</span></label>
+            <textarea class="kw-ref-content" placeholder="이 키워드 글에 반영할 참고 정보를 입력하세요"></textarea>
+          </div>
+          <div class="setting-row">
+            <label>참고 URL <span class="label-hint">(선택 — 해당 URL 내용을 참고자료로 사용)</span></label>
+            <input type="text" class="kw-ref-url" placeholder="https://example.com/reference">
+          </div>
+          <div class="setting-row">
+            <label>링크 버튼 문구 <span class="label-hint">(선택 — CTA 버튼 텍스트)</span></label>
+            <input type="text" class="kw-cta-text" placeholder="자세히 알아보기">
+          </div>
+          <div class="setting-row">
+            <label>링크 버튼 URL <span class="label-hint">(선택 — CTA 버튼 링크)</span></label>
+            <input type="text" class="kw-cta-url" placeholder="https://example.com">
+          </div>
+        </div>
+      `;
+      keywordList.appendChild(card);
+
+      // 키워드 입력 시 카운터 및 시간 입력 갱신
+      card.querySelector('.keyword-input').addEventListener('input', () => {
+        updateKeywordCounter();
+        updateTimeInputs();
+      });
+
+      updateKeywordCounter();
+      updateTimeInputs();
+
+      // 새로 추가된 카드에 포커스
+      if (!value) {
+        card.querySelector('.keyword-input').focus();
+      }
+    }
+
+    function removeKeyword(btn) {
+      const card = btn.closest('.keyword-card');
+      card.remove();
+      updateKeywordCounter();
+      updateTimeInputs();
+    }
+
+    function toggleSettings(btn) {
+      const card = btn.closest('.keyword-card');
+      const settings = card.querySelector('.keyword-settings');
+      const isOpen = settings.classList.contains('open');
+      settings.classList.toggle('open');
+      btn.textContent = isOpen ? '▸ 설정' : '▾ 설정';
     }
 
     function updateKeywordCounter() {
@@ -752,12 +928,16 @@
       } else {
         keywordCounter.classList.remove('over-limit');
       }
+
+      // 10개 이상이면 추가 버튼 숨김
+      const cards = keywordList.querySelectorAll('.keyword-card');
+      addKeywordBtn.style.display = cards.length >= 10 ? 'none' : '';
     }
 
-    keywordsTextarea.addEventListener('input', () => {
-      updateKeywordCounter();
-      updateTimeInputs();
-    });
+    addKeywordBtn.addEventListener('click', () => addKeyword());
+
+    // 초기 카드 1개 추가
+    addKeyword();
 
     // ===== 예약 모드 =====
     const schedRadios = document.querySelectorAll('input[name="scheduleMode"]');
@@ -807,7 +987,7 @@
 
         const kw = document.createElement('span');
         kw.style.cssText = 'font-size:12px;color:#888;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:200px;';
-        kw.textContent = keywords[i] || '';
+        kw.textContent = keywords[i]?.keyword || '';
 
         wrapper.appendChild(label);
         wrapper.appendChild(input);
@@ -946,9 +1126,6 @@
         document.getElementById('adsenseSlotId').value = config.ADSENSE_SLOT_ID || '';
         document.getElementById('googleIndexingJsonPath').value = config.GOOGLE_INDEXING_JSON_PATH || '';
         document.getElementById('indexNowApiKey').value = config.INDEXNOW_API_KEY || '';
-        document.getElementById('ctaLinkUrl').value = config.CTA_LINK_URL || '';
-        document.getElementById('ctaLinkText').value = config.CTA_LINK_TEXT || '';
-        document.getElementById('ctaMidText').value = config.CTA_MID_TEXT || '';
 
         await checkConnection();
       } catch (e) {
@@ -1004,10 +1181,7 @@
         ADSENSE_CLIENT_ID: document.getElementById('adsenseClientId').value.trim(),
         ADSENSE_SLOT_ID: document.getElementById('adsenseSlotId').value.trim(),
         GOOGLE_INDEXING_JSON_PATH: document.getElementById('googleIndexingJsonPath').value.trim(),
-        INDEXNOW_API_KEY: document.getElementById('indexNowApiKey').value.trim(),
-        CTA_LINK_URL: document.getElementById('ctaLinkUrl').value.trim(),
-        CTA_LINK_TEXT: document.getElementById('ctaLinkText').value.trim(),
-        CTA_MID_TEXT: document.getElementById('ctaMidText').value.trim()
+        INDEXNOW_API_KEY: document.getElementById('indexNowApiKey').value.trim()
       };
 
       try {
@@ -1086,11 +1260,18 @@
         }
 
         try {
+          const kwData = keywords[0];
           const res = await window.api.writePost({
-            keyword: keywords[0],
+            keyword: kwData.keyword,
             style,
             length,
-            publish
+            publish,
+            keywordSettings: {
+              referenceContent: kwData.referenceContent,
+              referenceUrl: kwData.referenceUrl,
+              ctaText: kwData.ctaText,
+              ctaUrl: kwData.ctaUrl
+            }
           });
 
           if (res.success) {
@@ -1128,7 +1309,7 @@
       document.getElementById('queueResults').innerHTML = '';
 
       const options = {
-        keywords,
+        keywords,  // 객체 배열: [{keyword, referenceContent, referenceUrl, ctaText, ctaUrl}]
         scheduleMode,
         intervalHours: parseInt(document.getElementById('intervalHours').value) || 2,
         specificTimes: [],

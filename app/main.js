@@ -116,7 +116,7 @@ ipcMain.handle('select-json-file', async () => {
 
 // 글 작성 (단일 키워드 - 기존 핸들러 그대로 유지)
 ipcMain.handle('write-post', async (event, options) => {
-  const { keyword, style, length, publish } = options;
+  const { keyword, style, length, publish, keywordSettings } = options;
 
   if (!config.isConfigured()) {
     return { success: false, error: '설정을 먼저 완료해주세요.' };
@@ -124,7 +124,7 @@ ipcMain.handle('write-post', async (event, options) => {
 
   try {
     const WordPressAPI = require('../src/wordpress');
-    const { getSearchContext } = require('../src/search');
+    const { getSearchContext, fetchPageContent } = require('../src/search');
     const { generateArticle } = require('../src/writer');
 
     // 진행률 전송 헬퍼
@@ -140,6 +140,14 @@ ipcMain.handle('write-post', async (event, options) => {
     const connected = await wp.testConnection();
     if (!connected) {
       return { success: false, error: 'WordPress 연결 실패' };
+    }
+
+    // 1.5. 참고 URL 내용 가져오기
+    const kwSettings = keywordSettings ? { ...keywordSettings } : null;
+    if (kwSettings?.referenceUrl) {
+      sendProgress('참고 URL 가져오는 중...', 10);
+      const refPage = await fetchPageContent(kwSettings.referenceUrl);
+      kwSettings.referenceUrlContent = refPage.content || '';
     }
 
     // 2. 웹 검색 컨텍스트
@@ -158,7 +166,7 @@ ipcMain.handle('write-post', async (event, options) => {
 
     // 4. AI 글 생성
     sendProgress('AI 글 생성 중...', 60);
-    const article = await generateArticle(keyword, webContext, wpContext, style, length);
+    const article = await generateArticle(keyword, webContext, wpContext, style, length, null, kwSettings);
     if (!article.success) {
       return { success: false, error: article.error };
     }
@@ -280,9 +288,9 @@ ipcMain.handle('write-post', async (event, options) => {
 // ===== 예약 발행 큐 =====
 
 // 단일 키워드 처리 (큐에서 호출)
-async function processOneKeyword(keyword, style, length, publish) {
+async function processOneKeyword(keyword, style, length, publish, keywordSettings) {
   const WordPressAPI = require('../src/wordpress');
-  const { getSearchContext } = require('../src/search');
+  const { getSearchContext, fetchPageContent } = require('../src/search');
   const { generateArticle } = require('../src/writer');
 
   // 큐 모드 진행률 전송 헬퍼
@@ -299,6 +307,14 @@ async function processOneKeyword(keyword, style, length, publish) {
     throw new Error('WordPress 연결 실패');
   }
 
+  // 참고 URL 내용 가져오기
+  const kwSettings = keywordSettings ? { ...keywordSettings } : null;
+  if (kwSettings?.referenceUrl) {
+    sendProgress('참고 URL 가져오는 중...', 10);
+    const refPage = await fetchPageContent(kwSettings.referenceUrl);
+    kwSettings.referenceUrlContent = refPage.content || '';
+  }
+
   sendProgress('웹 검색 중...', 20);
   const webContext = await getSearchContext(keyword);
 
@@ -312,7 +328,7 @@ async function processOneKeyword(keyword, style, length, publish) {
   }
 
   sendProgress('AI 글 생성 중...', 60);
-  const article = await generateArticle(keyword, webContext, wpContext, style, length);
+  const article = await generateArticle(keyword, webContext, wpContext, style, length, null, kwSettings);
   if (!article.success) {
     throw new Error(article.error);
   }
@@ -447,7 +463,10 @@ function scheduleNextKeyword() {
     return;
   }
 
-  const keyword = postQueue.keywords[postQueue.currentIndex];
+  const kwItem = postQueue.keywords[postQueue.currentIndex];
+  // 객체 배열(새 방식) 또는 문자열 배열(호환용) 모두 지원
+  const keyword = typeof kwItem === 'string' ? kwItem : kwItem.keyword;
+  const kwSettings = typeof kwItem === 'object' ? kwItem : null;
   let delayMs = 0;
 
   if (postQueue.currentIndex === 0) {
@@ -502,7 +521,8 @@ function scheduleNextKeyword() {
         keyword,
         postQueue.style,
         postQueue.length,
-        postQueue.publish
+        postQueue.publish,
+        kwSettings
       );
       postQueue.results.push(result);
     } catch (error) {

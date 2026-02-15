@@ -75,7 +75,7 @@ async function generateSubKeywords(mainKeyword) {
   }
 }
 
-async function generateArticle(keyword, webContext = '', wpContext = '', style = 'informative', length = 'medium', searchData = null) {
+async function generateArticle(keyword, webContext = '', wpContext = '', style = 'informative', length = 'medium', searchData = null, keywordSettings = null) {
   const client = new Anthropic({ apiKey: config.CLAUDE_API_KEY });
 
   const lengthGuide = {
@@ -186,6 +186,7 @@ async function generateArticle(keyword, webContext = '', wpContext = '', style =
 - 버튼 형식:
   <div style="text-align:center;margin:20px 0;"><a href="한국웹사이트URL" class="official-link-btn" style="display:inline-block;background:linear-gradient(135deg,#667eea,#764ba2);color:white;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:bold;">👉 버튼텍스트</a></div>
 - 버튼 배치: 도입부 직후 1개, 본문 중간 1개, 마무리 전 1개 (총 3개 이상)
+${keywordSettings?.ctaUrl ? `\n⚠️ 사용자가 CTA 버튼 URL과 문구를 직접 지정했습니다. 모든 CTA 버튼에 반드시 사용자가 지정한 URL과 문구를 사용하세요:\n- URL: ${keywordSettings.ctaUrl}\n- 버튼 문구: ${keywordSettings.ctaText || '자세히 알아보기'}\n` : ''}
 
 ## 목차 형식 (반드시 이 형식!)
 <div class="toc-container">
@@ -221,9 +222,18 @@ async function generateArticle(keyword, webContext = '', wpContext = '', style =
     ? searchData.officialSources.map(s => `- ${s.title}: ${s.url}`).join('\n')
     : '공식 URL 없음';
 
+  // 키워드별 참고 자료 포맷팅
+  let keywordRefSection = '';
+  if (keywordSettings?.referenceContent) {
+    keywordRefSection += `\n## 사용자 제공 참고 자료 (최우선 반영):\n${keywordSettings.referenceContent}\n`;
+  }
+  if (keywordSettings?.referenceUrlContent) {
+    keywordRefSection += `\n## 사용자 지정 참고 URL 내용:\n${keywordSettings.referenceUrlContent}\n`;
+  }
+
   const userPrompt = `키워드: ${keyword}
 작성 기준일: 2026년 (현재 연도는 2026년입니다. 2026년 기준 최신 정보로 작성)
-
+${keywordRefSection}
 ## 참고할 공식문서/공신력 있는 출처:
 ${officialDocsInfo}
 
