@@ -27,8 +27,13 @@ AI 블로그 자동 포스팅 프로그램(AutoPost SEO Writer) 판매 사이트
 - `auto-post/deploy-reviews.js` — 후기 페이지 배포
 - `auto-post/sync-reviews.js` — 후기 동기화
 
+### 웹훅 & 이메일
+- `auto-post/webhook-server.js` — Polar 웹훅 서버 (order.paid → Resend 이메일 발송)
+- `auto-post/email-templates.js` — 구매 확인 이메일 HTML 템플릿
+- `auto-post/send-receipt.js` — 수동 이메일 발송 (테스트/재발송용)
+
 ### 환경변수
-- `auto-post/.env` — WP_URL, WP_USER, WP_APP_PASSWORD, POLAR_ACCESS_TOKEN 등
+- `auto-post/.env` — WP_URL, WP_USER, WP_APP_PASSWORD, POLAR_ACCESS_TOKEN, RESEND_API_KEY 등
 
 ## Polar 결제 연동
 - 대시보드: https://polar.sh/dashboard/autopost123
@@ -94,6 +99,27 @@ AI 블로그 자동 포스팅 프로그램(AutoPost SEO Writer) 판매 사이트
 - 취소선 가격 제거 ($539→$269, $399→$199의 원래가격 삭제)
 - "10~30개/day" 대량 발행 수치 제거/완화
 - 법적 페이지 3개 생성 (이용약관, 환불규정, 개인정보처리방침)
+
+## 웹훅 서버 (Polar → Resend 이메일 + 상품 다운로드)
+- 서버: `node auto-post/webhook-server.js` (포트 3000)
+- 엔드포인트:
+  - `POST /webhooks/polar` — order.paid 수신 → 다운로드 토큰 생성 → 이메일 발송
+  - `GET /download/:token/:filename` — 토큰 검증 후 상품 파일 다운로드
+  - `GET /health` — 헬스체크
+- 이메일: Resend API (발신: `noreply@wpauto.kr`)
+- 서명 검증: `standardwebhooks` 라이브러리
+- 자동 환불: 이메일 발송 실패 시 Polar API로 전액 환불
+- 수동 발송: `node auto-post/send-receipt.js --email <email> --plan <basic|pro>`
+
+### 상품 파일 디렉토리
+- `auto-post/products/basic/` — Basic 플랜 파일 (zip + PDF)
+- `auto-post/products/pro/` — Pro 플랜 파일 (zip + PDF)
+- `auto-post/downloads.json` — 다운로드 토큰 DB (자동 생성)
+
+### 다운로드 토큰
+- 결제 완료 시 주문별 UUID 토큰 생성 → `downloads.json`에 저장
+- 유효기간: `DOWNLOAD_EXPIRY_DAYS` (기본 7일)
+- 만료된 토큰은 403 에러 페이지 표시
 
 ## 주의사항
 - 배포 시 미디어(썸네일, 영상)도 함께 업로드됨

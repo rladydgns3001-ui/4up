@@ -9,6 +9,8 @@
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.24.0",
-    "node-telegram-bot-api": "^0.66.0"
+    "express": "^5.2.1",
+    "node-telegram-bot-api": "^0.66.0",
+    "standardwebhooks": "^1.0.0"
   }
 }
