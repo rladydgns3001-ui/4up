@@ -28,10 +28,12 @@ const PLAN_DOWNLOADS = {
   basic: {
     url: process.env.DOWNLOAD_URL_BASIC || '',
     password: process.env.DOWNLOAD_PASSWORD_BASIC || '',
+    manualUrl: process.env.MANUAL_URL_BASIC || '',
   },
   pro: {
     url: process.env.DOWNLOAD_URL_PRO || '',
     password: process.env.DOWNLOAD_PASSWORD_PRO || '',
+    manualUrl: process.env.MANUAL_URL_PRO || '',
   },
 };
 
@@ -224,6 +226,7 @@ function extractOrderData(event) {
     amount, orderId, purchaseDate,
     downloadUrl: download.url,
     downloadPassword: download.password,
+    manualUrl: download.manualUrl,
   };
 }
 

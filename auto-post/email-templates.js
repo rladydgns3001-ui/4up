@@ -14,6 +14,7 @@ function purchaseConfirmationHtml(data) {
     purchaseDate,
     downloadUrl = '',
     downloadPassword = '',
+    manualUrl = '',
   } = data;
 
   const displayName = customerName || customerEmail || 'Customer';
@@ -46,6 +47,28 @@ function purchaseConfirmationHtml(data) {
       <p style="margin:12px 0 0;color:#64748b;font-size:12px;line-height:1.5;">
         * 다운로드 후 비밀번호를 입력하여 압축을 해제하세요.<br>
         * 이 비밀번호는 구매자 본인만 사용 가능합니다. 타인에게 공유하지 마세요.
+      </p>
+    </td></tr>
+  </table>`;
+  }
+
+  // 사용법 PDF 섹션
+  let manualSection = '';
+  if (manualUrl) {
+    manualSection = `
+  <!-- Manual PDF Section -->
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:8px;margin:20px 0;">
+    <tr><td style="padding:20px 24px;">
+      <p style="margin:0 0 14px;color:#16a34a;font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">사용법 가이드</p>
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+        <tr><td align="center" style="padding:6px 0;">
+          <a href="${escapeHtml(manualUrl)}" target="_blank" style="display:inline-block;width:100%;max-width:360px;background:#16a34a;color:#ffffff;text-decoration:none;padding:14px 24px;border-radius:8px;font-size:15px;font-weight:700;text-align:center;box-sizing:border-box;">
+            &#128214; 사용법 PDF 다운로드
+          </a>
+        </td></tr>
+      </table>
+      <p style="margin:12px 0 0;color:#64748b;font-size:12px;line-height:1.5;">
+        * 프로그램 설치 및 사용 방법이 상세히 안내되어 있습니다.
       </p>
     </td></tr>
   </table>`;
@@ -111,6 +134,7 @@ function purchaseConfirmationHtml(data) {
   </table>
 
   ${downloadSection}
+  ${manualSection}
 
   <!-- Next Steps -->
   <p style="margin:24px 0 12px;color:#1e293b;font-size:15px;font-weight:600;">설치 지원 안내</p>

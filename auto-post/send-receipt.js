@@ -19,6 +19,7 @@ const PLANS = {
     amount: '$199',
     downloadUrl: process.env.DOWNLOAD_URL_BASIC || '',
     downloadPassword: process.env.DOWNLOAD_PASSWORD_BASIC || '',
+    manualUrl: process.env.MANUAL_URL_BASIC || '',
   },
   pro: {
     productName: 'AutoPost V2 Pro',
@@ -26,6 +27,7 @@ const PLANS = {
     amount: '$269',
     downloadUrl: process.env.DOWNLOAD_URL_PRO || '',
     downloadPassword: process.env.DOWNLOAD_PASSWORD_PRO || '',
+    manualUrl: process.env.MANUAL_URL_PRO || '',
   },
 };
 
@@ -126,6 +128,7 @@ async function main() {
     purchaseDate: new Date().toISOString().split('T')[0],
     downloadUrl: planInfo.downloadUrl,
     downloadPassword: planInfo.downloadPassword,
+    manualUrl: planInfo.manualUrl,
   };
 
   const html = purchaseConfirmationHtml(data);
