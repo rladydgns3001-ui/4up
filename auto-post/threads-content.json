@@ -118,7 +118,7 @@
     "seo_adsense",
     "wordpress_tips"
   ],
-  "cyclePosition": 0,
+  "cyclePosition": 1,
   "postHistory": [
     {
       "categoryType": "empathy",
@@ -183,6 +183,14 @@
       "postId": "18104000620852834",
       "publishedAt": "2026-02-19T14:39:41.526Z",
       "textLength": 206
+    },
+    {
+      "categoryType": "empathy",
+      "topic": "블로그 시작하고 싶은데 뭐부터 해야할지 모르겠는 사람",
+      "topicTag": "블로그시작순서",
+      "postId": "17999772965854923",
+      "publishedAt": "2026-02-19T23:57:32.925Z",
+      "textLength": 221
     }
   ],
   "lastCategoryIndex": 1

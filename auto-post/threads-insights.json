@@ -12,7 +12,7 @@
       "replies": 23,
       "reposts": 1,
       "quotes": 0,
-      "collectedAt": "2026-02-19T14:39:24.797Z"
+      "collectedAt": "2026-02-19T23:57:16.605Z"
     },
     {
       "postId": "17846373990684541",
@@ -26,7 +26,7 @@
       "replies": 1,
       "reposts": 1,
       "quotes": 0,
-      "collectedAt": "2026-02-19T14:39:24.974Z"
+      "collectedAt": "2026-02-19T23:57:16.762Z"
     },
     {
       "postId": "17959717622908050",
@@ -35,12 +35,12 @@
       "topicTag": "10분글쓰기후기",
       "textLength": 224,
       "publishedAt": "2026-02-12T01:27:41.373Z",
-      "views": 1228,
+      "views": 1229,
       "likes": 11,
       "replies": 1,
       "reposts": 0,
       "quotes": 0,
-      "collectedAt": "2026-02-19T14:39:25.223Z"
+      "collectedAt": "2026-02-19T23:57:16.968Z"
     },
     {
       "postId": "18120249607582376",
@@ -49,12 +49,12 @@
       "topicTag": "AI_블로깅_자동화",
       "textLength": 251,
       "publishedAt": "2026-02-12T14:43:41.871Z",
-      "views": 1877,
+      "views": 1881,
       "likes": 13,
       "replies": 27,
       "reposts": 0,
       "quotes": 0,
-      "collectedAt": "2026-02-19T14:39:25.392Z"
+      "collectedAt": "2026-02-19T23:57:17.138Z"
     },
     {
       "postId": "18173080378381771",
@@ -63,12 +63,12 @@
       "topicTag": "블로그수익현실",
       "textLength": 206,
       "publishedAt": "2026-02-13T00:01:14.468Z",
-      "views": 273,
+      "views": 275,
       "likes": 1,
       "replies": 0,
       "reposts": 0,
       "quotes": 0,
-      "collectedAt": "2026-02-19T14:39:25.555Z"
+      "collectedAt": "2026-02-19T23:57:17.288Z"
     },
     {
       "postId": "18088954066886497",
@@ -77,13 +77,27 @@
       "topicTag": "애드센스수익최적화",
       "textLength": 227,
       "publishedAt": "2026-02-14T23:50:28.293Z",
-      "views": 150,
+      "views": 152,
       "likes": 1,
       "replies": 0,
       "reposts": 0,
       "quotes": 0,
-      "collectedAt": "2026-02-19T14:39:25.792Z"
+      "collectedAt": "2026-02-19T23:57:17.636Z"
+    },
+    {
+      "postId": "18104000620852834",
+      "categoryType": "wordpress_tips",
+      "topic": "워드프레스 블로그 왜 써야 하는지",
+      "topicTag": "워드프레스블로그",
+      "textLength": 206,
+      "publishedAt": "2026-02-19T14:39:41.526Z",
+      "views": 104,
+      "likes": 0,
+      "replies": 0,
+      "reposts": 1,
+      "quotes": 0,
+      "collectedAt": "2026-02-19T23:57:17.792Z"
     }
   ],
-  "lastCollectedAt": "2026-02-19T14:39:25.792Z"
+  "lastCollectedAt": "2026-02-19T23:57:17.792Z"
 }
