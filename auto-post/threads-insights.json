@@ -1,4 +1,89 @@
 {
-  "posts": [],
-  "lastCollectedAt": null
+  "posts": [
+    {
+      "postId": "17936130597157576",
+      "categoryType": "empathy",
+      "topic": "프롬프트 짜고 복붙하고 수정하고... 이게 자동화야?",
+      "topicTag": "프롬프트짜고복붙하고수정하고이게자동화야",
+      "textLength": 169,
+      "publishedAt": "2026-02-10T06:46:06.974Z",
+      "views": 1745,
+      "likes": 13,
+      "replies": 23,
+      "reposts": 1,
+      "quotes": 0,
+      "collectedAt": "2026-02-19T14:39:24.797Z"
+    },
+    {
+      "postId": "17846373990684541",
+      "categoryType": "blog_tips",
+      "topic": "애드센스 전면광고 배치 최적 위치 (5년 경험)",
+      "topicTag": "애드센스",
+      "textLength": 159,
+      "publishedAt": "2026-02-10T12:42:55.023Z",
+      "views": 638,
+      "likes": 6,
+      "replies": 1,
+      "reposts": 1,
+      "quotes": 0,
+      "collectedAt": "2026-02-19T14:39:24.974Z"
+    },
+    {
+      "postId": "17959717622908050",
+      "categoryType": "user_reviews",
+      "topic": "하루 10분으로 글 10개 발행한 후기",
+      "topicTag": "10분글쓰기후기",
+      "textLength": 224,
+      "publishedAt": "2026-02-12T01:27:41.373Z",
+      "views": 1228,
+      "likes": 11,
+      "replies": 1,
+      "reposts": 0,
+      "quotes": 0,
+      "collectedAt": "2026-02-19T14:39:25.223Z"
+    },
+    {
+      "postId": "18120249607582376",
+      "categoryType": "product_promo",
+      "topic": "AI로 글 쓴다면서 왜 10분이나 걸려?",
+      "topicTag": "AI_블로깅_자동화",
+      "textLength": 251,
+      "publishedAt": "2026-02-12T14:43:41.871Z",
+      "views": 1877,
+      "likes": 13,
+      "replies": 27,
+      "reposts": 0,
+      "quotes": 0,
+      "collectedAt": "2026-02-19T14:39:25.392Z"
+    },
+    {
+      "postId": "18173080378381771",
+      "categoryType": "empathy",
+      "topic": "글 하나 쓰는데 1시간 수익은 몇백원인 현실",
+      "topicTag": "블로그수익현실",
+      "textLength": 206,
+      "publishedAt": "2026-02-13T00:01:14.468Z",
+      "views": 273,
+      "likes": 1,
+      "replies": 0,
+      "reposts": 0,
+      "quotes": 0,
+      "collectedAt": "2026-02-19T14:39:25.555Z"
+    },
+    {
+      "postId": "18088954066886497",
+      "categoryType": "seo_adsense",
+      "topic": "애드센스 수익 2배 올리는 전면광고 위치",
+      "topicTag": "애드센스수익최적화",
+      "textLength": 227,
+      "publishedAt": "2026-02-14T23:50:28.293Z",
+      "views": 150,
+      "likes": 1,
+      "replies": 0,
+      "reposts": 0,
+      "quotes": 0,
+      "collectedAt": "2026-02-19T14:39:25.792Z"
+    }
+  ],
+  "lastCollectedAt": "2026-02-19T14:39:25.792Z"
 }

@@ -118,7 +118,7 @@
     "seo_adsense",
     "wordpress_tips"
   ],
-  "cyclePosition": 6,
+  "cyclePosition": 0,
   "postHistory": [
     {
       "categoryType": "empathy",
@@ -175,6 +175,14 @@
       "postId": "18088954066886497",
       "publishedAt": "2026-02-14T23:50:28.293Z",
       "textLength": 227
+    },
+    {
+      "categoryType": "wordpress_tips",
+      "topic": "워드프레스 블로그 왜 써야 하는지",
+      "topicTag": "워드프레스블로그",
+      "postId": "18104000620852834",
+      "publishedAt": "2026-02-19T14:39:41.526Z",
+      "textLength": 206
     }
   ],
   "lastCategoryIndex": 1
