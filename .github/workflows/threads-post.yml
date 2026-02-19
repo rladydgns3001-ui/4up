@@ -1,8 +1,9 @@
-name: Threads Auto Post (Telegram 승인)
+name: Threads Auto Post (자동 발행 + 성과 분석)
 
 on:
   schedule:
     - cron: '0 23 * * *'   # KST 08:00 — 출근길 직장인 타겟
+    - cron: '0 4 * * *'    # KST 13:00 — 점심시간 타겟
     - cron: '0 12 * * *'   # KST 21:00 — 퇴근 후 쉬는 시간 타겟
   workflow_dispatch:        # 수동 실행 가능
 
@@ -12,7 +13,7 @@ permissions:
 jobs:
   post:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 10
 
     steps:
       - name: Checkout repository
@@ -46,16 +47,16 @@ jobs:
           echo "=== .env.threads 확인 ==="
           sed 's/=.*/=***/' .env.threads
 
-      - name: Generate and post to Threads (Telegram approval)
+      - name: Generate and auto-publish to Threads
         working-directory: ./auto-post
         env:
           CLAUDE_API_KEY: ${{ secrets.CLAUDE_API_KEY }}
         run: node threads-run-once.js
 
-      - name: Commit updated post history
+      - name: Commit updated post history and insights
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add auto-post/threads-content.json
+          git add auto-post/threads-content.json auto-post/threads-insights.json
           git diff --staged --quiet || git commit -m "Update Threads post history [skip ci]"
           git push
