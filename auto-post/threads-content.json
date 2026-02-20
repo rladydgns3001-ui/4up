@@ -118,7 +118,7 @@
     "seo_adsense",
     "wordpress_tips"
   ],
-  "cyclePosition": 3,
+  "cyclePosition": 4,
   "postHistory": [
     {
       "categoryType": "empathy",
@@ -207,6 +207,14 @@
       "postId": "17996992892871582",
       "publishedAt": "2026-02-20T14:26:09.958Z",
       "textLength": 223
+    },
+    {
+      "categoryType": "product_promo",
+      "topic": "5년 애드센스 운영하면서 만든 프로그램",
+      "topicTag": "5년_애드센스_운영_프로그램",
+      "postId": "18386804461158687",
+      "publishedAt": "2026-02-20T23:54:57.857Z",
+      "textLength": 265
     }
   ],
   "lastCategoryIndex": 1
