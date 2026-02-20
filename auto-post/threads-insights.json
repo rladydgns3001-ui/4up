@@ -12,7 +12,7 @@
       "replies": 23,
       "reposts": 1,
       "quotes": 0,
-      "collectedAt": "2026-02-19T23:57:16.605Z"
+      "collectedAt": "2026-02-20T06:37:26.295Z"
     },
     {
       "postId": "17846373990684541",
@@ -26,7 +26,7 @@
       "replies": 1,
       "reposts": 1,
       "quotes": 0,
-      "collectedAt": "2026-02-19T23:57:16.762Z"
+      "collectedAt": "2026-02-20T06:37:26.558Z"
     },
     {
       "postId": "17959717622908050",
@@ -40,7 +40,7 @@
       "replies": 1,
       "reposts": 0,
       "quotes": 0,
-      "collectedAt": "2026-02-19T23:57:16.968Z"
+      "collectedAt": "2026-02-20T06:37:26.803Z"
     },
     {
       "postId": "18120249607582376",
@@ -49,12 +49,12 @@
       "topicTag": "AI_블로깅_자동화",
       "textLength": 251,
       "publishedAt": "2026-02-12T14:43:41.871Z",
-      "views": 1881,
+      "views": 1886,
       "likes": 13,
       "replies": 27,
       "reposts": 0,
       "quotes": 0,
-      "collectedAt": "2026-02-19T23:57:17.138Z"
+      "collectedAt": "2026-02-20T06:37:27.086Z"
     },
     {
       "postId": "18173080378381771",
@@ -68,7 +68,7 @@
       "replies": 0,
       "reposts": 0,
       "quotes": 0,
-      "collectedAt": "2026-02-19T23:57:17.288Z"
+      "collectedAt": "2026-02-20T06:37:27.296Z"
     },
     {
       "postId": "18088954066886497",
@@ -82,7 +82,7 @@
       "replies": 0,
       "reposts": 0,
       "quotes": 0,
-      "collectedAt": "2026-02-19T23:57:17.636Z"
+      "collectedAt": "2026-02-20T06:37:27.493Z"
     },
     {
       "postId": "18104000620852834",
@@ -91,13 +91,27 @@
       "topicTag": "워드프레스블로그",
       "textLength": 206,
       "publishedAt": "2026-02-19T14:39:41.526Z",
-      "views": 104,
+      "views": 111,
       "likes": 0,
       "replies": 0,
       "reposts": 1,
       "quotes": 0,
-      "collectedAt": "2026-02-19T23:57:17.792Z"
+      "collectedAt": "2026-02-20T06:37:27.647Z"
+    },
+    {
+      "postId": "17999772965854923",
+      "categoryType": "empathy",
+      "topic": "블로그 시작하고 싶은데 뭐부터 해야할지 모르겠는 사람",
+      "topicTag": "블로그시작순서",
+      "textLength": 221,
+      "publishedAt": "2026-02-19T23:57:32.925Z",
+      "views": 73,
+      "likes": 0,
+      "replies": 0,
+      "reposts": 0,
+      "quotes": 0,
+      "collectedAt": "2026-02-20T06:37:27.833Z"
     }
   ],
-  "lastCollectedAt": "2026-02-19T23:57:17.792Z"
+  "lastCollectedAt": "2026-02-20T06:37:27.833Z"
 }

@@ -118,7 +118,7 @@
     "seo_adsense",
     "wordpress_tips"
   ],
-  "cyclePosition": 1,
+  "cyclePosition": 2,
   "postHistory": [
     {
       "categoryType": "empathy",
@@ -191,6 +191,14 @@
       "postId": "17999772965854923",
       "publishedAt": "2026-02-19T23:57:32.925Z",
       "textLength": 221
+    },
+    {
+      "categoryType": "blog_tips",
+      "topic": "키워드 선정하는 실전 방법 초보용",
+      "topicTag": "키워드선정꿀팁",
+      "postId": "17847618057686949",
+      "publishedAt": "2026-02-20T06:37:54.481Z",
+      "textLength": 217
     }
   ],
   "lastCategoryIndex": 1
