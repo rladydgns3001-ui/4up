@@ -118,7 +118,7 @@
     "seo_adsense",
     "wordpress_tips"
   ],
-  "cyclePosition": 2,
+  "cyclePosition": 3,
   "postHistory": [
     {
       "categoryType": "empathy",
@@ -199,6 +199,14 @@
       "postId": "17847618057686949",
       "publishedAt": "2026-02-20T06:37:54.481Z",
       "textLength": 217
+    },
+    {
+      "categoryType": "user_reviews",
+      "topic": "블로그 시작 2주만에 애드센스 승인받은 과정",
+      "topicTag": "애드센스승인과정",
+      "postId": "17996992892871582",
+      "publishedAt": "2026-02-20T14:26:09.958Z",
+      "textLength": 223
     }
   ],
   "lastCategoryIndex": 1
