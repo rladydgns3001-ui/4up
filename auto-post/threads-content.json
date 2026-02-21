@@ -118,7 +118,7 @@
     "seo_adsense",
     "wordpress_tips"
   ],
-  "cyclePosition": 6,
+  "cyclePosition": 0,
   "postHistory": [
     {
       "categoryType": "empathy",
@@ -231,6 +231,14 @@
       "postId": "18309082591281632",
       "publishedAt": "2026-02-21T13:54:44.050Z",
       "textLength": 234
+    },
+    {
+      "categoryType": "wordpress_tips",
+      "topic": "티스토리 vs 워드프레스 수익 차이 현실",
+      "topicTag": "티스토리vs워드프레스",
+      "postId": "17965546820881669",
+      "publishedAt": "2026-02-21T23:47:50.100Z",
+      "textLength": 189
     }
   ],
   "lastCategoryIndex": 1
