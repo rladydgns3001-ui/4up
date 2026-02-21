@@ -118,7 +118,7 @@
     "seo_adsense",
     "wordpress_tips"
   ],
-  "cyclePosition": 4,
+  "cyclePosition": 5,
   "postHistory": [
     {
       "categoryType": "empathy",
@@ -215,6 +215,14 @@
       "postId": "18386804461158687",
       "publishedAt": "2026-02-20T23:54:57.857Z",
       "textLength": 265
+    },
+    {
+      "categoryType": "empathy",
+      "topic": "퇴근 후 블로그 쓸 힘이 없는 직장인에게",
+      "topicTag": "퇴근후블로그",
+      "postId": "18086162711271171",
+      "publishedAt": "2026-02-21T05:59:40.024Z",
+      "textLength": 171
     }
   ],
   "lastCategoryIndex": 1
