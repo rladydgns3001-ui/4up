@@ -118,7 +118,7 @@
     "seo_adsense",
     "wordpress_tips"
   ],
-  "cyclePosition": 2,
+  "cyclePosition": 3,
   "postHistory": [
     {
       "categoryType": "empathy",
@@ -255,6 +255,14 @@
       "postId": "18565901683042805",
       "publishedAt": "2026-02-22T13:55:06.692Z",
       "textLength": 259
+    },
+    {
+      "categoryType": "user_reviews",
+      "topic": "직장인이 퇴근 후 5분 투자로 월 부수입 만든 이야기",
+      "topicTag": "퇴근후5분부업",
+      "postId": "17863686852595441",
+      "publishedAt": "2026-02-22T23:53:20.975Z",
+      "textLength": 178
     }
   ],
   "lastCategoryIndex": 1
