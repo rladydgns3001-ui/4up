@@ -118,7 +118,7 @@
     "seo_adsense",
     "wordpress_tips"
   ],
-  "cyclePosition": 0,
+  "cyclePosition": 1,
   "postHistory": [
     {
       "categoryType": "empathy",
@@ -239,6 +239,14 @@
       "postId": "17965546820881669",
       "publishedAt": "2026-02-21T23:47:50.100Z",
       "textLength": 189
+    },
+    {
+      "categoryType": "empathy",
+      "topic": "매일 글 쓰는 게 지칠 때 한번 생각해볼 것",
+      "topicTag": "매일글쓰기지칠때",
+      "postId": "18080946476579566",
+      "publishedAt": "2026-02-22T06:09:52.834Z",
+      "textLength": 219
     }
   ],
   "lastCategoryIndex": 1
