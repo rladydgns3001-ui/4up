@@ -118,7 +118,7 @@
     "seo_adsense",
     "wordpress_tips"
   ],
-  "cyclePosition": 5,
+  "cyclePosition": 6,
   "postHistory": [
     {
       "categoryType": "empathy",
@@ -279,6 +279,14 @@
       "postId": "18040071221758375",
       "publishedAt": "2026-02-23T14:37:49.616Z",
       "textLength": 195
+    },
+    {
+      "categoryType": "seo_adsense",
+      "topic": "애드센스 승인 빨리 받는 현실적인 방법",
+      "topicTag": "애드센스승인팁",
+      "postId": "18348976072235412",
+      "publishedAt": "2026-02-23T23:57:32.438Z",
+      "textLength": 214
     }
   ],
   "lastCategoryIndex": 1
