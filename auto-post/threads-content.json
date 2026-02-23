@@ -118,7 +118,7 @@
     "seo_adsense",
     "wordpress_tips"
   ],
-  "cyclePosition": 4,
+  "cyclePosition": 5,
   "postHistory": [
     {
       "categoryType": "empathy",
@@ -271,6 +271,14 @@
       "postId": "17918630952267032",
       "publishedAt": "2026-02-23T07:40:04.589Z",
       "textLength": 236
+    },
+    {
+      "categoryType": "empathy",
+      "topic": "블로그 3개월째 수익 0원일 때 드는 생각",
+      "topicTag": "블로그수익0원생각",
+      "postId": "18040071221758375",
+      "publishedAt": "2026-02-23T14:37:49.616Z",
+      "textLength": 195
     }
   ],
   "lastCategoryIndex": 1
