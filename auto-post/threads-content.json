@@ -118,7 +118,7 @@
     "seo_adsense",
     "wordpress_tips"
   ],
-  "cyclePosition": 3,
+  "cyclePosition": 4,
   "postHistory": [
     {
       "categoryType": "empathy",
@@ -263,6 +263,14 @@
       "postId": "17863686852595441",
       "publishedAt": "2026-02-22T23:53:20.975Z",
       "textLength": 178
+    },
+    {
+      "categoryType": "product_promo",
+      "topic": "키워드 하나 넣으면 1분 안에 발행 완료",
+      "topicTag": "키워드 하나 넣으면 1분 안에 발행 완료",
+      "postId": "17918630952267032",
+      "publishedAt": "2026-02-23T07:40:04.589Z",
+      "textLength": 236
     }
   ],
   "lastCategoryIndex": 1
