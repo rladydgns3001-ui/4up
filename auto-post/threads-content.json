@@ -116,7 +116,7 @@
     "blog_tips",
     "product_promo"
   ],
-  "cyclePosition": 2,
+  "cyclePosition": 3,
   "postHistory": [
     {
       "categoryType": "empathy",
@@ -207,6 +207,16 @@
       "postId": "17873975523535412",
       "publishedAt": "2026-02-24T08:05:20.959Z",
       "textLength": 150,
+      "mediaType": "TEXT",
+      "hasMedia": false
+    },
+    {
+      "categoryType": "product_promo",
+      "topic": "5년 애드센스 운영하면서 만든 자동화 프로그램",
+      "topicTag": "5년_애드센스_자동화",
+      "postId": "18123882988568479",
+      "publishedAt": "2026-02-24T15:11:44.946Z",
+      "textLength": 148,
       "mediaType": "TEXT",
       "hasMedia": false
     }

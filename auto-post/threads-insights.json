@@ -12,7 +12,7 @@
       "replies": 23,
       "reposts": 1,
       "quotes": 0,
-      "collectedAt": "2026-02-24T08:05:04.117Z"
+      "collectedAt": "2026-02-24T15:11:27.198Z"
     },
     {
       "postId": "17846373990684541",
@@ -26,7 +26,7 @@
       "replies": 1,
       "reposts": 1,
       "quotes": 0,
-      "collectedAt": "2026-02-24T08:05:04.338Z"
+      "collectedAt": "2026-02-24T15:11:27.421Z"
     },
     {
       "postId": "17959717622908050",
@@ -35,12 +35,12 @@
       "topicTag": "10분글쓰기후기",
       "textLength": 224,
       "publishedAt": "2026-02-12T01:27:41.373Z",
-      "views": 1253,
+      "views": 1254,
       "likes": 11,
       "replies": 1,
       "reposts": 0,
       "quotes": 0,
-      "collectedAt": "2026-02-24T08:05:04.619Z"
+      "collectedAt": "2026-02-24T15:11:27.675Z"
     },
     {
       "postId": "18120249607582376",
@@ -49,12 +49,12 @@
       "topicTag": "AI_블로깅_자동화",
       "textLength": 251,
       "publishedAt": "2026-02-12T14:43:41.871Z",
-      "views": 1941,
+      "views": 1944,
       "likes": 13,
       "replies": 27,
       "reposts": 0,
       "quotes": 0,
-      "collectedAt": "2026-02-24T08:05:04.958Z"
+      "collectedAt": "2026-02-24T15:11:27.901Z"
     },
     {
       "postId": "18173080378381771",
@@ -68,7 +68,7 @@
       "replies": 0,
       "reposts": 0,
       "quotes": 0,
-      "collectedAt": "2026-02-24T08:05:05.178Z"
+      "collectedAt": "2026-02-24T15:11:28.168Z"
     },
     {
       "postId": "18088954066886497",
@@ -82,7 +82,7 @@
       "replies": 0,
       "reposts": 0,
       "quotes": 0,
-      "collectedAt": "2026-02-24T08:05:05.450Z"
+      "collectedAt": "2026-02-24T15:11:29.265Z"
     },
     {
       "postId": "18094031618295193",
@@ -96,7 +96,7 @@
       "replies": 0,
       "reposts": 0,
       "quotes": 0,
-      "collectedAt": "2026-02-24T08:05:05.702Z"
+      "collectedAt": "2026-02-24T15:11:29.566Z"
     },
     {
       "postId": "17922899340251438",
@@ -110,8 +110,22 @@
       "replies": 0,
       "reposts": 0,
       "quotes": 0,
-      "collectedAt": "2026-02-24T08:05:05.919Z"
+      "collectedAt": "2026-02-24T15:11:29.810Z"
+    },
+    {
+      "postId": "17873975523535412",
+      "categoryType": "blog_tips",
+      "topic": "애드센스 전면광고 99%가 틀리게 배치하는 위치",
+      "topicTag": "애드센스전면광고",
+      "textLength": 150,
+      "publishedAt": "2026-02-24T08:05:20.959Z",
+      "views": 54,
+      "likes": 1,
+      "replies": 0,
+      "reposts": 0,
+      "quotes": 0,
+      "collectedAt": "2026-02-24T15:11:30.263Z"
     }
   ],
-  "lastCollectedAt": "2026-02-24T08:05:06.027Z"
+  "lastCollectedAt": "2026-02-24T15:11:30.263Z"
 }
