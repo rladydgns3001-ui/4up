@@ -12,7 +12,7 @@
       "replies": 23,
       "reposts": 1,
       "quotes": 0,
-      "collectedAt": "2026-02-24T15:11:27.198Z"
+      "collectedAt": "2026-02-24T17:38:05.497Z"
     },
     {
       "postId": "17846373990684541",
@@ -26,7 +26,7 @@
       "replies": 1,
       "reposts": 1,
       "quotes": 0,
-      "collectedAt": "2026-02-24T15:11:27.421Z"
+      "collectedAt": "2026-02-24T17:38:05.658Z"
     },
     {
       "postId": "17959717622908050",
@@ -40,7 +40,7 @@
       "replies": 1,
       "reposts": 0,
       "quotes": 0,
-      "collectedAt": "2026-02-24T15:11:27.675Z"
+      "collectedAt": "2026-02-24T17:38:05.786Z"
     },
     {
       "postId": "18120249607582376",
@@ -49,12 +49,12 @@
       "topicTag": "AI_블로깅_자동화",
       "textLength": 251,
       "publishedAt": "2026-02-12T14:43:41.871Z",
-      "views": 1944,
+      "views": 1945,
       "likes": 13,
       "replies": 27,
       "reposts": 0,
       "quotes": 0,
-      "collectedAt": "2026-02-24T15:11:27.901Z"
+      "collectedAt": "2026-02-24T17:38:06.038Z"
     },
     {
       "postId": "18173080378381771",
@@ -68,7 +68,7 @@
       "replies": 0,
       "reposts": 0,
       "quotes": 0,
-      "collectedAt": "2026-02-24T15:11:28.168Z"
+      "collectedAt": "2026-02-24T17:38:06.240Z"
     },
     {
       "postId": "18088954066886497",
@@ -82,7 +82,7 @@
       "replies": 0,
       "reposts": 0,
       "quotes": 0,
-      "collectedAt": "2026-02-24T15:11:29.265Z"
+      "collectedAt": "2026-02-24T17:38:06.423Z"
     },
     {
       "postId": "18094031618295193",
@@ -96,7 +96,7 @@
       "replies": 0,
       "reposts": 0,
       "quotes": 0,
-      "collectedAt": "2026-02-24T15:11:29.566Z"
+      "collectedAt": "2026-02-24T17:38:06.647Z"
     },
     {
       "postId": "17922899340251438",
@@ -110,7 +110,7 @@
       "replies": 0,
       "reposts": 0,
       "quotes": 0,
-      "collectedAt": "2026-02-24T15:11:29.810Z"
+      "collectedAt": "2026-02-24T17:38:06.908Z"
     },
     {
       "postId": "17873975523535412",
@@ -124,8 +124,22 @@
       "replies": 0,
       "reposts": 0,
       "quotes": 0,
-      "collectedAt": "2026-02-24T15:11:30.263Z"
+      "collectedAt": "2026-02-24T17:38:07.117Z"
+    },
+    {
+      "postId": "18123882988568479",
+      "categoryType": "product_promo",
+      "topic": "5년 애드센스 운영하면서 만든 자동화 프로그램",
+      "topicTag": "5년_애드센스_자동화",
+      "textLength": 148,
+      "publishedAt": "2026-02-24T15:11:44.946Z",
+      "views": 16,
+      "likes": 0,
+      "replies": 0,
+      "reposts": 0,
+      "quotes": 0,
+      "collectedAt": "2026-02-24T17:38:07.322Z"
     }
   ],
-  "lastCollectedAt": "2026-02-24T15:11:30.263Z"
+  "lastCollectedAt": "2026-02-24T17:38:07.322Z"
 }

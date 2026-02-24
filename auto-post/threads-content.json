@@ -116,7 +116,7 @@
     "blog_tips",
     "product_promo"
   ],
-  "cyclePosition": 3,
+  "cyclePosition": 4,
   "postHistory": [
     {
       "categoryType": "empathy",
@@ -217,6 +217,16 @@
       "postId": "18123882988568479",
       "publishedAt": "2026-02-24T15:11:44.946Z",
       "textLength": 148,
+      "mediaType": "TEXT",
+      "hasMedia": false
+    },
+    {
+      "categoryType": "empathy",
+      "topic": "아직도 프롬프트 짜고 복붙하고 수정한다고?",
+      "topicTag": "AI자동화",
+      "postId": "18088522208146834",
+      "publishedAt": "2026-02-24T17:38:24.607Z",
+      "textLength": 110,
       "mediaType": "TEXT",
       "hasMedia": false
     }
