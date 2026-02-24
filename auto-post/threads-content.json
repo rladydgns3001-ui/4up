@@ -116,7 +116,7 @@
     "blog_tips",
     "product_promo"
   ],
-  "cyclePosition": 1,
+  "cyclePosition": 2,
   "postHistory": [
     {
       "categoryType": "empathy",
@@ -199,6 +199,16 @@
       "textLength": 160,
       "mediaType": "IMAGE",
       "hasMedia": true
+    },
+    {
+      "categoryType": "blog_tips",
+      "topic": "애드센스 전면광고 99%가 틀리게 배치하는 위치",
+      "topicTag": "애드센스전면광고",
+      "postId": "17873975523535412",
+      "publishedAt": "2026-02-24T08:05:20.959Z",
+      "textLength": 150,
+      "mediaType": "TEXT",
+      "hasMedia": false
     }
   ],
   "lastCategoryIndex": 1
