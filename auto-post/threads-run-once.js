@@ -1,9 +1,10 @@
-// 단일 실행 스크립트: 성과 분석 → 사이클 순서대로 1개 글 생성 → 즉시 자동 발행
+// 단일 실행 스크립트: 성과 분석 → 사이클 순서대로 1개 글 생성 → 이미지 첨부 → 즉시 자동 발행
 process.on("unhandledRejection", (err) => { console.error("UNHANDLED:", err); });
 
 const Anthropic = require("@anthropic-ai/sdk");
 const fs = require("fs");
 const path = require("path");
+const imagesDir = path.join(__dirname, "threads-images");
 
 // ============================================
 // 환경 변수 로드
@@ -204,6 +205,64 @@ function getSpoilerPreview(text) {
 }
 
 // ============================================
+// WordPress 미디어 업로드 + 이미지 선택
+// ============================================
+async function uploadToWordPress(filePath) {
+  const WP_URL = envVars.WP_URL;
+  const WP_USER = envVars.WP_USER;
+  const WP_APP_PASSWORD = envVars.WP_APP_PASSWORD;
+  if (!WP_URL || !WP_USER || !WP_APP_PASSWORD) {
+    console.log("⚠️ WordPress 인증 정보 없음, 이미지 스킵");
+    return null;
+  }
+  const fileName = path.basename(filePath);
+  const fileBuffer = fs.readFileSync(filePath);
+  const ext = path.extname(fileName).toLowerCase();
+  const mimeType = ext === ".png" ? "image/png" : ext === ".mp4" ? "video/mp4" : "image/jpeg";
+  const auth = Buffer.from(`${WP_USER}:${WP_APP_PASSWORD}`).toString("base64");
+  const response = await fetch(`${WP_URL}/wp-json/wp/v2/media`, {
+    method: "POST",
+    headers: {
+      Authorization: `Basic ${auth}`,
+      "Content-Disposition": `attachment; filename="${encodeURIComponent(fileName)}"`,
+      "Content-Type": mimeType,
+    },
+    body: fileBuffer,
+  });
+  const data = await response.json();
+  if (data.source_url) {
+    console.log(`📸 이미지 업로드 완료: ${data.source_url}`);
+    return data.source_url;
+  }
+  console.log("⚠️ 이미지 업로드 실패:", data.message || JSON.stringify(data));
+  return null;
+}
+
+function selectMedia(categoryType) {
+  const categoryMediaMap = {
+    empathy: ["homepage.png", "product-thumbnail.png"],
+    blog_tips: ["homepage.png", "product-thumbnail.png"],
+    seo_adsense: ["homepage.png", "product-thumbnail.png"],
+    product_promo: ["program-screenshot-1.png", "program-screenshot-2.png", "product-thumbnail.png"],
+    user_reviews: ["program-screenshot-1.png", "program-screenshot-2.png", "homepage.png"],
+    wordpress_tips: ["homepage.png", "product-thumbnail.png"],
+  };
+  const candidates = categoryMediaMap[categoryType] || ["homepage.png", "product-thumbnail.png"];
+  const available = candidates.filter((name) => fs.existsSync(path.join(imagesDir, name)));
+  if (available.length > 0) {
+    const pick = available[Math.floor(Math.random() * available.length)];
+    return path.join(imagesDir, pick);
+  }
+  // fallback: 디렉토리 내 아무 이미지
+  try {
+    const files = fs.readdirSync(imagesDir).filter((f) => /\.(png|jpg|jpeg)$/i.test(f));
+    if (files.length > 0) return path.join(imagesDir, files[Math.floor(Math.random() * files.length)]);
+  } catch {}
+  console.log("⚠️ 사용 가능한 미디어 없음 — 텍스트만 발행");
+  return null;
+}
+
+// ============================================
 // 메인 실행
 // ============================================
 async function run() {
@@ -253,7 +312,7 @@ async function run() {
     return `--- ref ${i + 1} ${m} ---\n${r.text}`;
   }).join("\n\n");
 
-  // 5. Claude 프롬프트 (성과 분석 피드백 포함)
+  // 5. Claude 프롬프트 (성과 분석 + 데이터 기반 최적화)
   const prompt = `당신은 @wpauto.kr (오토포스트) Threads 계정 콘텐츠 작성자.
 
 ## 브랜드
@@ -265,49 +324,52 @@ async function run() {
 ## 절대 금지
 - 해시태그 (#으로 시작하는 태그)
 - 이모지 5개 이상
-- 500자 초과
+- 300자 초과 (100~200자가 가장 효과적. 데이터 기반.)
 
 ## 레퍼런스 (실제 터진 글들):
 ${refsText}
 
-## 학습된 바이럴 구조 패턴
+## 실제 데이터 기반 바이럴 패턴 (54개 게시물 분석 결과)
 
-### 첫줄 훅 (반드시 강렬하게)
-좋은 예시:
-- "AI로 글 쓴다면서 왜 아직도 20분씩 걸려?" (도발+공감)
-- "블로그 글 하나에 99%가 시간 날리는 이유" (숫자+도발)
+### 최고 성과 게시물 (반드시 참고):
+1위(1,933조회): "AI로 글 쓴다면서 왜 아직도 10분씩 걸려?" → 공감+불만 자극형
+2위(1,767조회): "ChatGPT로 글 쓰는 사람 특:" → 대비 구조형
+공통점: 독자의 현재 불편함을 직접 지적하는 도입부
+
+### 첫줄 훅 (반드시 강렬하게, 아래 패턴 활용)
+최고 성과 패턴:
+- "~하는 사람 특:" (대비 구조, 조회수 최고)
+- "아직도 ~한다고?" / "왜 아직도 ~?" (도발+공감)
+- "~하는 사람 99%가 모르는 것" (숫자+도발)
 - "진짜 미쳤습니다 ㅋㅋㅋ" (감탄)
-- "ChatGPT로 글 쓰는 사람 특:" (대비 구조)
-절대 쓰지 마:
+절대 쓰지 마 (조회수 최하위 패턴):
 - "힘들지?" "바쁘지?" "요즘 어때?" → 뻔하고 궁금증 없음
+- 부드러운 위로 톤 → 스크롤 멈춤 효과 없음
 
 ### 글 구조 (택1)
-A. 훅 → 공감/문제 → 해결(숨김) → 마무리
-B. 훅 → 번호 리스트(일부 숨김) → 클리프행어
-C. 극도 단문 질문형 (3줄, 40~80자)
+A. 훅 → 공감/문제 → 해결(숨김) → 마무리 (100~200자)
+B. 훅 → 번호 리스트(일부 숨김) → 클리프행어 (150~250자)
+C. 극도 단문 질문형 (3줄, 40~80자) — 댓글 비율 극대화
 
 ### 줄바꿈
 - 문장마다 빈줄 (Threads 특성상 극단적 줄바꿈이 효과적)
 - 한 줄에 한 문장만
 
 ### 스포일러 마커 (중요!)
-스포일러 처리할 부분은 반드시 정확히 이 형식으로:
-여는태그: {{숨김}}
-닫는태그: {{/숨김}}
-
+여는태그: {{숨김}}  닫는태그: {{/숨김}}
 예시: "진짜 자동화는 {{숨김}}키워드 하나 넣으면 1분{{/숨김}}이거든"
-잘못된 예: "{{키워드 하나 넣으면 1분}}" ← 이렇게 쓰면 안됨!
-
-**원칙: 사람들이 진짜 궁금해할 답/해결책만 숨겨.**
-숨김 O: 해결 방법, 핵심 답변, 반전 결론, 구체적 수치
-숨김 X: 문제 설명, 서론, 감정 표현
+**원칙: 답변/해결책/반전만 숨겨. 문제 설명이나 서론은 숨기지 마.**
 불필요하면 안 써도 됨.
+
+### 참여 유도 (데이터 기반)
+- 질문/논쟁 유도형 글이 참여율 6.64% 달성 (평균 1.74%)
+- 마지막 줄에 질문 넣으면 댓글 2~3배 증가
 ${performanceFeedback}
 ## 작성
 카테고리: ${category.label} (${category.type})
 토픽: ${topic}
 
-200~350자. 다체/한다체 (~이다, ~한다, ~된다, ~했다, ~있다). 이모지 0~3개.
+**100~200자 목표.** 짧을수록 조회수 높음. 다체/한다체 (~이다, ~한다, ~된다). 이모지 0~2개.
 
 JSON으로만 응답 (다른 텍스트 없이 JSON만):
 {"text": "본문 (스포일러 부분은 {{숨김}}텍스트{{/숨김}} 형식)", "topicTag": "토픽태그"}`;
@@ -343,9 +405,21 @@ JSON으로만 응답 (다른 텍스트 없이 JSON만):
   console.log(`${"─".repeat(30)}`);
   console.log(`글자수: ${post.threadsText.length}자\n`);
 
-  // 7. 즉시 Threads 발행 (승인 없음)
+  // 7. 이미지 선택 + WordPress 업로드 + Threads 발행
+  let mediaUrl = null;
+  let mediaType = "TEXT";
+  const mediaPath = selectMedia(categoryType);
+  if (mediaPath) {
+    const isVideo = mediaPath.endsWith(".mp4");
+    console.log(`📸 미디어 선택: ${path.basename(mediaPath)} (${isVideo ? "영상" : "이미지"})`);
+    mediaUrl = await uploadToWordPress(mediaPath);
+    if (mediaUrl) mediaType = isVideo ? "VIDEO" : "IMAGE";
+  }
+
   console.log("📤 Threads 자동 발행 중...");
-  const params = { media_type: "TEXT", text: post.threadsText, access_token: token };
+  const params = { media_type: mediaType, text: post.threadsText, access_token: token };
+  if (mediaUrl && mediaType === "IMAGE") params.image_url = mediaUrl;
+  if (mediaUrl && mediaType === "VIDEO") params.video_url = mediaUrl;
 
   const createResp = await fetch(`https://graph.threads.net/v1.0/${uid}/threads`, {
     method: "POST",
@@ -396,6 +470,8 @@ JSON으로만 응답 (다른 텍스트 없이 JSON만):
     postId: pubData.id,
     publishedAt: new Date().toISOString(),
     textLength: post.threadsText.length,
+    mediaType: mediaType,
+    hasMedia: mediaUrl !== null,
   });
   fs.writeFileSync(contentPath, JSON.stringify(contentData, null, 2));
   console.log("📊 이력 저장 완료");

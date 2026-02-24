@@ -32,13 +32,16 @@ async function uploadMedia(filePath, filename, contentType) {
   return media.source_url;
 }
 
-function replaceMediaUrls(html, thumbUrl, videoUrl) {
+function replaceMediaUrls(html, thumbUrl, videoUrl, heroUrl) {
   if (thumbUrl) {
     html = html.replace(/src="product-thumbnail\.png"/g, `src="${thumbUrl}"`);
     html = html.replace(/poster="product-thumbnail\.png"/g, `poster="${thumbUrl}"`);
   }
   if (videoUrl) {
     html = html.replace(/<source src="(threads-images\/program-run-1\.mp4|0211\(3\)\.mp4)" type="video\/mp4">/g, `<source src="${videoUrl}" type="video/mp4">`);
+  }
+  if (heroUrl) {
+    html = html.replace(/src="hero-screenshot\.png"/g, `src="${heroUrl}"`);
   }
   return html;
 }
@@ -143,9 +146,17 @@ async function main() {
     console.log('⚠️ 시현 영상 없음, 스킵');
   }
 
+  const heroPath = path.join(__dirname, 'hero-screenshot.png');
+  let heroUrl = '';
+  if (fs.existsSync(heroPath)) {
+    heroUrl = await uploadMedia(heroPath, `hero-screenshot-${Date.now()}.png`, 'image/png');
+  } else {
+    console.log('⚠️ hero-screenshot.png 없음, 스킵');
+  }
+
   // 2. 새 메인 페이지 HTML 읽기 & 미디어 URL 교체
   let homepageHtml = fs.readFileSync(path.join(__dirname, 'wordpress-homepage-new.html'), 'utf-8');
-  homepageHtml = replaceMediaUrls(homepageHtml, thumbUrl, videoUrl);
+  homepageHtml = replaceMediaUrls(homepageHtml, thumbUrl, videoUrl, heroUrl);
 
   // 3. 메인 페이지 업데이트 (Page ID: 17)
   console.log('\n📄 메인 페이지 (ID: 17) 업데이트 중...');
@@ -173,7 +184,7 @@ async function main() {
   if (!productPageId) { console.error('❌ 상품 페이지 처리 실패'); process.exit(1); }
 
   let productHtml = fs.readFileSync(path.join(__dirname, 'wordpress-product-page.html'), 'utf-8');
-  productHtml = replaceMediaUrls(productHtml, thumbUrl, videoUrl);
+  productHtml = replaceMediaUrls(productHtml, thumbUrl, videoUrl, heroUrl);
 
   console.log(`\n📄 상품 페이지 (ID: ${productPageId}) 업데이트 중...`);
   const productRes = await fetch(`${WP_URL}/wp-json/wp/v2/pages/${productPageId}`, {

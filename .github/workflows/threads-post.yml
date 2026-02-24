@@ -2,9 +2,9 @@ name: Threads Auto Post (자동 발행 + 성과 분석)
 
 on:
   schedule:
-    - cron: '0 23 * * *'   # KST 08:00 — 출근길 직장인 타겟
-    - cron: '0 4 * * *'    # KST 13:00 — 점심시간 타겟
-    - cron: '0 12 * * *'   # KST 21:00 — 퇴근 후 쉬는 시간 타겟
+    - cron: '0 6 * * *'    # KST 15:00 — 최고 조회수 시간대 (데이터 기반)
+    - cron: '0 12 * * *'   # KST 21:00 — 퇴근 후 쉬는 시간
+    - cron: '0 14 * * *'   # KST 23:00 — 2번째 최고 조회수 시간대
   workflow_dispatch:        # 수동 실행 가능
 
 permissions:
@@ -40,10 +40,18 @@ jobs:
           TELEGRAM_BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID=${{ secrets.TELEGRAM_CHAT_ID }}
           ENVEOF
+          cat > .env << 'ENVEOF2'
+          WP_URL=${{ secrets.WP_URL }}
+          WP_USER=${{ secrets.WP_USER }}
+          WP_APP_PASSWORD=${{ secrets.WP_APP_PASSWORD }}
+          ENVEOF2
           # 앞뒤 공백 제거
           sed -i 's/^[[:space:]]*//' .env.threads
           sed -i 's/[[:space:]]*$//' .env.threads
           sed -i '/^$/d' .env.threads
+          sed -i 's/^[[:space:]]*//' .env
+          sed -i 's/[[:space:]]*$//' .env
+          sed -i '/^$/d' .env
           echo "=== .env.threads 확인 ==="
           sed 's/=.*/=***/' .env.threads
 
