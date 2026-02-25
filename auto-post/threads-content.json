@@ -116,7 +116,7 @@
     "blog_tips",
     "product_promo"
   ],
-  "cyclePosition": 5,
+  "cyclePosition": 6,
   "postHistory": [
     {
       "categoryType": "empathy",
@@ -237,6 +237,16 @@
       "postId": "18102131344908564",
       "publishedAt": "2026-02-25T08:07:02.690Z",
       "textLength": 147,
+      "mediaType": "TEXT",
+      "hasMedia": false
+    },
+    {
+      "categoryType": "seo_adsense",
+      "topic": "애드센스 수익 2배 만드는 전면광고 위치 (5년 경험)",
+      "topicTag": "애드센스_전면광고_위치",
+      "postId": "18079300841614458",
+      "publishedAt": "2026-02-25T17:40:22.917Z",
+      "textLength": 143,
       "mediaType": "TEXT",
       "hasMedia": false
     }
