@@ -14,7 +14,8 @@ const CTA_LINK_URL = process.env.CTA_LINK_URL || 'https://wpauto.kr/';
 const CTA_LINK_TEXT = process.env.CTA_LINK_TEXT || '';
 const CTA_MID_TEXT = process.env.CTA_MID_TEXT || '';
 
-// Claude API 재시도 (overloaded_error 대응)
+// Claude API 재시도 (overloaded_error → Haiku 폴백)
+const FALLBACK_MODEL = "claude-haiku-4-5-20251001";
 async function callClaudeWithRetry(client, params, maxRetries = 3) {
   for (let i = 0; i < maxRetries; i++) {
     try {
@@ -25,6 +26,9 @@ async function callClaudeWithRetry(client, params, maxRetries = 3) {
         const wait = (i + 1) * 30;
         console.log(`⏳ API 과부하, ${wait}초 후 재시도 (${i + 1}/${maxRetries})...`);
         await new Promise(r => setTimeout(r, wait * 1000));
+      } else if (isOverloaded) {
+        console.log(`⚠️ Sonnet 계속 과부하, Haiku로 폴백...`);
+        return await client.messages.create({ ...params, model: FALLBACK_MODEL });
       } else {
         throw err;
       }
