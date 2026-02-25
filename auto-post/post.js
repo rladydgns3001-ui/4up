@@ -457,7 +457,7 @@ async function uploadImageToWordPress(imageUrl, filename) {
   const imageBuffer = await imageResponse.arrayBuffer();
 
   // 워드프레스에 업로드
-  const response = await fetch(`${WP_URL}/wp-json/wp/v2/media`, {
+  const response = await fetch(`${WP_URL.replace(/\/+$/, '')}/wp-json/wp/v2/media`, {
     method: "POST",
     headers: {
       Authorization: `Basic ${auth}`,
@@ -928,13 +928,16 @@ async function postToWordPress(title, content, metaDescription, featuredImageId)
     postData.featured_media = featuredImageId;
   }
 
-  const response = await fetch(`${WP_URL}/wp-json/wp/v2/posts`, {
+  const url = `${WP_URL.replace(/\/+$/, '')}/wp-json/wp/v2/posts`;
+  const body = JSON.stringify(postData);
+  const response = await fetch(url, {
     method: "POST",
     headers: {
-      Authorization: `Basic ${auth}`,
-      "Content-Type": "application/json",
+      "Authorization": `Basic ${auth}`,
+      "Content-Type": "application/json; charset=utf-8",
+      "Accept": "application/json",
     },
-    body: JSON.stringify(postData),
+    body: body,
   });
 
   if (!response.ok) {
