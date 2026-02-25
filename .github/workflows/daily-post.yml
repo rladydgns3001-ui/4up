@@ -1,16 +1,15 @@
-name: Daily SEO Auto Post
+name: Daily Blog Post
 
 on:
   schedule:
-    - cron: '0 1 * * *'   # 매일 오전 10시 (KST)
-    - cron: '0 5 * * *'   # 매일 오후 2시 (KST)
-  workflow_dispatch:
+    - cron: '0 5 * * *'   # 매일 14:00 KST (05:00 UTC)
+  workflow_dispatch:        # 수동 실행 가능
 
 permissions:
   contents: write
 
 jobs:
-  post:
+  post-blog:
     runs-on: ubuntu-latest
 
     steps:
@@ -26,9 +25,9 @@ jobs:
 
       - name: Install dependencies
         working-directory: ./auto-post
-        run: npm install @anthropic-ai/sdk
+        run: npm install
 
-      - name: Run SEO auto post script
+      - name: Run blog post script
         working-directory: ./auto-post
         env:
           CLAUDE_API_KEY: ${{ secrets.CLAUDE_API_KEY }}
