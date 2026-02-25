@@ -7,12 +7,12 @@
       "topicTag": "프롬프트짜고복붙하고수정하고이게자동화야",
       "textLength": 169,
       "publishedAt": "2026-02-10T06:46:06.974Z",
-      "views": 1774,
+      "views": 1775,
       "likes": 13,
       "replies": 23,
       "reposts": 1,
       "quotes": 0,
-      "collectedAt": "2026-02-24T17:38:05.497Z"
+      "collectedAt": "2026-02-25T08:06:48.882Z"
     },
     {
       "postId": "17846373990684541",
@@ -26,7 +26,7 @@
       "replies": 1,
       "reposts": 1,
       "quotes": 0,
-      "collectedAt": "2026-02-24T17:38:05.658Z"
+      "collectedAt": "2026-02-25T08:06:49.052Z"
     },
     {
       "postId": "17959717622908050",
@@ -40,7 +40,7 @@
       "replies": 1,
       "reposts": 0,
       "quotes": 0,
-      "collectedAt": "2026-02-24T17:38:05.786Z"
+      "collectedAt": "2026-02-25T08:06:49.188Z"
     },
     {
       "postId": "18120249607582376",
@@ -54,7 +54,7 @@
       "replies": 27,
       "reposts": 0,
       "quotes": 0,
-      "collectedAt": "2026-02-24T17:38:06.038Z"
+      "collectedAt": "2026-02-25T08:06:49.329Z"
     },
     {
       "postId": "18173080378381771",
@@ -63,12 +63,12 @@
       "topicTag": "블로그수익현실",
       "textLength": 206,
       "publishedAt": "2026-02-13T00:01:14.468Z",
-      "views": 300,
+      "views": 301,
       "likes": 1,
       "replies": 0,
       "reposts": 0,
       "quotes": 0,
-      "collectedAt": "2026-02-24T17:38:06.240Z"
+      "collectedAt": "2026-02-25T08:06:49.517Z"
     },
     {
       "postId": "18088954066886497",
@@ -82,7 +82,7 @@
       "replies": 0,
       "reposts": 0,
       "quotes": 0,
-      "collectedAt": "2026-02-24T17:38:06.423Z"
+      "collectedAt": "2026-02-25T08:06:49.654Z"
     },
     {
       "postId": "18094031618295193",
@@ -96,7 +96,7 @@
       "replies": 0,
       "reposts": 0,
       "quotes": 0,
-      "collectedAt": "2026-02-24T17:38:06.647Z"
+      "collectedAt": "2026-02-25T08:06:49.801Z"
     },
     {
       "postId": "17922899340251438",
@@ -110,7 +110,7 @@
       "replies": 0,
       "reposts": 0,
       "quotes": 0,
-      "collectedAt": "2026-02-24T17:38:06.908Z"
+      "collectedAt": "2026-02-25T08:06:49.950Z"
     },
     {
       "postId": "17873975523535412",
@@ -119,12 +119,12 @@
       "topicTag": "애드센스전면광고",
       "textLength": 150,
       "publishedAt": "2026-02-24T08:05:20.959Z",
-      "views": 54,
+      "views": 63,
       "likes": 1,
       "replies": 0,
       "reposts": 0,
       "quotes": 0,
-      "collectedAt": "2026-02-24T17:38:07.117Z"
+      "collectedAt": "2026-02-25T08:06:50.162Z"
     },
     {
       "postId": "18123882988568479",
@@ -133,13 +133,27 @@
       "topicTag": "5년_애드센스_자동화",
       "textLength": 148,
       "publishedAt": "2026-02-24T15:11:44.946Z",
-      "views": 16,
+      "views": 30,
       "likes": 0,
       "replies": 0,
       "reposts": 0,
       "quotes": 0,
-      "collectedAt": "2026-02-24T17:38:07.322Z"
+      "collectedAt": "2026-02-25T08:06:50.357Z"
+    },
+    {
+      "postId": "18088522208146834",
+      "categoryType": "empathy",
+      "topic": "아직도 프롬프트 짜고 복붙하고 수정한다고?",
+      "topicTag": "AI자동화",
+      "textLength": 110,
+      "publishedAt": "2026-02-24T17:38:24.607Z",
+      "views": 182,
+      "likes": 1,
+      "replies": 9,
+      "reposts": 0,
+      "quotes": 0,
+      "collectedAt": "2026-02-25T08:06:50.524Z"
     }
   ],
-  "lastCollectedAt": "2026-02-24T17:38:07.322Z"
+  "lastCollectedAt": "2026-02-25T08:06:50.524Z"
 }

@@ -116,7 +116,7 @@
     "blog_tips",
     "product_promo"
   ],
-  "cyclePosition": 4,
+  "cyclePosition": 5,
   "postHistory": [
     {
       "categoryType": "empathy",
@@ -227,6 +227,16 @@
       "postId": "18088522208146834",
       "publishedAt": "2026-02-24T17:38:24.607Z",
       "textLength": 110,
+      "mediaType": "TEXT",
+      "hasMedia": false
+    },
+    {
+      "categoryType": "user_reviews",
+      "topic": "블로그 시작 2주만에 애드센스 승인받은 과정",
+      "topicTag": "블로그_애드센스_승인_후기",
+      "postId": "18102131344908564",
+      "publishedAt": "2026-02-25T08:07:02.690Z",
+      "textLength": 147,
       "mediaType": "TEXT",
       "hasMedia": false
     }
