@@ -14,6 +14,24 @@ const CTA_LINK_URL = process.env.CTA_LINK_URL || 'https://wpauto.kr/';
 const CTA_LINK_TEXT = process.env.CTA_LINK_TEXT || '';
 const CTA_MID_TEXT = process.env.CTA_MID_TEXT || '';
 
+// Claude API 재시도 (overloaded_error 대응)
+async function callClaudeWithRetry(client, params, maxRetries = 3) {
+  for (let i = 0; i < maxRetries; i++) {
+    try {
+      return await client.messages.create(params);
+    } catch (err) {
+      const isOverloaded = err?.error?.error?.type === 'overloaded_error' || err?.status === 529;
+      if (isOverloaded && i < maxRetries - 1) {
+        const wait = (i + 1) * 30;
+        console.log(`⏳ API 과부하, ${wait}초 후 재시도 (${i + 1}/${maxRetries})...`);
+        await new Promise(r => setTimeout(r, wait * 1000));
+      } else {
+        throw err;
+      }
+    }
+  }
+}
+
 // Threads 연동 (선택)
 const THREADS_ENABLED = process.argv.includes("--threads");
 let THREADS_USER_ID, THREADS_ACCESS_TOKEN;
@@ -627,7 +645,7 @@ JSON 형식으로만 응답 (글 작성 거부 금지!):
 
   console.log("🤖 Claude로 글 생성 중...");
 
-  const response = await client.messages.create({
+  const response = await callClaudeWithRetry(client, {
     model: "claude-sonnet-4-20250514",
     max_tokens: 6000,
     messages: [{ role: "user", content: systemPrompt + "\n\n" + userPrompt }],
@@ -951,7 +969,7 @@ JSON으로만 응답:
   "topicTag": "토픽태그 (# 없이 한단어)"
 }`;
 
-  const response = await client.messages.create({
+  const response = await callClaudeWithRetry(client, {
     model: "claude-sonnet-4-20250514",
     max_tokens: 800,
     messages: [{ role: "user", content: prompt }],
