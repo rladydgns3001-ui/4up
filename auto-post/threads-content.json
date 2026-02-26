@@ -116,7 +116,7 @@
     "blog_tips",
     "product_promo"
   ],
-  "cyclePosition": 7,
+  "cyclePosition": 8,
   "postHistory": [
     {
       "categoryType": "empathy",
@@ -257,6 +257,16 @@
       "postId": "18042040805717450",
       "publishedAt": "2026-02-26T08:04:00.799Z",
       "textLength": 139,
+      "mediaType": "TEXT",
+      "hasMedia": false
+    },
+    {
+      "categoryType": "blog_tips",
+      "topic": "키워드 선정 이거 모르면 글 100개 써도 소용없다",
+      "topicTag": "키워드선정꿀팁",
+      "postId": "18117516448543394",
+      "publishedAt": "2026-02-26T14:40:23.995Z",
+      "textLength": 173,
       "mediaType": "TEXT",
       "hasMedia": false
     }

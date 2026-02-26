@@ -7,12 +7,12 @@
       "topicTag": "프롬프트짜고복붙하고수정하고이게자동화야",
       "textLength": 169,
       "publishedAt": "2026-02-10T06:46:06.974Z",
-      "views": 1775,
+      "views": 1776,
       "likes": 13,
       "replies": 23,
       "reposts": 1,
       "quotes": 0,
-      "collectedAt": "2026-02-26T08:03:44.134Z"
+      "collectedAt": "2026-02-26T14:40:03.320Z"
     },
     {
       "postId": "17846373990684541",
@@ -26,7 +26,7 @@
       "replies": 1,
       "reposts": 1,
       "quotes": 0,
-      "collectedAt": "2026-02-26T08:03:44.436Z"
+      "collectedAt": "2026-02-26T14:40:03.577Z"
     },
     {
       "postId": "17959717622908050",
@@ -40,7 +40,7 @@
       "replies": 1,
       "reposts": 0,
       "quotes": 0,
-      "collectedAt": "2026-02-26T08:03:45.325Z"
+      "collectedAt": "2026-02-26T14:40:04.506Z"
     },
     {
       "postId": "18120249607582376",
@@ -54,7 +54,7 @@
       "replies": 27,
       "reposts": 0,
       "quotes": 0,
-      "collectedAt": "2026-02-26T08:03:45.622Z"
+      "collectedAt": "2026-02-26T14:40:04.748Z"
     },
     {
       "postId": "18173080378381771",
@@ -68,7 +68,7 @@
       "replies": 0,
       "reposts": 0,
       "quotes": 0,
-      "collectedAt": "2026-02-26T08:03:45.799Z"
+      "collectedAt": "2026-02-26T14:40:05.056Z"
     },
     {
       "postId": "18088954066886497",
@@ -82,7 +82,7 @@
       "replies": 0,
       "reposts": 0,
       "quotes": 0,
-      "collectedAt": "2026-02-26T08:03:45.990Z"
+      "collectedAt": "2026-02-26T14:40:05.344Z"
     },
     {
       "postId": "18094031618295193",
@@ -96,7 +96,7 @@
       "replies": 0,
       "reposts": 0,
       "quotes": 0,
-      "collectedAt": "2026-02-26T08:03:46.230Z"
+      "collectedAt": "2026-02-26T14:40:05.708Z"
     },
     {
       "postId": "17922899340251438",
@@ -105,12 +105,12 @@
       "topicTag": "AI블로그자동화",
       "textLength": 161,
       "publishedAt": "2026-02-19T15:38:41.809Z",
-      "views": 162,
+      "views": 163,
       "likes": 2,
       "replies": 0,
       "reposts": 0,
       "quotes": 0,
-      "collectedAt": "2026-02-26T08:03:46.462Z"
+      "collectedAt": "2026-02-26T14:40:06.041Z"
     },
     {
       "postId": "17873975523535412",
@@ -119,12 +119,12 @@
       "topicTag": "애드센스전면광고",
       "textLength": 150,
       "publishedAt": "2026-02-24T08:05:20.959Z",
-      "views": 65,
+      "views": 66,
       "likes": 2,
       "replies": 0,
       "reposts": 0,
       "quotes": 0,
-      "collectedAt": "2026-02-26T08:03:46.806Z"
+      "collectedAt": "2026-02-26T14:40:06.419Z"
     },
     {
       "postId": "18123882988568479",
@@ -133,12 +133,12 @@
       "topicTag": "5년_애드센스_자동화",
       "textLength": 148,
       "publishedAt": "2026-02-24T15:11:44.946Z",
-      "views": 37,
+      "views": 38,
       "likes": 1,
       "replies": 1,
       "reposts": 0,
       "quotes": 0,
-      "collectedAt": "2026-02-26T08:03:46.984Z"
+      "collectedAt": "2026-02-26T14:40:06.742Z"
     },
     {
       "postId": "18088522208146834",
@@ -147,12 +147,12 @@
       "topicTag": "AI자동화",
       "textLength": 110,
       "publishedAt": "2026-02-24T17:38:24.607Z",
-      "views": 203,
+      "views": 205,
       "likes": 1,
       "replies": 9,
       "reposts": 0,
       "quotes": 0,
-      "collectedAt": "2026-02-26T08:03:47.173Z"
+      "collectedAt": "2026-02-26T14:40:06.966Z"
     },
     {
       "postId": "18079300841614458",
@@ -161,13 +161,27 @@
       "topicTag": "애드센스_전면광고_위치",
       "textLength": 143,
       "publishedAt": "2026-02-25T17:40:22.917Z",
-      "views": 79,
+      "views": 84,
       "likes": 0,
       "replies": 0,
       "reposts": 0,
       "quotes": 0,
-      "collectedAt": "2026-02-26T08:03:47.505Z"
+      "collectedAt": "2026-02-26T14:40:07.343Z"
+    },
+    {
+      "postId": "18042040805717450",
+      "categoryType": "empathy",
+      "topic": "블로그 글 하나 쓰는데 1시간 걸리는 사람 99%가 모르는 것",
+      "topicTag": "블로그작성법",
+      "textLength": 139,
+      "publishedAt": "2026-02-26T08:04:00.799Z",
+      "views": 171,
+      "likes": 2,
+      "replies": 2,
+      "reposts": 0,
+      "quotes": 0,
+      "collectedAt": "2026-02-26T14:40:07.613Z"
     }
   ],
-  "lastCollectedAt": "2026-02-26T08:03:47.505Z"
+  "lastCollectedAt": "2026-02-26T14:40:07.613Z"
 }
