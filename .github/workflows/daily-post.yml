@@ -2,13 +2,14 @@ name: Daily Blog Post
 
 on:
   schedule:
+    - cron: '0 1 * * *'   # 매일 10:00 KST (01:00 UTC)
     - cron: '0 5 * * *'   # 매일 14:00 KST (05:00 UTC)
   workflow_dispatch:
     inputs:
       adsense:
         description: '애드센스 승인글 모드 (p/h2/h3/img만 허용)'
         type: boolean
-        default: false
+        default: true
 
 permissions:
   contents: write
@@ -42,12 +43,13 @@ jobs:
           WP_URL: ${{ secrets.WP_URL }}
           WP_USER: ${{ secrets.WP_USER }}
           WP_APP_PASSWORD: ${{ secrets.WP_APP_PASSWORD }}
-        run: node post.js ${{ github.event.inputs.adsense == 'true' && '--adsense' || '' }}
+        run: node post.js ${{ github.event.inputs.adsense == 'false' && '' || '--adsense' }}
 
       - name: Commit updated keywords index
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
+          git pull --rebase origin main
           git add auto-post/keywords.json
           git diff --staged --quiet || git commit -m "Update keyword index [skip ci]"
           git push
