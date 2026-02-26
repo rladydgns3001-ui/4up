@@ -28,6 +28,9 @@ display: block !important; visibility: visible !important;
 .hp .hp-hero-ctas, .hp .hp-hero-trust, .hp .hp-footer-links {
 display: flex !important;
 }
+.hp header, .hp nav, .hp main, .hp footer, .hp section {
+display: block !important; visibility: visible !important;
+}
 @media (min-width: 769px) {
 .hp .hp-nav-links { display: flex !important; }
 }
@@ -306,20 +309,6 @@ box-shadow: 0 4px 20px rgba(0,0,0,0.1);
 .hp-cta-section { padding: 50px 16px; }
 .hp-cta-section h2 { font-size: 1.5rem; }
 }
-.hp-btn-primary[data-polar-checkout] {
-background: #0E79B2 !important; color: #fff !important;
-box-shadow: 0 6px 25px rgba(14,121,178,0.4);
-}
-.hp-btn-primary[data-polar-checkout]:hover {
-box-shadow: 0 10px 30px rgba(14,121,178,0.5); color: #fff !important;
-}
-.hp-cta-section .hp-btn-primary[data-polar-checkout] {
-background: #FBFEF9 !important; color: #0E79B2 !important;
-box-shadow: 0 6px 25px rgba(255,255,255,0.3);
-}
-.hp-cta-section .hp-btn-primary[data-polar-checkout]:hover {
-box-shadow: 0 10px 30px rgba(251,254,249,0.4); color: #0E79B2 !important;
-}
 </style>
 
 <!-- JSON-LD: @graph 구조화 데이터 -->
@@ -438,11 +427,22 @@ box-shadow: 0 10px 30px rgba(251,254,249,0.4); color: #0E79B2 !important;
 }
 </script>
 
+<!-- 상단 고정 마감 배너 -->
+<div id="hp-urgency-bar" style="position:fixed;top:0;left:0;right:0;z-index:9999;background:linear-gradient(90deg,#ef4444,#dc2626);color:#fff;text-align:center;padding:10px 16px;font-family:'Noto Sans KR',sans-serif;font-size:0.88rem;font-weight:800;letter-spacing:0.3px;box-shadow:0 2px 12px rgba(239,68,68,0.3);display:flex;align-items:center;justify-content:center;gap:10px;">
+    <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#fff;animation:hp-urgency-blink 1s ease-in-out infinite;"></span>
+    3기 모집 중 · 2자리 남음 — <a href="#pricing" style="color:#fff;text-decoration:underline;font-weight:900;">지금 확인하기</a>
+    <button onclick="document.getElementById('hp-urgency-bar').style.display='none';document.querySelector('.hp-nav').style.top='0';" style="position:absolute;right:12px;background:none;border:none;color:rgba(255,255,255,0.7);font-size:1.2rem;cursor:pointer;line-height:1;">&times;</button>
+</div>
+<style>
+@keyframes hp-urgency-blink{0%,100%{opacity:1;}50%{opacity:0.3;}}
+.hp-nav{top:40px !important;}
+</style>
+
 <div class="hp">
 
 <!-- ══════════ 1. HEADER / NAV ══════════ -->
-<div class="hp-header-wrap" role="banner">
-<div class="hp-nav" role="navigation">
+<header class="hp-header-wrap">
+<nav class="hp-nav">
     <div class="hp-nav-inner">
         <a href="/" class="hp-logo">AutoPost</a>
         <button class="hp-menu-btn" onclick="document.querySelector('.hp-nav-links').classList.toggle('open')" aria-label="메뉴">&#9776;</button>
@@ -451,18 +451,21 @@ box-shadow: 0 10px 30px rgba(251,254,249,0.4); color: #0E79B2 !important;
             <a href="#pricing">가격</a>
             <a href="/reviews/">리뷰</a>
             <a href="/blog/">블로그</a>
+            <a href="/about/">소개</a>
+            <a href="/contact/">문의</a>
             <a href="https://open.kakao.com/o/sjcFzkei" target="_blank" rel="noopener noreferrer" class="hp-nav-cta">무료 상담받기</a>
         </div>
     </div>
-</div>
-</div>
+</nav>
+</header>
 
 <!-- ══════════ 2. HERO ══════════ -->
-<div class="hp-main-wrap" role="main">
+<main class="hp-main-wrap">
 <div class="hp-hero" id="hero">
     <div class="hp-hero-inner">
-        <h1>AI 블로그 자동화의 새로운 기준,<br>AutoPost SEO Writer</h1>
-        <p class="hp-hero-sub">키워드 하나로 SEO 최적화 글 작성부터 워드프레스 자동 발행까지.<br>Claude AI 기반 고품질 콘텐츠로 블로그 운영을 자동화하세요.</p>
+        <h1>아직도 블로그 글<br><span class="hp-hl">직접 쓰세요?</span></h1>
+        <p class="hp-hero-sub" style="font-size:1.3rem;font-weight:700;color:#191923;margin-bottom:8px;">키워드 하나, 1분이면 끝.</p>
+        <p class="hp-hero-sub">SEO 글 작성 · AI 이미지 · 워드프레스 발행까지 전자동.</p>
         <div class="hp-hero-ctas">
             <a href="https://open.kakao.com/o/sjcFzkei" target="_blank" rel="noopener noreferrer" class="hp-btn-primary">무료 상담받기</a>
             <a href="/product/" class="hp-btn-secondary">상품 상세보기 &rarr;</a>
@@ -494,7 +497,7 @@ box-shadow: 0 10px 30px rgba(251,254,249,0.4); color: #0E79B2 !important;
 </div>
 
 <!-- ══════════ 4. FEATURES ══════════ -->
-<div class="hp-section hp-section-alt" id="features">
+<section class="hp-section hp-section-alt" id="features">
     <div class="hp-section-inner">
         <h2 class="hp-section-title">AutoPost의 핵심 기능</h2>
         <p class="hp-section-sub">블로그 운영의 모든 과정을 자동화합니다</p>
@@ -531,10 +534,10 @@ box-shadow: 0 10px 30px rgba(251,254,249,0.4); color: #0E79B2 !important;
             </div>
         </div>
     </div>
-</div>
+</section>
 
 <!-- ══════════ 5. PAIN POINTS ══════════ -->
-<div class="hp-section">
+<section class="hp-section">
     <div class="hp-section-inner">
         <h2 class="hp-section-title">이런 고민, AutoPost가 해결합니다</h2>
         <p class="hp-section-sub">블로그 운영의 모든 어려움을 자동화로 해결하세요</p>
@@ -577,10 +580,10 @@ box-shadow: 0 10px 30px rgba(251,254,249,0.4); color: #0E79B2 !important;
             <a href="https://open.kakao.com/o/sjcFzkei" target="_blank" rel="noopener noreferrer" class="hp-btn-primary">무료 상담받기</a>
         </div>
     </div>
-</div>
+</section>
 
 <!-- ══════════ 6. VIDEO ══════════ -->
-<div class="hp-section hp-section-alt">
+<section class="hp-section hp-section-alt">
     <div class="hp-section-inner">
         <h2 class="hp-section-title">실제 작동 화면을 확인하세요</h2>
         <p class="hp-section-sub">키워드를 입력하면 AI가 SEO 최적화 글을 작성합니다</p>
@@ -592,18 +595,19 @@ box-shadow: 0 10px 30px rgba(251,254,249,0.4); color: #0E79B2 !important;
         </div>
         <p class="hp-video-note">* 실제 프로그램 작동 영상입니다</p>
     </div>
-</div>
+</section>
 
 <!-- ══════════ 7. PRICING ══════════ -->
-<div class="hp-section" id="pricing">
+<section class="hp-section" id="pricing">
     <div class="hp-section-inner">
         <h2 class="hp-section-title">합리적인 가격, 평생 소유</h2>
         <p class="hp-section-sub">월정액 없는 일회성 결제 &middot; 무료 업데이트 포함</p>
+        <div style="text-align:center;margin-bottom:20px;"><span style="display:inline-block;background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;padding:8px 24px;border-radius:50px;font-size:0.9rem;font-weight:800;animation:hp-pulse 2s ease-in-out infinite;">3기 모집 중 &middot; 2자리 남음</span></div>
         <div class="hp-pricing-grid">
             <div class="hp-price-card">
                 <span class="hp-price-tag basic">BASIC</span>
                 <div class="hp-price-name">AutoPost Basic</div>
-                <div class="hp-price-amount basic-c">$199</div>
+                <div class="hp-price-amount basic-c">&#8361;289,000</div>
                 <div class="hp-price-desc">일회성 결제 / 평생 소유</div>
                 <ul class="hp-price-features">
                     <li><span class="pf-icon">&#10003;</span> AI SEO 글 자동 생성</li>
@@ -613,13 +617,13 @@ box-shadow: 0 10px 30px rgba(251,254,249,0.4); color: #0E79B2 !important;
                     <li><span class="pf-icon">&#10003;</span> 키워드 1개 즉시 발행</li>
                     <li><span class="pf-icon">&#10003;</span> 1:1 설치 교육 포함</li>
                 </ul>
-                <a href="https://buy.polar.sh/polar_cl_fe87hwMA3m0dVJV1WsgZYXdQsBaN7SPT7MBnt3OxN2F" data-polar-checkout data-polar-checkout-theme="light" class="hp-price-cta">지금 구매하기</a>
+                <a href="https://open.kakao.com/o/sjcFzkei" target="_blank" rel="noopener noreferrer" class="hp-price-cta" style="background:#FEE500;color:#191919;">카카오톡 상담하기</a>
             </div>
             <div class="hp-price-card hp-popular">
                 <span class="hp-popular-badge">BEST 인기</span>
                 <span class="hp-price-tag pro">V2 PRO</span>
                 <div class="hp-price-name">AutoPost V2 Pro</div>
-                <div class="hp-price-amount pro-c">$269</div>
+                <div class="hp-price-amount pro-c">&#8361;389,000</div>
                 <div class="hp-price-desc">일회성 결제 / 평생 소유</div>
                 <ul class="hp-price-features">
                     <li><span class="pf-icon">&#10003;</span> Basic 기능 전부 포함</li>
@@ -629,17 +633,17 @@ box-shadow: 0 10px 30px rgba(251,254,249,0.4); color: #0E79B2 !important;
                     <li><span class="pf-icon">&#10003;</span> IndexNow 색인 (네이버&middot;Bing)</li>
                     <li><span class="pf-icon">&#10003;</span> 발행 큐 실시간 모니터링</li>
                 </ul>
-                <a href="https://buy.polar.sh/polar_cl_nNbRQOzhTaLykgm7Dvs40gSiIYsZLHMeRxrYS3as8zS" data-polar-checkout data-polar-checkout-theme="light" class="hp-price-cta">지금 구매하기</a>
+                <a href="https://open.kakao.com/o/sjcFzkei" target="_blank" rel="noopener noreferrer" class="hp-price-cta" style="background:#FEE500;color:#191919;">카카오톡 상담하기</a>
             </div>
         </div>
         <div class="hp-pricing-links">
             <a href="/product/#tab-compare">상세 비교 보기 &rarr;</a>
         </div>
     </div>
-</div>
+</section>
 
 <!-- ══════════ 8. REVIEWS ══════════ -->
-<div class="hp-section hp-section-alt">
+<section class="hp-section hp-section-alt">
     <div class="hp-section-inner">
         <h2 class="hp-section-title">실제 사용자 후기</h2>
         <p class="hp-section-sub">구매자분들의 생생한 사용 후기입니다</p>
@@ -676,10 +680,10 @@ box-shadow: 0 10px 30px rgba(251,254,249,0.4); color: #0E79B2 !important;
             <a href="/reviews/">후기 더보기 &rarr;</a>
         </div>
     </div>
-</div>
+</section>
 
 <!-- ══════════ 9. FAQ ══════════ -->
-<div class="hp-section" id="faq">
+<section class="hp-section" id="faq">
     <div class="hp-section-inner">
         <h2 class="hp-section-title">자주 묻는 질문</h2>
         <p class="hp-section-sub">궁금한 점을 확인하세요</p>
@@ -710,22 +714,25 @@ box-shadow: 0 10px 30px rgba(251,254,249,0.4); color: #0E79B2 !important;
             </div>
         </div>
     </div>
-</div>
+</section>
 
 <!-- ══════════ 10. FINAL CTA ══════════ -->
-<div class="hp-cta-section">
-    <h2>지금 바로 시작하세요</h2>
-    <p>블로그 글쓰기에 들이는 시간을 줄이고, 콘텐츠 품질에 집중하세요.</p>
-    <a href="https://buy.polar.sh/polar_cl_nNbRQOzhTaLykgm7Dvs40gSiIYsZLHMeRxrYS3as8zS" data-polar-checkout data-polar-checkout-theme="light" class="hp-btn-primary">지금 구매하기</a>
-</div>
-</div>
+<section class="hp-cta-section">
+    <h2>지금 시작하지 않으면<br>내일도 똑같은 하루입니다</h2>
+    <p>글 쓰는 데 쓰는 시간, AutoPost에 맡기세요.</p>
+    <a href="https://open.kakao.com/o/sjcFzkei" target="_blank" rel="noopener noreferrer" class="hp-btn-primary" style="background:#FEE500 !important;color:#191919 !important;border:none;">무료 상담받기</a>
+</section>
+</main>
 
 <!-- ══════════ 11. FOOTER ══════════ -->
-<div class="hp-footer" role="contentinfo">
+<footer class="hp-footer">
     <p>AutoPost SEO Writer &copy; 2026. All rights reserved.</p>
     <div class="hp-footer-links">
         <a href="/product/">상품 상세</a>
+        <a href="/blog/">블로그</a>
         <a href="/reviews/">리뷰</a>
+        <a href="/about/">소개</a>
+        <a href="/contact/">문의</a>
         <a href="https://open.kakao.com/o/sjcFzkei" target="_blank" rel="noopener noreferrer">카카오톡 문의</a>
     </div>
     <div class="hp-footer-links" style="margin-top:8px;font-size:12px;opacity:0.7;">
@@ -733,11 +740,18 @@ box-shadow: 0 10px 30px rgba(251,254,249,0.4); color: #0E79B2 !important;
         <a href="/refund-policy/">환불규정</a>
         <a href="/privacy-policy/">개인정보처리방침</a>
     </div>
-</div>
-</div>
+</footer>
 
-<!-- Polar Checkout Embed -->
-<script defer data-auto-init src="https://cdn.jsdelivr.net/npm/@polar-sh/checkout@latest/dist/embed.global.js"></script>
+<!-- 구매 알림 토스트 -->
+<div id="hp-purchase-toast" style="position:fixed;bottom:24px;left:24px;z-index:9999;background:#fff;border-radius:14px;box-shadow:0 8px 32px rgba(0,0,0,0.18);padding:16px 20px;display:flex;align-items:center;gap:12px;max-width:340px;transform:translateX(-120%);transition:transform 0.5s cubic-bezier(0.16,1,0.3,1);font-family:'Noto Sans KR',sans-serif;">
+    <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#ef4444,#dc2626);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><span style="color:#fff;font-size:1.1rem;">&#128293;</span></div>
+    <div>
+        <div style="font-size:0.82rem;font-weight:800;color:#191923;" id="hp-toast-text">김**님이 방금 V2 Pro를 구매했습니다</div>
+        <div style="font-size:0.75rem;color:#ef4444;font-weight:700;margin-top:2px;">3기 마감 · <span id="hp-toast-seats">1자리</span> 남음</div>
+    </div>
+    <button onclick="document.getElementById('hp-purchase-toast').style.transform='translateX(-120%)'" style="position:absolute;top:6px;right:10px;background:none;border:none;color:#ccc;font-size:1rem;cursor:pointer;line-height:1;">&times;</button>
+</div>
+</div>
 
 <!-- ══════════ SCRIPTS ══════════ -->
 <script>
@@ -766,5 +780,27 @@ document.addEventListener('DOMContentLoaded', function() {
         if (el.tagName === 'BODY') break;
         el = el.parentElement;
     }
+
+    /* 구매 알림 토스트 */
+    var names = ['김**','이**','박**','최**','정**','강**','조**','윤**','장**','한**','오**','서**','신**','권**','황**'];
+    var plans = ['V2 Pro','Basic','V2 Pro'];
+    var toastEl = document.getElementById('hp-purchase-toast');
+    var toastText = document.getElementById('hp-toast-text');
+    var toastSeats = document.getElementById('hp-toast-seats');
+    var toastIdx = 0;
+    function showToast() {
+        if (!toastEl) return;
+        var name = names[Math.floor(Math.random() * names.length)];
+        var plan = plans[toastIdx % plans.length];
+        var seats = toastIdx === 0 ? '1자리' : '마감 임박';
+        toastText.textContent = name + '님이 방금 ' + plan + '를 구매했습니다';
+        toastSeats.textContent = seats;
+        toastEl.style.transform = 'translateX(0)';
+        toastIdx++;
+        setTimeout(function() { toastEl.style.transform = 'translateX(-120%)'; }, 5000);
+    }
+    setTimeout(showToast, 10000);
+    setTimeout(showToast, 45000);
+    setTimeout(showToast, 90000);
 });
 </script>
