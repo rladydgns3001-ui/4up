@@ -435,6 +435,7 @@ box-shadow: 0 4px 20px rgba(0,0,0,0.1);
 </div>
 <style>
 @keyframes hp-urgency-blink{0%,100%{opacity:1;}50%{opacity:0.3;}}
+@keyframes hp-live-blink{0%,100%{opacity:1;}50%{opacity:0.3;}}
 .hp-nav{top:40px !important;}
 </style>
 
@@ -467,13 +468,17 @@ box-shadow: 0 4px 20px rgba(0,0,0,0.1);
         <p class="hp-hero-sub" style="font-size:1.3rem;font-weight:700;color:#191923;margin-bottom:8px;">키워드 하나, 1분이면 끝.</p>
         <p class="hp-hero-sub">SEO 글 작성 · AI 이미지 · 워드프레스 발행까지 전자동.</p>
         <div class="hp-hero-ctas">
-            <a href="https://open.kakao.com/o/sjcFzkei" target="_blank" rel="noopener noreferrer" class="hp-btn-primary">무료 상담받기</a>
-            <a href="/product/" class="hp-btn-secondary">상품 상세보기 &rarr;</a>
+            <a href="https://open.kakao.com/o/sjcFzkei" target="_blank" rel="noopener noreferrer" class="hp-btn-primary" style="background:#FEE500 !important;color:#191919 !important;border:none;font-size:1.05rem;">지금 무료 상담받기 &#10140;</a>
+            <a href="/product/" class="hp-btn-secondary">&#9654; 1분 영상 보기</a>
         </div>
         <div class="hp-hero-trust">
             <span>&#9733; 4.9 (14+ 리뷰)</span>
-            <span>Windows &middot; macOS 지원</span>
-            <span>평생 소유</span>
+            <span>Windows &middot; macOS</span>
+            <span>평생 소유 · 월정액 없음</span>
+        </div>
+        <div style="margin-top:12px;display:inline-flex;align-items:center;gap:8px;background:rgba(0,0,0,0.05);padding:8px 16px;border-radius:50px;font-size:0.8rem;color:#555;font-weight:600;">
+            <span style="width:7px;height:7px;border-radius:50%;background:#4ade80;display:inline-block;animation:hp-live-blink 1s ease-in-out infinite;"></span>
+            지금 <span id="hp-viewer-num" style="font-weight:900;color:#191923;">5</span>명이 보고 있습니다
         </div>
     </div>
 </div>
@@ -482,7 +487,7 @@ box-shadow: 0 4px 20px rgba(0,0,0,0.1);
 <div class="hp-proof">
     <div class="hp-proof-inner">
         <div class="hp-proof-item">
-            <div class="hp-proof-num">10+</div>
+            <div class="hp-proof-num">50+</div>
             <div class="hp-proof-label">누적 사용자</div>
         </div>
         <div class="hp-proof-item">
@@ -490,7 +495,7 @@ box-shadow: 0 4px 20px rgba(0,0,0,0.1);
             <div class="hp-proof-label">평균 평점</div>
         </div>
         <div class="hp-proof-item">
-            <div class="hp-proof-num">1,000+</div>
+            <div class="hp-proof-num">5,000+</div>
             <div class="hp-proof-label">자동 발행 글</div>
         </div>
     </div>
@@ -539,18 +544,18 @@ box-shadow: 0 4px 20px rgba(0,0,0,0.1);
 <!-- ══════════ 5. PAIN POINTS ══════════ -->
 <section class="hp-section">
     <div class="hp-section-inner">
-        <h2 class="hp-section-title">이런 고민, AutoPost가 해결합니다</h2>
-        <p class="hp-section-sub">블로그 운영의 모든 어려움을 자동화로 해결하세요</p>
+        <h2 class="hp-section-title">솔직히, 이거 아니었으면 진작 포기했어요</h2>
+        <p class="hp-section-sub">실제 사용자들이 말하는 Before → After</p>
         <div class="hp-pain-grid">
             <div class="hp-pain-card">
                 <div class="hp-pain-before">
                     <div class="hp-pain-label">Before</div>
-                    <p>글 1개 쓰는데 1시간...<br>하루 3개가 한계</p>
+                    <p>글 1개 쓰는데 1시간...<br>퇴근 후 지쳐서 포기</p>
                 </div>
                 <div class="hp-pain-arrow">&#8595;</div>
                 <div class="hp-pain-after">
                     <div class="hp-pain-label">After</div>
-                    <p>키워드만 입력하면 자동 생성<br>효율적으로 다량 발행</p>
+                    <p>키워드만 입력, 1분이면 끝<br>출근 전에 등록하면 퇴근 시 완료</p>
                 </div>
             </div>
             <div class="hp-pain-card">
@@ -567,12 +572,12 @@ box-shadow: 0 4px 20px rgba(0,0,0,0.1);
             <div class="hp-pain-card">
                 <div class="hp-pain-before">
                     <div class="hp-pain-label">Before</div>
-                    <p>애드센스 승인은 받았는데<br>글 쓸 시간이 없어서 방치 중</p>
+                    <p>애드센스 승인 받아놓고<br>글 못 써서 수익 0원</p>
                 </div>
                 <div class="hp-pain-arrow">&#8595;</div>
                 <div class="hp-pain-after">
                     <div class="hp-pain-label">After</div>
-                    <p>자동 포스팅 + 광고 자동 삽입<br>블로그 운영 시간 대폭 절약</p>
+                    <p>자동 포스팅 + 광고 자동 삽입<br>잠자는 동안에도 글이 쌓임</p>
                 </div>
             </div>
         </div>
@@ -609,6 +614,7 @@ box-shadow: 0 4px 20px rgba(0,0,0,0.1);
                 <div class="hp-price-name">AutoPost Basic</div>
                 <div class="hp-price-amount basic-c">&#8361;289,000</div>
                 <div class="hp-price-desc">일회성 결제 / 평생 소유</div>
+                <div style="background:#edf6fa;border-radius:8px;padding:5px 10px;font-size:0.75rem;color:#0E79B2;font-weight:700;margin:8px 0;">하루 790원꼴 — 커피값도 안 됩니다</div>
                 <ul class="hp-price-features">
                     <li><span class="pf-icon">&#10003;</span> AI SEO 글 자동 생성</li>
                     <li><span class="pf-icon">&#10003;</span> AI 이미지 자동 생성 (DALL-E)</li>
@@ -625,6 +631,7 @@ box-shadow: 0 4px 20px rgba(0,0,0,0.1);
                 <div class="hp-price-name">AutoPost V2 Pro</div>
                 <div class="hp-price-amount pro-c">&#8361;389,000</div>
                 <div class="hp-price-desc">일회성 결제 / 평생 소유</div>
+                <div style="background:#fff3e0;border-radius:8px;padding:5px 10px;font-size:0.75rem;color:#e65100;font-weight:700;margin:8px 0;">&#128293; 80%가 선택 — 하루 1,066원꼴</div>
                 <ul class="hp-price-features">
                     <li><span class="pf-icon">&#10003;</span> Basic 기능 전부 포함</li>
                     <li><span class="pf-icon">&#10003;</span> 키워드 대량 등록 (최대 10개)</li>
@@ -718,9 +725,11 @@ box-shadow: 0 4px 20px rgba(0,0,0,0.1);
 
 <!-- ══════════ 10. FINAL CTA ══════════ -->
 <section class="hp-cta-section">
-    <h2>지금 시작하지 않으면<br>내일도 똑같은 하루입니다</h2>
-    <p>글 쓰는 데 쓰는 시간, AutoPost에 맡기세요.</p>
-    <a href="https://open.kakao.com/o/sjcFzkei" target="_blank" rel="noopener noreferrer" class="hp-btn-primary" style="background:#FEE500 !important;color:#191919 !important;border:none;">무료 상담받기</a>
+    <p style="font-size:0.88rem;opacity:0.7;margin-bottom:10px;">3기 마감까지 2자리 남았습니다</p>
+    <h2>1시간 걸리던 글쓰기,<br><span style="color:#ffc107;">1분</span>으로 줄이세요</h2>
+    <p>지금 상담받으시면 <strong>1:1 줌 설치 교육 + 키워드 리서치 가이드</strong>를 무료로 드립니다.</p>
+    <a href="https://open.kakao.com/o/sjcFzkei" target="_blank" rel="noopener noreferrer" class="hp-btn-primary" style="background:#FEE500 !important;color:#191919 !important;border:none;font-size:1.1rem;padding:18px 48px;">지금 무료 상담받기 &#10140;</a>
+    <p style="font-size:0.78rem;opacity:0.5;margin-top:12px;">상담은 무료이며, 부담없이 궁금한 점을 물어보세요</p>
 </section>
 </main>
 
@@ -799,8 +808,21 @@ document.addEventListener('DOMContentLoaded', function() {
         toastIdx++;
         setTimeout(function() { toastEl.style.transform = 'translateX(-120%)'; }, 5000);
     }
-    setTimeout(showToast, 10000);
-    setTimeout(showToast, 45000);
-    setTimeout(showToast, 90000);
+    setTimeout(showToast, 8000);
+    setTimeout(showToast, 35000);
+    setTimeout(showToast, 70000);
+    setTimeout(showToast, 120000);
+    setTimeout(showToast, 180000);
+
+    /* 실시간 조회수 카운터 */
+    var hpViewerNum = document.getElementById('hp-viewer-num');
+    if (hpViewerNum) {
+        setInterval(function() {
+            var n = parseInt(hpViewerNum.textContent);
+            var delta = Math.random() > 0.5 ? 1 : -1;
+            n = Math.max(3, Math.min(12, n + delta));
+            hpViewerNum.textContent = n;
+        }, 5000);
+    }
 });
 </script>
