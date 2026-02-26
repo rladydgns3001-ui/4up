@@ -116,7 +116,7 @@
     "blog_tips",
     "product_promo"
   ],
-  "cyclePosition": 6,
+  "cyclePosition": 7,
   "postHistory": [
     {
       "categoryType": "empathy",
@@ -247,6 +247,16 @@
       "postId": "18079300841614458",
       "publishedAt": "2026-02-25T17:40:22.917Z",
       "textLength": 143,
+      "mediaType": "TEXT",
+      "hasMedia": false
+    },
+    {
+      "categoryType": "empathy",
+      "topic": "블로그 글 하나 쓰는데 1시간 걸리는 사람 99%가 모르는 것",
+      "topicTag": "블로그작성법",
+      "postId": "18042040805717450",
+      "publishedAt": "2026-02-26T08:04:00.799Z",
+      "textLength": 139,
       "mediaType": "TEXT",
       "hasMedia": false
     }
