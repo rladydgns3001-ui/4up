@@ -14,25 +14,40 @@ const CTA_LINK_URL = process.env.CTA_LINK_URL || 'https://wpauto.kr/';
 const CTA_LINK_TEXT = process.env.CTA_LINK_TEXT || '';
 const CTA_MID_TEXT = process.env.CTA_MID_TEXT || '';
 
-// Claude API 재시도 (overloaded → 15초 후 1회 재시도 → Haiku 폴백)
+// Claude API 재시도 (overloaded/rate_limit → Sonnet 2회 → Haiku 2회)
 const FALLBACK_MODEL = "claude-haiku-4-5-20251001";
+function isRetryableError(err) {
+  const errType = err?.error?.error?.type;
+  return errType === 'overloaded_error' || errType === 'rate_limit_error'
+    || err?.status === 529 || err?.status === 429;
+}
 async function callClaudeWithRetry(client, params) {
+  // 1차: Sonnet
   try {
     return await client.messages.create(params);
   } catch (err) {
-    const isOverloaded = err?.error?.error?.type === 'overloaded_error' || err?.status === 529;
-    if (!isOverloaded) throw err;
-    console.log(`⏳ API 과부하, 15초 후 재시도...`);
-    await new Promise(r => setTimeout(r, 15000));
-    try {
-      return await client.messages.create(params);
-    } catch (err2) {
-      const still = err2?.error?.error?.type === 'overloaded_error' || err2?.status === 529;
-      if (!still) throw err2;
-      console.log(`⚠️ Sonnet 계속 과부하, Haiku로 폴백...`);
-      return await client.messages.create({ ...params, model: FALLBACK_MODEL });
-    }
+    if (!isRetryableError(err)) throw err;
+    console.log(`⏳ API 과부하/rate limit, 15초 후 Sonnet 재시도...`);
   }
+  await new Promise(r => setTimeout(r, 15000));
+  // 2차: Sonnet 재시도
+  try {
+    return await client.messages.create(params);
+  } catch (err2) {
+    if (!isRetryableError(err2)) throw err2;
+    console.log(`⚠️ Sonnet 계속 실패, 15초 후 Haiku로 폴백...`);
+  }
+  await new Promise(r => setTimeout(r, 15000));
+  // 3차: Haiku 폴백
+  try {
+    return await client.messages.create({ ...params, model: FALLBACK_MODEL });
+  } catch (err3) {
+    if (!isRetryableError(err3)) throw err3;
+    console.log(`⚠️ Haiku도 과부하, 30초 후 최종 재시도...`);
+  }
+  await new Promise(r => setTimeout(r, 30000));
+  // 4차: Haiku 최종 시도
+  return await client.messages.create({ ...params, model: FALLBACK_MODEL });
 }
 
 // Threads 연동 (선택)
@@ -654,12 +669,42 @@ JSON 형식으로만 응답 (글 작성 거부 금지!):
     messages: [{ role: "user", content: systemPrompt + "\n\n" + userPrompt }],
   });
 
-  const text = response.content[0].text;
+  let text = response.content[0].text;
 
+  // 코드블록 제거 전처리 (```json ... ``` 등)
+  text = text.replace(/```(?:json)?\s*\n?/gi, '');
+
+  let article = null;
   try {
     const jsonMatch = text.match(/\{[\s\S]*\}/);
     if (jsonMatch) {
-      const article = JSON.parse(jsonMatch[0]);
+      article = JSON.parse(jsonMatch[0]);
+    }
+  } catch (parseErr) {
+    console.log(`⚠️ JSON 파싱 실패, Claude에게 재요청 중...`);
+    try {
+      const retryResponse = await callClaudeWithRetry(client, {
+        model: "claude-sonnet-4-20250514",
+        max_tokens: 6000,
+        messages: [
+          { role: "user", content: systemPrompt + "\n\n" + userPrompt },
+          { role: "assistant", content: text },
+          { role: "user", content: "위 응답을 유효한 JSON 형식으로만 다시 보내줘. ```json 같은 코드블록 없이 { } 로만 응답해." }
+        ],
+      });
+      let retryText = retryResponse.content[0].text;
+      retryText = retryText.replace(/```(?:json)?\s*\n?/gi, '');
+      const retryMatch = retryText.match(/\{[\s\S]*\}/);
+      if (retryMatch) {
+        article = JSON.parse(retryMatch[0]);
+        console.log(`✅ JSON 재파싱 성공`);
+      }
+    } catch (retryErr) {
+      console.error("JSON 재파싱도 실패:", retryErr.message);
+    }
+  }
+
+  if (article && article.content) {
       let content = article.content;
 
       console.log('🔧 후처리 시작...');
@@ -898,9 +943,6 @@ JSON 형식으로만 응답 (글 작성 거부 금지!):
       console.log('🔍 h2 id 존재: ' + (article.content.indexOf('id="sec') !== -1 ? 'YES' : 'NO'));
 
       return article;
-    }
-  } catch (e) {
-    console.error("JSON 파싱 실패:", e);
   }
 
   return null;
