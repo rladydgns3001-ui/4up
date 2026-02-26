@@ -1172,7 +1172,7 @@ async function main() {
   // Step 7: 자동 색인 요청 (IndexNow)
   console.log("\n📍 Step 7: 검색엔진 자동 색인 요청");
   try {
-    const { requestGoogleIndexing, requestRankMathIndexNow } = require('../src/indexing');
+    const { requestGoogleIndexing, requestRankMathIndexNow } = require('./indexing');
     const GOOGLE_JSON_PATH = process.env.GOOGLE_INDEXING_JSON_PATH || path.join(__dirname, '..', 'docs', 'gentle-proton-487104-j1-868495522eb6.json');
 
     const [googleResult, rankMathResult] = await Promise.all([
