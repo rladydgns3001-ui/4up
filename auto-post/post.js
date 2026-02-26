@@ -50,6 +50,10 @@ async function callClaudeWithRetry(client, params) {
   return await client.messages.create({ ...params, model: FALLBACK_MODEL });
 }
 
+// 애드센스 승인글 모드 (p, h2, h3, img만 허용)
+const ADSENSE_MODE = process.argv.includes("--adsense");
+if (ADSENSE_MODE) console.log("📋 애드센스 승인글 모드 활성화 (p/h2/h3/img만 허용)");
+
 // Threads 연동 (선택)
 const THREADS_ENABLED = process.argv.includes("--threads");
 let THREADS_USER_ID, THREADS_ACCESS_TOKEN;
@@ -527,7 +531,51 @@ async function generateContent(keyword, analysis, imagesData) {
     ? analysis.recentSources.map(s => `- [${s.date || '최근'}] ${s.title}: ${s.snippet}`).join("\n")
     : "최근 정보 없음";
 
-  const systemPrompt = `당신은 10년 경력의 전문 블로그 작가이자 구글 SEO 전문가입니다.
+  const systemPrompt = ADSENSE_MODE
+? `당신은 10년 경력의 전문 블로그 작가이자 구글 SEO 전문가입니다.
+
+## 핵심 원칙: 반드시 글을 작성해야 합니다!
+- 검색 결과가 부족하더라도 반드시 글을 작성해야 합니다
+- "정보가 부족합니다" 등의 거부 메시지 절대 금지
+
+### 정보 활용 원칙
+1. 제공된 웹 검색 결과를 우선 활용
+2. 공식문서(gov.kr, or.kr 등)가 있으면 해당 정보 우선 참조
+3. 2026년 현재 기준으로 최신 정보 작성
+
+### 글쓰기 스타일
+- 자연스러운 구어체 사용 ("~해요", "~거든요", "~더라고요")
+- 개인 경험 포함 ("제가 직접 써보니", "솔직히 말하면")
+- AI가 쓴 티가 나지 않도록 자연스럽게
+
+### 허용 HTML 태그 (매우 중요! 이것만 사용!)
+- <p>텍스트</p> — 문단
+- <h2>소제목</h2> — 소제목
+- <h3>하위 소제목</h3> — 하위 소제목
+- 이 3가지 태그 외에는 절대 사용 금지!
+- <strong>, <em>, <a>, <ul>, <li>, <div>, <span>, <style>, <figure> 등 전부 금지
+- 인라인 style 속성 금지
+- 이모지 절대 사용 금지
+- 마크다운 문법 절대 사용 금지
+- h1 태그 절대 사용 금지
+
+### 구글 SEO 최적화
+- 제목: 키워드를 앞쪽에 배치, 55자 이내
+- 첫 문단 100자 내에 키워드 포함
+- H2 태그 3-5개, 각 H2에 키워드 자연스럽게 포함
+- 키워드 밀도 1.5-2.5%
+- 메타 설명: 키워드 포함, 150자 이내
+
+### 글 구조
+- 도입부: 2-3문장으로 독자 고민 공감
+- [IMAGE_PLACEHOLDER_1] 태그를 도입부 바로 다음에 삽입
+- 본론: H2 섹션 3-5개
+- [IMAGE_PLACEHOLDER_2] 태그를 본문 중간(2번째 H2 섹션 뒤)에 삽입
+- 결론: 핵심 요약 + 행동 유도
+- 총 1500자 이상
+- 목차, CTA, 링크 버튼, [OFFICIAL_LINK], [CTA_PLACEHOLDER] 삽입하지 마세요`
+
+: `당신은 10년 경력의 전문 블로그 작가이자 구글 SEO 전문가입니다.
 
 ## 핵심 원칙: 반드시 글을 작성해야 합니다!
 
@@ -599,7 +647,54 @@ async function generateContent(keyword, analysis, imagesData) {
 - 글 중간에 1-2개, 결론 부분에 1개 삽입
 - 버튼 텍스트는 행동 유도형으로 작성 ("신청하러 가기", "자세히 알아보기", "공식 홈페이지에서 확인하기" 등)`;
 
-  const userPrompt = `다음 키워드로 구글 SEO에 최적화된 블로그 글을 작성해주세요.
+  const userPrompt = ADSENSE_MODE
+? `다음 키워드로 구글 SEO에 최적화된 블로그 글을 작성해주세요.
+
+키워드: ${keyword}
+작성 기준일: 2026년 2월 (현재 기준 최신 정보 사용)
+
+웹 검색 결과 (참고용):
+${officialDocsInfo !== "공식문서 검색 결과 없음" ? officialDocsInfo : ""}
+${recentInfo !== "최근 정보 없음" ? recentInfo : ""}
+${analysis.snippets || ""}
+
+경쟁 분석 결과:
+- 상위 노출 제목들: ${analysis.topTitles.join(" | ") || "없음"}
+- 자주 사용되는 소제목: ${analysis.commonH2.join(", ") || "없음"}
+
+중요: 반드시 글을 작성하세요!
+
+작성 요구사항:
+
+1. 제목 (55자 이내): 키워드를 앞쪽에 배치, 클릭 유도
+
+2. 본문 구조:
+   - 도입부 (2-3문장): 독자 고민 공감, 첫 100자 내 키워드 포함
+   - [IMAGE_PLACEHOLDER_1]
+   - H2 섹션 3-5개
+   - [IMAGE_PLACEHOLDER_2] (2번째 H2 섹션 뒤에 삽입)
+   - 결론: 핵심 요약 + 행동 유도
+
+3. 허용 태그 (이것만 사용!):
+   - <p>텍스트</p>
+   - <h2>소제목</h2>
+   - <h3>하위소제목</h3>
+   - 이 외의 HTML 태그 절대 사용 금지 (strong, a, div, ul, li, span, style 등 전부 금지)
+   - 이모지 사용 금지
+
+4. SEO 요소:
+   - 키워드 자연스럽게 7-10회 포함
+
+5. 1500자 이상 필수
+
+JSON 형식으로만 응답:
+{
+  "title": "제목 (이모지 없이)",
+  "metaDescription": "메타 설명 150자 이내 (키워드 포함)",
+  "content": "HTML 본문 (<p>, <h2>, <h3> 태그만 사용)"
+}`
+
+: `다음 키워드로 구글 SEO에 최적화된 블로그 글을 작성해주세요.
 
 **키워드**: ${keyword}
 **작성 기준일**: 2026년 2월 (현재 기준 최신 정보 사용)
@@ -933,14 +1028,51 @@ JSON 형식으로만 응답 (글 작성 거부 금지!):
         article.content = result;
       }
 
+      // ============================================
+      // 애드센스 모드: p, h2, h3, img만 남기고 전부 제거
+      // ============================================
+      if (ADSENSE_MODE) {
+        console.log('📋 애드센스 모드 태그 정리 시작...');
+        let clean = article.content;
+        // 1) style 태그 전체 제거
+        clean = clean.replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '');
+        // 2) figure 태그 제거 (img는 유지)
+        clean = clean.replace(/<\/?figure[^>]*>/gi, '');
+        // 3) strong, em, b, i → 내부 텍스트만 유지
+        clean = clean.replace(/<\/?(strong|em|b|i)[^>]*>/gi, '');
+        // 4) a 태그 → 내부 텍스트만 유지
+        clean = clean.replace(/<a[^>]*>([\s\S]*?)<\/a>/gi, '$1');
+        // 5) ul, ol, li → li 내용을 p로 변환
+        clean = clean.replace(/<li[^>]*>([\s\S]*?)<\/li>/gi, '<p>$1</p>');
+        clean = clean.replace(/<\/?(ul|ol)[^>]*>/gi, '');
+        // 6) div, span, section, nav 등 제거 (내부 텍스트 유지)
+        clean = clean.replace(/<\/?(div|span|section|nav|header|footer|article|aside|blockquote|table|tr|td|th|thead|tbody)[^>]*>/gi, '');
+        // 7) 모든 태그에서 style, class, id 속성 제거 (img의 src, alt는 유지)
+        clean = clean.replace(/<(p|h2|h3)(\s+[^>]*)>/gi, '<$1>');
+        // 8) img 태그: src, alt만 유지
+        clean = clean.replace(/<img\s+[^>]*?src="([^"]*)"[^>]*?alt="([^"]*)"[^>]*?\/?>/gi, '<img src="$1" alt="$2" />');
+        clean = clean.replace(/<img\s+[^>]*?alt="([^"]*)"[^>]*?src="([^"]*)"[^>]*?\/?>/gi, '<img src="$2" alt="$1" />');
+        // 9) 플레이스홀더 잔여물 제거
+        clean = clean.replace(/\[CTA_PLACEHOLDER\]/g, '');
+        clean = clean.replace(/\[OFFICIAL_LINK:[^\]]*\]/g, '');
+        clean = clean.replace(/\[IMAGE_PLACEHOLDER_\d\]/g, '');
+        // 10) 빈 p 태그 제거
+        clean = clean.replace(/<p>\s*<\/p>/g, '');
+        // 11) 연속 공백/줄바꿈 정리
+        clean = clean.replace(/\n{3,}/g, '\n\n').trim();
+        article.content = clean;
+        console.log('✅ 애드센스 모드 태그 정리 완료');
+      }
+
       const contentLength = article.content.replace(/<[^>]+>/g, '').length;
       console.log('📏 글자수: ' + contentLength + '자');
       console.log('✅ 최종 처리 완료');
 
-      // 디버그: h1과 목차 확인
-      console.log('🔍 h1 태그 존재: ' + (article.content.indexOf('<h1') !== -1 ? 'YES' : 'NO'));
-      console.log('🔍 목차 링크 존재: ' + (article.content.indexOf('href="#sec') !== -1 ? 'YES' : 'NO'));
-      console.log('🔍 h2 id 존재: ' + (article.content.indexOf('id="sec') !== -1 ? 'YES' : 'NO'));
+      if (!ADSENSE_MODE) {
+        console.log('🔍 h1 태그 존재: ' + (article.content.indexOf('<h1') !== -1 ? 'YES' : 'NO'));
+        console.log('🔍 목차 링크 존재: ' + (article.content.indexOf('href="#sec') !== -1 ? 'YES' : 'NO'));
+        console.log('🔍 h2 id 존재: ' + (article.content.indexOf('id="sec') !== -1 ? 'YES' : 'NO'));
+      }
 
       return article;
   }
