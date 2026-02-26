@@ -11,6 +11,8 @@
     "@anthropic-ai/sdk": "^0.24.0",
     "axios": "^1.6.0",
     "dotenv": "^16.4.7",
-    "googleapis": "^130.0.0"
+    "express": "^5.2.1",
+    "googleapis": "^130.0.0",
+    "standardwebhooks": "^1.0.0"
   }
 }
