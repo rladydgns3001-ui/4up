@@ -69,13 +69,11 @@ async function processImageMarkers(content, imageMarkers, wp, keyword) {
   if ((!imageMarkers || imageMarkers.length === 0) && config.OPENAI_API_KEY) {
     const autoDesc = `minimalist flat design illustration related to ${keyword}, abstract geometric shapes and icons, soft pastel gradient background, clean vector art style`;
     imageMarkers = [autoDesc];
-    // 첫 번째 </h2> 닫는 태그 뒤에 플레이스홀더 삽입
     const h2CloseIdx = result.indexOf('</h2>');
     if (h2CloseIdx !== -1) {
       const insertPos = h2CloseIdx + 5;
       result = result.slice(0, insertPos) + '\n<!--IMAGE_PLACEHOLDER_0-->\n' + result.slice(insertPos);
     } else {
-      // h2가 없으면 맨 앞에 삽입
       result = '<!--IMAGE_PLACEHOLDER_0-->\n' + result;
     }
     errors.push('[IMAGE:] 마커가 AI 응답에 없어 자동 생성했습니다.');
