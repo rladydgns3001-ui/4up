@@ -173,51 +173,10 @@ ipcMain.handle('write-post', async (event, options) => {
 
     // 4.5. 이미지 처리: DALL-E 3로 이미지 생성 후 WordPress에 업로드
     sendProgress('이미지 생성 중...', 80);
-    let contentWithImages = article.content;
-    let featuredImageId = null;
-    if (article.imageMarkers && article.imageMarkers.length > 0 && config.OPENAI_API_KEY) {
-      for (let i = 0; i < article.imageMarkers.length; i++) {
-        const description = article.imageMarkers[i];
-        try {
-          const axios = require('axios');
-          // DALL-E 3으로 이미지 생성
-          const dalleResponse = await axios.post('https://api.openai.com/v1/images/generations', {
-            model: 'dall-e-3',
-            prompt: `Minimalist flat design illustration: ${description}. Abstract geometric shapes, simple icons, soft pastel gradient background. NO shops, NO storefronts, NO signs, NO streets, NO screens, NO documents, NO books, NO menus. The entire image must be completely free of any text, letters, numbers, characters, symbols, labels, or writing in any language. Clean vector art style with solid color fills.`,
-            n: 1,
-            size: '1024x1024',
-            quality: 'standard'
-          }, {
-            headers: {
-              'Authorization': `Bearer ${config.OPENAI_API_KEY}`,
-              'Content-Type': 'application/json'
-            },
-            timeout: 60000
-          });
-
-          const imageUrl = dalleResponse.data.data[0].url;
-
-          // WordPress에 이미지 업로드
-          const imgResult = await wp.uploadImage(imageUrl, `${keyword.replace(/\s+/g, '-')}-${i + 1}`);
-          if (imgResult.success) {
-            // 첫 번째 이미지를 특성 이미지로 지정
-            if (i === 0) featuredImageId = imgResult.id;
-            const imgHtml = `<figure style="margin:30px 0;text-align:center;"><img src="${imgResult.url}" alt="${keyword} 관련 이미지" style="max-width:100%;height:auto;border-radius:10px;" /><figcaption style="color:#888;font-size:0.85rem;margin-top:8px;">${keyword}</figcaption></figure>`;
-            contentWithImages = contentWithImages.replace(`<!--IMAGE_PLACEHOLDER_${i}-->`, imgHtml);
-          } else {
-            contentWithImages = contentWithImages.replace(`<!--IMAGE_PLACEHOLDER_${i}-->`, '');
-          }
-        } catch (imgError) {
-          console.error('이미지 생성 오류:', imgError.message);
-          contentWithImages = contentWithImages.replace(`<!--IMAGE_PLACEHOLDER_${i}-->`, '');
-        }
-      }
-    } else if (article.imageMarkers && article.imageMarkers.length > 0) {
-      // OpenAI API Key 없으면 이미지 마커 제거
-      for (let i = 0; i < article.imageMarkers.length; i++) {
-        contentWithImages = contentWithImages.replace(`<!--IMAGE_PLACEHOLDER_${i}-->`, '');
-      }
-    }
+    const { processImageMarkers } = require('../src/image-generator');
+    const imgResult = await processImageMarkers(article.content, article.imageMarkers, wp, keyword);
+    let contentWithImages = imgResult.content;
+    let featuredImageId = imgResult.featuredImageId;
 
     // 4.8. AdSense 광고 삽입 (목차 아래, 본문 중간, FAQ 직전)
     const adsenseClientId = config.ADSENSE_CLIENT_ID;
@@ -335,47 +294,10 @@ async function processOneKeyword(keyword, style, length, publish, keywordSetting
 
   // 이미지 처리
   sendProgress('이미지 생성 중...', 80);
-  let contentWithImages = article.content;
-  let featuredImageId = null;
-  if (article.imageMarkers && article.imageMarkers.length > 0 && config.OPENAI_API_KEY) {
-    for (let i = 0; i < article.imageMarkers.length; i++) {
-      const description = article.imageMarkers[i];
-      try {
-        const axios = require('axios');
-        const dalleResponse = await axios.post('https://api.openai.com/v1/images/generations', {
-          model: 'dall-e-3',
-          prompt: `Minimalist flat design illustration: ${description}. Abstract geometric shapes, simple icons, soft pastel gradient background. NO shops, NO storefronts, NO signs, NO streets, NO screens, NO documents, NO books, NO menus. The entire image must be completely free of any text, letters, numbers, characters, symbols, labels, or writing in any language. Clean vector art style with solid color fills.`,
-          n: 1,
-          size: '1024x1024',
-          quality: 'standard'
-        }, {
-          headers: {
-            'Authorization': `Bearer ${config.OPENAI_API_KEY}`,
-            'Content-Type': 'application/json'
-          },
-          timeout: 60000
-        });
-
-        const imageUrl = dalleResponse.data.data[0].url;
-        const imgResult = await wp.uploadImage(imageUrl, `${keyword.replace(/\s+/g, '-')}-${i + 1}`);
-        if (imgResult.success) {
-          // 첫 번째 이미지를 특성 이미지로 지정
-          if (i === 0) featuredImageId = imgResult.id;
-          const imgHtml = `<figure style="margin:30px 0;text-align:center;"><img src="${imgResult.url}" alt="${keyword} 관련 이미지" style="max-width:100%;height:auto;border-radius:10px;" /><figcaption style="color:#888;font-size:0.85rem;margin-top:8px;">${keyword}</figcaption></figure>`;
-          contentWithImages = contentWithImages.replace(`<!--IMAGE_PLACEHOLDER_${i}-->`, imgHtml);
-        } else {
-          contentWithImages = contentWithImages.replace(`<!--IMAGE_PLACEHOLDER_${i}-->`, '');
-        }
-      } catch (imgError) {
-        console.error('이미지 생성 오류:', imgError.message);
-        contentWithImages = contentWithImages.replace(`<!--IMAGE_PLACEHOLDER_${i}-->`, '');
-      }
-    }
-  } else if (article.imageMarkers && article.imageMarkers.length > 0) {
-    for (let i = 0; i < article.imageMarkers.length; i++) {
-      contentWithImages = contentWithImages.replace(`<!--IMAGE_PLACEHOLDER_${i}-->`, '');
-    }
-  }
+  const { processImageMarkers } = require('../src/image-generator');
+  const imgProcessed = await processImageMarkers(article.content, article.imageMarkers, wp, keyword);
+  let contentWithImages = imgProcessed.content;
+  let featuredImageId = imgProcessed.featuredImageId;
 
   // AdSense 광고 삽입
   const adsenseClientId = config.ADSENSE_CLIENT_ID;
