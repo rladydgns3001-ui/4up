@@ -275,7 +275,12 @@ ${wpContext || '없음'}
     let finalUserPrompt = userPrompt;
 
     if (customPromptConfig?.useCustom && customPromptConfig?.systemPrompt) {
+      // 커스텀 프롬프트에 이미지 마커 규칙이 없으면 자동 추가
+      const imageRule = `\n\n## 이미지 삽입 규칙 (필수)\n- 본문 중 적절한 위치에 반드시 1개의 이미지 마커를 삽입하세요\n- 형식: [IMAGE:영어로 된 이미지 설명]\n- 예시: [IMAGE:minimalist flat illustration of a piggy bank with coins, soft pastel gradient background, clean vector art style]\n- 텍스트/글자/간판/화면이 없는 추상적 일러스트로 설명하세요`;
       finalSystemPrompt = customPromptConfig.systemPrompt;
+      if (!finalSystemPrompt.includes('[IMAGE:')) {
+        finalSystemPrompt += imageRule;
+      }
     }
     if (customPromptConfig?.useCustom && customPromptConfig?.userPrompt) {
       // 변수 치환

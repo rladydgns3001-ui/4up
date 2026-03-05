@@ -65,8 +65,24 @@ async function processImageMarkers(content, imageMarkers, wp, keyword) {
   let featuredImageId = null;
   const errors = [];
 
+  // AI가 마커를 안 넣었으면 키워드 기반으로 자동 생성 + 본문 첫 h2 뒤에 삽입
+  if ((!imageMarkers || imageMarkers.length === 0) && config.OPENAI_API_KEY) {
+    const autoDesc = `minimalist flat design illustration related to ${keyword}, abstract geometric shapes and icons, soft pastel gradient background, clean vector art style`;
+    imageMarkers = [autoDesc];
+    // 첫 번째 </h2> 닫는 태그 뒤에 플레이스홀더 삽입
+    const h2CloseIdx = result.indexOf('</h2>');
+    if (h2CloseIdx !== -1) {
+      const insertPos = h2CloseIdx + 5;
+      result = result.slice(0, insertPos) + '\n<!--IMAGE_PLACEHOLDER_0-->\n' + result.slice(insertPos);
+    } else {
+      // h2가 없으면 맨 앞에 삽입
+      result = '<!--IMAGE_PLACEHOLDER_0-->\n' + result;
+    }
+    errors.push('[IMAGE:] 마커가 AI 응답에 없어 자동 생성했습니다.');
+  }
+
   if (!imageMarkers || imageMarkers.length === 0) {
-    return { content: result, featuredImageId, errors: ['[IMAGE:] 마커가 AI 응답에 없었습니다.'] };
+    return { content: result, featuredImageId, errors: ['[IMAGE:] 마커가 없고 API 키도 없어 이미지를 건너뜁니다.'] };
   }
 
   if (!config.OPENAI_API_KEY) {
