@@ -2,7 +2,6 @@ name: Build and Release Electron App
 
 on:
   push:
-    branches: [main]
     tags:
       - 'v*'
   workflow_dispatch:
@@ -31,6 +30,8 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+        env:
+          PUPPETEER_SKIP_DOWNLOAD: 'true'
 
       - name: Build for ${{ matrix.platform }}
         run: npx electron-builder --${{ matrix.platform }} --publish never
@@ -45,6 +46,7 @@ jobs:
             dist/*.exe
             dist/*.dmg
             dist/*.zip
+            dist/*.AppImage
           if-no-files-found: ignore
 
   release:
