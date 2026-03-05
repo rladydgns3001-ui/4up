@@ -33,7 +33,15 @@ function readConfig() {
     INDEXNOW_KEY_LOCATION: '',
     CTA_LINK_URL: '',
     CTA_LINK_TEXT: '',
-    CTA_MID_TEXT: ''
+    CTA_MID_TEXT: '',
+    WP_SITES: [
+      { name: '', url: '', username: '', password: '' },
+      { name: '', url: '', username: '', password: '' },
+      { name: '', url: '', username: '', password: '' }
+    ],
+    USE_CUSTOM_PROMPT: false,
+    CUSTOM_SYSTEM_PROMPT: '',
+    CUSTOM_USER_PROMPT: ''
   };
 }
 
@@ -98,6 +106,22 @@ module.exports = {
   },
   get CTA_MID_TEXT() {
     return getConfigData().CTA_MID_TEXT || '';
+  },
+  get WP_SITES() {
+    return getConfigData().WP_SITES || [
+      { name: '', url: '', username: '', password: '' },
+      { name: '', url: '', username: '', password: '' },
+      { name: '', url: '', username: '', password: '' }
+    ];
+  },
+  get USE_CUSTOM_PROMPT() {
+    return getConfigData().USE_CUSTOM_PROMPT || false;
+  },
+  get CUSTOM_SYSTEM_PROMPT() {
+    return getConfigData().CUSTOM_SYSTEM_PROMPT || '';
+  },
+  get CUSTOM_USER_PROMPT() {
+    return getConfigData().CUSTOM_USER_PROMPT || '';
   },
 
   // 설정 저장

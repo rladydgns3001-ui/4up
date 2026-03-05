@@ -22,5 +22,12 @@ contextBridge.exposeInMainWorld('api', {
   onWriteProgress: (callback) => ipcRenderer.on('write-progress', (_, data) => callback(data)),
 
   // Google 서비스 계정 JSON 파일 선택
-  selectJsonFile: () => ipcRenderer.invoke('select-json-file')
+  selectJsonFile: () => ipcRenderer.invoke('select-json-file'),
+
+  // 발행 이력 로그
+  getPostLog: () => ipcRenderer.invoke('get-post-log'),
+  clearPostLog: () => ipcRenderer.invoke('clear-post-log'),
+
+  // 사이트별 연결 테스트
+  testSiteConnection: (site) => ipcRenderer.invoke('test-site-connection', site)
 });

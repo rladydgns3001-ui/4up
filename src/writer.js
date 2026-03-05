@@ -75,7 +75,7 @@ async function generateSubKeywords(mainKeyword) {
   }
 }
 
-async function generateArticle(keyword, webContext = '', wpContext = '', style = 'informative', length = 'medium', searchData = null, keywordSettings = null) {
+async function generateArticle(keyword, webContext = '', wpContext = '', style = 'informative', length = 'medium', searchData = null, keywordSettings = null, customPromptConfig = null) {
   const client = new Anthropic({ apiKey: config.CLAUDE_API_KEY });
 
   const lengthGuide = {
@@ -270,13 +270,30 @@ ${wpContext || '없음'}
 ⚠️ 중요: 검색 결과가 부족해도 반드시 글을 작성해야 합니다. 글 작성 거부는 절대 금지입니다.`;
 
   try {
+    // 커스텀 프롬프트 사용 여부 확인
+    let finalSystemPrompt = systemPrompt;
+    let finalUserPrompt = userPrompt;
+
+    if (customPromptConfig?.useCustom && customPromptConfig?.systemPrompt) {
+      finalSystemPrompt = customPromptConfig.systemPrompt;
+    }
+    if (customPromptConfig?.useCustom && customPromptConfig?.userPrompt) {
+      // 변수 치환
+      finalUserPrompt = customPromptConfig.userPrompt
+        .replace(/\{keyword\}/g, keyword)
+        .replace(/\{search_results\}/g, webContext || '없음')
+        .replace(/\{length\}/g, lengthGuide[length] || lengthGuide.medium)
+        .replace(/\{style\}/g, styleGuide[style] || styleGuide.informative)
+        .replace(/\{existing_posts\}/g, wpContext || '없음');
+    }
+
     const response = await client.messages.create({
       model: 'claude-sonnet-4-20250514',
       max_tokens: 8000,
       messages: [
-        { role: 'user', content: userPrompt }
+        { role: 'user', content: finalUserPrompt }
       ],
-      system: systemPrompt
+      system: finalSystemPrompt
     });
 
     const text = response.content[0].text;

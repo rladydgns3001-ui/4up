@@ -2,21 +2,26 @@ const axios = require('axios');
 const config = require('./config');
 
 class WordPressAPI {
-  constructor() {
-    this.baseUrl = `${config.WP_SITE_URL}/wp-json/wp/v2`;
-    this.auth = {
-      username: config.WP_USERNAME,
-      password: config.WP_APP_PASSWORD
-    };
+  constructor(site = null) {
+    // site 파라미터가 있으면 해당 사이트 설정 사용, 없으면 기본 설정
+    if (site && site.url && site.username && site.password) {
+      this.baseUrl = `${site.url.replace(/\/$/, '')}/wp-json/wp/v2`;
+      this.auth = { username: site.username, password: site.password };
+    } else {
+      this.baseUrl = `${config.WP_SITE_URL}/wp-json/wp/v2`;
+      this.auth = { username: config.WP_USERNAME, password: config.WP_APP_PASSWORD };
+    }
   }
 
   // 설정 다시 로드 (설정 변경 후 호출)
-  reloadConfig() {
-    this.baseUrl = `${config.WP_SITE_URL}/wp-json/wp/v2`;
-    this.auth = {
-      username: config.WP_USERNAME,
-      password: config.WP_APP_PASSWORD
-    };
+  reloadConfig(site = null) {
+    if (site && site.url && site.username && site.password) {
+      this.baseUrl = `${site.url.replace(/\/$/, '')}/wp-json/wp/v2`;
+      this.auth = { username: site.username, password: site.password };
+    } else {
+      this.baseUrl = `${config.WP_SITE_URL}/wp-json/wp/v2`;
+      this.auth = { username: config.WP_USERNAME, password: config.WP_APP_PASSWORD };
+    }
   }
 
   async testConnection() {

@@ -62,7 +62,57 @@ function stripHtml(html) {
     .trim();
 }
 
+// ===== 발행 이력 로그 =====
+function getLogPath() {
+  const path = require('path');
+  return path.join(app.getPath('userData'), 'post-log.json');
+}
+
+function readLog() {
+  try {
+    const logPath = getLogPath();
+    if (fs.existsSync(logPath)) {
+      return JSON.parse(fs.readFileSync(logPath, 'utf8'));
+    }
+  } catch (e) {}
+  return [];
+}
+
+function appendLog(entry) {
+  try {
+    const logs = readLog();
+    logs.unshift(entry);
+    if (logs.length > 500) logs.splice(500);
+    fs.writeFileSync(getLogPath(), JSON.stringify(logs, null, 2), 'utf8');
+  } catch (e) {
+    console.error('로그 저장 오류:', e);
+  }
+}
+
 // ===== IPC 핸들러 =====
+
+ipcMain.handle('get-post-log', async () => readLog());
+
+ipcMain.handle('clear-post-log', async () => {
+  try {
+    fs.writeFileSync(getLogPath(), '[]', 'utf8');
+    return { success: true };
+  } catch (e) {
+    return { success: false, error: e.message };
+  }
+});
+
+// 사이트별 연결 테스트
+ipcMain.handle('test-site-connection', async (event, site) => {
+  try {
+    const WordPressAPI = require('../src/wordpress');
+    const wp = new WordPressAPI(site);
+    const connected = await wp.testConnection();
+    return { connected };
+  } catch (error) {
+    return { connected: false, error: error.message };
+  }
+});
 
 // 설정 저장
 ipcMain.handle('save-config', async (event, newConfig) => {
@@ -114,9 +164,8 @@ ipcMain.handle('select-json-file', async () => {
   return { success: true, path: result.filePaths[0] };
 });
 
-// 글 작성 (단일 키워드 - 기존 핸들러 그대로 유지)
 ipcMain.handle('write-post', async (event, options) => {
-  const { keyword, style, length, publish, keywordSettings } = options;
+  const { keyword, style, length, publish, keywordSettings, selectedSite } = options;
 
   if (!config.isConfigured()) {
     return { success: false, error: '설정을 먼저 완료해주세요.' };
@@ -127,22 +176,19 @@ ipcMain.handle('write-post', async (event, options) => {
     const { getSearchContext, fetchPageContent } = require('../src/search');
     const { generateArticle } = require('../src/writer');
 
-    // 진행률 전송 헬퍼
     const sendProgress = (step, percent) => {
       if (mainWindow && !mainWindow.isDestroyed()) {
         mainWindow.webContents.send('write-progress', { step, percent });
       }
     };
 
-    // 1. WordPress 연결
     sendProgress('WordPress 연결 중...', 5);
-    const wp = new WordPressAPI();
+    const wp = new WordPressAPI(selectedSite || null);
     const connected = await wp.testConnection();
     if (!connected) {
       return { success: false, error: 'WordPress 연결 실패' };
     }
 
-    // 1.5. 참고 URL 내용 가져오기
     const kwSettings = keywordSettings ? { ...keywordSettings } : null;
     if (kwSettings?.referenceUrl) {
       sendProgress('참고 URL 가져오는 중...', 10);
@@ -150,11 +196,9 @@ ipcMain.handle('write-post', async (event, options) => {
       kwSettings.referenceUrlContent = refPage.content || '';
     }
 
-    // 2. 웹 검색 컨텍스트
     sendProgress('웹 검색 중...', 20);
     const webContext = await getSearchContext(keyword);
 
-    // 3. 기존 글 분석
     sendProgress('기존 글 분석 중...', 25);
     let wpContext = '';
     const existingPosts = await wp.searchPosts(keyword, 3);
@@ -164,31 +208,33 @@ ipcMain.handle('write-post', async (event, options) => {
       ).join('\n\n');
     }
 
-    // 4. AI 글 생성
+    // 커스텀 프롬프트 설정
+    const customPromptConfig = config.USE_CUSTOM_PROMPT ? {
+      useCustom: true,
+      systemPrompt: config.CUSTOM_SYSTEM_PROMPT,
+      userPrompt: config.CUSTOM_USER_PROMPT
+    } : null;
+
     sendProgress('AI 글 생성 중...', 60);
-    const article = await generateArticle(keyword, webContext, wpContext, style, length, null, kwSettings);
+    const article = await generateArticle(keyword, webContext, wpContext, style, length, null, kwSettings, customPromptConfig);
     if (!article.success) {
       return { success: false, error: article.error };
     }
 
-    // 4.5. 이미지 처리: DALL-E 3로 이미지 생성 후 WordPress에 업로드
     sendProgress('이미지 생성 중...', 80);
     const { processImageMarkers } = require('../src/image-generator');
     const imgResult = await processImageMarkers(article.content, article.imageMarkers, wp, keyword);
     let contentWithImages = imgResult.content;
     let featuredImageId = imgResult.featuredImageId;
+    const imageErrors = imgResult.errors || [];
 
-    // 4.8. AdSense 광고 삽입 (목차 아래, 본문 중간, FAQ 직전)
     const adsenseClientId = config.ADSENSE_CLIENT_ID;
     const adsenseSlotId = config.ADSENSE_SLOT_ID;
     if (adsenseClientId && adsenseSlotId) {
       const adCode = `<div style="margin:30px 0;text-align:center;"><ins class="adsbygoogle" style="display:block" data-ad-client="${adsenseClientId}" data-ad-slot="${adsenseSlotId}" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>`;
 
-      // 1) 목차(toc-container) 닫는 태그 바로 뒤
-      const tocEndMatch = contentWithImages.match(/<\/div>\s*(?=<h2)/i);
       const tocContainerEnd = contentWithImages.indexOf('toc-container');
       if (tocContainerEnd !== -1) {
-        // toc-container 이후 첫 번째 </div> 찾기
         const afterToc = contentWithImages.indexOf('</div>', tocContainerEnd);
         if (afterToc !== -1) {
           const insertPos = afterToc + 6;
@@ -196,7 +242,6 @@ ipcMain.handle('write-post', async (event, options) => {
         }
       }
 
-      // 2) FAQ 섹션 직전 (FAQ, 자주 묻는 질문 포함된 h2 앞)
       const faqMatch = contentWithImages.match(/<h2[^>]*>[\s\S]*?(?:FAQ|자주\s*묻는\s*질문)[\s\S]*?<\/h2>/i);
       if (faqMatch) {
         const faqPos = contentWithImages.indexOf(faqMatch[0]);
@@ -205,7 +250,6 @@ ipcMain.handle('write-post', async (event, options) => {
         }
       }
 
-      // 3) 본문 중간 (전체 h2 중 가운데 h2 앞)
       const h2Positions = [];
       const h2Regex = /<h2[\s>]/gi;
       let match;
@@ -219,7 +263,6 @@ ipcMain.handle('write-post', async (event, options) => {
       }
     }
 
-    // 5. WordPress에 저장
     sendProgress('WordPress 저장 중...', 95);
     const status = publish ? 'publish' : 'draft';
     const result = await wp.createPost(article.title, contentWithImages, status, null, null, featuredImageId);
@@ -230,13 +273,25 @@ ipcMain.handle('write-post', async (event, options) => {
 
     sendProgress('완료!', 100);
 
+    // 로그 저장
+    appendLog({
+      date: new Date().toISOString(),
+      keyword,
+      title: article.title,
+      status: status === 'publish' ? '발행됨' : '임시저장',
+      link: result.link || '',
+      postId: result.id,
+      siteName: selectedSite?.name || config.WP_SITE_URL
+    });
+
     return {
       success: true,
       title: article.title,
       postId: result.id,
       status: status === 'publish' ? '발행됨' : '임시저장',
       link: result.link,
-      editLink: result.editLink
+      editLink: result.editLink,
+      imageErrors: imageErrors.length > 0 ? imageErrors : null
     };
 
   } catch (error) {
@@ -247,12 +302,11 @@ ipcMain.handle('write-post', async (event, options) => {
 // ===== 예약 발행 큐 =====
 
 // 단일 키워드 처리 (큐에서 호출)
-async function processOneKeyword(keyword, style, length, publish, keywordSettings) {
+async function processOneKeyword(keyword, style, length, publish, keywordSettings, selectedSite = null) {
   const WordPressAPI = require('../src/wordpress');
   const { getSearchContext, fetchPageContent } = require('../src/search');
   const { generateArticle } = require('../src/writer');
 
-  // 큐 모드 진행률 전송 헬퍼
   const sendProgress = (step, percent) => {
     if (mainWindow && !mainWindow.isDestroyed()) {
       mainWindow.webContents.send('write-progress', { step, percent, keyword });
@@ -260,13 +314,12 @@ async function processOneKeyword(keyword, style, length, publish, keywordSetting
   };
 
   sendProgress('WordPress 연결 중...', 5);
-  const wp = new WordPressAPI();
+  const wp = new WordPressAPI(selectedSite || null);
   const connected = await wp.testConnection();
   if (!connected) {
     throw new Error('WordPress 연결 실패');
   }
 
-  // 참고 URL 내용 가져오기
   const kwSettings = keywordSettings ? { ...keywordSettings } : null;
   if (kwSettings?.referenceUrl) {
     sendProgress('참고 URL 가져오는 중...', 10);
@@ -286,8 +339,14 @@ async function processOneKeyword(keyword, style, length, publish, keywordSetting
     ).join('\n\n');
   }
 
+  const customPromptConfig = config.USE_CUSTOM_PROMPT ? {
+    useCustom: true,
+    systemPrompt: config.CUSTOM_SYSTEM_PROMPT,
+    userPrompt: config.CUSTOM_USER_PROMPT
+  } : null;
+
   sendProgress('AI 글 생성 중...', 60);
-  const article = await generateArticle(keyword, webContext, wpContext, style, length, null, kwSettings);
+  const article = await generateArticle(keyword, webContext, wpContext, style, length, null, kwSettings, customPromptConfig);
   if (!article.success) {
     throw new Error(article.error);
   }
@@ -298,6 +357,7 @@ async function processOneKeyword(keyword, style, length, publish, keywordSetting
   const imgProcessed = await processImageMarkers(article.content, article.imageMarkers, wp, keyword);
   let contentWithImages = imgProcessed.content;
   let featuredImageId = imgProcessed.featuredImageId;
+  const imageErrors = imgProcessed.errors || [];
 
   // AdSense 광고 삽입
   const adsenseClientId = config.ADSENSE_CLIENT_ID;
@@ -346,6 +406,17 @@ async function processOneKeyword(keyword, style, length, publish, keywordSetting
 
   sendProgress('완료!', 100);
 
+  // 로그 저장
+  appendLog({
+    date: new Date().toISOString(),
+    keyword,
+    title: article.title,
+    status: postStatus === 'publish' ? '발행됨' : '임시저장',
+    link: result.link || '',
+    postId: result.id,
+    siteName: selectedSite?.name || config.WP_SITE_URL
+  });
+
   // 색인 요청
   let indexingResults = {};
   if (publish && result.link) {
@@ -365,7 +436,8 @@ async function processOneKeyword(keyword, style, length, publish, keywordSetting
     status: postStatus === 'publish' ? '발행됨' : '임시저장',
     link: result.link,
     editLink: result.editLink,
-    indexing: indexingResults
+    indexing: indexingResults,
+    imageErrors: imageErrors.length > 0 ? imageErrors : null
   };
 }
 
@@ -444,7 +516,8 @@ function scheduleNextKeyword() {
         postQueue.style,
         postQueue.length,
         postQueue.publish,
-        kwSettings
+        kwSettings,
+        postQueue.selectedSite || null
       );
       postQueue.results.push(result);
     } catch (error) {
@@ -470,7 +543,7 @@ ipcMain.handle('start-scheduled-posts', async (event, options) => {
     return { success: false, error: '설정을 먼저 완료해주세요.' };
   }
 
-  const { keywords, scheduleMode, intervalHours, specificTimes, style, length, publish } = options;
+  const { keywords, scheduleMode, intervalHours, specificTimes, style, length, publish, selectedSite } = options;
 
   if (!keywords || keywords.length === 0) {
     return { success: false, error: '키워드를 입력해주세요.' };
@@ -480,7 +553,6 @@ ipcMain.handle('start-scheduled-posts', async (event, options) => {
     return { success: false, error: '최대 10개까지만 등록할 수 있습니다.' };
   }
 
-  // 큐 초기화
   postQueue = {
     active: true,
     keywords,
@@ -492,7 +564,8 @@ ipcMain.handle('start-scheduled-posts', async (event, options) => {
     specificTimes: specificTimes || [],
     style: style || 'informative',
     length: length || 'medium',
-    publish: publish !== false
+    publish: publish !== false,
+    selectedSite: selectedSite || null
   };
 
   // 큐 처리 시작

@@ -63,49 +63,48 @@ async function generateSingleImage(description) {
 async function processImageMarkers(content, imageMarkers, wp, keyword) {
   let result = content;
   let featuredImageId = null;
+  const errors = [];
 
   if (!imageMarkers || imageMarkers.length === 0) {
-    return { content: result, featuredImageId };
+    return { content: result, featuredImageId, errors: ['[IMAGE:] 마커가 AI 응답에 없었습니다.'] };
   }
 
   if (!config.OPENAI_API_KEY) {
-    // API Key 없으면 플레이스홀더만 제거
     for (let i = 0; i < imageMarkers.length; i++) {
       result = result.replace(`<!--IMAGE_PLACEHOLDER_${i}-->`, '');
     }
-    return { content: result, featuredImageId };
+    return { content: result, featuredImageId, errors: ['OpenAI API 키가 설정되지 않았습니다. 설정 탭에서 입력해주세요.'] };
   }
 
   for (let i = 0; i < imageMarkers.length; i++) {
     const description = imageMarkers[i];
     try {
-      // 1. DALL-E 3로 이미지 생성
       const imgGen = await generateSingleImage(description);
       if (!imgGen.success) {
+        errors.push(`이미지 생성 실패: ${imgGen.error}`);
         result = result.replace(`<!--IMAGE_PLACEHOLDER_${i}-->`, '');
         continue;
       }
 
-      // 2. WordPress에 업로드
       const filename = `${keyword.replace(/\s+/g, '-')}-${i + 1}`;
       const imgResult = await wp.uploadImage(imgGen.url, filename);
 
       if (imgResult.success) {
-        // 첫 번째 이미지를 대표 이미지(featured image)로 지정
         if (i === 0) featuredImageId = imgResult.id;
-
         const imgHtml = `<figure style="margin:30px 0;text-align:center;"><img src="${imgResult.url}" alt="${keyword} 관련 이미지" style="max-width:100%;height:auto;border-radius:10px;" /><figcaption style="color:#888;font-size:0.85rem;margin-top:8px;">${keyword}</figcaption></figure>`;
         result = result.replace(`<!--IMAGE_PLACEHOLDER_${i}-->`, imgHtml);
       } else {
+        errors.push(`WP 업로드 실패: ${imgResult.error}`);
         result = result.replace(`<!--IMAGE_PLACEHOLDER_${i}-->`, '');
       }
     } catch (error) {
+      errors.push(`이미지 처리 오류: ${error.message}`);
       console.error('이미지 처리 오류:', error.message);
       result = result.replace(`<!--IMAGE_PLACEHOLDER_${i}-->`, '');
     }
   }
 
-  return { content: result, featuredImageId };
+  return { content: result, featuredImageId, errors };
 }
 
 module.exports = { generateSingleImage, processImageMarkers };
