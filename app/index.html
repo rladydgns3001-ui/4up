@@ -928,6 +928,17 @@
           <input type="text" id="indexNowApiKey" placeholder="IndexNow API Key 입력">
         </div>
 
+        <hr class="divider">
+        <p class="section-title">글 스타일 참고 (선택)</p>
+
+        <div class="form-group">
+          <label for="styleReference">
+            스타일 참고 예시글
+            <span class="label-hint">(문체·구성·톤만 참고 — 내용은 무시됨)</span>
+          </label>
+          <textarea id="styleReference" rows="8" placeholder="참고할 글을 여기에 붙여넣으세요.&#10;예) 블로그에 올린 글, 선호하는 스타일의 글 등&#10;&#10;AI가 이 글의 문체와 구성 방식을 따라 작성합니다." style="width:100%;font-size:13px;padding:12px;border:1px solid #ddd;border-radius:8px;resize:vertical;"></textarea>
+        </div>
+
         <button type="submit" id="saveBtn">설정 저장</button>
         <button type="button" id="testBtn" class="btn-secondary">연결 테스트</button>
       </form>
@@ -1327,6 +1338,7 @@
         document.getElementById('adsenseSlotId').value = config.ADSENSE_SLOT_ID || '';
         document.getElementById('googleIndexingJsonPath').value = config.GOOGLE_INDEXING_JSON_PATH || '';
         document.getElementById('indexNowApiKey').value = config.INDEXNOW_API_KEY || '';
+        document.getElementById('styleReference').value = config.STYLE_REFERENCE || '';
 
         // 다중 사이트 로드
         const sites = config.WP_SITES || [{},{},{}];
@@ -1394,6 +1406,18 @@
     }
 
     init();
+
+    // ===== 외부 링크 브라우저로 열기 =====
+    document.addEventListener('click', (e) => {
+      const link = e.target.closest('a.external-link, a[target="_blank"]');
+      if (link) {
+        e.preventDefault();
+        const url = link.href;
+        if (url && url.startsWith('http')) {
+          window.api.openExternal(url);
+        }
+      }
+    });
 
     // ===== 사이트별 연결 테스트 =====
     document.querySelectorAll('.btn-test-site').forEach(btn => {
@@ -1464,7 +1488,7 @@
             ? `<span class="log-status-pub">발행됨</span>`
             : `<span class="log-status-draft">임시저장</span>`;
           const linkBtn = log.link
-            ? `<a href="${log.link}" target="_blank" style="color:#667eea;font-size:12px;">보기 →</a>`
+            ? `<a href="${log.link}" class="external-link" style="color:#667eea;font-size:12px;">보기 →</a>`
             : '-';
           const shortTitle = log.title ? (log.title.length > 30 ? log.title.slice(0,30)+'…' : log.title) : '-';
           return `<tr>
@@ -1520,7 +1544,8 @@
           url: (document.querySelector(`.site-url[data-idx="${idx}"]`)?.value || '').trim(),
           username: (document.querySelector(`.site-username[data-idx="${idx}"]`)?.value || '').trim(),
           password: (document.querySelector(`.site-password[data-idx="${idx}"]`)?.value || '').trim()
-        }))
+        })),
+        STYLE_REFERENCE: document.getElementById('styleReference').value
       };
 
       try {
@@ -1633,7 +1658,8 @@
               <p><strong>제목:</strong> ${res.title}</p>
               <p><strong>상태:</strong> ${res.status}</p>
               <p><strong>글 ID:</strong> ${res.postId}</p>
-              <p><a href="${res.editLink}" target="_blank">워드프레스에서 편집하기 →</a></p>
+              ${res.link ? `<p><strong>발행 URL:</strong> <a href="${res.link}" class="external-link">${res.link}</a></p>` : ''}
+              <p><a href="${res.editLink}" class="external-link">워드프레스에서 편집하기 →</a></p>
               ${imageWarning}
             `;
           } else {

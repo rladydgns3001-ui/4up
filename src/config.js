@@ -41,7 +41,8 @@ function readConfig() {
     ],
     USE_CUSTOM_PROMPT: false,
     CUSTOM_SYSTEM_PROMPT: '',
-    CUSTOM_USER_PROMPT: ''
+    CUSTOM_USER_PROMPT: '',
+    STYLE_REFERENCE: ''
   };
 }
 
@@ -122,6 +123,9 @@ module.exports = {
   },
   get CUSTOM_USER_PROMPT() {
     return getConfigData().CUSTOM_USER_PROMPT || '';
+  },
+  get STYLE_REFERENCE() {
+    return getConfigData().STYLE_REFERENCE || '';
   },
 
   // 설정 저장
