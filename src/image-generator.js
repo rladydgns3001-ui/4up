@@ -12,7 +12,7 @@ const DALLE_API_URL = 'https://api.openai.com/v1/images/generations';
  * DALL-E 3용 프롬프트 생성 (텍스트 없는 일러스트)
  */
 function buildDallePrompt(description) {
-  return `Minimalist flat design illustration: ${description}. Abstract geometric shapes, simple icons, soft pastel gradient background. NO shops, NO storefronts, NO signs, NO streets, NO screens, NO documents, NO books, NO menus. The entire image must be completely free of any text, letters, numbers, characters, symbols, labels, or writing in any language. Clean vector art style with solid color fills.`;
+  return `3D clay render illustration in BankSalad style: ${description}. Chunky inflated 3D plastic objects with soft rounded edges, glossy clay-like material finish. Soft gradient background using purple-to-blue or mint-to-teal or pink-to-purple color scheme. Single spotlight lighting with gentle shadows. Minimalist composition with 1-2 main objects only. No text, no letters, no numbers, no Korean characters, no signs, no labels, no writing of any kind anywhere in the image. No people, no faces, no hands holding documents. Clean studio background with smooth gradient. High quality 3D render, soft ambient occlusion.`;
 }
 
 /**
@@ -66,30 +66,6 @@ async function processImageMarkers(content, imageMarkers, wp, keyword) {
   const errors = [];
 
   if (!imageMarkers || imageMarkers.length === 0) {
-    // 자동 폴백: AI가 [IMAGE:] 마커를 넣지 않은 경우 키워드 기반으로 이미지 자동 생성
-    if (config.OPENAI_API_KEY) {
-      try {
-        const autoDesc = `Visual concept illustration for article about ${keyword}`;
-        const imgGen = await generateSingleImage(autoDesc);
-        if (imgGen.success) {
-          const filename = `${keyword.replace(/\s+/g, '-')}-auto`;
-          const imgResult = await wp.uploadImage(imgGen.url, filename);
-          if (imgResult.success) {
-            featuredImageId = imgResult.id;
-            const imgHtml = `<figure style="margin:30px 0;text-align:center;"><img src="${imgResult.url}" alt="${keyword} 관련 이미지" style="max-width:100%;height:auto;border-radius:10px;" /><figcaption style="color:#888;font-size:0.85rem;margin-top:8px;">${keyword}</figcaption></figure>`;
-            // 첫 번째 h2 태그 뒤에 삽입
-            const h2Match = result.match(/<\/h2>/i);
-            if (h2Match) {
-              const insertPos = result.indexOf(h2Match[0]) + h2Match[0].length;
-              result = result.slice(0, insertPos) + imgHtml + result.slice(insertPos);
-            }
-            return { content: result, featuredImageId, errors: [] };
-          }
-        }
-      } catch (autoErr) {
-        console.error('이미지 자동 폴백 오류:', autoErr.message);
-      }
-    }
     return { content: result, featuredImageId, errors: ['[IMAGE:] 마커가 AI 응답에 없었습니다.'] };
   }
 

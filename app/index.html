@@ -16,7 +16,6 @@
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       min-height: 100vh;
       padding: 20px;
-      scrollbar-gutter: stable;
     }
 
     .container {
@@ -680,9 +679,9 @@
           <label>옵션</label>
           <div class="select-group">
             <select id="style">
-              <option value="informative">정보 전달형</option>
-              <option value="casual">친근한 톤</option>
-              <option value="professional">전문적 톤</option>
+              <option value="informative">정중한 격식체 (뱅크샐러드 스타일)</option>
+              <option value="casual">친근한 대화체 (이모지 활용)</option>
+              <option value="professional">전문 권위체 (데이터 중심)</option>
             </select>
             <select id="length">
               <option value="short">짧게 (500-800자)</option>
@@ -1022,7 +1021,6 @@
 
         tab.classList.add('active');
         document.getElementById(`${tab.dataset.tab}-tab`).classList.add('active');
-        window.scrollTo(0, 0);
       });
     });
 

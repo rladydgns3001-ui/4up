@@ -197,7 +197,7 @@ ipcMain.handle('write-post', async (event, options) => {
     }
 
     sendProgress('웹 검색 중...', 20);
-    const searchResult = await getSearchContext(keyword);
+    const webContext = await getSearchContext(keyword);
 
     sendProgress('기존 글 분석 중...', 25);
     let wpContext = '';
@@ -215,15 +215,11 @@ ipcMain.handle('write-post', async (event, options) => {
       userPrompt: config.CUSTOM_USER_PROMPT
     } : null;
 
-    // 스타일 참고글 + 검색 데이터 주입
-    const searchDataWithStyle = {
-      officialSources: searchResult.officialSources,
-      recentSources: searchResult.recentSources,
-      styleReference: config.STYLE_REFERENCE || null
-    };
+    // 스타일 참고글 주입
+    const searchDataWithStyle = { styleReference: config.STYLE_REFERENCE || null };
 
     sendProgress('AI 글 생성 중...', 60);
-    const article = await generateArticle(keyword, searchResult.context, wpContext, style, length, searchDataWithStyle, kwSettings, customPromptConfig);
+    const article = await generateArticle(keyword, webContext, wpContext, style, length, searchDataWithStyle, kwSettings, customPromptConfig);
     if (!article.success) {
       return { success: false, error: article.error };
     }
@@ -335,7 +331,7 @@ async function processOneKeyword(keyword, style, length, publish, keywordSetting
   }
 
   sendProgress('웹 검색 중...', 20);
-  const searchResult = await getSearchContext(keyword);
+  const webContext = await getSearchContext(keyword);
 
   sendProgress('기존 글 분석 중...', 25);
   let wpContext = '';
@@ -352,14 +348,10 @@ async function processOneKeyword(keyword, style, length, publish, keywordSetting
     userPrompt: config.CUSTOM_USER_PROMPT
   } : null;
 
-  const searchDataWithStyle = {
-    officialSources: searchResult.officialSources,
-    recentSources: searchResult.recentSources,
-    styleReference: config.STYLE_REFERENCE || null
-  };
+  const searchDataWithStyle = { styleReference: config.STYLE_REFERENCE || null };
 
   sendProgress('AI 글 생성 중...', 60);
-  const article = await generateArticle(keyword, searchResult.context, wpContext, style, length, searchDataWithStyle, kwSettings, customPromptConfig);
+  const article = await generateArticle(keyword, webContext, wpContext, style, length, searchDataWithStyle, kwSettings, customPromptConfig);
   if (!article.success) {
     throw new Error(article.error);
   }
