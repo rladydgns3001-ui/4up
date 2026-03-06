@@ -182,23 +182,16 @@
         </div>
     </div>
 
-    <!-- 주문자 정보 -->
-    <div style="background: white; border-radius: 20px; padding: 35px; margin-bottom: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.08);" class="ap-pay-card">
-        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 22px;">
+    <!-- 결제 안내 -->
+    <div style="background: white; border-radius: 20px; padding: 30px; margin-bottom: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.08);" class="ap-pay-card">
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 18px;">
             <div style="width: 8px; height: 8px; background: #667eea; border-radius: 50%;"></div>
-            <h2 style="font-size: 1.15rem; font-weight: 800; color: #333; margin: 0;">주문자 정보</h2>
+            <h2 style="font-size: 1.15rem; font-weight: 800; color: #333; margin: 0;">결제 안내</h2>
         </div>
-        <div style="margin-bottom: 16px;">
-            <label style="display: block; font-size: 0.88rem; font-weight: 600; margin-bottom: 8px; color: #555;">이름 <span style="color: #ff4757;">*</span></label>
-            <input id="buyer-name" type="text" placeholder="홍길동" style="width: 100%; padding: 15px 18px; border: 1.5px solid #e8e8e8; border-radius: 12px; font-size: 1rem; outline: none; font-family: inherit; transition: border 0.2s; background: #fafafa; box-sizing: border-box;" class="ap-pay-input" onfocus="this.style.borderColor='#667eea'; this.style.background='#fff'" onblur="this.style.borderColor='#e8e8e8'; this.style.background='#fafafa'">
-        </div>
-        <div style="margin-bottom: 16px;">
-            <label style="display: block; font-size: 0.88rem; font-weight: 600; margin-bottom: 8px; color: #555;">연락처 <span style="color: #ff4757;">*</span></label>
-            <input id="buyer-tel" type="tel" placeholder="010-1234-5678" style="width: 100%; padding: 15px 18px; border: 1.5px solid #e8e8e8; border-radius: 12px; font-size: 1rem; outline: none; font-family: inherit; transition: border 0.2s; background: #fafafa; box-sizing: border-box;" class="ap-pay-input" onfocus="this.style.borderColor='#667eea'; this.style.background='#fff'" onblur="this.style.borderColor='#e8e8e8'; this.style.background='#fafafa'">
-        </div>
-        <div>
-            <label style="display: block; font-size: 0.88rem; font-weight: 600; margin-bottom: 8px; color: #555;">이메일 <span style="color: #ff4757;">*</span></label>
-            <input id="buyer-email" type="email" placeholder="example@email.com" style="width: 100%; padding: 15px 18px; border: 1.5px solid #e8e8e8; border-radius: 12px; font-size: 1rem; outline: none; font-family: inherit; transition: border 0.2s; background: #fafafa; box-sizing: border-box;" class="ap-pay-input" onfocus="this.style.borderColor='#667eea'; this.style.background='#fff'" onblur="this.style.borderColor='#e8e8e8'; this.style.background='#fafafa'">
+        <div style="font-size: 0.9rem; color: #555; line-height: 1.8;">
+            <p style="margin-bottom: 8px;">✅ 결제 버튼 클릭 → Polar 결제 페이지에서 카드 정보 입력</p>
+            <p style="margin-bottom: 8px;">✅ 결제 완료 즉시 이메일로 다운로드 링크 자동 발송</p>
+            <p>✅ 설치 교육 일정은 카카오톡으로 안내드립니다</p>
         </div>
     </div>
 
@@ -208,24 +201,23 @@
             <div style="width: 8px; height: 8px; background: #667eea; border-radius: 50%;"></div>
             <h2 style="font-size: 1.15rem; font-weight: 800; color: #333; margin: 0;">결제 수단</h2>
         </div>
-        <div style="display: block; width: 100%; padding: 16px 20px; border: 1.5px solid #667eea; border-radius: 12px; background: #f5f3ff; box-sizing: border-box;">
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <span style="color: #667eea; font-size: 1.3rem;">🏦</span>
-                <div>
-                    <strong style="font-size: 0.95rem; color: #333;">계좌이체</strong><br>
-                    <span style="color: #aaa; font-size: 0.8rem;">카카오뱅크 계좌이체</span>
+        <div style="display: flex; gap: 10px;">
+            <div style="flex:1; padding: 16px 20px; border: 1.5px solid #667eea; border-radius: 12px; background: #f5f3ff; box-sizing: border-box;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <span style="color: #667eea; font-size: 1.3rem;">💳</span>
+                    <div>
+                        <strong style="font-size: 0.95rem; color: #333;">카드결제</strong><br>
+                        <span style="color: #aaa; font-size: 0.8rem;">신용카드 · 체크카드</span>
+                    </div>
                 </div>
             </div>
         </div>
+        <p style="margin-top: 12px; font-size: 0.78rem; color: #aaa; text-align: center;">결제는 Polar(polar.sh)를 통해 안전하게 처리됩니다.</p>
     </div>
 
-    <!-- 선착순 안내 -->
-    <div style="background: #fff5f5; border: 1.5px solid #ffcdd2; border-radius: 14px; padding: 14px 22px; margin: 0 0 12px 0; text-align: center;">
-        <span style="color: #ff4757; font-weight: 700; font-size: 0.95rem;">🔥 3차 한정 수량 — 마감 시 가격 인상</span>
-    </div>
-
-    <!-- 결제 버튼 -->
-    <button id="pay-btn" onclick="showTransferInfo()" style="width: 100%; padding: 20px; margin: 0; background: linear-gradient(135deg, #764ba2 0%, #667eea 100%); color: white; border: none; border-radius: 16px; font-size: 1.25rem; font-weight: 900; cursor: pointer; font-family: inherit; box-shadow: 0 10px 30px rgba(118, 75, 162, 0.4); text-align: center; line-height: 1.4;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 15px 40px rgba(118,75,162,0.5)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 30px rgba(118,75,162,0.4)'">389,000원 결제하기 — V2 Pro</button>
+    <!-- 결제 버튼 (Polar Embed Checkout) -->
+    <a id="pay-btn" href="https://buy.polar.sh/polar_cl_nNbRQOzhTaLykgm7Dvs40gSiIYsZLHMeRxrYS3as8zS" data-polar-checkout data-polar-checkout-theme="light" style="display:block; width: 100%; padding: 20px; margin: 0; background: linear-gradient(135deg, #764ba2 0%, #667eea 100%); color: white; border: none; border-radius: 16px; font-size: 1.25rem; font-weight: 900; cursor: pointer; font-family: inherit; box-shadow: 0 10px 30px rgba(118, 75, 162, 0.4); text-align: center; line-height: 1.4; text-decoration: none; box-sizing: border-box;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 15px 40px rgba(118,75,162,0.5)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 30px rgba(118,75,162,0.4)'">389,000원 카드결제 — V2 Pro</a>
+    <script src="https://checkout.polar.sh/embed.js" defer></script>
 
     <!-- 후기 링크 -->
     <a href="/reviews/" style="display:block;text-align:center;margin-top:20px;padding:16px;background:white;border-radius:14px;box-shadow:0 2px 12px rgba(0,0,0,0.06);text-decoration:none;color:#333;font-size:0.95rem;font-weight:600;">
@@ -235,7 +227,7 @@
     <!-- 안내 문구 -->
     <div style="margin-top: 20px; text-align: center;">
         <p style="color: #bbb; font-size: 0.8rem; line-height: 1.8;">
-            결제 완료 후 카카오톡으로 프로그램 전달 및 설치 안내를 드립니다.<br>
+            결제 완료 즉시 이메일로 다운로드 링크가 자동 발송됩니다.<br>
             문의: <a href="https://open.kakao.com/o/sjcFzkei" style="color: #667eea; text-decoration: none; font-weight: 600;">카카오톡 오픈채팅</a>
         </p>
     </div>
@@ -252,8 +244,8 @@
 <script>
 var selectedPlan = 'pro';
 var planData = {
-    basic: { name: 'AutoPost SEO Writer (Basic)', price: 289000, priceText: '289,000', label: 'Basic' },
-    pro: { name: 'AutoPost SEO Writer V2 Pro', price: 389000, priceText: '389,000', label: 'V2 Pro' }
+    basic: { name: 'AutoPost SEO Writer (Basic)', price: 289000, priceText: '289,000', label: 'Basic', checkoutUrl: 'https://buy.polar.sh/polar_cl_fe87hwMA3m0dVJV1WsgZYXdQsBaN7SPT7MBnt3OxN2F' },
+    pro: { name: 'AutoPost SEO Writer V2 Pro', price: 389000, priceText: '389,000', label: 'V2 Pro', checkoutUrl: 'https://buy.polar.sh/polar_cl_nNbRQOzhTaLykgm7Dvs40gSiIYsZLHMeRxrYS3as8zS' }
 };
 
 function selectPlan(plan) {
@@ -265,12 +257,14 @@ function selectPlan(plan) {
     var d = planData[plan];
     var btn = document.getElementById('pay-btn');
     if (plan === 'pro') {
-        btn.textContent = d.priceText + '\uC6D0 \uACB0\uC81C\uD558\uAE30 \u2014 V2 Pro';
+        btn.textContent = d.priceText + '원 카드결제 — V2 Pro';
         btn.style.background = 'linear-gradient(135deg, #764ba2 0%, #667eea 100%)';
     } else {
-        btn.textContent = d.priceText + '\uC6D0 \uACB0\uC81C\uD558\uAE30 \u2014 Basic';
+        btn.textContent = d.priceText + '원 카드결제 — Basic';
         btn.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
     }
+    btn.href = d.checkoutUrl;
+    updateFloatingBar();
 }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -279,8 +273,8 @@ document.addEventListener('DOMContentLoaded', function() {
     var el=document.querySelector('.entry-content');while(el){el.style.padding='0';el.style.margin='0';el.style.maxWidth='100%';el.style.width='100%';if(el.tagName==='BODY')break;el=el.parentElement;}
 
     var bar=document.createElement('div');bar.id='floating-pay-bar';bar.style.cssText='position:fixed;bottom:0;left:0;right:0;z-index:99998;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);padding:18px 20px;box-shadow:0 -5px 30px rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;gap:15px;box-sizing:border-box;margin:0;';
-    var lbl=document.createElement('div');lbl.id='floating-label';lbl.style.cssText='color:white;font-size:0.95rem;font-weight:700;line-height:1;margin:0;padding:0;animation:blink 1.5s infinite;';lbl.textContent='\uD83D\uDD34 3\uCC28 \uD55C\uC815 \uD310\uB9E4';
-    var fbtn=document.createElement('button');fbtn.id='floating-btn';fbtn.onclick=function(){document.getElementById('buyer-name').scrollIntoView({behavior:'smooth',block:'center'});};fbtn.style.cssText='background:#ff4757;color:white;padding:14px 35px;border-radius:50px;font-weight:700;font-size:1rem;white-space:nowrap;box-shadow:0 5px 20px rgba(255,71,87,0.4);border:none;cursor:pointer;font-family:inherit;line-height:1;animation:pulse 2s infinite;';fbtn.textContent='389,000\uC6D0 \u2014 V2 Pro \uAD6C\uB9E4\uD558\uAE30';
+    var lbl=document.createElement('div');lbl.id='floating-label';lbl.style.cssText='color:white;font-size:0.95rem;font-weight:700;line-height:1;margin:0;padding:0;';lbl.textContent='💳 카드결제';
+    var fbtn=document.createElement('a');fbtn.id='floating-btn';fbtn.href=planData[selectedPlan].checkoutUrl;fbtn.setAttribute('data-polar-checkout','');fbtn.setAttribute('data-polar-checkout-theme','light');fbtn.style.cssText='background:#ff4757;color:white;padding:14px 35px;border-radius:50px;font-weight:700;font-size:1rem;white-space:nowrap;box-shadow:0 5px 20px rgba(255,71,87,0.4);border:none;cursor:pointer;font-family:inherit;line-height:1;text-decoration:none;display:inline-block;';fbtn.textContent='389,000원 — V2 Pro 결제하기';
     bar.appendChild(lbl);bar.appendChild(fbtn);document.body.appendChild(bar);
 
     updateFloatingBar();
@@ -290,28 +284,8 @@ function updateFloatingBar() {
     var fbtn = document.getElementById('floating-btn');
     if (!fbtn) return;
     var d = planData[selectedPlan];
-    fbtn.textContent = d.priceText + '\uC6D0 \u2014 \uC9C0\uAE08 \uAD6C\uB9E4\uD558\uAE30';
-}
-
-function showTransferInfo() {
-    var name = document.getElementById('buyer-name').value.trim();
-    var tel = document.getElementById('buyer-tel').value.trim();
-    var email = document.getElementById('buyer-email').value.trim();
-    if (!name) { alert('\uC774\uB984\uC744 \uC785\uB825\uD574\uC8FC\uC138\uC694.'); return; }
-    if (!tel) { alert('\uC5F0\uB77D\uCC98\uB97C \uC785\uB825\uD574\uC8FC\uC138\uC694.'); return; }
-    if (!email) { alert('\uC774\uBA54\uC77C\uC744 \uC785\uB825\uD574\uC8FC\uC138\uC694.'); return; }
-
-    var d = planData[selectedPlan];
-
-    if (typeof fbq === 'function') {
-        fbq('track', 'Lead', { content_name: d.name, content_category: 'software', value: d.price, currency: 'KRW' });
-    }
-    fetch('https://script.google.com/macros/s/AKfycbxCquDFPqe1k7Te7_N2x8juXUIu5UdcOiO1Yx6aijY6RDaoDqPe_cfcvl1W0Tvdi7wD/exec', {
-        method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: name, tel: "'" + tel, email: email, amount: d.priceText, plan: d.label })
-    }).catch(function() {});
-
-    window.location.href = '/payment-info/?plan=' + selectedPlan + '&name=' + encodeURIComponent(name) + '&tel=' + encodeURIComponent(tel) + '&email=' + encodeURIComponent(email);
+    fbtn.textContent = d.priceText + '원 — ' + d.label + ' 결제하기';
+    fbtn.href = d.checkoutUrl;
 }
 </script>
 
