@@ -75,7 +75,7 @@ async function generateSubKeywords(mainKeyword) {
   }
 }
 
-async function generateArticle(keyword, webContext = '', wpContext = '', style = 'informative', length = 'medium', searchData = null, keywordSettings = null, customPromptConfig = null) {
+async function generateArticle(keyword, webContext = '', wpContext = '', style = 'informative', length = 'medium', searchData = null, keywordSettings = null, customPromptConfig = null, extraPrompt = '') {
   const client = new Anthropic({ apiKey: config.CLAUDE_API_KEY });
 
   const lengthGuide = {
@@ -297,7 +297,7 @@ ${wpContext || '없음'}
 4. ✅ 목차에 앵커 링크가 있는가?
 5. ✅ FAQ 섹션까지 완성했는가?
 
-⚠️ 중요: 검색 결과가 부족해도 반드시 글을 작성해야 합니다. 글 작성 거부는 절대 금지입니다.`;
+⚠️ 중요: 검색 결과가 부족해도 반드시 글을 작성해야 합니다. 글 작성 거부는 절대 금지입니다.${extraPrompt ? `\n\n## 추가 지시사항\n${extraPrompt}` : ''}`;
 
   try {
     // 커스텀 프롬프트 사용 여부 확인
