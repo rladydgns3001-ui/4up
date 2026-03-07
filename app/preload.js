@@ -1,4 +1,4 @@
-const { contextBridge, ipcRenderer, shell } = require('electron');
+const { contextBridge, ipcRenderer } = require('electron');
 
 contextBridge.exposeInMainWorld('api', {
   // 글 작성
@@ -24,8 +24,8 @@ contextBridge.exposeInMainWorld('api', {
   // Google 서비스 계정 JSON 파일 선택
   selectJsonFile: () => ipcRenderer.invoke('select-json-file'),
 
-  // 외부 브라우저로 링크 열기
-  openExternal: (url) => shell.openExternal(url),
+  // 외부 브라우저로 링크 열기 (메인 프로세스에서 실행)
+  openExternal: (url) => ipcRenderer.invoke('open-external', url),
 
   // 발행 이력 로그
   getPostLog: () => ipcRenderer.invoke('get-post-log'),
