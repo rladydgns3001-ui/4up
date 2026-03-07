@@ -298,6 +298,24 @@ ipcMain.handle('write-post', async (event, options) => {
       siteName: selectedSite?.name || config.WP_SITE_URL
     });
 
+    // 색인 요청 (사이트별 설정)
+    let indexingResults = {};
+    if (publish && result.link) {
+      try {
+        const { requestIndexing } = require('../src/indexing');
+        const siteIndexConfig = {
+          GOOGLE_INDEXING_JSON_PATH: (selectedSite && selectedSite.googleIndexingJsonPath) || '',
+          INDEXNOW_API_KEY: (selectedSite && selectedSite.indexNowApiKey) || '',
+          WP_SITE_URL: (selectedSite && selectedSite.url) || config.WP_SITE_URL,
+          WP_USERNAME: (selectedSite && selectedSite.username) || config.WP_USERNAME,
+          WP_APP_PASSWORD: (selectedSite && selectedSite.password) || config.WP_APP_PASSWORD
+        };
+        indexingResults = await requestIndexing(result.link, siteIndexConfig);
+      } catch (indexError) {
+        console.error('색인 요청 오류:', indexError.message);
+      }
+    }
+
     return {
       success: true,
       title: article.title,
@@ -305,6 +323,7 @@ ipcMain.handle('write-post', async (event, options) => {
       status: status === 'publish' ? '발행됨' : '임시저장',
       link: result.link,
       editLink: result.editLink,
+      indexing: indexingResults,
       imageErrors: imageErrors.length > 0 ? imageErrors : null
     };
 
