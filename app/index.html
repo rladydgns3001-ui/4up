@@ -1874,9 +1874,11 @@
             result.className = 'result error';
             result.innerHTML = `<h3>오류 발생</h3><p>${res.error}</p>`;
           }
+          result.style.display = '';
         } catch (error) {
           result.className = 'result error';
           result.innerHTML = `<h3>오류 발생</h3><p>${error.message}</p>`;
+          result.style.display = '';
         }
 
         submitBtn.disabled = false;
