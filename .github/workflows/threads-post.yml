@@ -1,11 +1,12 @@
 name: Threads Auto Post (자동 발행 + 성과 분석)
 
 on:
-  schedule:
-    - cron: '0 6 * * *'    # KST 15:00 — 최고 조회수 시간대 (데이터 기반)
-    - cron: '0 12 * * *'   # KST 21:00 — 퇴근 후 쉬는 시간
-    - cron: '0 14 * * *'   # KST 23:00 — 2번째 최고 조회수 시간대
-  workflow_dispatch:        # 수동 실행 가능
+  # schedule 비활성화 (2026-03-07)
+  # schedule:
+  #   - cron: '0 6 * * *'
+  #   - cron: '0 12 * * *'
+  #   - cron: '0 14 * * *'
+  workflow_dispatch:        # 수동 실행만 가능
 
 permissions:
   contents: write
