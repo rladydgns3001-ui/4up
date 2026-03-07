@@ -165,7 +165,7 @@ ipcMain.handle('select-json-file', async () => {
 });
 
 ipcMain.handle('write-post', async (event, options) => {
-  const { keyword, style, length, publish, keywordSettings, selectedSite } = options;
+  const { keyword, style, length, publish, keywordSettings, selectedSite, extraPrompt } = options;
 
   if (!config.isConfigured()) {
     return { success: false, error: '설정을 먼저 완료해주세요.' };
@@ -218,8 +218,12 @@ ipcMain.handle('write-post', async (event, options) => {
     // 스타일 참고글 주입
     const searchDataWithStyle = { styleReference: config.STYLE_REFERENCE || null };
 
+    // 추가 지시사항 합산 (사이트별 기본 + 1회성)
+    const defaultExtra = (selectedSite && selectedSite.defaultExtraPrompt) || '';
+    const combinedExtraPrompt = [defaultExtra, extraPrompt || ''].filter(Boolean).join('\n');
+
     sendProgress('AI 글 생성 중...', 60);
-    const article = await generateArticle(keyword, webContext, wpContext, style, length, searchDataWithStyle, kwSettings, customPromptConfig);
+    const article = await generateArticle(keyword, webContext, wpContext, style, length, searchDataWithStyle, kwSettings, customPromptConfig, combinedExtraPrompt);
     if (!article.success) {
       return { success: false, error: article.error };
     }
@@ -231,8 +235,8 @@ ipcMain.handle('write-post', async (event, options) => {
     let featuredImageId = imgResult.featuredImageId;
     const imageErrors = imgResult.errors || [];
 
-    const adsenseClientId = config.ADSENSE_CLIENT_ID;
-    const adsenseSlotId = config.ADSENSE_SLOT_ID;
+    const adsenseClientId = (selectedSite && selectedSite.adsenseClientId) || '';
+    const adsenseSlotId = (selectedSite && selectedSite.adsenseSlotId) || '';
     if (adsenseClientId && adsenseSlotId) {
       const adCode = `<div style="margin:30px 0;text-align:center;"><ins class="adsbygoogle" style="display:block" data-ad-client="${adsenseClientId}" data-ad-slot="${adsenseSlotId}" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>`;
 
@@ -305,7 +309,7 @@ ipcMain.handle('write-post', async (event, options) => {
 // ===== 예약 발행 큐 =====
 
 // 단일 키워드 처리 (큐에서 호출)
-async function processOneKeyword(keyword, style, length, publish, keywordSettings, selectedSite = null) {
+async function processOneKeyword(keyword, style, length, publish, keywordSettings, selectedSite = null, extraPrompt = '') {
   const WordPressAPI = require('../src/wordpress');
   const { getSearchContext, fetchPageContent } = require('../src/search');
   const { generateArticle } = require('../src/writer');
@@ -350,8 +354,12 @@ async function processOneKeyword(keyword, style, length, publish, keywordSetting
 
   const searchDataWithStyle = { styleReference: config.STYLE_REFERENCE || null };
 
+  // 추가 지시사항 합산 (사이트별 기본 + 1회성)
+  const defaultExtra = (selectedSite && selectedSite.defaultExtraPrompt) || '';
+  const combinedExtraPrompt = [defaultExtra, extraPrompt || ''].filter(Boolean).join('\n');
+
   sendProgress('AI 글 생성 중...', 60);
-  const article = await generateArticle(keyword, webContext, wpContext, style, length, searchDataWithStyle, kwSettings, customPromptConfig);
+  const article = await generateArticle(keyword, webContext, wpContext, style, length, searchDataWithStyle, kwSettings, customPromptConfig, combinedExtraPrompt);
   if (!article.success) {
     throw new Error(article.error);
   }
@@ -364,9 +372,9 @@ async function processOneKeyword(keyword, style, length, publish, keywordSetting
   let featuredImageId = imgProcessed.featuredImageId;
   const imageErrors = imgProcessed.errors || [];
 
-  // AdSense 광고 삽입
-  const adsenseClientId = config.ADSENSE_CLIENT_ID;
-  const adsenseSlotId = config.ADSENSE_SLOT_ID;
+  // AdSense 광고 삽입 (사이트별)
+  const adsenseClientId = (selectedSite && selectedSite.adsenseClientId) || '';
+  const adsenseSlotId = (selectedSite && selectedSite.adsenseSlotId) || '';
   if (adsenseClientId && adsenseSlotId) {
     const adCode = `<div style="margin:30px 0;text-align:center;"><ins class="adsbygoogle" style="display:block" data-ad-client="${adsenseClientId}" data-ad-slot="${adsenseSlotId}" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>`;
 
@@ -422,12 +430,19 @@ async function processOneKeyword(keyword, style, length, publish, keywordSetting
     siteName: selectedSite?.name || config.WP_SITE_URL
   });
 
-  // 색인 요청
+  // 색인 요청 (사이트별 설정)
   let indexingResults = {};
   if (publish && result.link) {
     try {
       const { requestIndexing } = require('../src/indexing');
-      indexingResults = await requestIndexing(result.link, config);
+      const siteIndexConfig = {
+        GOOGLE_INDEXING_JSON_PATH: (selectedSite && selectedSite.googleIndexingJsonPath) || '',
+        INDEXNOW_API_KEY: (selectedSite && selectedSite.indexNowApiKey) || '',
+        WP_SITE_URL: (selectedSite && selectedSite.url) || config.WP_SITE_URL,
+        WP_USERNAME: (selectedSite && selectedSite.username) || config.WP_USERNAME,
+        WP_APP_PASSWORD: (selectedSite && selectedSite.password) || config.WP_APP_PASSWORD
+      };
+      indexingResults = await requestIndexing(result.link, siteIndexConfig);
     } catch (indexError) {
       console.error('색인 요청 오류:', indexError.message);
     }
@@ -522,7 +537,8 @@ function scheduleNextKeyword() {
         postQueue.length,
         postQueue.publish,
         kwSettings,
-        postQueue.selectedSite || null
+        postQueue.selectedSite || null,
+        postQueue.extraPrompt || ''
       );
       postQueue.results.push(result);
     } catch (error) {
@@ -548,7 +564,7 @@ ipcMain.handle('start-scheduled-posts', async (event, options) => {
     return { success: false, error: '설정을 먼저 완료해주세요.' };
   }
 
-  const { keywords, scheduleMode, intervalHours, specificTimes, style, length, publish, selectedSite } = options;
+  const { keywords, scheduleMode, intervalHours, specificTimes, style, length, publish, selectedSite, extraPrompt } = options;
 
   if (!keywords || keywords.length === 0) {
     return { success: false, error: '키워드를 입력해주세요.' };
@@ -570,7 +586,8 @@ ipcMain.handle('start-scheduled-posts', async (event, options) => {
     style: style || 'informative',
     length: length || 'medium',
     publish: publish !== false,
-    selectedSite: selectedSite || null
+    selectedSite: selectedSite || null,
+    extraPrompt: extraPrompt || ''
   };
 
   // 큐 처리 시작

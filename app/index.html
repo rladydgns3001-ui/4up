@@ -660,7 +660,6 @@
         <div class="form-group">
           <label for="siteSelect">발행할 사이트</label>
           <select id="siteSelect">
-            <option value="default">기본 사이트 (설정 탭 기준)</option>
           </select>
         </div>
 
@@ -727,6 +726,11 @@
             </label>
             <div id="timeInputs" class="time-inputs"></div>
           </div>
+        </div>
+
+        <div class="form-group">
+          <label for="extraPrompt">추가 지시사항 <span class="label-hint">(1회성, 선택)</span></label>
+          <textarea id="extraPrompt" rows="3" placeholder="예: 글 하단에 '이 포스팅은 쿠팡파트너스 활동의 일환으로...' 문구를 포함해줘" style="width:100%;font-size:13px;padding:12px;border:1px solid #ddd;border-radius:8px;resize:vertical;"></textarea>
         </div>
 
         <div class="form-group">
@@ -812,6 +816,29 @@
               <input type="password" class="site-password" data-idx="0" placeholder="xxxx xxxx xxxx xxxx">
             </div>
             <div class="site-test-result" id="site-test-0"></div>
+            <div class="form-group">
+              <label>AdSense 퍼블리셔 ID <span class="label-hint">(선택)</span></label>
+              <input type="text" class="site-adsense-client" data-idx="0" placeholder="ca-pub-1234567890123456">
+            </div>
+            <div class="form-group">
+              <label>AdSense 슬롯 ID <span class="label-hint">(선택)</span></label>
+              <input type="text" class="site-adsense-slot" data-idx="0" placeholder="1234567890">
+            </div>
+            <div class="form-group">
+              <label>Google 서비스 계정 JSON <span class="label-hint">(선택)</span></label>
+              <div class="file-select-group">
+                <input type="text" class="site-google-json" data-idx="0" placeholder="파일을 선택하세요" readonly>
+                <button type="button" class="btn-select-json" data-idx="0">파일 선택</button>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>IndexNow API Key <span class="label-hint">(선택)</span></label>
+              <input type="text" class="site-indexnow-key" data-idx="0" placeholder="IndexNow API Key">
+            </div>
+            <div class="form-group">
+              <label>기본 추가 지시사항 <span class="label-hint">(선택)</span></label>
+              <textarea class="site-extra-prompt" data-idx="0" rows="2" placeholder="이 사이트 발행 시 매번 적용할 지시사항"></textarea>
+            </div>
           </div>
           <!-- 사이트 2 -->
           <div class="site-card" id="site-card-1">
@@ -836,6 +863,29 @@
               <input type="password" class="site-password" data-idx="1" placeholder="xxxx xxxx xxxx xxxx">
             </div>
             <div class="site-test-result" id="site-test-1"></div>
+            <div class="form-group">
+              <label>AdSense 퍼블리셔 ID <span class="label-hint">(선택)</span></label>
+              <input type="text" class="site-adsense-client" data-idx="1" placeholder="ca-pub-1234567890123456">
+            </div>
+            <div class="form-group">
+              <label>AdSense 슬롯 ID <span class="label-hint">(선택)</span></label>
+              <input type="text" class="site-adsense-slot" data-idx="1" placeholder="1234567890">
+            </div>
+            <div class="form-group">
+              <label>Google 서비스 계정 JSON <span class="label-hint">(선택)</span></label>
+              <div class="file-select-group">
+                <input type="text" class="site-google-json" data-idx="1" placeholder="파일을 선택하세요" readonly>
+                <button type="button" class="btn-select-json" data-idx="1">파일 선택</button>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>IndexNow API Key <span class="label-hint">(선택)</span></label>
+              <input type="text" class="site-indexnow-key" data-idx="1" placeholder="IndexNow API Key">
+            </div>
+            <div class="form-group">
+              <label>기본 추가 지시사항 <span class="label-hint">(선택)</span></label>
+              <textarea class="site-extra-prompt" data-idx="1" rows="2" placeholder="이 사이트 발행 시 매번 적용할 지시사항"></textarea>
+            </div>
           </div>
           <!-- 사이트 3 -->
           <div class="site-card" id="site-card-2">
@@ -860,72 +910,30 @@
               <input type="password" class="site-password" data-idx="2" placeholder="xxxx xxxx xxxx xxxx">
             </div>
             <div class="site-test-result" id="site-test-2"></div>
+            <div class="form-group">
+              <label>AdSense 퍼블리셔 ID <span class="label-hint">(선택)</span></label>
+              <input type="text" class="site-adsense-client" data-idx="2" placeholder="ca-pub-1234567890123456">
+            </div>
+            <div class="form-group">
+              <label>AdSense 슬롯 ID <span class="label-hint">(선택)</span></label>
+              <input type="text" class="site-adsense-slot" data-idx="2" placeholder="1234567890">
+            </div>
+            <div class="form-group">
+              <label>Google 서비스 계정 JSON <span class="label-hint">(선택)</span></label>
+              <div class="file-select-group">
+                <input type="text" class="site-google-json" data-idx="2" placeholder="파일을 선택하세요" readonly>
+                <button type="button" class="btn-select-json" data-idx="2">파일 선택</button>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>IndexNow API Key <span class="label-hint">(선택)</span></label>
+              <input type="text" class="site-indexnow-key" data-idx="2" placeholder="IndexNow API Key">
+            </div>
+            <div class="form-group">
+              <label>기본 추가 지시사항 <span class="label-hint">(선택)</span></label>
+              <textarea class="site-extra-prompt" data-idx="2" rows="2" placeholder="이 사이트 발행 시 매번 적용할 지시사항"></textarea>
+            </div>
           </div>
-        </div>
-
-        <hr class="divider">
-        <p class="section-title">WordPress 연결 (기본 — 하위 호환)</p>
-
-        <div class="form-group">
-          <label for="wpSiteUrl">
-            사이트 URL
-            <span class="label-hint">(https://yourblog.com)</span>
-          </label>
-          <input type="text" id="wpSiteUrl" placeholder="https://yourblog.com">
-        </div>
-
-        <div class="form-group">
-          <label for="wpUsername">사용자명</label>
-          <input type="text" id="wpUsername" placeholder="admin">
-        </div>
-
-        <div class="form-group">
-          <label for="wpAppPassword">
-            앱 비밀번호
-            <span class="label-hint">(xxxx xxxx xxxx xxxx)</span>
-          </label>
-          <input type="password" id="wpAppPassword" placeholder="xxxx xxxx xxxx xxxx">
-        </div>
-
-        <hr class="divider">
-        <p class="section-title">Google AdSense (선택)</p>
-
-        <div class="form-group">
-          <label for="adsenseClientId">
-            퍼블리셔 ID
-            <span class="label-hint">(ca-pub-XXXXXXXXXXXXXXXX)</span>
-          </label>
-          <input type="text" id="adsenseClientId" placeholder="ca-pub-1234567890123456">
-        </div>
-
-        <div class="form-group">
-          <label for="adsenseSlotId">
-            광고 슬롯 ID
-            <span class="label-hint">(숫자만)</span>
-          </label>
-          <input type="text" id="adsenseSlotId" placeholder="1234567890">
-        </div>
-
-        <hr class="divider">
-        <p class="section-title">검색엔진 색인 (선택)</p>
-
-        <div class="form-group">
-          <label for="googleIndexingJsonPath">
-            Google 서비스 계정 JSON
-            <span class="label-hint">(Indexing API 인증용)</span>
-          </label>
-          <div class="file-select-group">
-            <input type="text" id="googleIndexingJsonPath" placeholder="파일을 선택하세요" readonly>
-            <button type="button" id="selectJsonBtn">파일 선택</button>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="indexNowApiKey">
-            IndexNow API Key
-            <span class="label-hint">(네이버·Bing 색인 요청)</span>
-          </label>
-          <input type="text" id="indexNowApiKey" placeholder="IndexNow API Key 입력">
         </div>
 
         <hr class="divider">
@@ -1331,26 +1339,48 @@
         } else {
           openaiWarning.style.display = 'none';
         }
-        document.getElementById('wpSiteUrl').value = config.WP_SITE_URL || '';
-        document.getElementById('wpUsername').value = config.WP_USERNAME || '';
-        document.getElementById('wpAppPassword').value = config.WP_APP_PASSWORD || '';
-        document.getElementById('adsenseClientId').value = config.ADSENSE_CLIENT_ID || '';
-        document.getElementById('adsenseSlotId').value = config.ADSENSE_SLOT_ID || '';
-        document.getElementById('googleIndexingJsonPath').value = config.GOOGLE_INDEXING_JSON_PATH || '';
-        document.getElementById('indexNowApiKey').value = config.INDEXNOW_API_KEY || '';
         document.getElementById('styleReference').value = config.STYLE_REFERENCE || '';
 
         // 다중 사이트 로드
         const sites = config.WP_SITES || [{},{},{}];
+
+        // 마이그레이션: 기존 전역 설정 → 사이트 1로 이전
+        if (config.WP_SITE_URL && (!sites[0] || !sites[0].url)) {
+          sites[0] = {
+            ...(sites[0] || {}),
+            name: (sites[0] && sites[0].name) || '기본 사이트',
+            url: config.WP_SITE_URL,
+            username: config.WP_USERNAME || '',
+            password: config.WP_APP_PASSWORD || '',
+            adsenseClientId: config.ADSENSE_CLIENT_ID || '',
+            adsenseSlotId: config.ADSENSE_SLOT_ID || '',
+            googleIndexingJsonPath: config.GOOGLE_INDEXING_JSON_PATH || '',
+            indexNowApiKey: config.INDEXNOW_API_KEY || '',
+            defaultExtraPrompt: config.DEFAULT_EXTRA_PROMPT || ''
+          };
+          // 자동 저장
+          await window.api.saveConfig({ WP_SITES: sites });
+        }
+
         sites.forEach((site, idx) => {
           const nameEl = document.querySelector(`.site-name[data-idx="${idx}"]`);
           const urlEl = document.querySelector(`.site-url[data-idx="${idx}"]`);
           const usernameEl = document.querySelector(`.site-username[data-idx="${idx}"]`);
           const passwordEl = document.querySelector(`.site-password[data-idx="${idx}"]`);
+          const adsClientEl = document.querySelector(`.site-adsense-client[data-idx="${idx}"]`);
+          const adsSlotEl = document.querySelector(`.site-adsense-slot[data-idx="${idx}"]`);
+          const googleJsonEl = document.querySelector(`.site-google-json[data-idx="${idx}"]`);
+          const indexNowEl = document.querySelector(`.site-indexnow-key[data-idx="${idx}"]`);
+          const extraPromptEl = document.querySelector(`.site-extra-prompt[data-idx="${idx}"]`);
           if (nameEl) nameEl.value = site.name || '';
           if (urlEl) urlEl.value = site.url || '';
           if (usernameEl) usernameEl.value = site.username || '';
           if (passwordEl) passwordEl.value = site.password || '';
+          if (adsClientEl) adsClientEl.value = site.adsenseClientId || '';
+          if (adsSlotEl) adsSlotEl.value = site.adsenseSlotId || '';
+          if (googleJsonEl) googleJsonEl.value = site.googleIndexingJsonPath || '';
+          if (indexNowEl) indexNowEl.value = site.indexNowApiKey || '';
+          if (extraPromptEl) extraPromptEl.value = site.defaultExtraPrompt || '';
         });
 
         // 사이트 선택 드롭다운 업데이트
@@ -1369,7 +1399,7 @@
 
     function updateSiteSelector(sites) {
       const sel = document.getElementById('siteSelect');
-      sel.innerHTML = '<option value="default">기본 사이트 (설정 탭 기준)</option>';
+      sel.innerHTML = '';
       (sites || []).forEach((site, idx) => {
         if (site.url && site.username) {
           const opt = document.createElement('option');
@@ -1517,11 +1547,15 @@
       }
     });
 
-    // Google JSON 파일 선택
-    document.getElementById('selectJsonBtn').addEventListener('click', async () => {
+    // Google JSON 파일 선택 (사이트별)
+    document.addEventListener('click', async (e) => {
+      const btn = e.target.closest('.btn-select-json');
+      if (!btn) return;
+      const idx = btn.dataset.idx;
       const res = await window.api.selectJsonFile();
       if (res.success) {
-        document.getElementById('googleIndexingJsonPath').value = res.path;
+        const input = document.querySelector(`.site-google-json[data-idx="${idx}"]`);
+        if (input) input.value = res.path;
       }
     });
 
@@ -1532,18 +1566,16 @@
       const config = {
         CLAUDE_API_KEY: document.getElementById('claudeApiKey').value.trim(),
         OPENAI_API_KEY: document.getElementById('openaiApiKey').value.trim(),
-        WP_SITE_URL: document.getElementById('wpSiteUrl').value.trim(),
-        WP_USERNAME: document.getElementById('wpUsername').value.trim(),
-        WP_APP_PASSWORD: document.getElementById('wpAppPassword').value.trim(),
-        ADSENSE_CLIENT_ID: document.getElementById('adsenseClientId').value.trim(),
-        ADSENSE_SLOT_ID: document.getElementById('adsenseSlotId').value.trim(),
-        GOOGLE_INDEXING_JSON_PATH: document.getElementById('googleIndexingJsonPath').value.trim(),
-        INDEXNOW_API_KEY: document.getElementById('indexNowApiKey').value.trim(),
         WP_SITES: [0,1,2].map(idx => ({
           name: (document.querySelector(`.site-name[data-idx="${idx}"]`)?.value || '').trim(),
           url: (document.querySelector(`.site-url[data-idx="${idx}"]`)?.value || '').trim(),
           username: (document.querySelector(`.site-username[data-idx="${idx}"]`)?.value || '').trim(),
-          password: (document.querySelector(`.site-password[data-idx="${idx}"]`)?.value || '').trim()
+          password: (document.querySelector(`.site-password[data-idx="${idx}"]`)?.value || '').trim(),
+          adsenseClientId: (document.querySelector(`.site-adsense-client[data-idx="${idx}"]`)?.value || '').trim(),
+          adsenseSlotId: (document.querySelector(`.site-adsense-slot[data-idx="${idx}"]`)?.value || '').trim(),
+          googleIndexingJsonPath: (document.querySelector(`.site-google-json[data-idx="${idx}"]`)?.value || '').trim(),
+          indexNowApiKey: (document.querySelector(`.site-indexnow-key[data-idx="${idx}"]`)?.value || '').trim(),
+          defaultExtraPrompt: (document.querySelector(`.site-extra-prompt[data-idx="${idx}"]`)?.value || '')
         })),
         STYLE_REFERENCE: document.getElementById('styleReference').value
       };
@@ -1629,17 +1661,15 @@
         try {
           const kwData = keywords[0];
           const siteVal = document.getElementById('siteSelect').value;
-          let selectedSite = null;
-          if (siteVal !== 'default') {
-            const cfg = await window.api.getConfig();
-            selectedSite = (cfg.WP_SITES || [])[parseInt(siteVal)] || null;
-          }
+          const cfg = await window.api.getConfig();
+          const selectedSite = (cfg.WP_SITES || [])[parseInt(siteVal)] || null;
           const res = await window.api.writePost({
             keyword: kwData.keyword,
             style,
             length,
             publish,
             selectedSite,
+            extraPrompt: document.getElementById('extraPrompt').value,
             keywordSettings: {
               referenceContent: kwData.referenceContent,
               referenceUrl: kwData.referenceUrl,
@@ -1688,11 +1718,8 @@
       document.getElementById('queueResults').innerHTML = '';
 
       const siteVal = document.getElementById('siteSelect').value;
-      let selectedSite = null;
-      if (siteVal !== 'default') {
-        const cfg = await window.api.getConfig();
-        selectedSite = (cfg.WP_SITES || [])[parseInt(siteVal)] || null;
-      }
+      const cfg2 = await window.api.getConfig();
+      const selectedSite = (cfg2.WP_SITES || [])[parseInt(siteVal)] || null;
 
       const options = {
         keywords,
@@ -1702,7 +1729,8 @@
         style,
         length,
         publish,
-        selectedSite
+        selectedSite,
+        extraPrompt: document.getElementById('extraPrompt').value
       };
 
       // 시간 지정 모드일 때 시간 수집

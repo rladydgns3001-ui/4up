@@ -9,6 +9,11 @@ function getConfigPath() {
   return path.join(userDataPath, 'autopost-config.json');
 }
 
+// 기본 사이트 객체
+function defaultSite() {
+  return { name: '', url: '', username: '', password: '', googleIndexingJsonPath: '', indexNowApiKey: '', adsenseClientId: '', adsenseSlotId: '', defaultExtraPrompt: '' };
+}
+
 // 설정 읽기
 function readConfig() {
   try {
@@ -21,24 +26,12 @@ function readConfig() {
     console.error('설정 읽기 오류:', error);
   }
   return {
-    WP_SITE_URL: '',
-    WP_USERNAME: '',
-    WP_APP_PASSWORD: '',
     CLAUDE_API_KEY: '',
     OPENAI_API_KEY: '',
-    ADSENSE_CLIENT_ID: '',
-    ADSENSE_SLOT_ID: '',
-    GOOGLE_INDEXING_JSON_PATH: '',
-    INDEXNOW_API_KEY: '',
-    INDEXNOW_KEY_LOCATION: '',
     CTA_LINK_URL: '',
     CTA_LINK_TEXT: '',
     CTA_MID_TEXT: '',
-    WP_SITES: [
-      { name: '', url: '', username: '', password: '' },
-      { name: '', url: '', username: '', password: '' },
-      { name: '', url: '', username: '', password: '' }
-    ],
+    WP_SITES: [defaultSite(), defaultSite(), defaultSite()],
     USE_CUSTOM_PROMPT: false,
     CUSTOM_SYSTEM_PROMPT: '',
     CUSTOM_USER_PROMPT: '',
@@ -69,35 +62,24 @@ function getConfigData() {
 }
 
 module.exports = {
+  // 하위 호환: 기존 코드에서 전역 WP_SITE_URL 등을 참조하는 경우 첫 번째 사이트 기준
   get WP_SITE_URL() {
-    return (getConfigData().WP_SITE_URL || '').replace(/\/$/, '');
+    const sites = getConfigData().WP_SITES || [];
+    return ((sites[0] && sites[0].url) || getConfigData().WP_SITE_URL || '').replace(/\/$/, '');
   },
   get WP_USERNAME() {
-    return getConfigData().WP_USERNAME || '';
+    const sites = getConfigData().WP_SITES || [];
+    return (sites[0] && sites[0].username) || getConfigData().WP_USERNAME || '';
   },
   get WP_APP_PASSWORD() {
-    return getConfigData().WP_APP_PASSWORD || '';
+    const sites = getConfigData().WP_SITES || [];
+    return (sites[0] && sites[0].password) || getConfigData().WP_APP_PASSWORD || '';
   },
   get CLAUDE_API_KEY() {
     return getConfigData().CLAUDE_API_KEY || '';
   },
   get OPENAI_API_KEY() {
     return getConfigData().OPENAI_API_KEY || '';
-  },
-  get ADSENSE_CLIENT_ID() {
-    return getConfigData().ADSENSE_CLIENT_ID || '';
-  },
-  get ADSENSE_SLOT_ID() {
-    return getConfigData().ADSENSE_SLOT_ID || '';
-  },
-  get GOOGLE_INDEXING_JSON_PATH() {
-    return getConfigData().GOOGLE_INDEXING_JSON_PATH || '';
-  },
-  get INDEXNOW_API_KEY() {
-    return getConfigData().INDEXNOW_API_KEY || '';
-  },
-  get INDEXNOW_KEY_LOCATION() {
-    return getConfigData().INDEXNOW_KEY_LOCATION || '';
   },
   get CTA_LINK_URL() {
     return getConfigData().CTA_LINK_URL || '';
@@ -109,11 +91,7 @@ module.exports = {
     return getConfigData().CTA_MID_TEXT || '';
   },
   get WP_SITES() {
-    return getConfigData().WP_SITES || [
-      { name: '', url: '', username: '', password: '' },
-      { name: '', url: '', username: '', password: '' },
-      { name: '', url: '', username: '', password: '' }
-    ];
+    return getConfigData().WP_SITES || [defaultSite(), defaultSite(), defaultSite()];
   },
   get USE_CUSTOM_PROMPT() {
     return getConfigData().USE_CUSTOM_PROMPT || false;
@@ -144,15 +122,15 @@ module.exports = {
     return getConfigData();
   },
 
-  // 설정 완료 여부 확인
+  // 설정 완료 여부 확인 — 첫 번째 사이트 기준
   isConfigured() {
     const config = getConfigData();
-    return !!(
-      config.WP_SITE_URL &&
-      config.WP_USERNAME &&
-      config.WP_APP_PASSWORD &&
-      config.CLAUDE_API_KEY
-    );
+    const sites = config.WP_SITES || [];
+    const site0 = sites[0] || {};
+    const hasWp = !!(site0.url && site0.username && site0.password);
+    // 하위 호환: 기존 전역 설정도 체크
+    const hasLegacyWp = !!(config.WP_SITE_URL && config.WP_USERNAME && config.WP_APP_PASSWORD);
+    return !!((hasWp || hasLegacyWp) && config.CLAUDE_API_KEY);
   },
 
   // 캐시 초기화

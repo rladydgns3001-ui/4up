@@ -5,10 +5,12 @@ class WordPressAPI {
   constructor(site = null) {
     // site 파라미터가 있으면 해당 사이트 설정 사용, 없으면 기본 설정
     if (site && site.url && site.username && site.password) {
-      this.baseUrl = `${site.url.replace(/\/$/, '')}/wp-json/wp/v2`;
+      this.siteUrl = site.url.replace(/\/$/, '');
+      this.baseUrl = `${this.siteUrl}/wp-json/wp/v2`;
       this.auth = { username: site.username, password: site.password };
     } else {
-      this.baseUrl = `${config.WP_SITE_URL}/wp-json/wp/v2`;
+      this.siteUrl = config.WP_SITE_URL;
+      this.baseUrl = `${this.siteUrl}/wp-json/wp/v2`;
       this.auth = { username: config.WP_USERNAME, password: config.WP_APP_PASSWORD };
     }
   }
@@ -16,10 +18,12 @@ class WordPressAPI {
   // 설정 다시 로드 (설정 변경 후 호출)
   reloadConfig(site = null) {
     if (site && site.url && site.username && site.password) {
-      this.baseUrl = `${site.url.replace(/\/$/, '')}/wp-json/wp/v2`;
+      this.siteUrl = site.url.replace(/\/$/, '');
+      this.baseUrl = `${this.siteUrl}/wp-json/wp/v2`;
       this.auth = { username: site.username, password: site.password };
     } else {
-      this.baseUrl = `${config.WP_SITE_URL}/wp-json/wp/v2`;
+      this.siteUrl = config.WP_SITE_URL;
+      this.baseUrl = `${this.siteUrl}/wp-json/wp/v2`;
       this.auth = { username: config.WP_USERNAME, password: config.WP_APP_PASSWORD };
     }
   }
@@ -96,7 +100,7 @@ class WordPressAPI {
         success: true,
         id: response.data.id,
         link: response.data.link,
-        editLink: `${config.WP_SITE_URL}/wp-admin/post.php?post=${response.data.id}&action=edit`
+        editLink: `${this.siteUrl}/wp-admin/post.php?post=${response.data.id}&action=edit`
       };
     } catch (error) {
       return {
