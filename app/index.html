@@ -602,6 +602,17 @@
     }
     .site-test-result.ok { display:block; background:#d4edda; color:#155724; }
     .site-test-result.fail { display:block; background:#f8d7da; color:#721c24; }
+    .site-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      gap: 12px;
+    }
+    .site-card-header strong {
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
     .btn-test-site {
       padding: 6px 12px;
       font-size: 12px;
@@ -610,8 +621,24 @@
       border: none;
       border-radius: 6px;
       cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
+      width: auto;
     }
     .btn-test-site:hover { background: #5a6fd6; }
+    .btn-save-site {
+      width: 100%;
+      padding: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      background: #667eea;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 12px;
+    }
+    .btn-save-site:hover { background: #5a6fd6; }
     #customPromptFields textarea {
       width: 100%;
       font-family: monospace;
@@ -795,10 +822,11 @@
         <div id="sitesContainer">
           <!-- 사이트 1 -->
           <div class="site-card" id="site-card-0">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+            <div class="site-card-header">
               <strong style="color:#667eea;">사이트 1</strong>
               <button type="button" class="btn-test-site" data-idx="0">연결 테스트</button>
             </div>
+            <div class="site-test-result" id="site-test-0"></div>
             <div class="form-group">
               <label>사이트 이름 <span class="label-hint">(예: 태극뉴스)</span></label>
               <input type="text" class="site-name" data-idx="0" placeholder="내 블로그">
@@ -815,7 +843,6 @@
               <label>앱 비밀번호</label>
               <input type="password" class="site-password" data-idx="0" placeholder="xxxx xxxx xxxx xxxx">
             </div>
-            <div class="site-test-result" id="site-test-0"></div>
             <div class="form-group">
               <label>AdSense 퍼블리셔 ID <span class="label-hint">(선택)</span></label>
               <input type="text" class="site-adsense-client" data-idx="0" placeholder="ca-pub-1234567890123456">
@@ -839,13 +866,16 @@
               <label>기본 추가 지시사항 <span class="label-hint">(선택)</span></label>
               <textarea class="site-extra-prompt" data-idx="0" rows="2" placeholder="이 사이트 발행 시 매번 적용할 지시사항"></textarea>
             </div>
+            <button type="button" class="btn-save-site" data-idx="0">사이트 1 저장</button>
+            <div class="site-save-result" data-idx="0" style="display:none;margin-top:8px;padding:6px 10px;border-radius:6px;font-size:13px;"></div>
           </div>
           <!-- 사이트 2 -->
           <div class="site-card" id="site-card-1">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+            <div class="site-card-header">
               <strong style="color:#667eea;">사이트 2 <span class="label-hint">(선택)</span></strong>
               <button type="button" class="btn-test-site" data-idx="1">연결 테스트</button>
             </div>
+            <div class="site-test-result" id="site-test-1"></div>
             <div class="form-group">
               <label>사이트 이름</label>
               <input type="text" class="site-name" data-idx="1" placeholder="두번째 블로그">
@@ -862,7 +892,6 @@
               <label>앱 비밀번호</label>
               <input type="password" class="site-password" data-idx="1" placeholder="xxxx xxxx xxxx xxxx">
             </div>
-            <div class="site-test-result" id="site-test-1"></div>
             <div class="form-group">
               <label>AdSense 퍼블리셔 ID <span class="label-hint">(선택)</span></label>
               <input type="text" class="site-adsense-client" data-idx="1" placeholder="ca-pub-1234567890123456">
@@ -886,13 +915,16 @@
               <label>기본 추가 지시사항 <span class="label-hint">(선택)</span></label>
               <textarea class="site-extra-prompt" data-idx="1" rows="2" placeholder="이 사이트 발행 시 매번 적용할 지시사항"></textarea>
             </div>
+            <button type="button" class="btn-save-site" data-idx="1">사이트 2 저장</button>
+            <div class="site-save-result" data-idx="1" style="display:none;margin-top:8px;padding:6px 10px;border-radius:6px;font-size:13px;"></div>
           </div>
           <!-- 사이트 3 -->
           <div class="site-card" id="site-card-2">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+            <div class="site-card-header">
               <strong style="color:#667eea;">사이트 3 <span class="label-hint">(선택)</span></strong>
               <button type="button" class="btn-test-site" data-idx="2">연결 테스트</button>
             </div>
+            <div class="site-test-result" id="site-test-2"></div>
             <div class="form-group">
               <label>사이트 이름</label>
               <input type="text" class="site-name" data-idx="2" placeholder="세번째 블로그">
@@ -909,7 +941,6 @@
               <label>앱 비밀번호</label>
               <input type="password" class="site-password" data-idx="2" placeholder="xxxx xxxx xxxx xxxx">
             </div>
-            <div class="site-test-result" id="site-test-2"></div>
             <div class="form-group">
               <label>AdSense 퍼블리셔 ID <span class="label-hint">(선택)</span></label>
               <input type="text" class="site-adsense-client" data-idx="2" placeholder="ca-pub-1234567890123456">
@@ -933,6 +964,8 @@
               <label>기본 추가 지시사항 <span class="label-hint">(선택)</span></label>
               <textarea class="site-extra-prompt" data-idx="2" rows="2" placeholder="이 사이트 발행 시 매번 적용할 지시사항"></textarea>
             </div>
+            <button type="button" class="btn-save-site" data-idx="2">사이트 3 저장</button>
+            <div class="site-save-result" data-idx="2" style="display:none;margin-top:8px;padding:6px 10px;border-radius:6px;font-size:13px;"></div>
           </div>
         </div>
 
@@ -1462,6 +1495,52 @@
         }
         btn.textContent = '연결 테스트';
         btn.disabled = false;
+      });
+    });
+
+    // ===== 사이트별 개별 저장 =====
+    document.querySelectorAll('.btn-save-site').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const idx = parseInt(btn.dataset.idx);
+        const resultEl = document.querySelector(`.site-save-result[data-idx="${idx}"]`);
+        btn.disabled = true;
+        btn.textContent = '저장 중...';
+        try {
+          const cfg = await window.api.getConfig();
+          const sites = cfg.WP_SITES || [{},{},{}];
+          sites[idx] = {
+            name: (document.querySelector(`.site-name[data-idx="${idx}"]`)?.value || '').trim(),
+            url: (document.querySelector(`.site-url[data-idx="${idx}"]`)?.value || '').trim(),
+            username: (document.querySelector(`.site-username[data-idx="${idx}"]`)?.value || '').trim(),
+            password: (document.querySelector(`.site-password[data-idx="${idx}"]`)?.value || '').trim(),
+            adsenseClientId: (document.querySelector(`.site-adsense-client[data-idx="${idx}"]`)?.value || '').trim(),
+            adsenseSlotId: (document.querySelector(`.site-adsense-slot[data-idx="${idx}"]`)?.value || '').trim(),
+            googleIndexingJsonPath: (document.querySelector(`.site-google-json[data-idx="${idx}"]`)?.value || '').trim(),
+            indexNowApiKey: (document.querySelector(`.site-indexnow-key[data-idx="${idx}"]`)?.value || '').trim(),
+            defaultExtraPrompt: (document.querySelector(`.site-extra-prompt[data-idx="${idx}"]`)?.value || '')
+          };
+          const res = await window.api.saveConfig({ WP_SITES: sites });
+          if (res.success) {
+            resultEl.style.display = 'block';
+            resultEl.style.background = '#d4edda';
+            resultEl.style.color = '#155724';
+            resultEl.textContent = `✅ 사이트 ${idx + 1} 설정이 저장되었습니다!`;
+            updateSiteSelector(sites);
+          } else {
+            resultEl.style.display = 'block';
+            resultEl.style.background = '#f8d7da';
+            resultEl.style.color = '#721c24';
+            resultEl.textContent = `❌ 저장 실패: ${res.error}`;
+          }
+        } catch (e) {
+          resultEl.style.display = 'block';
+          resultEl.style.background = '#f8d7da';
+          resultEl.style.color = '#721c24';
+          resultEl.textContent = `❌ 오류: ${e.message}`;
+        }
+        btn.disabled = false;
+        btn.textContent = `사이트 ${idx + 1} 저장`;
+        setTimeout(() => { resultEl.style.display = 'none'; }, 3000);
       });
     });
 
