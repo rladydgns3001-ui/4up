@@ -1509,7 +1509,7 @@
             ? `<span class="log-status-pub">발행됨</span>`
             : `<span class="log-status-draft">임시저장</span>`;
           const linkBtn = log.link
-            ? `<a href="#" onclick="event.preventDefault();window.api.openExternal('${log.link}')" style="color:#667eea;font-size:12px;cursor:pointer;text-decoration:underline;">보기 →</a>`
+            ? `<a href="${log.link}" target="_blank" class="external-link" style="color:#667eea;font-size:12px;cursor:pointer;text-decoration:underline;">보기 →</a>`
             : '<span style="color:#999;font-size:12px;">링크 없음</span>';
           const shortTitle = log.title ? (log.title.length > 30 ? log.title.slice(0,30)+'…' : log.title) : '-';
           return `<tr>
