@@ -37,8 +37,25 @@
       "app/**/*",
       "src/**/*"
     ],
+    "asar": true,
     "win": {
-      "target": ["zip"]
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64"]
+        }
+      ],
+      "icon": "build/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "installerIcon": "build/icon.ico",
+      "uninstallerIcon": "build/icon.ico",
+      "installerHeaderIcon": "build/icon.ico",
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "AutoPost SEO Writer V2 Pro"
     },
     "mac": {
       "target": "dmg"
