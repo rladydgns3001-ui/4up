@@ -665,7 +665,7 @@
 
         <div class="form-group">
           <label for="keywords">키워드</label>
-          <textarea id="keywords" placeholder="키워드를 한 줄에 하나씩 입력 (최대 10개)&#10;예:&#10;월배당 ETF 투자&#10;주식 초보 가이드&#10;부동산 투자 방법" rows="4"></textarea>
+          <textarea id="keywords" placeholder="키워드를 입력해주세요. (한 줄에 하나씩, 최대 10개)" rows="4"></textarea>
           <div id="keywordCounter" class="keyword-counter">0/10개</div>
         </div>
 
@@ -678,9 +678,9 @@
           <label>옵션</label>
           <div class="select-group">
             <select id="style">
-              <option value="informative">정중한 격식체 (뱅크샐러드 스타일)</option>
-              <option value="casual">친근한 대화체 (이모지 활용)</option>
-              <option value="professional">전문 권위체 (데이터 중심)</option>
+              <option value="informative">정중한 격식체</option>
+              <option value="casual">친근한 대화체</option>
+              <option value="professional">전문 권위체</option>
             </select>
             <select id="length">
               <option value="short">짧게 (500-800자)</option>
@@ -959,15 +959,6 @@
       <h1>프롬프트 설정</h1>
       <p class="subtitle">AI 글 작성 프롬프트를 직접 커스텀할 수 있습니다</p>
 
-      <div class="info-box">
-        <strong>사용 가능한 변수:</strong><br>
-        <code>{keyword}</code> — 입력한 키워드<br>
-        <code>{search_results}</code> — 웹 검색 결과<br>
-        <code>{existing_posts}</code> — 기존 워드프레스 글<br>
-        <code>{length}</code> — 선택한 글 길이<br>
-        <code>{style}</code> — 선택한 글 스타일
-      </div>
-
       <div class="form-group" style="margin-top:20px;">
         <div class="checkbox-group">
           <input type="checkbox" id="useCustomPrompt">
@@ -982,12 +973,12 @@
         </div>
         <div class="form-group">
           <label for="customUserPrompt">유저 프롬프트 <span class="label-hint">(변수 치환 지원)</span></label>
-          <textarea id="customUserPrompt" rows="8" placeholder="키워드: {keyword}&#10;웹 검색 결과: {search_results}&#10;&#10;위 정보로 SEO 최적화 블로그 글을 작성해주세요..."></textarea>
+          <textarea id="customUserPrompt" rows="8" placeholder="글 작성 시 추가로 반영할 내용을 입력하세요.&#10;예:&#10;- 글 하단에 '이 포스팅은 쿠팡파트너스 활동의 일환으로 소정의 수수료를 받습니다.' 문구를 포함해줘&#10;- 본문 중간에 제품 구매를 자연스럽게 유도하는 문장을 넣어줘&#10;- 비워두면 기본 프롬프트만 사용됩니다."></textarea>
         </div>
       </div>
 
       <button type="button" id="savePromptBtn">프롬프트 저장</button>
-      <button type="button" id="resetPromptBtn" class="btn-secondary" style="margin-left:10px;">기본값으로 초기화</button>
+      <button type="button" id="resetPromptBtn" class="btn-secondary" style="width:100%;margin-top:10px;">기본값으로 초기화</button>
       <div id="promptResult" class="result" style="margin-top:15px;"></div>
     </div>
 
@@ -997,7 +988,7 @@
       <p class="subtitle">자동 발행된 글 기록입니다</p>
 
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
-        <span id="logCount" style="color:#666;font-size:14px;">로딩 중...</span>
+        <span id="logCount" style="color:#666;font-size:14px;white-space:nowrap;flex-shrink:0;">로딩 중...</span>
         <button type="button" id="clearLogBtn" class="btn-danger" style="padding:8px 16px;font-size:13px;">전체 삭제</button>
       </div>
 
@@ -1518,8 +1509,8 @@
             ? `<span class="log-status-pub">발행됨</span>`
             : `<span class="log-status-draft">임시저장</span>`;
           const linkBtn = log.link
-            ? `<a href="${log.link}" class="external-link" style="color:#667eea;font-size:12px;">보기 →</a>`
-            : '-';
+            ? `<a href="#" onclick="event.preventDefault();window.api.openExternal('${log.link}')" style="color:#667eea;font-size:12px;cursor:pointer;text-decoration:underline;">보기 →</a>`
+            : '<span style="color:#999;font-size:12px;">링크 없음</span>';
           const shortTitle = log.title ? (log.title.length > 30 ? log.title.slice(0,30)+'…' : log.title) : '-';
           return `<tr>
             <td style="white-space:nowrap;font-size:12px;">${date}</td>
