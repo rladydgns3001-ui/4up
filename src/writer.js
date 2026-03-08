@@ -86,7 +86,7 @@ async function generateArticle(keyword, webContext = '', wpContext = '', style =
 
   const styleGuide = {
     informative: '정보 전달에 초점, 객관적이고 신뢰감 있는 톤',
-    casual: '친근하고 대화하듯이, 이모지 적극 활용',
+    casual: '친근하고 대화하듯이, 이모지는 소제목에만 사용',
     professional: '전문적이고 권위 있는 톤, 데이터와 근거 중심'
   };
 
@@ -104,8 +104,8 @@ async function generateArticle(keyword, webContext = '', wpContext = '', style =
 - 구어체 사용: "~요", "~죠", "~거예요", "~해요"
 - 독자에게 직접 말 걸기: "~셨죠?", "확인해보세요!", "이 글 하나면 충분해요"
 - 짧고 임팩트 있는 문장 사용 ("이게 진짜 핵심이에요!", "근데 여기서 포인트!")
-- 이모지 적극 활용: 😊 💡 ✅ ⚠️ 👍 👎 — 본문 내 자유롭게 사용
-- 강조 박스 활용: <div style="background:#fffbe6;border-left:4px solid #f5a623;padding:14px 18px;border-radius:0 8px 8px 0;margin:20px 0;">💡 <strong>핵심 요약</strong>: ...</div>
+- 이모지는 H2/H3 소제목에만 사용 (💡 📝 ✅ 정도), 본문 내 이모지 사용 금지
+- 강조 박스 활용: <div style="background:#fffbe6;border-left:4px solid #f5a623;padding:14px 18px;border-radius:0 8px 8px 0;margin:20px 0;"><strong>핵심 요약</strong>: ...</div>
 - 섹션 제목을 질문형으로: "나 해당될까?", "얼마나 받을 수 있나요?"
 - 어려운 용어는 바로 풀어서 설명 ("한 마디로 말하면...")`,
 

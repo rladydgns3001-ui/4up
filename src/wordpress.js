@@ -8,11 +8,14 @@ class WordPressAPI {
       this.siteUrl = site.url.replace(/\/$/, '');
       this.baseUrl = `${this.siteUrl}/wp-json/wp/v2`;
       this.auth = { username: site.username, password: site.password };
+      this.siteName = site.name || site.url;
     } else {
       this.siteUrl = config.WP_SITE_URL;
       this.baseUrl = `${this.siteUrl}/wp-json/wp/v2`;
       this.auth = { username: config.WP_USERNAME, password: config.WP_APP_PASSWORD };
+      this.siteName = config.WP_SITE_URL;
     }
+    console.log(`[WP] 대상 사이트: ${this.siteName} (${this.siteUrl})`);
   }
 
   // 설정 다시 로드 (설정 변경 후 호출)
