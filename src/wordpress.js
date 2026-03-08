@@ -29,9 +29,6 @@ class WordPressAPI {
   }
 
   async testConnection() {
-    // 설정 다시 로드
-    this.reloadConfig();
-
     try {
       const response = await axios.get(`${this.baseUrl}/users/me`, {
         auth: this.auth,
@@ -140,6 +137,29 @@ class WordPressAPI {
       };
     } catch (error) {
       console.error('이미지 업로드 오류:', error.message);
+      return { success: false, error: error.message };
+    }
+  }
+
+  async uploadImageBuffer(buffer, filename = 'article-image.png', contentType = 'image/png') {
+    try {
+      const response = await axios.post(`${this.baseUrl}/media`, buffer, {
+        auth: this.auth,
+        headers: {
+          'Content-Type': contentType,
+          'Content-Disposition': `attachment; filename="${encodeURIComponent(filename)}"`,
+        },
+        maxContentLength: 50 * 1024 * 1024,
+      });
+
+      return {
+        success: true,
+        id: response.data.id,
+        url: response.data.source_url,
+        alt: response.data.alt_text || ''
+      };
+    } catch (error) {
+      console.error('이미지 버퍼 업로드 오류:', error.message);
       return { success: false, error: error.message };
     }
   }
