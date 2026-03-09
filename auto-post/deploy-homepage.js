@@ -32,7 +32,7 @@ async function uploadMedia(filePath, filename, contentType) {
   return media.source_url;
 }
 
-function replaceMediaUrls(html, thumbUrl, videoUrl, heroUrl) {
+function replaceMediaUrls(html, thumbUrl, videoUrl, heroUrl, naverVideoUrl, wpProgramUrl, nbProgramUrl, tenMinUrl) {
   if (thumbUrl) {
     html = html.replace(/src="product-thumbnail\.png"/g, `src="${thumbUrl}"`);
     html = html.replace(/poster="product-thumbnail\.png"/g, `poster="${thumbUrl}"`);
@@ -42,6 +42,18 @@ function replaceMediaUrls(html, thumbUrl, videoUrl, heroUrl) {
   }
   if (heroUrl) {
     html = html.replace(/src="hero-screenshot\.png"/g, `src="${heroUrl}"`);
+  }
+  if (naverVideoUrl) {
+    html = html.replace(/https:\/\/wpauto\.kr\/wp-content\/uploads\/2026\/03\/naver-demo\.mp4/g, naverVideoUrl);
+  }
+  if (wpProgramUrl) {
+    html = html.replace(/https:\/\/wpauto\.kr\/wp-content\/uploads\/2026\/03\/wp-program\.jpg/g, wpProgramUrl);
+  }
+  if (nbProgramUrl) {
+    html = html.replace(/https:\/\/wpauto\.kr\/wp-content\/uploads\/2026\/03\/nb-program\.png/g, nbProgramUrl);
+  }
+  if (tenMinUrl) {
+    html = html.replace(/https:\/\/wpauto\.kr\/wp-content\/uploads\/2026\/03\/10min-demo\.mp4/g, tenMinUrl);
   }
   return html;
 }
@@ -146,6 +158,38 @@ async function main() {
     console.log('⚠️ 시현 영상 없음, 스킵');
   }
 
+  const naverVideoPath = path.join(__dirname, 'naver-demo.mp4');
+  let naverVideoUrl = '';
+  if (fs.existsSync(naverVideoPath)) {
+    naverVideoUrl = await uploadMedia(naverVideoPath, `naver-demo-${Date.now()}.mp4`, 'video/mp4');
+  } else {
+    console.log('⚠️ naver-demo.mp4 없음, 스킵');
+  }
+
+  const tenMinPath = path.join(__dirname, '10min-demo.mp4');
+  let tenMinUrl = '';
+  if (fs.existsSync(tenMinPath)) {
+    tenMinUrl = await uploadMedia(tenMinPath, `10min-demo-${Date.now()}.mp4`, 'video/mp4');
+  } else {
+    console.log('⚠️ 10min-demo.mp4 없음, 스킵');
+  }
+
+  const wpProgramPath = path.join(__dirname, 'wp-program.jpg');
+  let wpProgramUrl = '';
+  if (fs.existsSync(wpProgramPath)) {
+    wpProgramUrl = await uploadMedia(wpProgramPath, `wp-program-${Date.now()}.jpg`, 'image/jpeg');
+  } else {
+    console.log('⚠️ wp-program.jpg 없음, 스킵');
+  }
+
+  const nbProgramPath = path.join(__dirname, 'nb-program.png');
+  let nbProgramUrl = '';
+  if (fs.existsSync(nbProgramPath)) {
+    nbProgramUrl = await uploadMedia(nbProgramPath, `nb-program-${Date.now()}.png`, 'image/png');
+  } else {
+    console.log('⚠️ nb-program.png 없음, 스킵');
+  }
+
   const heroPath = path.join(__dirname, 'hero-screenshot.png');
   let heroUrl = '';
   if (fs.existsSync(heroPath)) {
@@ -156,7 +200,7 @@ async function main() {
 
   // 2. 새 메인 페이지 HTML 읽기 & 미디어 URL 교체
   let homepageHtml = fs.readFileSync(path.join(__dirname, 'wordpress-homepage-new.html'), 'utf-8');
-  homepageHtml = replaceMediaUrls(homepageHtml, thumbUrl, videoUrl, heroUrl);
+  homepageHtml = replaceMediaUrls(homepageHtml, thumbUrl, videoUrl, heroUrl, naverVideoUrl, wpProgramUrl, nbProgramUrl, tenMinUrl);
 
   // 3. 메인 페이지 업데이트 (Page ID: 17)
   console.log('\n📄 메인 페이지 (ID: 17) 업데이트 중...');
@@ -184,7 +228,7 @@ async function main() {
   if (!productPageId) { console.error('❌ 상품 페이지 처리 실패'); process.exit(1); }
 
   let productHtml = fs.readFileSync(path.join(__dirname, 'wordpress-product-page.html'), 'utf-8');
-  productHtml = replaceMediaUrls(productHtml, thumbUrl, videoUrl, heroUrl);
+  productHtml = replaceMediaUrls(productHtml, thumbUrl, videoUrl, heroUrl, naverVideoUrl, wpProgramUrl, nbProgramUrl, tenMinUrl);
 
   console.log(`\n📄 상품 페이지 (ID: ${productPageId}) 업데이트 중...`);
   const productRes = await fetch(`${WP_URL}/wp-json/wp/v2/pages/${productPageId}`, {
@@ -202,12 +246,21 @@ async function main() {
   await deployPage('refund-policy', '환불 규정', 'refund-policy.html');
   await deployPage('privacy-policy', '개인정보 처리방침', 'privacy-policy.html');
 
+  // 6. 신규 페이지 배포 (소개, 문의, 블로그)
+  console.log('\n📋 신규 페이지 배포 중...');
+  await deployPage('about', 'AutoPost 소개', 'about.html');
+  await deployPage('contact', '문의하기', 'contact.html');
+  await deployPage('blog', 'AutoPost 블로그', 'blog-hub.html');
+
   console.log('\n🎊 모든 배포 완료!');
   console.log('📌 메인 페이지: ' + (homePage.link || WP_URL));
   console.log('📌 상품 페이지: ' + (productPage.link || WP_URL + '/product/'));
   console.log('📌 이용약관: ' + WP_URL + '/terms/');
   console.log('📌 환불규정: ' + WP_URL + '/refund-policy/');
   console.log('📌 개인정보: ' + WP_URL + '/privacy-policy/');
+  console.log('📌 소개: ' + WP_URL + '/about/');
+  console.log('📌 문의: ' + WP_URL + '/contact/');
+  console.log('📌 블로그: ' + WP_URL + '/blog/');
 }
 
 main().catch(console.error);

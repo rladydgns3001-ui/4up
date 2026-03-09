@@ -35,7 +35,7 @@ body {
 
 /* ── TOP BANNER ── */
 .top-banner {
-  background: var(--black);
+  background: linear-gradient(90deg, #1a1a2e, #16213e, #0f3460);
   color: #fff;
   text-align: center;
   padding: 11px 20px;
@@ -44,6 +44,14 @@ body {
   letter-spacing: -0.1px;
 }
 .top-banner strong { color: #f5a623; }
+.top-banner .seats-blink {
+  display: inline-block;
+  animation: blink-seats 1.2s ease-in-out infinite;
+}
+@keyframes blink-seats {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
 
 /* ── STICKY NAV ── */
 .ap-nav {
@@ -565,6 +573,56 @@ section {
   margin-bottom: 10px;
 }
 .feature-item p { font-size: 14px; color: var(--gray); line-height: 1.6; word-break: keep-all; }
+
+/* ── PROGRAM SHOWCASE ── */
+.program-showcase {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  max-width: 1100px;
+  margin: 48px auto 0;
+}
+.program-card {
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: var(--white);
+}
+.program-card-header {
+  padding: 24px 28px 16px;
+}
+.program-card-label {
+  display: inline-block;
+  font-size: 12px; font-weight: 700;
+  padding: 4px 12px; border-radius: 980px;
+  margin-bottom: 10px;
+}
+.program-card-label.wp { background: #EFF6FF; color: #2563EB; }
+.program-card-label.nb { background: #E8F5E9; color: #03C75A; }
+.program-card-header h3 {
+  font-size: 20px; font-weight: 800;
+  letter-spacing: -0.5px;
+  margin-bottom: 6px;
+}
+.program-card-header p {
+  font-size: 14px; color: var(--gray);
+  word-break: keep-all;
+}
+.program-card-img {
+  width: 100%;
+  display: block;
+}
+.program-card-features {
+  padding: 16px 28px 24px;
+  display: flex; flex-wrap: wrap; gap: 8px;
+}
+.program-chip {
+  font-size: 12px; font-weight: 600;
+  padding: 5px 14px;
+  border-radius: 980px;
+  background: var(--light-gray);
+  color: var(--gray);
+}
 .feature-badge {
   display: inline-block;
   background: var(--blue);
@@ -951,6 +1009,13 @@ section {
 }
 .sticky-buy:hover { background: var(--blue-hover); }
 
+/* ── PC PRICING ORDER ── */
+@media (min-width: 769px) {
+  .pricing-grid [data-plan="v2pro"] { order: 1; }
+  .pricing-grid [data-plan="nb"] { order: 2; }
+  .pricing-grid [data-plan="allinone"] { order: 3; }
+}
+
 /* ── MOBILE ── */
 @media (max-width: 768px) {
   .ap-nav { padding: 0 20px; }
@@ -963,6 +1028,7 @@ section {
   .pricing-grid .plan { display: none; }
   .pricing-grid .plan.mob-active { display: flex; }
   .features-grid { grid-template-columns: 1fr 1fr; }
+  .program-showcase { grid-template-columns: 1fr; }
   .review-cards { grid-template-columns: 1fr; }
   .flow-steps { flex-direction: column; gap: 24px; }
   .flow-steps::before { display: none; }
@@ -988,7 +1054,7 @@ section {
 
 <!-- TOP BANNER -->
 <div class="top-banner">
-  🔥 3기 모집 중 · <strong>단 2자리 남음</strong> · 마감 후 가격 인상 예정
+  🔥 3기 자리 마감 · <strong class="seats-blink">2자리 남음</strong> · 마감 후 가격 인상 예정
 </div>
 
 <!-- NAV -->
@@ -1135,31 +1201,23 @@ section {
 
 <div class="divider"></div>
 
-<!-- TIME COMPARISON -->
-<section class="compare-section">
+<!-- 10MIN DEMO -->
+<section class="compare-section" style="text-align:center;">
   <span class="section-eyebrow">시간 = 돈</span>
-  <h2 class="section-title">하루 10개 기준, 한 달에<br>얼마나 버리고 있어요?</h2>
-  <div class="compare-grid">
-    <div class="compare-card before">
-      <span class="compare-badge">직접 쓸 때</span>
-      <h3>매일 3시간 소비 중</h3>
-      <div class="compare-item"><span class="label">글 1개 작성</span><span class="value">60분</span></div>
-      <div class="compare-item"><span class="label">하루 10개 기준</span><span class="value">10시간</span></div>
-      <div class="compare-item"><span class="label">월간 시간 소비</span><span class="value">300시간</span></div>
-      <div class="compare-item"><span class="label">외주 비용 (월 300글)</span><span class="value">90만원~</span></div>
+  <h2 class="section-title">하루 10분으로 끝</h2>
+  <p style="font-size:15px;color:var(--gray);margin-bottom:36px;">키워드만 넣으면 글 작성부터 발행까지 전부 자동. 직접 보세요.</p>
+  <div class="mac-frame">
+    <div class="mac-body">
+      <div class="mac-dots"><div class="mac-dot"></div><div class="mac-dot"></div><div class="mac-dot"></div></div>
+      <div class="mac-address-bar"></div>
+      <div class="mac-screen">
+        <video autoplay muted loop playsinline>
+          <source src="https://wpauto.kr/wp-content/uploads/2026/03/10min-demo.mp4" type="video/mp4">
+        </video>
+      </div>
     </div>
-    <div class="compare-card after">
-      <span class="compare-badge">AutoPost 사용 시</span>
-      <h3>하루 10분으로 끝</h3>
-      <div class="compare-item"><span class="label">글 1개 생성</span><span class="value">1분</span></div>
-      <div class="compare-item"><span class="label">하루 10개 기준</span><span class="value">10분</span></div>
-      <div class="compare-item"><span class="label">월간 절감 시간</span><span class="value">290시간</span></div>
-      <div class="compare-item"><span class="label">추가 비용 (월)</span><span class="value">0원</span></div>
-    </div>
-  </div>
-  <div class="compare-summary">
-    프로그램 가격 = 외주 1개월치도 안 됩니다<br>
-    <strong>한 번 결제로 평생 사용 · 무료 업데이트 포함</strong>
+    <div class="mac-stand"></div>
+    <div class="mac-base"></div>
   </div>
 </section>
 
@@ -1172,17 +1230,16 @@ section {
   <div class="target-grid">
     <div class="target-card yes">
       <h3>✅ 이런 분이라면 바로 구매하세요</h3>
-      <div class="target-item"><span class="icon">✓</span><span>워드프레스 블로그로 애드센스 수익 내고 싶은 분</span></div>
+      <div class="target-item"><span class="icon">✓</span><span>워드프레스 + 네이버 블로그를 동시에 운영하고 싶은 분</span></div>
+      <div class="target-item"><span class="icon">✓</span><span>네이버 상위노출 글을 AI로 자동 생성하고 싶은 분</span></div>
       <div class="target-item"><span class="icon">✓</span><span>글 작성 시간을 줄이고 더 많은 글을 발행하고 싶은 분</span></div>
-      <div class="target-item"><span class="icon">✓</span><span>여러 개 블로그를 동시에 운영하고 싶은 분</span></div>
+      <div class="target-item"><span class="icon">✓</span><span>외부유입 백링크까지 자동으로 처리하고 싶은 분</span></div>
       <div class="target-item"><span class="icon">✓</span><span>블로그 시작하고 싶지만 글쓰기가 막막한 분</span></div>
-      <div class="target-item"><span class="icon">✓</span><span>SEO 최적화 방법을 잘 모르는 분</span></div>
     </div>
     <div class="target-card no">
       <h3>❌ 이런 분께는 맞지 않을 수 있어요</h3>
-      <div class="target-item"><span class="icon" style="color:#999;">✕</span><span>티스토리 · 네이버 블로그만 사용하는 분 (워드프레스 전용)</span></div>
-      <div class="target-item"><span class="icon" style="color:#999;">✕</span><span>글 퀄리티를 직접 100% 통제하고 싶은 분</span></div>
-      <div class="target-item"><span class="icon" style="color:#999;">✕</span><span>API 설정이 너무 어렵다고 느끼는 분<br><small style="color:#0071e3;">→ 단, 1:1 줌 교육으로 해결 가능합니다</small></span></div>
+      <div class="target-item"><span class="icon" style="color:#999;">✕</span><span>티스토리만 사용하는 분 (워드프레스 · 네이버 블로그 전용)</span></div>
+      <div class="target-item"><span class="icon" style="color:#999;">✕</span><span>PC가 없는 분 (윈도우 전용 프로그램)</span></div>
     </div>
   </div>
 </section>
@@ -1192,37 +1249,37 @@ section {
 <!-- FEATURES -->
 <section>
   <span class="section-eyebrow" style="display:block;text-align:center;">핵심 기능</span>
-  <h2 class="section-title" style="text-align:center;">6가지가 전부 자동으로</h2>
-  <div class="features-grid">
-    <div class="feature-item">
-      <span class="feature-icon">✍️</span>
-      <h3>AI SEO 글 자동 생성</h3>
-      <p>키워드만 입력하면 SEO에 맞는 완성된 글이 1분 안에 생성됩니다. Claude AI 기반 고품질 콘텐츠.</p>
+  <h2 class="section-title" style="text-align:center;">키워드만 넣으면 전부 자동</h2>
+  <div class="program-showcase">
+    <div class="program-card">
+      <div class="program-card-header">
+        <span class="program-card-label wp">워드프레스 자동화</span>
+        <h3>AutoPost SEO Writer</h3>
+        <p>키워드 입력 → AI 글 생성 → 워드프레스 자동 발행</p>
+      </div>
+      <img src="https://wpauto.kr/wp-content/uploads/2026/03/wp-program.jpg" alt="AutoPost SEO Writer 프로그램 화면" class="program-card-img">
+      <div class="program-card-features">
+        <span class="program-chip">AI SEO 글 생성</span>
+        <span class="program-chip">AI 이미지 생성</span>
+        <span class="program-chip">애드센스 자동 삽입</span>
+        <span class="program-chip">예약 발행</span>
+        <span class="program-chip">구글 자동 색인</span>
+      </div>
     </div>
-    <div class="feature-item">
-      <span class="feature-icon">🎨</span>
-      <h3>AI 이미지 자동 생성</h3>
-      <p>DALL-E 3 기반으로 글 내용에 맞는 대표 이미지를 자동 생성해 삽입합니다.</p>
-    </div>
-    <div class="feature-item">
-      <span class="feature-icon">💰</span>
-      <h3>애드센스 광고 자동 삽입</h3>
-      <p>CTR이 높은 최적 위치에 애드센스 광고 코드를 자동으로 배치합니다.</p>
-    </div>
-    <div class="feature-item">
-      <span class="feature-icon">🔍</span>
-      <h3>구글 SEO 자동 최적화</h3>
-      <p>메타 디스크립션, H태그, 키워드 밀도까지 SEO 체크리스트를 자동으로 처리합니다.</p>
-    </div>
-    <div class="feature-item">
-      <span class="feature-icon">🚀</span>
-      <h3>검색엔진 자동 색인 <span class="feature-badge">PRO</span></h3>
-      <p>Google, 네이버, Bing에 발행 즉시 자동으로 색인 신청합니다.</p>
-    </div>
-    <div class="feature-item">
-      <span class="feature-icon">📅</span>
-      <h3>대량 예약 발행 <span class="feature-badge">PRO</span></h3>
-      <p>키워드를 미리 쌓아두면 지정한 간격과 시간에 자동으로 발행합니다.</p>
+    <div class="program-card">
+      <div class="program-card-header">
+        <span class="program-card-label nb">네이버 자동화</span>
+        <h3>AutoPost NB</h3>
+        <p>상위노출 분석 → AI 글 생성 → 네이버 블로그 자동 발행</p>
+      </div>
+      <img src="https://wpauto.kr/wp-content/uploads/2026/03/nb-program.png" alt="AutoPost NB 프로그램 화면" class="program-card-img">
+      <div class="program-card-features">
+        <span class="program-chip">상위노출 분석</span>
+        <span class="program-chip">맞춤형 프롬프트</span>
+        <span class="program-chip">외부유입 백링크</span>
+        <span class="program-chip">네이버 자동 발행</span>
+        <span class="program-chip">네이버 색인</span>
+      </div>
     </div>
   </div>
 </section>
@@ -1235,33 +1292,11 @@ section {
   <h2 class="section-title">일회성 결제, 평생 소유</h2>
   <p class="pricing-note">월정액 없음 · 무료 업데이트 포함 · 구매 즉시 다운로드</p>
   <div class="pricing-tabs">
-    <button class="pricing-tab active" onclick="switchPlan('v2pro')">V2 Pro</button>
-    <button class="pricing-tab" onclick="switchPlan('nb')">NB 네이버</button>
-    <button class="pricing-tab" onclick="switchPlan('allinone')">올인원</button>
+    <button class="pricing-tab active-blue" onclick="switchPlan('allinone')">네이버+워드프레스</button>
+    <button class="pricing-tab" onclick="switchPlan('nb')">네이버</button>
+    <button class="pricing-tab" onclick="switchPlan('v2pro')">워드프레스</button>
   </div>
   <div class="pricing-grid">
-    <div class="plan mob-active" data-plan="v2pro">
-      <p class="plan-name">V2 Pro</p>
-      <p class="plan-price">₩389,000</p>
-      <p class="plan-price-sub">일회성 결제 / 평생 소유</p>
-      <ul class="plan-features">
-        <li><span class="check">✓</span> AI SEO 글 자동 생성</li>
-        <li><span class="check">✓</span> AI 이미지 자동 생성 (DALL-E)</li>
-        <li><span class="check">✓</span> 워드프레스 자동 발행</li>
-        <li><span class="check">✓</span> 애드센스 광고 자동 삽입</li>
-        <li><span class="check">✓</span> 워드프레스 무제한 연동</li>
-        <li><span class="check">✓</span> 키워드 대량 등록 (최대 10개)</li>
-        <li><span class="check">✓</span> 예약 발행 (간격/시간 지정)</li>
-        <li><span class="check">✓</span> Google 자동 색인 신청</li>
-        <li><span class="check">✓</span> IndexNow 색인 (네이버·Bing)</li>
-        <li><span class="check">✓</span> 1:1 줌 설치 교육</li>
-        <li><span class="check">✓</span> 무료 업데이트 (평생)</li>
-      </ul>
-      <div class="plan-btns">
-        <a href="https://open.kakao.com/o/s7DiPcki" class="plan-btn" target="_blank">💳 결제 문의</a>
-        <a href="https://open.kakao.com/o/s7DiPcki" class="plan-btn plan-btn-outline" target="_blank">💬 카카오톡 문의</a>
-      </div>
-    </div>
     <div class="plan naver-plan" data-plan="nb">
       <div class="plan-badge">🔥 네이버 자동화</div>
       <p class="plan-name">AutoPost NB</p>
@@ -1282,9 +1317,31 @@ section {
         <a href="https://open.kakao.com/o/s7DiPcki" class="plan-btn plan-btn-outline" target="_blank">💬 카카오톡 문의</a>
       </div>
     </div>
-    <div class="plan featured" data-plan="allinone" style="border:2px solid var(--blue);position:relative;">
+    <div class="plan" data-plan="v2pro">
+      <p class="plan-name">워드프레스</p>
+      <p class="plan-price">₩389,000</p>
+      <p class="plan-price-sub">일회성 결제 / 평생 소유</p>
+      <ul class="plan-features">
+        <li><span class="check">✓</span> AI SEO 글 자동 생성</li>
+        <li><span class="check">✓</span> AI 이미지 자동 생성 (DALL-E)</li>
+        <li><span class="check">✓</span> 워드프레스 자동 발행</li>
+        <li><span class="check">✓</span> 애드센스 광고 자동 삽입</li>
+        <li><span class="check">✓</span> 워드프레스 무제한 연동</li>
+        <li><span class="check">✓</span> 키워드 대량 등록 (최대 10개)</li>
+        <li><span class="check">✓</span> 예약 발행 (간격/시간 지정)</li>
+        <li><span class="check">✓</span> Google 자동 색인 신청</li>
+        <li><span class="check">✓</span> IndexNow 색인 (네이버·Bing)</li>
+        <li><span class="check">✓</span> 1:1 줌 설치 교육</li>
+        <li><span class="check">✓</span> 무료 업데이트 (평생)</li>
+      </ul>
+      <div class="plan-btns">
+        <a href="https://open.kakao.com/o/s7DiPcki" class="plan-btn" target="_blank">💳 결제 문의</a>
+        <a href="https://open.kakao.com/o/s7DiPcki" class="plan-btn plan-btn-outline" target="_blank">💬 카카오톡 문의</a>
+      </div>
+    </div>
+    <div class="plan featured mob-active" data-plan="allinone" style="border:2px solid var(--blue);position:relative;">
       <div class="plan-badge">⚡ 올인원 패키지</div>
-      <p class="plan-name">V2 Pro + NB 올인원</p>
+      <p class="plan-name">네이버 + 워드프레스 올인원</p>
       <p class="plan-price">₩890,000</p>
       <p class="plan-price-sub">일회성 결제 / 평생 소유</p>
       <ul class="plan-features">
@@ -1305,34 +1362,6 @@ section {
     </div>
   </div>
 
-  <div class="pricing-comparison" style="margin-top:40px;">
-    <table class="compare-table">
-      <thead>
-        <tr>
-          <th>기능</th>
-          <th>V2 Pro ₩389,000</th>
-          <th>AutoPost NB ₩790,000</th>
-          <th>올인원 ₩890,000</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr><td>AI SEO 글 자동 생성</td><td><span class="check-yes">✓</span></td><td><span class="check-yes">✓</span></td><td><span class="check-yes">✓</span></td></tr>
-        <tr><td>AI 이미지 자동 생성</td><td><span class="check-yes">✓</span></td><td><span class="check-yes">✓</span></td><td><span class="check-yes">✓</span></td></tr>
-        <tr><td>워드프레스 자동 발행</td><td><span class="check-yes">✓</span></td><td><span class="check-yes">✓</span></td><td><span class="check-yes">✓</span></td></tr>
-        <tr><td>애드센스 광고 자동 삽입</td><td><span class="check-yes">✓</span></td><td><span class="check-yes">✓</span></td><td><span class="check-yes">✓</span></td></tr>
-        <tr><td>키워드 대량 등록</td><td><span class="check-yes">✓</span></td><td><span class="check-yes">✓</span></td><td><span class="check-yes">✓</span></td></tr>
-        <tr><td>예약 발행 (간격/시간 지정)</td><td><span class="check-yes">✓</span></td><td><span class="check-yes">✓</span></td><td><span class="check-yes">✓</span></td></tr>
-        <tr><td>Google 자동 색인 신청</td><td><span class="check-yes">✓</span></td><td><span class="check-yes">✓</span></td><td><span class="check-yes">✓</span></td></tr>
-        <tr><td>1:1 줌 설치 교육</td><td><span class="check-yes">✓</span></td><td><span class="check-yes">✓</span></td><td><span class="check-yes">✓</span></td></tr>
-        <tr><td>무료 업데이트 (평생)</td><td><span class="check-yes">✓</span></td><td><span class="check-yes">✓</span></td><td><span class="check-yes">✓</span></td></tr>
-        <tr><td>네이버 상위노출 글 분석</td><td><span class="check-no">—</span></td><td><span class="check-yes">✓</span></td><td><span class="check-yes">✓</span></td></tr>
-        <tr><td>네이버 블로그 자동 발행</td><td><span class="check-no">—</span></td><td><span class="check-yes">✓</span></td><td><span class="check-yes">✓</span></td></tr>
-        <tr><td>워드프레스 → 네이버 백링크</td><td><span class="check-no">—</span></td><td><span class="check-yes">✓</span></td><td><span class="check-yes">✓</span></td></tr>
-        <tr><td>외부유입 자동화</td><td><span class="check-no">—</span></td><td><span class="check-yes">✓</span></td><td><span class="check-yes">✓</span></td></tr>
-        <tr><td>맞춤형 프롬프트 자유 작성</td><td><span class="check-no">—</span></td><td><span class="check-yes">✓</span></td><td><span class="check-yes">✓</span></td></tr>
-      </tbody>
-    </table>
-  </div>
 </section>
 
 <div class="divider"></div>
@@ -1469,15 +1498,6 @@ section {
   AutoPost SEO Writer © 2026. All rights reserved.
 </div>
 
-<!-- 구매 알림 토스트 -->
-<div id="ap-purchase-toast" style="position:fixed;bottom:80px;left:24px;z-index:9999;background:#fff;border:1px solid rgba(0,0,0,0.08);border-radius:14px;box-shadow:0 8px 32px rgba(0,0,0,0.12);padding:16px 20px;display:flex;align-items:center;gap:12px;max-width:340px;transform:translateX(-120%);transition:transform 0.5s cubic-bezier(0.16,1,0.3,1);font-family:'Noto Sans KR',-apple-system,sans-serif;">
-  <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#a78bfa,#60a5fa);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><span style="color:#fff;font-size:1.1rem;">🔥</span></div>
-  <div>
-    <div style="font-size:13px;font-weight:800;color:#1d1d1f;" id="ap-toast-text">김**님이 방금 AutoPost NB를 구매했습니다</div>
-    <div style="font-size:12px;color:#0071e3;font-weight:700;margin-top:2px;">3기 마감 · <span id="ap-toast-seats">1자리</span> 남음</div>
-  </div>
-  <button onclick="document.getElementById('ap-purchase-toast').style.transform='translateX(-120%)'" style="position:absolute;top:6px;right:10px;background:none;border:none;color:#999;font-size:1rem;cursor:pointer;line-height:1;">×</button>
-</div>
 
 <!-- STICKY BOTTOM -->
 <div class="sticky-bottom" id="stickyBottom">
@@ -1540,29 +1560,6 @@ window.addEventListener('scroll', function() {
   }
 });
 
-// 구매 알림 토스트
-var apNames = ['김**','이**','박**','최**','정**','강**','조**','윤**','장**','한**','오**','서**','신**','권**','황**'];
-var apPlans = ['V2 Pro','AutoPost NB','올인원 패키지','V2 Pro','AutoPost NB'];
-var apToast = document.getElementById('ap-purchase-toast');
-var apToastText = document.getElementById('ap-toast-text');
-var apToastSeats = document.getElementById('ap-toast-seats');
-var apToastIdx = 0;
-function showApToast() {
-  if (!apToast) return;
-  var name = apNames[Math.floor(Math.random() * apNames.length)];
-  var plan = apPlans[apToastIdx % apPlans.length];
-  var seats = apToastIdx === 0 ? '1자리' : '마감 임박';
-  apToastText.textContent = name + '님이 방금 ' + plan + '를 구매했습니다';
-  apToastSeats.textContent = seats;
-  apToast.style.transform = 'translateX(0)';
-  apToastIdx++;
-  setTimeout(function() { apToast.style.transform = 'translateX(-120%)'; }, 5000);
-}
-setTimeout(showApToast, 8000);
-setTimeout(showApToast, 35000);
-setTimeout(showApToast, 70000);
-setTimeout(showApToast, 120000);
-setTimeout(showApToast, 180000);
 
 // Scroll reveal
 var observer = new IntersectionObserver(function(entries) {
