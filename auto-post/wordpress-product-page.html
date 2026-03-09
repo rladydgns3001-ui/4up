@@ -7,7 +7,7 @@ gtag('js', new Date());
 gtag('config', 'G-TPCWJZENMQ');
 </script>
 <meta charset="UTF-8">
-<style>.page-id-431,.page-id-431 html,.page-id-431 body{overflow-x:hidden!important;margin:0!important;padding:0!important;background:#FFFFFF!important}.page-id-431 .site-header,.page-id-431 header#masthead,.page-id-431 .entry-header,.page-id-431 .entry-title,.page-id-431 .page-header,.page-id-431 .page-title,.page-id-431 #right-sidebar,.page-id-431 #secondary,.page-id-431 .sidebar,.page-id-431 .widget-area,.page-id-431 .site-footer,.page-id-431 footer#colophon,.page-id-431 footer.site-info,.page-id-431 .navigation,.page-id-431 .nav-links,.page-id-431 .post-navigation{display:none!important}.page-id-431 #page,.page-id-431 .site.grid-container,.page-id-431 .grid-container{max-width:100%!important;width:100%!important;padding:0!important;margin:0!important;overflow-x:hidden!important}.page-id-431 .site-content,.page-id-431 #content,.page-id-431 .content-area,.page-id-431 #primary,.page-id-431 .site-main,.page-id-431 #main,.page-id-431 article,.page-id-431 .post-431,.page-id-431 .inside-article,.page-id-431 .entry-content{width:100%!important;max-width:100%!important;margin:0!important;padding:0!important;float:none!important;overflow-x:hidden!important}.page-id-431.separate-containers .inside-article,.page-id-431.separate-containers .site-main>article{padding:0!important;margin:0!important;background:transparent!important;box-shadow:none!important;border:none!important}.page-id-431.separate-containers .site-main{margin:0!important}.page-id-431 .entry-content a{text-decoration:none;color:inherit}.page-id-431 .entry-content a:hover{text-decoration:none}.page-id-431 .entry-content a.btn-primary,.page-id-431 .entry-content a.plan-btn,.page-id-431 .entry-content a.nav-cta,.page-id-431 .entry-content a.sticky-buy{color:#fff!important}.page-id-431 .entry-content a.featured .plan-btn{color:#fff!important}</style>
+<style>.page-id-431,.page-id-431 html,.page-id-431 body{overflow-x:hidden!important;margin:0!important;padding:0!important;background:#FFFFFF!important}.page-id-431 .site-header,.page-id-431 header#masthead,.page-id-431 .entry-header,.page-id-431 .entry-title,.page-id-431 .page-header,.page-id-431 .page-title,.page-id-431 #right-sidebar,.page-id-431 #secondary,.page-id-431 .sidebar,.page-id-431 .widget-area,.page-id-431 .site-footer,.page-id-431 footer#colophon,.page-id-431 footer.site-info,.page-id-431 .navigation,.page-id-431 .nav-links,.page-id-431 .post-navigation{display:none!important}.page-id-431 #page,.page-id-431 .site.grid-container,.page-id-431 .grid-container{max-width:100%!important;width:100%!important;padding:0!important;margin:0!important;overflow-x:hidden!important}.page-id-431 .site-content,.page-id-431 #content,.page-id-431 .content-area,.page-id-431 #primary,.page-id-431 .site-main,.page-id-431 #main,.page-id-431 article,.page-id-431 .post-431,.page-id-431 .inside-article,.page-id-431 .entry-content{width:100%!important;max-width:100%!important;margin:0!important;padding:0!important;float:none!important;overflow-x:hidden!important}.page-id-431.separate-containers .inside-article,.page-id-431.separate-containers .site-main>article{padding:0!important;margin:0!important;background:transparent!important;box-shadow:none!important;border:none!important}.page-id-431.separate-containers .site-main{margin:0!important}.page-id-431 .entry-content a{text-decoration:none;color:inherit}.page-id-431 .entry-content a:hover{text-decoration:none}.page-id-431 .entry-content a.btn-primary,.page-id-431 .entry-content a.plan-btn:not(.plan-btn-outline),.page-id-431 .entry-content a.nav-cta,.page-id-431 .entry-content a.sticky-buy{color:#fff!important}.page-id-431 .entry-content a.plan-btn-outline{color:var(--black)!important}.page-id-431 .entry-content .featured a.plan-btn-outline,.page-id-431 .entry-content .naver-plan a.plan-btn-outline{color:#fff!important}</style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 <style>
@@ -72,6 +72,7 @@ body {
 }
 .ap-nav-links a:hover { color: var(--black); }
 .nav-cta {
+  white-space: nowrap;
   background: var(--blue); color: #fff;
   padding: 8px 20px; border-radius: 980px;
   font-size: 13px; font-weight: 500;
@@ -212,6 +213,7 @@ section {
   transition: opacity .2s, transform .15s;
   display: inline-block;
   box-shadow: 0 8px 32px rgba(167,139,250,0.4);
+  white-space: nowrap;
 }
 .btn-primary:hover { opacity: 0.88; transform: scale(1.02); }
 .btn-secondary {
@@ -224,6 +226,7 @@ section {
   backdrop-filter: blur(8px);
   transition: all .2s;
   display: inline-block;
+  white-space: nowrap;
 }
 .btn-secondary:hover { background: rgba(255,255,255,0.25); }
 
@@ -233,6 +236,30 @@ section {
   background: var(--border);
   margin: 0;
 }
+
+/* ── DEMO TABS ── */
+.demo-tabs {
+  display: flex; justify-content: center; gap: 8px;
+  margin-bottom: 32px;
+}
+.demo-tab {
+  padding: 10px 28px; border-radius: 980px;
+  font-size: 14px; font-weight: 700;
+  border: 1.5px solid var(--border);
+  background: #fff; color: var(--gray);
+  cursor: pointer; transition: all .2s;
+  white-space: nowrap;
+}
+.demo-tab.active {
+  background: var(--black); color: #fff; border-color: var(--black);
+}
+.demo-tab:hover:not(.active) { background: var(--light-gray); }
+.demo-tab .tab-dot {
+  display: inline-block; width: 8px; height: 8px;
+  border-radius: 50%; margin-right: 6px; vertical-align: middle;
+}
+.demo-video-wrap { display: none; }
+.demo-video-wrap.active { display: block; }
 
 /* ── MAC VIDEO FRAME ── */
 .video-section {
@@ -634,6 +661,7 @@ section {
   font-size: 15px; font-weight: 600;
   text-decoration: none;
   transition: all .2s;
+  white-space: nowrap;
 }
 .plan .plan-btn {
   background: var(--black); color: #fff;
@@ -653,6 +681,43 @@ section {
   border: 1px solid rgba(255,255,255,0.25);
 }
 .featured .plan-btn-outline:hover { background: rgba(255,255,255,0.1); }
+
+/* ── NAVER GREEN PLAN ── */
+.plan.naver-plan {
+  background: linear-gradient(135deg, #0d3b1e 0%, #145a2e 50%, #0d3b1e 100%);
+  border-color: #03C75A;
+  color: #fff;
+}
+.naver-plan .plan-badge { background: #03C75A; }
+.naver-plan .plan-name { color: #6ee7a0; }
+.naver-plan .plan-price-sub { color: #a3d9b8; }
+.naver-plan .plan-features li { border-color: rgba(255,255,255,0.08); }
+.naver-plan .plan-features .check { color: #03C75A; }
+.naver-plan .plan-features .pro-item { color: #6ee7a0; }
+.naver-plan .plan-btn { background: #03C75A; color: #fff; }
+.naver-plan .plan-btn:hover { background: #02b350; }
+.naver-plan .plan-btn-outline { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,0.25); }
+.naver-plan .plan-btn-outline:hover { background: rgba(255,255,255,0.1); }
+
+/* ── MOBILE PRICING TABS ── */
+.pricing-tabs {
+  display: none;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 20px;
+}
+.pricing-tab {
+  padding: 8px 16px; border-radius: 980px;
+  font-size: 13px; font-weight: 700;
+  border: 1.5px solid var(--border);
+  background: #fff; color: var(--gray);
+  cursor: pointer; transition: all .2s;
+  white-space: nowrap;
+}
+.pricing-tab.active { background: var(--black); color: #fff; border-color: var(--black); }
+.pricing-tab.active-naver { background: #03C75A; color: #fff; border-color: #03C75A; }
+.pricing-tab.active-blue { background: var(--blue); color: #fff; border-color: var(--blue); }
+.pricing-tab:hover:not(.active):not(.active-naver):not(.active-blue) { background: var(--light-gray); }
 
 .pricing-comparison {
   margin-top: 60px;
@@ -874,6 +939,7 @@ section {
   padding: 10px 20px; border-radius: 980px;
   font-size: 14px; font-weight: 600; text-decoration: none;
   transition: background .2s;
+  white-space: nowrap;
 }
 .sticky-consult:hover { background: #e8e8ed; }
 .sticky-buy {
@@ -881,6 +947,7 @@ section {
   padding: 10px 24px; border-radius: 980px;
   font-size: 14px; font-weight: 600; text-decoration: none;
   transition: background .2s;
+  white-space: nowrap;
 }
 .sticky-buy:hover { background: var(--blue-hover); }
 
@@ -890,7 +957,11 @@ section {
   .ap-nav-links { display: none; }
   section { padding: 72px 20px; }
   .steps { grid-template-columns: 1fr 1fr; }
-  .compare-grid, .target-grid, .pricing-grid, .sample-cards { grid-template-columns: 1fr; }
+  .compare-grid, .target-grid, .sample-cards { grid-template-columns: 1fr; }
+  .pricing-tabs { display: flex; }
+  .pricing-grid { grid-template-columns: 1fr; }
+  .pricing-grid .plan { display: none; }
+  .pricing-grid .plan.mob-active { display: flex; }
   .features-grid { grid-template-columns: 1fr 1fr; }
   .review-cards { grid-template-columns: 1fr; }
   .flow-steps { flex-direction: column; gap: 24px; }
@@ -954,10 +1025,6 @@ section {
     <span class="hero-highlight">이게 2개월 만에 수익 나는 이유입니다.</span><br>
     아래 예시글 먼저 확인해보세요. →
   </p>
-  <div class="btn-group">
-    <a href="https://open.kakao.com/o/s7DiPcki" class="btn-primary" target="_blank">💬 카카오톡 문의하기</a>
-    <a href="#pricing" class="btn-secondary">가격 보기</a>
-  </div>
   </div>
 </div>
 
@@ -965,23 +1032,39 @@ section {
 
 <!-- DEMO VIDEO -->
 <div class="video-section" id="demo">
-  <div class="mac-frame">
-    <div class="mac-body">
-      <div class="mac-dots">
-        <div class="mac-dot"></div>
-        <div class="mac-dot"></div>
-        <div class="mac-dot"></div>
+  <div class="demo-tabs">
+    <button class="demo-tab active" onclick="switchDemo('wp')"><span class="tab-dot" style="background:#0071e3;"></span>워드프레스</button>
+    <button class="demo-tab" onclick="switchDemo('naver')"><span class="tab-dot" style="background:#03C75A;"></span>네이버</button>
+  </div>
+  <div class="demo-video-wrap active" id="demo-wp">
+    <div class="mac-frame">
+      <div class="mac-body">
+        <div class="mac-dots"><div class="mac-dot"></div><div class="mac-dot"></div><div class="mac-dot"></div></div>
+        <div class="mac-address-bar"></div>
+        <div class="mac-screen">
+          <video autoplay muted loop playsinline>
+            <source src="https://wpauto.kr/wp-content/uploads/2026/03/autopost-demo.mp4" type="video/mp4">
+          </video>
+        </div>
       </div>
-      <div class="mac-address-bar"></div>
-      <div class="mac-screen">
-        <video autoplay muted loop playsinline>
-          <source src="https://wpauto.kr/wp-content/uploads/2026/03/autopost-demo.mp4" type="video/mp4">
-          브라우저가 비디오를 지원하지 않습니다.
-        </video>
-      </div>
+      <div class="mac-stand"></div>
+      <div class="mac-base"></div>
     </div>
-    <div class="mac-stand"></div>
-    <div class="mac-base"></div>
+  </div>
+  <div class="demo-video-wrap" id="demo-naver">
+    <div class="mac-frame">
+      <div class="mac-body">
+        <div class="mac-dots"><div class="mac-dot"></div><div class="mac-dot"></div><div class="mac-dot"></div></div>
+        <div class="mac-address-bar"></div>
+        <div class="mac-screen">
+          <video muted loop playsinline>
+            <source src="https://wpauto.kr/wp-content/uploads/2026/03/naver-demo.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="mac-stand"></div>
+      <div class="mac-base"></div>
+    </div>
   </div>
 </div>
 
@@ -993,21 +1076,21 @@ section {
   <h2 class="sample-title">우선 프로그램으로 작성된 글<br>먼저 확인해 보시죠.</h2>
   <p class="sample-sub">키워드 입력 → 클릭 한 번으로 자동 완성된 결과물입니다.</p>
   <div class="sample-cards">
-    <a href="https://wpauto.kr/%EB%8B%AC%EB%9F%AC%EC%A2%85%EC%8B%A0%EB%B3%B4%ED%97%98-%EC%99%84%EB%B2%BD-%EA%B0%80%EC%9D%B4%EB%93%9C-2026-%ED%99%98%EC%9C%A8-%EB%A6%AC%EC%8A%A4%ED%81%AC%EC%99%80-%EC%88%98%EC%9D%B5%EB%A5%A0" class="sample-card" target="_blank">
-      <span class="card-tag">금융 · 보험 · 워드프레스</span>
-      <p class="card-title">달러종신보험 완벽 가이드 2026 — 환율 리스크와 수익률 모든 것</p>
-      <span class="card-link">
-        워드프레스 글 보러가기
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-          <path d="M3 8h10M9 4l4 4-4 4" stroke="#0071e3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </span>
-    </a>
-    <a href="https://blog.naver.com/wpauto/224209421855" class="sample-card" target="_blank">
-      <span class="card-tag">청년 · 금융 · 네이버 블로그</span>
+    <a href="https://blog.naver.com/wpauto/224209421855" class="sample-card" style="border:2px solid #03C75A;" target="_blank">
+      <span class="card-tag" style="background:#E8F5E9;color:#03C75A;">네이버 블로그 · 청년 · 금융</span>
       <p class="card-title">청년미래적금 완전 정복! 2026년 최신 혜택과 가입 방법 총정리</p>
       <span class="card-link">
         네이버 글 보러가기
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M3 8h10M9 4l4 4-4 4" stroke="#03C75A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+    </a>
+    <a href="https://wpauto.kr/%EC%B2%AD%EB%85%84%EB%AF%B8%EB%9E%98%EC%A0%81%EA%B8%88-%EC%99%84%EC%A0%84-%EC%A0%95%EB%B3%B5-2026%EB%85%84-%EC%B5%9C%EC%8B%A0-%ED%98%9C%ED%83%9D%EA%B3%BC-%EA%B0%80%EC%9E%85-%EB%B0%A9%EB%B2%95/" class="sample-card" target="_blank">
+      <span class="card-tag">청년 · 금융 · 워드프레스</span>
+      <p class="card-title">청년미래적금 완전 정복! 2026년 최신 혜택과 가입 방법 총정리</p>
+      <span class="card-link">
+        워드프레스 글 보러가기
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
           <path d="M3 8h10M9 4l4 4-4 4" stroke="#0071e3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
@@ -1151,8 +1234,13 @@ section {
   <span class="section-eyebrow">가격</span>
   <h2 class="section-title">일회성 결제, 평생 소유</h2>
   <p class="pricing-note">월정액 없음 · 무료 업데이트 포함 · 구매 즉시 다운로드</p>
+  <div class="pricing-tabs">
+    <button class="pricing-tab active" onclick="switchPlan('v2pro')">V2 Pro</button>
+    <button class="pricing-tab" onclick="switchPlan('nb')">NB 네이버</button>
+    <button class="pricing-tab" onclick="switchPlan('allinone')">올인원</button>
+  </div>
   <div class="pricing-grid">
-    <div class="plan">
+    <div class="plan mob-active" data-plan="v2pro">
       <p class="plan-name">V2 Pro</p>
       <p class="plan-price">₩389,000</p>
       <p class="plan-price-sub">일회성 결제 / 평생 소유</p>
@@ -1174,7 +1262,7 @@ section {
         <a href="https://open.kakao.com/o/s7DiPcki" class="plan-btn plan-btn-outline" target="_blank">💬 카카오톡 문의</a>
       </div>
     </div>
-    <div class="plan featured">
+    <div class="plan naver-plan" data-plan="nb">
       <div class="plan-badge">🔥 네이버 자동화</div>
       <p class="plan-name">AutoPost NB</p>
       <p class="plan-price">₩790,000</p>
@@ -1194,7 +1282,7 @@ section {
         <a href="https://open.kakao.com/o/s7DiPcki" class="plan-btn plan-btn-outline" target="_blank">💬 카카오톡 문의</a>
       </div>
     </div>
-    <div class="plan featured" style="border:2px solid var(--blue);position:relative;">
+    <div class="plan featured" data-plan="allinone" style="border:2px solid var(--blue);position:relative;">
       <div class="plan-badge">⚡ 올인원 패키지</div>
       <p class="plan-name">V2 Pro + NB 올인원</p>
       <p class="plan-price">₩890,000</p>
@@ -1361,8 +1449,8 @@ section {
   <h2>지금 시작하세요</h2>
   <p>이 가격은 3기 한정입니다. 마감 후 가격이 오를 수 있습니다.</p>
   <div class="btn-group">
-    <a href="https://open.kakao.com/o/s7DiPcki" class="btn-primary" target="_blank">💬 카카오톡 문의하기</a>
-    <a href="https://open.kakao.com/o/s7DiPcki" class="btn-secondary" target="_blank">💳 💳 결제 문의</a>
+    <a href="https://open.kakao.com/o/s7DiPcki" class="btn-primary" target="_blank">💬 카카오톡 문의</a>
+    <a href="https://open.kakao.com/o/s7DiPcki" class="btn-secondary" target="_blank">💳 결제 문의</a>
   </div>
   <p class="final-note">💡 카드결제·계좌이체 모두 가능 · 카카오톡으로 안내드립니다</p>
 </div>
@@ -1399,11 +1487,37 @@ section {
   </div>
   <div class="sticky-btns">
     <a href="https://open.kakao.com/o/s7DiPcki" class="sticky-consult" target="_blank">💬 카카오톡 문의</a>
-    <a href="https://open.kakao.com/o/s7DiPcki" class="sticky-buy" target="_blank">💳 💳 결제 문의</a>
+    <a href="https://open.kakao.com/o/s7DiPcki" class="sticky-buy" target="_blank">💳 결제 문의</a>
   </div>
 </div>
 
 <script>
+// Demo tab switch
+function switchDemo(type) {
+  document.querySelectorAll('.demo-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.demo-video-wrap').forEach(w => {
+    w.classList.remove('active');
+    w.querySelector('video')?.pause();
+  });
+  const target = document.getElementById('demo-' + type);
+  target.classList.add('active');
+  const vid = target.querySelector('video');
+  if (vid) { vid.currentTime = 0; vid.play(); }
+  event.currentTarget.classList.add('active');
+}
+
+// Pricing tab switch (mobile)
+function switchPlan(planId) {
+  var tabStyles = { v2pro: 'active', nb: 'active-naver', allinone: 'active-blue' };
+  document.querySelectorAll('.pricing-tab').forEach(function(t) {
+    t.className = 'pricing-tab';
+  });
+  event.currentTarget.classList.add('pricing-tab', tabStyles[planId]);
+  document.querySelectorAll('.pricing-grid .plan').forEach(function(p) {
+    p.classList.toggle('mob-active', p.dataset.plan === planId);
+  });
+}
+
 // FAQ accordion
 document.querySelectorAll('.faq-q').forEach(btn => {
   btn.addEventListener('click', () => {
