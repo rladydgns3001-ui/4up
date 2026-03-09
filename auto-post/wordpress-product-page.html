@@ -6,6 +6,8 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-TPCWJZENMQ');
 </script>
+<meta name="naver-site-verification" content="03b0bc4c579a5d80d0e5990940f7226f141ce0da">
+<script type="text/javascript">(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y)})(window,document,"clarity","script","ku72endlwr");</script>
 <meta charset="UTF-8">
 <style>.page-id-431,.page-id-431 html,.page-id-431 body{overflow-x:hidden!important;margin:0!important;padding:0!important;background:#FFFFFF!important}.page-id-431 .site-header,.page-id-431 header#masthead,.page-id-431 .entry-header,.page-id-431 .entry-title,.page-id-431 .page-header,.page-id-431 .page-title,.page-id-431 #right-sidebar,.page-id-431 #secondary,.page-id-431 .sidebar,.page-id-431 .widget-area,.page-id-431 .site-footer,.page-id-431 footer#colophon,.page-id-431 footer.site-info,.page-id-431 .navigation,.page-id-431 .nav-links,.page-id-431 .post-navigation{display:none!important}.page-id-431 #page,.page-id-431 .site.grid-container,.page-id-431 .grid-container{max-width:100%!important;width:100%!important;padding:0!important;margin:0!important;overflow-x:hidden!important}.page-id-431 .site-content,.page-id-431 #content,.page-id-431 .content-area,.page-id-431 #primary,.page-id-431 .site-main,.page-id-431 #main,.page-id-431 article,.page-id-431 .post-431,.page-id-431 .inside-article,.page-id-431 .entry-content{width:100%!important;max-width:100%!important;margin:0!important;padding:0!important;float:none!important;overflow-x:hidden!important}.page-id-431.separate-containers .inside-article,.page-id-431.separate-containers .site-main>article{padding:0!important;margin:0!important;background:transparent!important;box-shadow:none!important;border:none!important}.page-id-431.separate-containers .site-main{margin:0!important}.page-id-431 .entry-content a{text-decoration:none;color:inherit}.page-id-431 .entry-content a:hover{text-decoration:none}.page-id-431 .entry-content a.btn-primary,.page-id-431 .entry-content a.plan-btn:not(.plan-btn-outline),.page-id-431 .entry-content a.nav-cta,.page-id-431 .entry-content a.sticky-buy{color:#fff!important}.page-id-431 .entry-content a.plan-btn-outline{color:var(--black)!important}.page-id-431 .entry-content .featured a.plan-btn-outline,.page-id-431 .entry-content .naver-plan a.plan-btn-outline{color:#fff!important}</style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -162,6 +164,13 @@ section {
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
+.text-gradient {
+  background: linear-gradient(90deg, #ff6fd8, #a78bfa, #60a5fa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 700;
+}
 .hero-sub {
   font-size: clamp(15px, 2vw, 18px);
   color: rgba(255,255,255,0.55);
@@ -195,6 +204,152 @@ section {
   word-break: keep-all;
 }
 .hero-conclusion strong { color: #fff; }
+.hero-screens {
+  margin: 32px auto 24px;
+  max-width: 680px;
+}
+.hero-screen-tabs {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+.hero-tab {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: rgba(255,255,255,0.6);
+  padding: 6px 20px;
+  border-radius: 980px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .2s;
+}
+.hero-tab.active {
+  background: rgba(255,255,255,0.2);
+  color: #fff;
+  border-color: rgba(255,255,255,0.4);
+}
+.hero-tab:hover { color: #fff; }
+.hero-screen-img {
+  display: none;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.15);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+}
+.hero-screen-img.active { display: block; }
+.hero-screen-img img {
+  width: 100%;
+  display: block;
+}
+
+/* ── NB Interactive UI ── */
+.nb-ui {
+  --nb-bg:#0d1117;--nb-sf:#141b2d;--nb-sf2:#1a2235;--nb-bd:#1e2d45;--nb-cyan:#0097a7;--nb-pur:#6d28d9;--nb-tx:#fff;--nb-dm:#94a3b8;--nb-acc:#22d3ee;--nb-dk:#1e2535;
+  font-family:'Malgun Gothic',sans-serif;font-size:12px;color:var(--nb-tx);background:var(--nb-bg);border-radius:10px;overflow:hidden;transition:all .3s;
+}
+.nb-ui.nb-light {
+  --nb-bg:#f0f4f8;--nb-sf:#fff;--nb-sf2:#e8edf3;--nb-bd:#c8d4e0;--nb-tx:#1a2235;--nb-dm:#475569;--nb-acc:#0097a7;--nb-dk:#d0d8e4;
+}
+.nb-titlebar{background:var(--nb-sf2);padding:8px 12px;display:flex;align-items:center;gap:6px;border-bottom:1px solid var(--nb-bd);}
+.nb-dot{width:10px;height:10px;border-radius:50%;}.nb-dot.r{background:#ff5f57;}.nb-dot.y{background:#ffbd2e;}.nb-dot.g{background:#28c840;}
+.nb-title{flex:1;text-align:center;font-size:12px;font-weight:bold;color:var(--nb-tx);}
+.nb-theme-btn{background:var(--nb-dk);border:1px solid var(--nb-bd);color:var(--nb-tx);padding:2px 8px;border-radius:4px;cursor:pointer;font-size:10px;}
+.nb-tabbar{display:flex;background:var(--nb-sf);border-bottom:1px solid var(--nb-bd);}
+.nb-tab{flex:1;padding:8px 0;text-align:center;cursor:pointer;font-size:11px;font-weight:bold;color:var(--nb-dm);background:var(--nb-sf2);border-right:1px solid var(--nb-bd);transition:all .15s;}
+.nb-tab:last-child{border-right:none;}.nb-tab:hover{color:var(--nb-tx);}.nb-tab.active{background:var(--nb-cyan);color:#fff;}
+.nb-panel{display:none;background:var(--nb-sf);}.nb-panel.active{display:block;}
+.nb-scroll{padding:10px 14px;max-height:340px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;}
+.nb-field{margin-bottom:4px;}
+.nb-flabel{display:flex;align-items:center;gap:5px;margin-bottom:3px;}
+.nb-flabel strong{font-size:12px;color:var(--nb-tx);}.nb-flabel span{font-size:10px;color:var(--nb-acc);}
+.nb-ta{width:100%;background:var(--nb-sf2);border:1px solid var(--nb-bd);border-radius:5px;color:var(--nb-tx);padding:6px 8px;font-size:11px;font-family:inherit;resize:none;outline:none;}
+.nb-ta:focus{border-color:var(--nb-cyan);}
+.nb-inp{background:var(--nb-sf2);border:1px solid var(--nb-bd);border-radius:5px;color:var(--nb-tx);padding:5px 7px;font-size:11px;width:45px;outline:none;font-family:inherit;}
+.nb-inp.nb-full{width:100%;}
+.nb-sel{background:var(--nb-sf2);border:1px solid var(--nb-bd);color:var(--nb-tx);border-radius:5px;padding:5px 8px;font-size:11px;outline:none;cursor:pointer;font-family:inherit;}
+.nb-irow{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:11px;color:var(--nb-tx);}
+.nb-radio,.nb-chk{display:flex;align-items:center;gap:3px;cursor:pointer;font-size:11px;color:var(--nb-tx);}
+.nb-radio input,.nb-chk input{accent-color:var(--nb-cyan);width:13px;height:13px;}
+.nb-box{background:var(--nb-sf2);border:1px solid var(--nb-bd);border-radius:6px;padding:8px 10px;}
+.nb-boxtitle{font-size:12px;font-weight:bold;color:var(--nb-tx);margin-bottom:6px;}
+.nb-btn{padding:7px 12px;border:none;border-radius:5px;font-size:11px;font-weight:bold;cursor:pointer;color:#fff;transition:opacity .15s;}
+.nb-btn:hover{opacity:.85;}
+.nb-btn.nb-cyan{background:var(--nb-cyan);}.nb-btn.nb-purple{background:var(--nb-pur);}.nb-btn.nb-dark{background:var(--nb-dk);color:var(--nb-tx);}
+.nb-btn.nb-full{width:100%;}
+.nb-dim{color:var(--nb-dm);font-size:10px;}
+.nb-two{display:grid;grid-template-columns:140px 1fr;height:340px;}
+.nb-sidebar{background:var(--nb-sf2);border-right:1px solid var(--nb-bd);padding:8px 6px;display:flex;flex-direction:column;}
+.nb-stitle{font-size:11px;font-weight:bold;color:var(--nb-acc);padding:0 4px 6px;border-bottom:1px solid var(--nb-bd);margin-bottom:6px;}
+.nb-pitem{padding:6px 8px;border-radius:5px;cursor:pointer;color:var(--nb-dm);font-size:11px;margin-bottom:2px;}
+.nb-pitem:hover{background:var(--nb-dk);color:var(--nb-tx);}.nb-pitem.sel{background:var(--nb-cyan);color:#fff;}
+.nb-log{background:var(--nb-bg);border-top:1px solid var(--nb-bd);padding:6px 10px;font-size:10px;color:var(--nb-acc);font-family:monospace;max-height:36px;overflow-y:auto;}
+.nb-status{background:var(--nb-sf2);padding:4px 10px;font-size:10px;color:var(--nb-dm);border-top:1px solid var(--nb-bd);}
+.nb-empty{display:flex;align-items:center;justify-content:center;height:340px;color:var(--nb-dm);}
+.nb-ui ::-webkit-scrollbar{width:4px;}.nb-ui ::-webkit-scrollbar-thumb{background:var(--nb-bd);border-radius:3px;}
+
+/* ── Hero try badge ── */
+.hero-try-badge {
+  display: inline-block;
+  background: linear-gradient(90deg, rgba(255,111,216,0.2), rgba(167,139,250,0.2));
+  border: 1px solid rgba(167,139,250,0.4);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 8px 24px;
+  border-radius: 980px;
+  margin-bottom: 12px;
+  animation: pulse-badge 2s ease-in-out infinite;
+}
+@keyframes pulse-badge {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 0 rgba(167,139,250,0); }
+  50% { transform: scale(1.03); box-shadow: 0 0 20px rgba(167,139,250,0.3); }
+}
+
+/* ── WP Interactive UI (actual program replica) ── */
+.wp-ui {
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:12px;
+  background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);border-radius:10px;overflow:hidden;padding:10px;
+}
+.wp-tabbar{display:flex;background:#f5f5f5;border-bottom:1px solid #e0e0e0;border-radius:8px 8px 0 0;overflow:hidden;}
+.wp-tab{flex:1;padding:10px 0;text-align:center;cursor:pointer;font-weight:600;font-size:11px;color:#666;background:#f5f5f5;border:none;transition:all .2s;}
+.wp-tab:hover{background:#eee;}.wp-tab.active{color:#667eea;background:#fff;border-bottom:2px solid #667eea;}
+.wp-panel{display:none;background:#fff;border-radius:0 0 8px 8px;}.wp-panel.active{display:block;}
+.wp-inner{padding:14px;max-height:380px;overflow-y:auto;}
+.wp-app-title{text-align:center;font-size:16px;font-weight:700;color:#333;margin-bottom:4px;}
+.wp-app-sub{text-align:center;font-size:11px;color:#666;margin-bottom:12px;}
+.wp-status-ok{background:#d4edda;color:#155724;text-align:center;padding:7px;border-radius:6px;font-size:11px;font-weight:600;margin-bottom:12px;}
+.wp-fg{margin-bottom:10px;}
+.wp-label{display:block;margin-bottom:3px;font-weight:600;color:#333;font-size:11px;}
+.wp-inp,.wp-ta,.wp-select{width:100%;padding:8px 10px;border:2px solid #e0e0e0;border-radius:8px;font-size:12px;font-family:inherit;outline:none;background:#fff;transition:border .2s;}
+.wp-inp:focus,.wp-ta:focus,.wp-select:focus{border-color:#667eea;}
+.wp-ta{resize:none;}
+.wp-sel-row{display:flex;gap:6px;}.wp-sel-row .wp-select{flex:1;}
+.wp-counter{text-align:right;font-size:10px;color:#888;margin-top:2px;}
+.wp-sched{background:#f8f9fa;border-radius:8px;padding:10px;margin-bottom:10px;}
+.wp-radio-row{display:flex;gap:12px;margin-top:6px;}
+.wp-radio,.wp-chk{display:flex;align-items:center;gap:4px;font-size:11px;color:#333;cursor:pointer;}
+.wp-radio input,.wp-chk input{accent-color:#667eea;width:14px;height:14px;}
+.wp-submit{width:100%;padding:10px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;margin:10px 0 6px;transition:transform .2s;}
+.wp-submit:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(102,126,234,0.4);}
+.wp-progress{background:#e0e0e0;border-radius:6px;height:8px;overflow:hidden;}
+.wp-progress-bar{height:100%;background:linear-gradient(90deg,#667eea,#764ba2);border-radius:6px;}
+.wp-progress-text{font-size:10px;color:#667eea;text-align:center;margin:3px 0;}
+.wp-result-ok{background:#d4edda;border:1px solid #c3e6cb;border-radius:8px;padding:10px;font-size:11px;color:#155724;margin-top:6px;}
+.wp-result-link{color:#667eea;font-weight:600;font-size:12px;}
+.wp-dim{color:#888;font-size:10px;}
+.wp-info-box{background:#e7f3ff;border:1px solid #b6d4fe;border-radius:6px;padding:10px;font-size:10px;color:#084298;margin-bottom:12px;}
+.wp-site-card{border:1px solid #e0e0e0;border-radius:8px;padding:10px;margin-top:8px;}
+.wp-site-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+.wp-site-header strong{color:#667eea;font-size:12px;}
+.wp-btn-sm{padding:4px 10px;background:#e7f3ff;color:#667eea;border:none;border-radius:5px;font-size:10px;font-weight:600;cursor:pointer;}
+.wp-log-table{margin-top:8px;}
+.wp-log-head{display:grid;grid-template-columns:80px 1fr 50px;padding:6px 8px;background:#f5f5f5;border-radius:6px 6px 0 0;font-size:10px;font-weight:600;color:#666;}
+.wp-log-row{display:grid;grid-template-columns:80px 1fr 50px;padding:6px 8px;border-bottom:1px solid #eee;font-size:10px;color:#333;}
+.wp-badge-pub{background:#d4edda;color:#155724;padding:1px 6px;border-radius:8px;font-size:9px;text-align:center;}
+.wp-badge-draft{background:#fff3cd;color:#856404;padding:1px 6px;border-radius:8px;font-size:9px;text-align:center;}
+.wp-ui ::-webkit-scrollbar{width:4px;}.wp-ui ::-webkit-scrollbar-thumb{background:#ccc;border-radius:3px;}
 .hero-highlight {
   display: inline-block;
   font-size: clamp(18px, 2.5vw, 24px);
@@ -1021,6 +1176,9 @@ section {
   .ap-nav { padding: 0 20px; }
   .ap-nav-links { display: none; }
   section { padding: 72px 20px; }
+  .hero { padding: 80px 20px 60px; }
+  .hero h1 { font-size: 28px; letter-spacing: -1.5px; }
+  .hero-screens { margin: 24px auto 16px; }
   .steps { grid-template-columns: 1fr 1fr; }
   .compare-grid, .target-grid, .sample-cards { grid-template-columns: 1fr; }
   .pricing-tabs { display: flex; }
@@ -1030,8 +1188,6 @@ section {
   .features-grid { grid-template-columns: 1fr 1fr; }
   .program-showcase { grid-template-columns: 1fr; }
   .review-cards { grid-template-columns: 1fr; }
-  .flow-steps { flex-direction: column; gap: 24px; }
-  .flow-steps::before { display: none; }
   .final-cta { padding: 80px 24px; }
   .sticky-info span { display: none; }
   .sticky-bottom { padding: 10px 16px; }
@@ -1042,14 +1198,12 @@ section {
   from { opacity: 0; transform: translateY(24px); }
   to { opacity: 1; transform: translateY(0); }
 }
-.hero h1, .hero-sub, .hero-flow, .hero-result, .hero-conclusion, .btn-group {
+.hero h1, .hero-sub, .hero-screens, .hero-conclusion, .hero-screen-tabs {
   animation: fadeUp .7s ease both;
 }
 .hero-sub { animation-delay: .1s; }
-.hero-flow { animation-delay: .15s; }
-.hero-result { animation-delay: .2s; }
-.hero-conclusion { animation-delay: .25s; }
-.btn-group { animation-delay: .3s; }
+.hero-screens { animation-delay: .2s; }
+.hero-conclusion { animation-delay: .3s; }
 </style>
 
 <!-- TOP BANNER -->
@@ -1062,7 +1216,6 @@ section {
   <a href="/" class="nav-logo">Auto<span>Post</span></a>
   <ul class="ap-nav-links">
     <li><a href="#demo">데모영상</a></li>
-    <li><a href="#how">사용방법</a></li>
     <li><a href="#pricing">가격</a></li>
     <li><a href="#reviews">후기</a></li>
     <li><a href="#faq">FAQ</a></li>
@@ -1073,23 +1226,175 @@ section {
 <!-- HERO -->
 <div class="hero">
   <div class="hero-inner">
-  <span class="hero-eyebrow">WordPress 블로그 자동화</span>
+  <span class="hero-eyebrow">네이버 + 워드프레스 블로그 자동화</span>
   <h1>AI로 글 쓴다면서<br>아직 <span class="accent">10~20분</span>씩 걸려?</h1>
-  <p class="hero-sub">네이버와 워드프레스, 따로 관리하느라 지쳤다면</p>
-  <p class="hero-flow">
-    키워드 입력
-    <span class="arrow">→</span>
-    상위노출 분석
-    <span class="arrow">→</span>
-    AI 글 작성
-    <span class="arrow">→</span>
-    네이버·워드프레스 동시 발행
-  </p>
-  <p class="hero-result">네이버 블로그 + 워드프레스, <span>한 번에 자동화.</span></p>
-  <p class="hero-result" style="margin-top:-12px;">외부유입 백링크까지 <span>→ 두 채널이 서로 트래픽을 밀어줍니다</span></p>
+  <p class="hero-sub">키워드만 넣으면 네이버·워드프레스 동시 발행까지 <span class="text-gradient">전부 자동</span></p>
+  <div class="hero-screens">
+    <p class="hero-try-badge">👆 직접 클릭해서 체험해보세요</p>
+    <div class="hero-screen-tabs">
+      <button class="hero-tab active" id="hero-tab-wp">워드프레스</button>
+      <button class="hero-tab" id="hero-tab-nb">네이버</button>
+    </div>
+    <div class="hero-screen-img active" id="hero-img-wp">
+      <div class="wp-ui">
+        <div class="wp-tabbar">
+          <div class="wp-tab active" onclick="wpShowTab(this,'wp-t-write')">글 작성</div>
+          <div class="wp-tab" onclick="wpShowTab(this,'wp-t-settings')">설정</div>
+          <div class="wp-tab" onclick="wpShowTab(this,'wp-t-prompt')">프롬프트</div>
+          <div class="wp-tab" onclick="wpShowTab(this,'wp-t-log')">발행이력</div>
+        </div>
+        <div class="wp-panel active" id="wp-t-write">
+          <div class="wp-inner">
+            <div class="wp-app-title">AutoPost SEO Writer V2 Pro</div>
+            <div class="wp-app-sub">키워드를 입력하면 AI가 SEO 최적화 글을 작성합니다</div>
+            <div class="wp-status-ok">✅ wpauto.kr 연결됨</div>
+            <div class="wp-fg">
+              <label class="wp-label">발행할 사이트</label>
+              <select class="wp-select"><option>wpauto.kr (기본)</option><option>태극뉴스</option><option>사이트 3</option></select>
+            </div>
+            <div class="wp-fg">
+              <label class="wp-label">키워드</label>
+              <textarea class="wp-ta" rows="3" placeholder="키워드를 입력해주세요. (한 줄에 하나씩, 최대 10개)">소상공인 경영안정 바우처 신청&#10;청년미래적금 추천</textarea>
+              <div class="wp-counter">2/10개</div>
+            </div>
+            <div class="wp-fg">
+              <label class="wp-label">옵션</label>
+              <div class="wp-sel-row">
+                <select class="wp-select"><option>정중한 격식체</option><option>친근한 대화체</option><option>전문 권위체</option></select>
+                <select class="wp-select"><option>보통 (1000-1500자)</option><option>짧게 (500-800자)</option><option>길게 (2000-3000자)</option></select>
+              </div>
+            </div>
+            <div class="wp-sched">
+              <label class="wp-label">발행 방식</label>
+              <div class="wp-radio-row">
+                <label class="wp-radio"><input type="radio" name="wpsm" checked> 즉시 발행</label>
+                <label class="wp-radio"><input type="radio" name="wpsm"> 간격 발행</label>
+                <label class="wp-radio"><input type="radio" name="wpsm"> 시간 지정</label>
+              </div>
+            </div>
+            <label class="wp-chk"><input type="checkbox"> 바로 발행 (체크 안하면 임시저장)</label>
+            <button class="wp-submit">✍ 글 작성하기</button>
+            <div class="wp-progress"><div class="wp-progress-bar" style="width:80%;"></div></div>
+            <div class="wp-progress-text">80% — AI 글 생성 중...</div>
+            <div class="wp-result-ok">
+              <strong>✅ 발행 완료!</strong><br>
+              <span class="wp-result-link">소상공인 경영안정 바우처 신청 방법 총정리</span><br>
+              <span class="wp-dim">📌 Google 색인 신청 완료 · IndexNow 전송 완료</span>
+            </div>
+          </div>
+        </div>
+        <div class="wp-panel" id="wp-t-settings">
+          <div class="wp-inner">
+            <div class="wp-app-title">설정</div>
+            <div class="wp-app-sub">API 키와 WordPress 정보를 입력하세요</div>
+            <div class="wp-info-box">
+              <strong>필요한 정보:</strong><br>
+              • Claude API 키: Anthropic Console에서 발급<br>
+              • OpenAI API 키: 이미지 생성용<br>
+              • WordPress 앱 비밀번호
+            </div>
+            <div class="wp-fg">
+              <label class="wp-label">Claude API 키</label>
+              <input type="password" class="wp-inp" value="sk-ant-api03-•••••••••" placeholder="sk-ant-api03-...">
+            </div>
+            <div class="wp-fg">
+              <label class="wp-label">OpenAI API 키 <span class="wp-dim">(이미지 생성용)</span></label>
+              <input type="password" class="wp-inp" value="sk-•••••••••" placeholder="sk-...">
+            </div>
+            <div class="wp-site-card">
+              <div class="wp-site-header"><strong>사이트 1</strong><button class="wp-btn-sm">연결 테스트</button></div>
+              <div class="wp-fg"><label class="wp-label">사이트 URL</label><input type="text" class="wp-inp" value="https://wpauto.kr"></div>
+              <div class="wp-fg"><label class="wp-label">사용자명</label><input type="text" class="wp-inp" value="admin"></div>
+              <div class="wp-fg"><label class="wp-label">앱 비밀번호</label><input type="password" class="wp-inp" value="••••••••••"></div>
+              <div class="wp-fg"><label class="wp-label">AdSense 퍼블리셔 ID <span class="wp-dim">(선택)</span></label><input type="text" class="wp-inp" placeholder="ca-pub-1234567890"></div>
+            </div>
+          </div>
+        </div>
+        <div class="wp-panel" id="wp-t-prompt"><div class="wp-inner"><div class="wp-app-title">프롬프트</div><div class="wp-app-sub">커스텀 프롬프트를 설정하세요</div><div class="wp-fg"><label class="wp-label">시스템 프롬프트</label><textarea class="wp-ta" rows="4" placeholder="AI의 역할과 성격을 정의합니다..."></textarea></div><div class="wp-fg"><label class="wp-label">사용자 프롬프트</label><textarea class="wp-ta" rows="4" placeholder="{keyword}에 대한 SEO 블로그 글을 작성하세요..."></textarea></div><label class="wp-chk"><input type="checkbox" checked> 커스텀 프롬프트 사용</label></div></div>
+        <div class="wp-panel" id="wp-t-log"><div class="wp-inner"><div class="wp-app-title">발행이력</div><div class="wp-log-table"><div class="wp-log-head"><span>시간</span><span>키워드</span><span>상태</span></div><div class="wp-log-row"><span>03/09 23:58</span><span>소상공인 바우처</span><span class="wp-badge-pub">발행</span></div><div class="wp-log-row"><span>03/09 23:55</span><span>청년미래적금</span><span class="wp-badge-pub">발행</span></div><div class="wp-log-row"><span>03/09 23:52</span><span>청년도약계좌</span><span class="wp-badge-draft">임시저장</span></div></div></div></div>
+      </div>
+    </div>
+    <div class="hero-screen-img" id="hero-img-nb">
+      <div class="nb-ui">
+        <div class="nb-titlebar">
+          <div class="nb-dot r"></div><div class="nb-dot y"></div><div class="nb-dot g"></div>
+          <div class="nb-title">AutoPost NB</div>
+          <button class="nb-theme-btn" onclick="this.closest('.nb-ui').classList.toggle('nb-light')">🌙 / ☀️</button>
+        </div>
+        <div class="nb-tabbar">
+          <div class="nb-tab active" onclick="nbShowTab(this,'nb-t-ai')">✍ AI 글쓰기</div>
+          <div class="nb-tab" onclick="nbShowTab(this,'nb-t-prompt')">📋 맞춤형 프롬프트</div>
+          <div class="nb-tab" onclick="nbShowTab(this,'nb-t-wp')">🌐 WP 연동</div>
+          <div class="nb-tab" onclick="nbShowTab(this,'nb-t-set')">⚙ 설정</div>
+        </div>
+        <div class="nb-panel active" id="nb-t-ai">
+          <div class="nb-scroll">
+            <button class="nb-btn nb-cyan nb-full">🖥 Step 1 · 브라우저 열기</button>
+            <div class="nb-field">
+              <div class="nb-flabel"><strong>키워드 입력</strong><span>한 줄에 하나씩</span></div>
+              <textarea class="nb-ta" rows="3" placeholder="청년미래적금&#10;청년도약계좌 비교"></textarea>
+            </div>
+            <div class="nb-irow">
+              <span>프로젝트:</span>
+              <select class="nb-sel"><option>기본 (SEO 최적화)</option></select>
+              <button class="nb-btn nb-dark" style="width:28px;padding:5px;">↺</button>
+              <span class="nb-dim">← 맞춤형 프롬프트 탭에서 생성</span>
+            </div>
+            <div class="nb-irow">
+              <span>말투:</span>
+              <label class="nb-radio"><input type="radio" name="nbt" checked> 🎩 정중한</label>
+              <label class="nb-radio"><input type="radio" name="nbt"> 😊 친근한</label>
+              <label class="nb-chk" style="margin-left:auto;"><input type="checkbox" checked> 사용한 키워드 스킵</label>
+            </div>
+            <div class="nb-irow">
+              <span class="nb-dim" style="flex:1;">폴더 미선택</span>
+              <button class="nb-btn nb-purple" style="width:150px;">📂 Step 2 · 폴더 선택</button>
+            </div>
+            <div class="nb-box">
+              <div class="nb-boxtitle">발행 방식</div>
+              <div class="nb-irow">
+                <label class="nb-radio"><input type="radio" name="nbm" checked> 💾 임시저장</label>
+                <label class="nb-radio"><input type="radio" name="nbm"> ⚡ 즉시발행</label>
+                <label class="nb-radio"><input type="radio" name="nbm"> 🗓 예약발행</label>
+              </div>
+            </div>
+            <div class="nb-box">
+              <div class="nb-boxtitle">포스팅 간격</div>
+              <div class="nb-irow">
+                <span>최소:</span><input type="text" class="nb-inp" value="1"><span>분</span>
+                <span>최대:</span><input type="text" class="nb-inp" value="7"><span class="nb-dim">분 (랜덤 적용)</span>
+              </div>
+            </div>
+            <button class="nb-btn nb-purple nb-full" style="font-size:13px;padding:10px;">🤖 Step 3 · AI 글 생성 시작</button>
+            <button class="nb-btn nb-cyan nb-full" style="font-size:13px;padding:10px;">🚀 포스팅 시작</button>
+          </div>
+        </div>
+        <div class="nb-panel" id="nb-t-prompt">
+          <div class="nb-two">
+            <div class="nb-sidebar">
+              <div class="nb-stitle">프로젝트</div>
+              <div class="nb-pitem sel">📄 네이버 출판</div>
+              <div class="nb-pitem">📄 뷰티 리뷰</div>
+              <button class="nb-btn nb-purple nb-full" style="margin-top:auto;">＋ 새 프로젝트</button>
+            </div>
+            <div class="nb-scroll" style="padding:10px;">
+              <div class="nb-flabel"><strong>프로젝트 설정</strong></div>
+              <div class="nb-field"><div class="nb-flabel"><strong>이름</strong></div><input type="text" class="nb-inp nb-full" value="네이버 출판"></div>
+              <div class="nb-field"><div class="nb-flabel"><strong>지시사항</strong><span>AI 성격·말투·역할 정의</span></div><textarea class="nb-ta" rows="2" placeholder="예) 당신은 경남 지역 뉴스 기자입니다."></textarea></div>
+              <div class="nb-field"><div class="nb-flabel"><strong>맞춤 프롬프트</strong><span>{keyword} 자동 치환</span></div><textarea class="nb-ta" rows="3" placeholder="{keyword}에 대한 네이버 블로그 글을 작성하세요..."></textarea></div>
+              <div class="nb-irow"><button class="nb-btn nb-cyan" style="flex:1;">💾 프로젝트 저장</button><button class="nb-btn nb-dark">🗑 삭제</button></div>
+            </div>
+          </div>
+        </div>
+        <div class="nb-panel" id="nb-t-wp"><div class="nb-empty">🌐 WP 연동 탭</div></div>
+        <div class="nb-panel" id="nb-t-set"><div class="nb-empty">⚙ 설정 탭</div></div>
+        <div class="nb-log">[18:49:16] 탭을 선택해 시작하세요.</div>
+        <div class="nb-status">준비됨</div>
+      </div>
+    </div>
+  </div>
   <p class="hero-conclusion">
-    <span class="hero-highlight">이게 2개월 만에 수익 나는 이유입니다.</span><br>
-    아래 예시글 먼저 확인해보세요. →
+    아래 예시글 먼저 확인해보세요 ↓
   </p>
   </div>
 </div>
@@ -1099,8 +1404,8 @@ section {
 <!-- DEMO VIDEO -->
 <div class="video-section" id="demo">
   <div class="demo-tabs">
-    <button class="demo-tab active" onclick="switchDemo('wp')"><span class="tab-dot" style="background:#0071e3;"></span>워드프레스</button>
-    <button class="demo-tab" onclick="switchDemo('naver')"><span class="tab-dot" style="background:#03C75A;"></span>네이버</button>
+    <button class="demo-tab active" id="tab-wp"><span class="tab-dot" style="background:#0071e3;"></span>워드프레스</button>
+    <button class="demo-tab" id="tab-naver"><span class="tab-dot" style="background:#03C75A;"></span>네이버</button>
   </div>
   <div class="demo-video-wrap active" id="demo-wp">
     <div class="mac-frame">
@@ -1123,7 +1428,7 @@ section {
         <div class="mac-dots"><div class="mac-dot"></div><div class="mac-dot"></div><div class="mac-dot"></div></div>
         <div class="mac-address-bar"></div>
         <div class="mac-screen">
-          <video muted loop playsinline>
+          <video muted loop playsinline preload="auto">
             <source src="https://wpauto.kr/wp-content/uploads/2026/03/naver-demo.mp4" type="video/mp4">
           </video>
         </div>
@@ -1140,7 +1445,7 @@ section {
 <div class="sample-section">
   <p class="sample-label">실제 결과물</p>
   <h2 class="sample-title">우선 프로그램으로 작성된 글<br>먼저 확인해 보시죠.</h2>
-  <p class="sample-sub">키워드 입력 → 클릭 한 번으로 자동 완성된 결과물입니다.</p>
+  <p class="sample-sub">키워드 입력 → <span class="text-gradient">클릭 한 번으로 자동 완성</span>된 결과물입니다.</p>
   <div class="sample-cards">
     <a href="https://blog.naver.com/wpauto/224209421855" class="sample-card" style="border:2px solid #03C75A;" target="_blank">
       <span class="card-tag" style="background:#E8F5E9;color:#03C75A;">네이버 블로그 · 청년 · 금융</span>
@@ -1167,45 +1472,10 @@ section {
 
 <div class="divider"></div>
 
-<!-- HOW IT WORKS -->
-<section class="how-section">
-  <span class="section-eyebrow">사용 방법</span>
-  <h2 class="section-title">딱 4단계, 이게 전부입니다</h2>
-  <div class="steps" id="how">
-    <div class="step">
-      <div class="step-num">01</div>
-      <span class="step-icon">📥</span>
-      <h3>설치</h3>
-      <p>구매 후 즉시 다운로드. 1:1 줌 교육으로 막힘 없이 시작합니다.</p>
-    </div>
-    <div class="step">
-      <div class="step-num">02</div>
-      <span class="step-icon">🔗</span>
-      <h3>연결</h3>
-      <p>API 키 + 워드프레스 정보만 입력. 5분이면 연결 완료입니다.</p>
-    </div>
-    <div class="step">
-      <div class="step-num">03</div>
-      <span class="step-icon">⌨️</span>
-      <h3>키워드 입력</h3>
-      <p>원하는 키워드를 1개 또는 최대 10개 한번에 등록합니다.</p>
-    </div>
-    <div class="step">
-      <div class="step-num">04</div>
-      <span class="step-icon">🚀</span>
-      <h3>자동 발행</h3>
-      <p>SEO 글 + 이미지 + 광고 삽입까지 전부 자동으로 완료됩니다.</p>
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- 10MIN DEMO -->
-<section class="compare-section" style="text-align:center;">
-  <span class="section-eyebrow">시간 = 돈</span>
-  <h2 class="section-title">하루 10분으로 끝</h2>
-  <p style="font-size:15px;color:var(--gray);margin-bottom:36px;">키워드만 넣으면 글 작성부터 발행까지 전부 자동. 직접 보세요.</p>
+<!-- HOW IT WORKS (영상) -->
+<section class="compare-section" style="text-align:center;" id="how">
+  <h2 class="section-title">하루 10분이면 끝</h2>
+  <p style="font-size:18px;color:var(--gray);margin-bottom:36px;line-height:1.7;">워드프레스 글을 추출해서 <span class="text-gradient">네이버 블로그 외부유입</span>까지 한 번에</p>
   <div class="mac-frame">
     <div class="mac-body">
       <div class="mac-dots"><div class="mac-dot"></div><div class="mac-dot"></div><div class="mac-dot"></div></div>
@@ -1249,7 +1519,7 @@ section {
 <!-- FEATURES -->
 <section>
   <span class="section-eyebrow" style="display:block;text-align:center;">핵심 기능</span>
-  <h2 class="section-title" style="text-align:center;">키워드만 넣으면 전부 자동</h2>
+  <h2 class="section-title" style="text-align:center;">키워드만 넣으면 <span class="text-gradient">전부 자동</span></h2>
   <div class="program-showcase">
     <div class="program-card">
       <div class="program-card-header">
@@ -1289,7 +1559,7 @@ section {
 <!-- PRICING -->
 <section class="pricing-section" id="pricing">
   <span class="section-eyebrow">가격</span>
-  <h2 class="section-title">일회성 결제, 평생 소유</h2>
+  <h2 class="section-title">일회성 결제, <span class="text-gradient">평생 소유</span></h2>
   <p class="pricing-note">월정액 없음 · 무료 업데이트 포함 · 구매 즉시 다운로드</p>
   <div class="pricing-tabs">
     <button class="pricing-tab active-blue" onclick="switchPlan('allinone')">네이버+워드프레스</button>
@@ -1366,36 +1636,6 @@ section {
 
 <div class="divider"></div>
 
-<!-- PURCHASE FLOW -->
-<section class="flow-section">
-  <span class="section-eyebrow">구매 후 프로세스</span>
-  <h2 class="section-title">구매하면 어떻게 되나요?</h2>
-  <div class="flow-steps">
-    <div class="flow-step">
-      <div class="flow-icon">💳</div>
-      <h4>결제 완료</h4>
-      <p>카카오톡으로 계좌이체 안내</p>
-    </div>
-    <div class="flow-step">
-      <div class="flow-icon">📥</div>
-      <h4>즉시 다운로드</h4>
-      <p>이메일로 파일 및 가이드 전송</p>
-    </div>
-    <div class="flow-step">
-      <div class="flow-icon">📞</div>
-      <h4>1:1 줌 교육</h4>
-      <p>설치 교육 일정 조율 (30분)</p>
-    </div>
-    <div class="flow-step">
-      <div class="flow-icon">🚀</div>
-      <h4>자동 발행 시작</h4>
-      <p>빠르면 당일 첫 발행 가능</p>
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
 <!-- REVIEWS -->
 <section class="reviews-section" id="reviews">
   <span class="section-eyebrow">실제 후기</span>
@@ -1461,6 +1701,10 @@ section {
     <div class="faq-a">현재 AutoPost는 Windows 전용입니다. Mac 버전은 추후 업데이트 예정입니다.</div>
   </div>
   <div class="faq-item">
+    <button class="faq-q">구매하면 어떻게 되나요?<span class="icon">+</span></button>
+    <div class="faq-a">카카오톡으로 결제 안내 → 이메일로 프로그램 파일 및 가이드 전송 → 1:1 줌 설치 교육 (30분) → 빠르면 당일 첫 발행이 가능합니다.</div>
+  </div>
+  <div class="faq-item">
     <button class="faq-q">환불이 가능한가요?<span class="icon">+</span></button>
     <div class="faq-a">디지털 프로그램 특성상 구매 후 환불이 불가합니다. 구매 전 카카오톡으로 충분히 상담 후 결제해 주세요.</div>
   </div>
@@ -1513,17 +1757,51 @@ section {
 
 <script>
 // Demo tab switch
-function switchDemo(type) {
-  document.querySelectorAll('.demo-tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.demo-video-wrap').forEach(w => {
-    w.classList.remove('active');
-    w.querySelector('video')?.pause();
-  });
-  const target = document.getElementById('demo-' + type);
-  target.classList.add('active');
-  const vid = target.querySelector('video');
-  if (vid) { vid.currentTime = 0; vid.play(); }
-  event.currentTarget.classList.add('active');
+function doSwitchDemo(type) {
+  var tabs = document.querySelectorAll('.demo-tab');
+  for (var i = 0; i < tabs.length; i++) { tabs[i].classList.remove('active'); }
+  var wraps = document.querySelectorAll('.demo-video-wrap');
+  for (var j = 0; j < wraps.length; j++) {
+    wraps[j].classList.remove('active');
+    var v = wraps[j].querySelector('video');
+    if (v) v.pause();
+  }
+  var target = document.getElementById('demo-' + type);
+  if (target) {
+    target.classList.add('active');
+    var vid = target.querySelector('video');
+    if (vid) { vid.currentTime = 0; vid.play().catch(function(){}); }
+  }
+  var activeBtn = document.getElementById('tab-' + type);
+  if (activeBtn) activeBtn.classList.add('active');
+}
+document.getElementById('tab-wp').onclick = function() { doSwitchDemo('wp'); };
+document.getElementById('tab-naver').onclick = function() { doSwitchDemo('naver'); };
+
+// Hero screen tab switch
+function switchHeroTab(type) {
+  document.querySelectorAll('.hero-tab').forEach(function(t) { t.classList.remove('active'); });
+  document.querySelectorAll('.hero-screen-img').forEach(function(i) { i.classList.remove('active'); });
+  document.getElementById('hero-tab-' + type).classList.add('active');
+  document.getElementById('hero-img-' + type).classList.add('active');
+}
+document.getElementById('hero-tab-wp').onclick = function() { switchHeroTab('wp'); };
+document.getElementById('hero-tab-nb').onclick = function() { switchHeroTab('nb'); };
+
+// WP interactive UI tab switch
+function wpShowTab(btn, panelId) {
+  btn.parentElement.querySelectorAll('.wp-tab').forEach(function(t) { t.classList.remove('active'); });
+  btn.classList.add('active');
+  btn.closest('.wp-ui').querySelectorAll('.wp-panel').forEach(function(p) { p.classList.remove('active'); });
+  document.getElementById(panelId).classList.add('active');
+}
+
+// NB interactive UI tab switch
+function nbShowTab(btn, panelId) {
+  btn.parentElement.querySelectorAll('.nb-tab').forEach(function(t) { t.classList.remove('active'); });
+  btn.classList.add('active');
+  btn.closest('.nb-ui').querySelectorAll('.nb-panel').forEach(function(p) { p.classList.remove('active'); });
+  document.getElementById(panelId).classList.add('active');
 }
 
 // Pricing tab switch (mobile)
@@ -1539,11 +1817,11 @@ function switchPlan(planId) {
 }
 
 // FAQ accordion
-document.querySelectorAll('.faq-q').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const item = btn.parentElement;
-    const isOpen = item.classList.contains('open');
-    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+document.querySelectorAll('.faq-q').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    var item = btn.parentElement;
+    var isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(function(i) { i.classList.remove('open'); });
     if (!isOpen) item.classList.add('open');
   });
 });
@@ -1576,5 +1854,58 @@ document.querySelectorAll('.step, .feature-item, .plan, .review-card, .faq-item,
   el.style.transform = 'translateY(24px)';
   el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
   observer.observe(el);
+});
+
+// GA4 CTA click tracking
+function getClickInfo(link) {
+  if (link.classList.contains('nav-cta')) return ['nav', 'inquiry_nav'];
+  if (link.classList.contains('sticky-buy')) return ['sticky', 'buy_sticky'];
+  if (link.classList.contains('sticky-consult')) return ['sticky', 'kakao_sticky'];
+  if (link.classList.contains('plan-btn-outline')) {
+    var p2 = link.closest('.plan');
+    return ['pricing', 'kakao_' + (p2 ? (p2.dataset.plan || 'x') : 'x')];
+  }
+  if (link.classList.contains('plan-btn')) {
+    var p1 = link.closest('.plan');
+    return ['pricing', 'buy_' + (p1 ? (p1.dataset.plan || 'x') : 'x')];
+  }
+  if (link.classList.contains('btn-primary')) return ['cta', 'kakao_final'];
+  if (link.classList.contains('btn-secondary')) return ['cta', 'buy_final'];
+  if (link.classList.contains('sample-card')) return ['sample', 'sample_click'];
+  return null;
+}
+document.addEventListener('click', function(e) {
+  var link = e.target.closest('a');
+  if (!link) return;
+  var info = getClickInfo(link);
+  if (!info) return;
+  if (typeof gtag === 'function') {
+    gtag('event', 'cta_click', {
+      event_category: info[0],
+      event_label: info[1],
+      transport_type: 'beacon'
+    });
+  }
+});
+
+// GA4 section engagement tracking
+var sectionObserver = new IntersectionObserver(function(entries) {
+  entries.forEach(function(entry) {
+    var id = entry.target.id || entry.target.className.split(' ')[0];
+    if (entry.isIntersecting) {
+      entry.target._viewStart = Date.now();
+      if (typeof gtag !== 'function') return;
+      gtag('event', 'section_view', { event_label: id });
+    } else if (entry.target._viewStart) {
+      var duration = Math.round((Date.now() - entry.target._viewStart) / 1000);
+      if (duration < 3) return;
+      if (typeof gtag !== 'function') return;
+      gtag('event', 'section_engaged', { event_label: id, value: duration });
+    }
+  });
+}, { threshold: 0.3 });
+
+document.querySelectorAll('section, .video-section, .sample-section').forEach(function(s) {
+  sectionObserver.observe(s);
 });
 </script>
