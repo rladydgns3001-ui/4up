@@ -905,6 +905,15 @@ section {
 .featured .plan-desc { color: #a0a0a0; }
 .naver-plan .plan-desc { color: #a3d9b8; }
 .plan-features-compact { margin-bottom: 24px; }
+.plan-thumb {
+  width: 100%;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  border: 1px solid rgba(0,0,0,0.08);
+  display: block;
+}
+.featured .plan-thumb { border-color: rgba(255,255,255,0.12); }
+.naver-plan .plan-thumb { border-color: rgba(255,255,255,0.12); }
 .plan-features {
   list-style: none;
   margin-bottom: 32px;
@@ -1639,6 +1648,7 @@ section {
     <div class="plan naver-plan" data-plan="nb">
       <div class="plan-badge">🔥 네이버 자동화</div>
       <p class="plan-name">AutoPost NB</p>
+      <img src="https://wpauto.kr/wp-content/uploads/2026/03/nb-program.png" alt="AutoPost NB" class="plan-thumb">
       <p class="plan-price">₩790,000</p>
       <p class="plan-price-sub">일회성 결제 / 평생 소유</p>
       <p class="plan-desc">네이버 상위노출 분석 → AI 글 생성 → 자동 발행<br>네이버 블로그 자동화의 모든 것</p>
@@ -1655,6 +1665,7 @@ section {
     </div>
     <div class="plan" data-plan="v2pro">
       <p class="plan-name">워드프레스</p>
+      <img src="https://wpauto.kr/wp-content/uploads/2026/03/wp-program.jpg" alt="AutoPost SEO Writer" class="plan-thumb">
       <p class="plan-price">₩389,000</p>
       <p class="plan-price-sub">일회성 결제 / 평생 소유</p>
       <p class="plan-desc">AI SEO 글 + 이미지 생성 → 워드프레스 자동 발행<br>애드센스 수익화를 위한 올인원 자동화</p>
@@ -1672,6 +1683,10 @@ section {
     <div class="plan featured mob-active" data-plan="allinone" style="border:2px solid var(--blue);position:relative;">
       <div class="plan-badge">⚡ 올인원 패키지</div>
       <p class="plan-name">네이버 + 워드프레스 올인원</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px;">
+        <img src="https://wpauto.kr/wp-content/uploads/2026/03/nb-program.png" alt="AutoPost NB" class="plan-thumb" style="margin-bottom:0;">
+        <img src="https://wpauto.kr/wp-content/uploads/2026/03/wp-program.jpg" alt="AutoPost WP" class="plan-thumb" style="margin-bottom:0;">
+      </div>
       <p class="plan-price">₩890,000</p>
       <p class="plan-price-sub">일회성 결제 / 평생 소유</p>
       <p class="plan-desc">워드프레스 + 네이버 동시 자동화<br>두 플랫폼 전체 기능을 하나로</p>
