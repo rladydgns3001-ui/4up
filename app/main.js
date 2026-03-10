@@ -1,6 +1,7 @@
 const { app, BrowserWindow, ipcMain, dialog, shell } = require('electron');
 const path = require('path');
 const fs = require('fs');
+// AutoPost SEO Writer V2 Pro - v2.0.1
 
 let mainWindow;
 let config;
