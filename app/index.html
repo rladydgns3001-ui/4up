@@ -846,59 +846,57 @@
       </div>
 
       <form id="settingsForm">
-        <p class="section-title">AI 모델 선택</p>
-
-        <div class="form-group">
-          <label for="textModel">
-            글 생성 AI
+        <p class="section-title">글 생성 AI</p>
+        <div style="display:flex;gap:8px;margin-bottom:16px;">
+          <label style="flex:1;display:flex;align-items:center;gap:8px;padding:14px 16px;border:2px solid #ddd;border-radius:10px;cursor:pointer;transition:all .2s;" id="textModelLabel-claude">
+            <input type="radio" name="textModel" value="claude" checked style="accent-color:#6C5CE7;width:18px;height:18px;">
+            <div>
+              <strong style="font-size:14px;">Claude</strong>
+              <span style="display:block;font-size:11px;color:#888;">Anthropic</span>
+            </div>
           </label>
-          <select id="textModel" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;font-size:14px;">
-            <option value="claude">Claude (Anthropic)</option>
-            <option value="gpt">GPT-4o (OpenAI)</option>
-          </select>
+          <label style="flex:1;display:flex;align-items:center;gap:8px;padding:14px 16px;border:2px solid #ddd;border-radius:10px;cursor:pointer;transition:all .2s;" id="textModelLabel-gpt">
+            <input type="radio" name="textModel" value="gpt" style="accent-color:#10a37f;width:18px;height:18px;">
+            <div>
+              <strong style="font-size:14px;">GPT-4o</strong>
+              <span style="display:block;font-size:11px;color:#888;">OpenAI</span>
+            </div>
+          </label>
         </div>
-
-        <div class="form-group">
-          <label for="imageModel">
-            이미지 생성 AI
-          </label>
-          <select id="imageModel" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;font-size:14px;">
-            <option value="dalle3">DALL-E 3 (OpenAI)</option>
-            <option value="nanobanana">나노바나나 (Gemini)</option>
-          </select>
+        <div class="form-group" id="claudeKeyGroup">
+          <label for="claudeApiKey">Claude API 키 <span class="label-hint">(sk-ant-...)</span></label>
+          <input type="password" id="claudeApiKey" placeholder="sk-ant-api03-...">
+        </div>
+        <div class="form-group" id="gptKeyGroup" style="display:none;">
+          <label for="openaiApiKeyText">OpenAI API 키 <span class="label-hint">(sk-... / GPT용)</span></label>
+          <input type="password" id="openaiApiKeyText" placeholder="sk-...">
         </div>
 
         <hr class="divider">
-        <p class="section-title">API 키</p>
-
-        <div class="form-group" id="claudeKeyGroup">
-          <label for="claudeApiKey">
-            Claude API 키
-            <span class="label-hint">(sk-ant-...)</span>
+        <p class="section-title">이미지 생성 AI</p>
+        <div style="display:flex;gap:8px;margin-bottom:16px;">
+          <label style="flex:1;display:flex;align-items:center;gap:8px;padding:14px 16px;border:2px solid #ddd;border-radius:10px;cursor:pointer;transition:all .2s;" id="imageModelLabel-dalle3">
+            <input type="radio" name="imageModel" value="dalle3" checked style="accent-color:#10a37f;width:18px;height:18px;">
+            <div>
+              <strong style="font-size:14px;">DALL-E 3</strong>
+              <span style="display:block;font-size:11px;color:#888;">OpenAI</span>
+            </div>
           </label>
-          <input type="password" id="claudeApiKey" placeholder="sk-ant-api03-...">
+          <label style="flex:1;display:flex;align-items:center;gap:8px;padding:14px 16px;border:2px solid #ddd;border-radius:10px;cursor:pointer;transition:all .2s;" id="imageModelLabel-nanobanana">
+            <input type="radio" name="imageModel" value="nanobanana" style="accent-color:#4285f4;width:18px;height:18px;">
+            <div>
+              <strong style="font-size:14px;">나노바나나</strong>
+              <span style="display:block;font-size:11px;color:#888;">Gemini</span>
+            </div>
+          </label>
         </div>
-
-        <div class="form-group" id="openaiKeyGroup">
-          <label for="openaiApiKey">
-            OpenAI API 키
-            <span class="label-hint">(sk-... / GPT + DALL-E)</span>
-          </label>
+        <div class="form-group" id="dalleKeyGroup">
+          <label for="openaiApiKey">OpenAI API 키 <span class="label-hint">(sk-... / DALL-E용)</span></label>
           <input type="password" id="openaiApiKey" placeholder="sk-...">
-          <div id="openaiKeyWarning" style="display:none;margin-top:6px;padding:8px;background:#fff3cd;color:#856404;border-radius:6px;font-size:13px;">
-            ⚠️ OpenAI API 키가 없으면 GPT 글 생성 / DALL-E 이미지가 작동하지 않습니다.
-          </div>
         </div>
-
-        <div class="form-group" id="geminiKeyGroup">
-          <label for="geminiApiKey">
-            Gemini API 키
-            <span class="label-hint">(나노바나나 이미지 생성용)</span>
-          </label>
+        <div class="form-group" id="geminiKeyGroup" style="display:none;">
+          <label for="geminiApiKey">Gemini API 키 <span class="label-hint">(나노바나나용)</span></label>
           <input type="password" id="geminiApiKey" placeholder="AI...">
-          <div id="geminiKeyWarning" style="display:none;margin-top:6px;padding:8px;background:#fff3cd;color:#856404;border-radius:6px;font-size:13px;">
-            ⚠️ Gemini API 키가 없으면 나노바나나 이미지 생성이 작동하지 않습니다.
-          </div>
         </div>
 
         <hr class="divider">
@@ -1441,21 +1439,15 @@
 
         document.getElementById('claudeApiKey').value = config.CLAUDE_API_KEY || '';
         document.getElementById('openaiApiKey').value = config.OPENAI_API_KEY || '';
+        if (document.getElementById('openaiApiKeyText')) document.getElementById('openaiApiKeyText').value = config.OPENAI_API_KEY || '';
         document.getElementById('geminiApiKey').value = config.GEMINI_API_KEY || '';
-        document.getElementById('textModel').value = config.TEXT_MODEL || 'claude';
-        document.getElementById('imageModel').value = config.IMAGE_MODEL || 'dalle3';
-        const openaiWarning = document.getElementById('openaiKeyWarning');
-        if (!config.OPENAI_API_KEY) {
-          openaiWarning.style.display = 'block';
-        } else {
-          openaiWarning.style.display = 'none';
-        }
-        const geminiWarning = document.getElementById('geminiKeyWarning');
-        if (!config.GEMINI_API_KEY && config.IMAGE_MODEL === 'nanobanana') {
-          geminiWarning.style.display = 'block';
-        } else {
-          geminiWarning.style.display = 'none';
-        }
+        // 라디오 버튼 세팅
+        const textModel = config.TEXT_MODEL || 'claude';
+        const imageModel = config.IMAGE_MODEL || 'dalle3';
+        document.querySelector(`input[name="textModel"][value="${textModel}"]`).checked = true;
+        document.querySelector(`input[name="imageModel"][value="${imageModel}"]`).checked = true;
+        toggleTextModelUI(textModel);
+        toggleImageModelUI(imageModel);
         document.getElementById('styleReference').value = config.STYLE_REFERENCE || '';
 
         // 다중 사이트 로드
@@ -1730,16 +1722,47 @@
       }
     });
 
+    // ===== AI 모델 토글 =====
+    function toggleTextModelUI(val) {
+      document.getElementById('claudeKeyGroup').style.display = val === 'claude' ? '' : 'none';
+      document.getElementById('gptKeyGroup').style.display = val === 'gpt' ? '' : 'none';
+      document.getElementById('textModelLabel-claude').style.borderColor = val === 'claude' ? '#6C5CE7' : '#ddd';
+      document.getElementById('textModelLabel-claude').style.background = val === 'claude' ? '#f8f5ff' : '';
+      document.getElementById('textModelLabel-gpt').style.borderColor = val === 'gpt' ? '#10a37f' : '#ddd';
+      document.getElementById('textModelLabel-gpt').style.background = val === 'gpt' ? '#f0fdf8' : '';
+    }
+    function toggleImageModelUI(val) {
+      document.getElementById('dalleKeyGroup').style.display = val === 'dalle3' ? '' : 'none';
+      document.getElementById('geminiKeyGroup').style.display = val === 'nanobanana' ? '' : 'none';
+      document.getElementById('imageModelLabel-dalle3').style.borderColor = val === 'dalle3' ? '#10a37f' : '#ddd';
+      document.getElementById('imageModelLabel-dalle3').style.background = val === 'dalle3' ? '#f0fdf8' : '';
+      document.getElementById('imageModelLabel-nanobanana').style.borderColor = val === 'nanobanana' ? '#4285f4' : '#ddd';
+      document.getElementById('imageModelLabel-nanobanana').style.background = val === 'nanobanana' ? '#eef4ff' : '';
+    }
+    document.querySelectorAll('input[name="textModel"]').forEach(r => {
+      r.addEventListener('change', () => toggleTextModelUI(r.value));
+    });
+    document.querySelectorAll('input[name="imageModel"]').forEach(r => {
+      r.addEventListener('change', () => toggleImageModelUI(r.value));
+    });
+
     // ===== 설정 저장 =====
     settingsForm.addEventListener('submit', async (e) => {
       e.preventDefault();
 
+      // GPT 선택 시 openaiApiKeyText 값을 openaiApiKey에도 동기화
+      const gptKeyEl = document.getElementById('openaiApiKeyText');
+      const dalleKeyEl = document.getElementById('openaiApiKey');
+      const selectedTextModel = document.querySelector('input[name="textModel"]:checked').value;
+      if (selectedTextModel === 'gpt' && gptKeyEl && gptKeyEl.value.trim()) {
+        dalleKeyEl.value = gptKeyEl.value.trim();
+      }
       const config = {
         CLAUDE_API_KEY: document.getElementById('claudeApiKey').value.trim(),
-        OPENAI_API_KEY: document.getElementById('openaiApiKey').value.trim(),
+        OPENAI_API_KEY: dalleKeyEl.value.trim() || (gptKeyEl ? gptKeyEl.value.trim() : ''),
         GEMINI_API_KEY: document.getElementById('geminiApiKey').value.trim(),
-        TEXT_MODEL: document.getElementById('textModel').value,
-        IMAGE_MODEL: document.getElementById('imageModel').value,
+        TEXT_MODEL: selectedTextModel,
+        IMAGE_MODEL: document.querySelector('input[name="imageModel"]:checked').value,
         WP_SITES: [0,1,2].map(idx => ({
           name: (document.querySelector(`.site-name[data-idx="${idx}"]`)?.value || '').trim(),
           url: (document.querySelector(`.site-url[data-idx="${idx}"]`)?.value || '').trim(),
