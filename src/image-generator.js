@@ -162,13 +162,11 @@ function buildDallePrompt(description) {
 
 /**
  * DALL-E 3로 단일 이미지 생성
- * @param {string} description - 이미지 설명 (영어)
- * @returns {Promise<{success: boolean, url?: string, error?: string}>}
  */
-async function generateSingleImage(description) {
+async function generateWithDalle(description) {
   const apiKey = config.OPENAI_API_KEY;
   if (!apiKey) {
-    return { success: false, error: 'OPENAI_API_KEY가 설정되지 않았습니다.' };
+    return { success: false, error: 'OpenAI API 키가 설정되지 않았습니다.' };
   }
 
   try {
@@ -198,6 +196,59 @@ async function generateSingleImage(description) {
 }
 
 /**
+ * 나노바나나(Gemini Imagen)로 단일 이미지 생성
+ */
+async function generateWithNanoBanana(description) {
+  const apiKey = config.GEMINI_API_KEY;
+  if (!apiKey) {
+    return { success: false, error: 'Gemini API 키가 설정되지 않았습니다.' };
+  }
+
+  try {
+    const { GoogleGenerativeAI } = require('@google/generative-ai');
+    const genAI = new GoogleGenerativeAI(apiKey);
+    const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash-exp' });
+
+    const prompt = `Generate a high-quality blog illustration: ${description}. Clean, modern, minimal style. No text, no letters, no watermarks, no Korean characters in the image.`;
+
+    const result = await model.generateContent({
+      contents: [{ role: 'user', parts: [{ text: prompt }] }],
+      generationConfig: {
+        responseModalities: ['TEXT', 'IMAGE'],
+      }
+    });
+
+    const response = result.response;
+    for (const part of response.candidates[0].content.parts) {
+      if (part.inlineData) {
+        // base64 이미지를 임시 파일로 저장 후 URL 반환
+        const tmpPath = path.join(require('os').tmpdir(), `nanobanana-${Date.now()}.png`);
+        fs.writeFileSync(tmpPath, Buffer.from(part.inlineData.data, 'base64'));
+        return { success: true, filePath: tmpPath };
+      }
+    }
+
+    return { success: false, error: '나노바나나 응답에 이미지가 없습니다.' };
+  } catch (error) {
+    const msg = error.message || String(error);
+    console.error('나노바나나 이미지 생성 오류:', msg);
+    return { success: false, error: msg };
+  }
+}
+
+/**
+ * 설정에 따라 이미지 생성 (DALL-E 3 또는 나노바나나)
+ * @param {string} description - 이미지 설명 (영어)
+ * @returns {Promise<{success: boolean, url?: string, filePath?: string, error?: string}>}
+ */
+async function generateSingleImage(description) {
+  if (config.IMAGE_MODEL === 'nanobanana') {
+    return generateWithNanoBanana(description);
+  }
+  return generateWithDalle(description);
+}
+
+/**
  * 이미지 마커들을 처리: DALL-E 생성 → WP 업로드 → HTML 삽입
  * @param {string} content - IMAGE_PLACEHOLDER가 포함된 본문 HTML
  * @param {string[]} imageMarkers - 이미지 설명 배열
@@ -214,11 +265,18 @@ async function processImageMarkers(content, imageMarkers, wp, keyword) {
     return { content: result, featuredImageId, errors: ['[IMAGE:] 마커가 AI 응답에 없었습니다.'] };
   }
 
-  if (!config.OPENAI_API_KEY) {
+  const isNanoBanana = config.IMAGE_MODEL === 'nanobanana';
+  if (!isNanoBanana && !config.OPENAI_API_KEY) {
     for (let i = 0; i < imageMarkers.length; i++) {
       result = result.replace(`<!--IMAGE_PLACEHOLDER_${i}-->`, '');
     }
     return { content: result, featuredImageId, errors: ['OpenAI API 키가 설정되지 않았습니다. 설정 탭에서 입력해주세요.'] };
+  }
+  if (isNanoBanana && !config.GEMINI_API_KEY) {
+    for (let i = 0; i < imageMarkers.length; i++) {
+      result = result.replace(`<!--IMAGE_PLACEHOLDER_${i}-->`, '');
+    }
+    return { content: result, featuredImageId, errors: ['Gemini API 키가 설정되지 않았습니다. 설정 탭에서 입력해주세요.'] };
   }
 
   for (let i = 0; i < imageMarkers.length; i++) {
@@ -233,12 +291,18 @@ async function processImageMarkers(content, imageMarkers, wp, keyword) {
 
       const filename = `${keyword.replace(/\s+/g, '-')}-${i + 1}`;
 
-      // 이미지 다운로드
-      const imageResponse = await axios.get(imgGen.url, {
-        responseType: 'arraybuffer',
-        timeout: 30000
-      });
-      let imageBuffer = Buffer.from(imageResponse.data);
+      // 이미지 버퍼 가져오기 (URL 다운로드 또는 로컬 파일)
+      let imageBuffer;
+      if (imgGen.filePath) {
+        imageBuffer = fs.readFileSync(imgGen.filePath);
+        try { fs.unlinkSync(imgGen.filePath); } catch {} // 임시 파일 삭제
+      } else {
+        const imageResponse = await axios.get(imgGen.url, {
+          responseType: 'arraybuffer',
+          timeout: 30000
+        });
+        imageBuffer = Buffer.from(imageResponse.data);
+      }
 
       // 첫 번째 이미지(대표이미지)에만 텍스트 오버레이 적용
       if (i === 0) {

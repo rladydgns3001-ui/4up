@@ -840,15 +840,38 @@
       <div class="info-box">
         <strong>필요한 정보:</strong><br>
         • Claude API 키: <a href="https://console.anthropic.com/" target="_blank">Anthropic Console</a>에서 발급<br>
-        • OpenAI API 키: <a href="https://platform.openai.com/api-keys" target="_blank">OpenAI Platform</a>에서 발급 (이미지 생성용)<br>
-        • WordPress 앱 비밀번호: 워드프레스 관리자 → 사용자 → 프로필 → 애플리케이션 비밀번호<br>
-        • AdSense 정보: <a href="https://www.google.com/adsense" target="_blank">Google AdSense</a> → 광고 → 광고 단위에서 확인
+        • OpenAI API 키: <a href="https://platform.openai.com/api-keys" target="_blank">OpenAI Platform</a>에서 발급 (GPT 글 생성 + DALL-E 이미지)<br>
+        • Gemini API 키: <a href="https://aistudio.google.com/apikey" target="_blank">Google AI Studio</a>에서 발급 (나노바나나 이미지 생성)<br>
+        • WordPress 앱 비밀번호: 워드프레스 관리자 → 사용자 → 프로필 → 애플리케이션 비밀번호
       </div>
 
       <form id="settingsForm">
-        <p class="section-title">Claude API</p>
+        <p class="section-title">AI 모델 선택</p>
 
         <div class="form-group">
+          <label for="textModel">
+            글 생성 AI
+          </label>
+          <select id="textModel" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;font-size:14px;">
+            <option value="claude">Claude (Anthropic)</option>
+            <option value="gpt">GPT-4o (OpenAI)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="imageModel">
+            이미지 생성 AI
+          </label>
+          <select id="imageModel" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;font-size:14px;">
+            <option value="dalle3">DALL-E 3 (OpenAI)</option>
+            <option value="nanobanana">나노바나나 (Gemini)</option>
+          </select>
+        </div>
+
+        <hr class="divider">
+        <p class="section-title">API 키</p>
+
+        <div class="form-group" id="claudeKeyGroup">
           <label for="claudeApiKey">
             Claude API 키
             <span class="label-hint">(sk-ant-...)</span>
@@ -856,14 +879,25 @@
           <input type="password" id="claudeApiKey" placeholder="sk-ant-api03-...">
         </div>
 
-        <div class="form-group">
+        <div class="form-group" id="openaiKeyGroup">
           <label for="openaiApiKey">
             OpenAI API 키
-            <span class="label-hint">(sk-... / 이미지 생성용)</span>
+            <span class="label-hint">(sk-... / GPT + DALL-E)</span>
           </label>
           <input type="password" id="openaiApiKey" placeholder="sk-...">
           <div id="openaiKeyWarning" style="display:none;margin-top:6px;padding:8px;background:#fff3cd;color:#856404;border-radius:6px;font-size:13px;">
-            ⚠️ OpenAI API 키가 없으면 이미지 생성이 작동하지 않습니다.
+            ⚠️ OpenAI API 키가 없으면 GPT 글 생성 / DALL-E 이미지가 작동하지 않습니다.
+          </div>
+        </div>
+
+        <div class="form-group" id="geminiKeyGroup">
+          <label for="geminiApiKey">
+            Gemini API 키
+            <span class="label-hint">(나노바나나 이미지 생성용)</span>
+          </label>
+          <input type="password" id="geminiApiKey" placeholder="AI...">
+          <div id="geminiKeyWarning" style="display:none;margin-top:6px;padding:8px;background:#fff3cd;color:#856404;border-radius:6px;font-size:13px;">
+            ⚠️ Gemini API 키가 없으면 나노바나나 이미지 생성이 작동하지 않습니다.
           </div>
         </div>
 
@@ -1407,11 +1441,20 @@
 
         document.getElementById('claudeApiKey').value = config.CLAUDE_API_KEY || '';
         document.getElementById('openaiApiKey').value = config.OPENAI_API_KEY || '';
+        document.getElementById('geminiApiKey').value = config.GEMINI_API_KEY || '';
+        document.getElementById('textModel').value = config.TEXT_MODEL || 'claude';
+        document.getElementById('imageModel').value = config.IMAGE_MODEL || 'dalle3';
         const openaiWarning = document.getElementById('openaiKeyWarning');
         if (!config.OPENAI_API_KEY) {
           openaiWarning.style.display = 'block';
         } else {
           openaiWarning.style.display = 'none';
+        }
+        const geminiWarning = document.getElementById('geminiKeyWarning');
+        if (!config.GEMINI_API_KEY && config.IMAGE_MODEL === 'nanobanana') {
+          geminiWarning.style.display = 'block';
+        } else {
+          geminiWarning.style.display = 'none';
         }
         document.getElementById('styleReference').value = config.STYLE_REFERENCE || '';
 
@@ -1694,6 +1737,9 @@
       const config = {
         CLAUDE_API_KEY: document.getElementById('claudeApiKey').value.trim(),
         OPENAI_API_KEY: document.getElementById('openaiApiKey').value.trim(),
+        GEMINI_API_KEY: document.getElementById('geminiApiKey').value.trim(),
+        TEXT_MODEL: document.getElementById('textModel').value,
+        IMAGE_MODEL: document.getElementById('imageModel').value,
         WP_SITES: [0,1,2].map(idx => ({
           name: (document.querySelector(`.site-name[data-idx="${idx}"]`)?.value || '').trim(),
           url: (document.querySelector(`.site-url[data-idx="${idx}"]`)?.value || '').trim(),

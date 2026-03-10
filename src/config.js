@@ -28,6 +28,9 @@ function readConfig() {
   return {
     CLAUDE_API_KEY: '',
     OPENAI_API_KEY: '',
+    GEMINI_API_KEY: '',
+    TEXT_MODEL: 'claude',
+    IMAGE_MODEL: 'dalle3',
     CTA_LINK_URL: '',
     CTA_LINK_TEXT: '',
     CTA_MID_TEXT: '',
@@ -80,6 +83,15 @@ module.exports = {
   },
   get OPENAI_API_KEY() {
     return getConfigData().OPENAI_API_KEY || '';
+  },
+  get GEMINI_API_KEY() {
+    return getConfigData().GEMINI_API_KEY || '';
+  },
+  get TEXT_MODEL() {
+    return getConfigData().TEXT_MODEL || 'claude';
+  },
+  get IMAGE_MODEL() {
+    return getConfigData().IMAGE_MODEL || 'dalle3';
   },
   get CTA_LINK_URL() {
     return getConfigData().CTA_LINK_URL || '';

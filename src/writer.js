@@ -1,10 +1,43 @@
 const Anthropic = require('@anthropic-ai/sdk');
+const OpenAI = require('openai');
 const config = require('./config');
+
+// GPT API 호출 헬퍼
+async function callGPT(systemPrompt, userPrompt, maxTokens = 8000) {
+  const openai = new OpenAI({ apiKey: config.OPENAI_API_KEY });
+  const response = await openai.chat.completions.create({
+    model: 'gpt-4o',
+    max_tokens: maxTokens,
+    messages: [
+      { role: 'system', content: systemPrompt },
+      { role: 'user', content: userPrompt }
+    ]
+  });
+  return response.choices[0].message.content;
+}
+
+// Claude API 호출 헬퍼
+async function callClaude(systemPrompt, userPrompt, maxTokens = 8000) {
+  const client = new Anthropic({ apiKey: config.CLAUDE_API_KEY });
+  const response = await client.messages.create({
+    model: 'claude-sonnet-4-20250514',
+    max_tokens: maxTokens,
+    messages: [{ role: 'user', content: userPrompt }],
+    system: systemPrompt
+  });
+  return response.content[0].text;
+}
+
+// 선택된 모델로 텍스트 생성
+async function callTextModel(systemPrompt, userPrompt, maxTokens = 8000) {
+  if (config.TEXT_MODEL === 'gpt') {
+    return callGPT(systemPrompt, userPrompt, maxTokens);
+  }
+  return callClaude(systemPrompt, userPrompt, maxTokens);
+}
 
 // 메인 키워드에서 세부 키워드 3개 추출
 async function generateSubKeywords(mainKeyword) {
-  const client = new Anthropic({ apiKey: config.CLAUDE_API_KEY });
-
   const prompt = `메인 키워드: "${mainKeyword}"
 
 이 키워드를 검색하는 사람들이 실제로 원하는 것을 분석해주세요.
@@ -34,13 +67,7 @@ async function generateSubKeywords(mainKeyword) {
 키워드3: 청년 주택드림 청약통장 혜택 총정리`;
 
   try {
-    const response = await client.messages.create({
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: 1000,
-      messages: [{ role: 'user', content: prompt }]
-    });
-
-    const text = response.content[0].text;
+    const text = await callTextModel('키워드 분석 전문가입니다.', prompt, 1000);
 
     // 분석 결과 파싱
     const analysisMatch = text.match(/---ANALYSIS---\s*([\s\S]*?)---KEYWORDS---/);
@@ -76,7 +103,6 @@ async function generateSubKeywords(mainKeyword) {
 }
 
 async function generateArticle(keyword, webContext = '', wpContext = '', style = 'informative', length = 'medium', searchData = null, keywordSettings = null, customPromptConfig = null, extraPrompt = '') {
-  const client = new Anthropic({ apiKey: config.CLAUDE_API_KEY });
 
   const lengthGuide = {
     short: '1500-2000자',
@@ -358,16 +384,7 @@ ${wpContext || '없음'}
         .replace(/\{existing_posts\}/g, wpContext || '없음');
     }
 
-    const response = await client.messages.create({
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: 8000,
-      messages: [
-        { role: 'user', content: finalUserPrompt }
-      ],
-      system: finalSystemPrompt
-    });
-
-    const text = response.content[0].text;
+    const text = await callTextModel(finalSystemPrompt, finalUserPrompt, 8000);
 
     // 파싱
     const titleMatch = text.match(/---TITLE---\s*([\s\S]*?)\s*---META---/);
