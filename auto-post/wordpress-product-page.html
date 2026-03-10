@@ -911,6 +911,18 @@ section {
   margin-bottom: 20px;
   border: 1px solid rgba(0,0,0,0.08);
   display: block;
+  object-fit: cover;
+}
+.plan-thumb-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+.plan-thumb-grid .plan-thumb {
+  margin-bottom: 0;
+  height: 100%;
+  object-fit: cover;
 }
 .featured .plan-thumb { border-color: rgba(255,255,255,0.12); }
 .naver-plan .plan-thumb { border-color: rgba(255,255,255,0.12); }
@@ -1693,9 +1705,9 @@ section {
     <div class="plan featured mob-active" data-plan="allinone" style="border:2px solid var(--blue);position:relative;">
       <div class="plan-badge">⚡ 올인원 패키지</div>
       <p class="plan-name">네이버 + 워드프레스 올인원</p>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px;">
-        <img src="https://wpauto.kr/wp-content/uploads/2026/03/nb-program.png" alt="AutoPost NB" class="plan-thumb" style="margin-bottom:0;">
-        <img src="https://wpauto.kr/wp-content/uploads/2026/03/wp-program.jpg" alt="AutoPost WP" class="plan-thumb" style="margin-bottom:0;">
+      <div class="plan-thumb-grid">
+        <img src="https://wpauto.kr/wp-content/uploads/2026/03/nb-program.png" alt="AutoPost NB" class="plan-thumb">
+        <img src="https://wpauto.kr/wp-content/uploads/2026/03/wp-program.jpg" alt="AutoPost WP" class="plan-thumb">
       </div>
       <p class="plan-price">₩890,000</p>
       <p class="plan-price-sub">일회성 결제 / 평생 소유</p>
