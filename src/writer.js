@@ -299,13 +299,54 @@ ${wpContext || '없음'}
 
 ⚠️ 중요: 검색 결과가 부족해도 반드시 글을 작성해야 합니다. 글 작성 거부는 절대 금지입니다.${extraPrompt ? `\n\n## 추가 지시사항\n${extraPrompt}` : ''}`;
 
+  // HTML 필수 규칙 (커스텀 프롬프트에도 항상 적용)
+  const htmlFormatRules = `
+
+## HTML 형식 규칙 (필수 - 마크다운 절대 금지!)
+
+⚠️ 절대 마크다운 문법 사용 금지! **굵게**, *기울임*, # 제목, - 목록 등 마크다운 사용하지 마세요.
+반드시 순수 HTML 태그만 사용하세요:
+
+- 제목: <h2 id="sec1">, <h3>, <h4> (h1 사용 금지)
+- 문단: <p> — 핵심 정보는 <strong>으로 강조
+- 표: <table style="width:100%;border-collapse:collapse;margin:20px 0;font-size:15px;">
+- 목록: <ul><li> 또는 <ol><li>
+- 강조: <strong> (마크다운 **굵게** 금지)
+- 링크: <a href="...">
+
+## 목차 형식 (반드시 이 형식으로!)
+
+<div class="toc-container" style="background:#f8f9fa;padding:20px 24px;border-radius:12px;margin:20px 0;">
+<p style="font-weight:700;margin-bottom:12px;">목차</p>
+<ol style="margin:0;padding-left:20px;line-height:2;">
+<li><a href="#sec1" style="color:#3182f6;text-decoration:none;">첫번째 소제목</a></li>
+<li><a href="#sec2" style="color:#3182f6;text-decoration:none;">두번째 소제목</a></li>
+</ol>
+</div>
+
+## 출력 형식
+---TITLE---
+글 제목 (SEO 최적화, 60자 이내)
+---META---
+메타 설명 (150자 이내, 클릭 유도)
+---CONTENT---
+글 본문 (순수 HTML만 사용, 마크다운 문법 절대 금지)
+
+⚠️ 중요: 글을 끝까지 완성하세요. 중간에 끊지 마세요.`;
+
   try {
     // 커스텀 프롬프트 사용 여부 확인
     let finalSystemPrompt = systemPrompt;
     let finalUserPrompt = userPrompt;
 
-    if (customPromptConfig?.useCustom && customPromptConfig?.systemPrompt) {
-      finalSystemPrompt = customPromptConfig.systemPrompt;
+    if (customPromptConfig?.useCustom) {
+      if (customPromptConfig.systemPrompt) {
+        // 커스텀 시스템 프롬프트 + HTML 필수 규칙 항상 추가
+        finalSystemPrompt = customPromptConfig.systemPrompt + '\n' + htmlFormatRules;
+      } else {
+        // 시스템 프롬프트 없이 유저 프롬프트만 커스텀인 경우에도 HTML 규칙 추가
+        finalSystemPrompt = systemPrompt + '\n' + htmlFormatRules;
+      }
     }
     if (customPromptConfig?.useCustom && customPromptConfig?.userPrompt) {
       // 변수 치환
@@ -337,6 +378,50 @@ ${wpContext || '없음'}
     const meta = metaMatch ? metaMatch[1].trim() : '';
     let content = contentMatch ? contentMatch[1].trim() : text;
 
+    // === 후처리: 마크다운 → HTML 변환 (AI가 마크다운으로 출력한 경우에만) ===
+    // 마크다운 감지: HTML 태그가 거의 없고 마크다운 문법이 있는 경우에만 변환
+    const htmlTagCount = (content.match(/<(h[2-6]|p|table|div|ul|ol|strong|a)\b/gi) || []).length;
+    const markdownSignals = (content.match(/^#{1,3}\s|^\*\*|^[-*]\s+|\[.+\]\(.+\)/gm) || []).length;
+    const isMarkdownContent = markdownSignals > 3 && htmlTagCount < markdownSignals;
+
+    if (isMarkdownContent) {
+      // h1~h3 마크다운 헤딩
+      content = content.replace(/^#{3}\s+(.+)$/gm, '<h3>$1</h3>');
+      content = content.replace(/^#{2}\s+(.+)$/gm, '<h2>$1</h2>');
+      content = content.replace(/^#{1}\s+(.+)$/gm, '');  // h1은 제거
+
+      // 굵게 **text** → <strong>text</strong>
+      content = content.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+
+      // 기울임 *text* → <em>text</em> (단, <strong> 안의 * 제외)
+      content = content.replace(/(?<!\*)\*([^*]+)\*(?!\*)/g, '<em>$1</em>');
+
+      // 마크다운 링크 [text](url) → <a href="url">text</a> (IMAGE 마커 제외)
+      content = content.replace(/\[(?!IMAGE:)([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
+
+      // 마크다운 불릿 목록 (줄 시작이 - 또는 * + 공백인 연속 줄)
+      content = content.replace(/((?:^[-*]\s+.+\n?)+)/gm, (block) => {
+        const items = block.trim().split('\n')
+          .map(line => line.replace(/^[-*]\s+/, '').trim())
+          .filter(Boolean)
+          .map(item => `<li>${item}</li>`)
+          .join('\n');
+        return `<ul>\n${items}\n</ul>`;
+      });
+
+      // 빈 줄로 구분된 일반 텍스트를 <p>로 감싸기 (HTML 태그가 없는 줄만)
+      content = content.split('\n').map(line => {
+        const trimmed = line.trim();
+        if (!trimmed) return '';
+        // 이미 HTML 태그로 시작하면 건드리지 않음
+        if (/^\s*</.test(line)) return line;
+        return `<p>${trimmed}</p>`;
+      }).join('\n');
+    } else {
+      // HTML 출력이라도 남아있는 마크다운 ** 강조만 변환
+      content = content.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+    }
+
     // === 후처리: h1 태그 완전 제거 ===
     content = content.replace(/<h1[^>]*>[\s\S]*?<\/h1>/gi, '');
 
@@ -349,31 +434,33 @@ ${wpContext || '없음'}
     });
 
     // === 후처리: 목차와 h2 앵커 링크 자동 생성 ===
+    // 항상 sec1, sec2... 로 통일 (기존 한글 id 있어도 덮어쓰기)
     const h2Matches = [];
     let h2Index = 0;
-    content = content.replace(/<h2([^>]*)>([\s\S]*?)<\/h2>/gi, (match, attrs, text) => {
+    content = content.replace(/<h2([^>]*)>([\s\S]*?)<\/h2>/gi, (_match, attrs, text) => {
       h2Index++;
       const id = `sec${h2Index}`;
       const cleanText = text.replace(/<[^>]+>/g, '').trim();
       h2Matches.push({ id, text: cleanText });
-      if (!attrs.includes('id=')) {
-        return `<h2 id="${id}"${attrs}>${text}</h2>`;
-      }
-      return match;
+      // 기존 id가 있으면 제거하고 sec{n}으로 교체
+      const cleanAttrs = attrs.replace(/\s*id="[^"]*"/gi, '');
+      return `<h2 id="${id}"${cleanAttrs}>${text}</h2>`;
     });
 
-    // 목차가 없거나 링크가 없으면 자동 생성
-    if (h2Matches.length > 0 && !content.includes('href="#sec')) {
-      const tocHtml = `<div class="toc-container" style="background:#f8f9fa;padding:20px;border-radius:10px;margin:20px 0;">
-<p><strong>📌 목차</strong></p>
-<ul style="list-style:none;padding-left:0;">
-${h2Matches.map((h, i) => `<li style="margin:8px 0;"><a href="#${h.id}" style="color:#667eea;text-decoration:none;">${i + 1}. ${h.text}</a></li>`).join('\n')}
-</ul>
+    // 목차 항상 재생성 (#sec 기반으로 통일)
+    if (h2Matches.length > 0) {
+      const tocHtml = `<div class="toc-container" style="background:#f8f9fa;padding:20px 24px;border-radius:12px;margin:20px 0;">
+<p style="font-weight:700;margin-bottom:12px;">📌 목차</p>
+<ol style="margin:0;padding-left:20px;line-height:2;">
+${h2Matches.map((h) => `<li><a href="#${h.id}" style="color:#3182f6;text-decoration:none;">${h.text}</a></li>`).join('\n')}
+</ol>
 </div>`;
 
-      // 기존 목차 제거 후 새 목차 삽입
+      // 기존 목차 모두 제거 (다양한 형태 대응)
       content = content.replace(/<div[^>]*class="toc-container"[^>]*>[\s\S]*?<\/div>/gi, '');
-      content = content.replace(/(<p[^>]*>.*?📌\s*목차.*?<\/p>[\s\S]*?<\/ul>)/gi, '');
+      content = content.replace(/(<p[^>]*>.*?📌\s*목차.*?<\/p>[\s\S]*?<\/[uo]l>)/gi, '');
+      // 마크다운 스타일 목차도 제거 (**목차** + [링크](#앵커) 패턴)
+      content = content.replace(/<p><strong>목차<\/strong><\/p>\s*(<p>.*?<a href="#[^"]*">.*?<\/a>.*?<\/p>\s*)+/gi, '');
 
       const firstPIndex = content.indexOf('<p');
       if (firstPIndex !== -1) {

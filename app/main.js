@@ -204,7 +204,8 @@ ipcMain.handle('write-post', async (event, options) => {
     }
 
     sendProgress('웹 검색 중...', 20);
-    const webContext = await getSearchContext(keyword);
+    const searchResult = await getSearchContext(keyword);
+    const webContextStr = searchResult.context || '';
 
     sendProgress('기존 글 분석 중...', 25);
     let wpContext = '';
@@ -222,15 +223,19 @@ ipcMain.handle('write-post', async (event, options) => {
       userPrompt: config.CUSTOM_USER_PROMPT
     } : null;
 
-    // 스타일 참고글 주입
-    const searchDataWithStyle = { styleReference: config.STYLE_REFERENCE || null };
+    // 검색 데이터 병합 (공식문서 + 최신 정보 + 스타일 참고)
+    const searchData = {
+      officialSources: searchResult.officialSources || [],
+      recentSources: searchResult.recentSources || [],
+      styleReference: config.STYLE_REFERENCE || null
+    };
 
     // 추가 지시사항 합산 (사이트별 기본 + 1회성)
     const defaultExtra = (selectedSite && selectedSite.defaultExtraPrompt) || '';
     const combinedExtraPrompt = [defaultExtra, extraPrompt || ''].filter(Boolean).join('\n');
 
     sendProgress('AI 글 생성 중...', 60);
-    const article = await generateArticle(keyword, webContext, wpContext, style, length, searchDataWithStyle, kwSettings, customPromptConfig, combinedExtraPrompt);
+    const article = await generateArticle(keyword, webContextStr, wpContext, style, length, searchData, kwSettings, customPromptConfig, combinedExtraPrompt);
     if (!article.success) {
       return { success: false, error: article.error };
     }
@@ -361,7 +366,8 @@ async function processOneKeyword(keyword, style, length, publish, keywordSetting
   }
 
   sendProgress('웹 검색 중...', 20);
-  const webContext = await getSearchContext(keyword);
+  const searchResult = await getSearchContext(keyword);
+  const webContextStr = searchResult.context || '';
 
   sendProgress('기존 글 분석 중...', 25);
   let wpContext = '';
@@ -378,14 +384,19 @@ async function processOneKeyword(keyword, style, length, publish, keywordSetting
     userPrompt: config.CUSTOM_USER_PROMPT
   } : null;
 
-  const searchDataWithStyle = { styleReference: config.STYLE_REFERENCE || null };
+  // 검색 데이터 병합 (공식문서 + 최신 정보 + 스타일 참고)
+  const searchData = {
+    officialSources: searchResult.officialSources || [],
+    recentSources: searchResult.recentSources || [],
+    styleReference: config.STYLE_REFERENCE || null
+  };
 
   // 추가 지시사항 합산 (사이트별 기본 + 1회성)
   const defaultExtra = (selectedSite && selectedSite.defaultExtraPrompt) || '';
   const combinedExtraPrompt = [defaultExtra, extraPrompt || ''].filter(Boolean).join('\n');
 
   sendProgress('AI 글 생성 중...', 60);
-  const article = await generateArticle(keyword, webContext, wpContext, style, length, searchDataWithStyle, kwSettings, customPromptConfig, combinedExtraPrompt);
+  const article = await generateArticle(keyword, webContextStr, wpContext, style, length, searchData, kwSettings, customPromptConfig, combinedExtraPrompt);
   if (!article.success) {
     throw new Error(article.error);
   }
