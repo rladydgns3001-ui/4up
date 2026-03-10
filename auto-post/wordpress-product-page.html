@@ -1221,9 +1221,19 @@ section {
   transition: transform .4s ease;
 }
 .sticky-bottom.visible { transform: translateY(0); }
-.sticky-info { font-size: 14px; }
-.sticky-info strong { font-size: 18px; color: var(--black); }
-.sticky-info span { color: var(--gray); margin-left: 8px; font-size: 13px; }
+.sticky-info { font-size: 14px; display: flex; align-items: center; gap: 10px; }
+.sticky-info > strong { font-size: 18px; color: var(--black); }
+.sticky-sub { color: var(--gray); font-size: 13px; }
+.sticky-badge {
+  background: linear-gradient(135deg, #ff4757, #ff6b81);
+  color: #fff;
+  font-size: 12px; font-weight: 700;
+  padding: 5px 14px;
+  border-radius: 980px;
+  white-space: nowrap;
+  animation: pulse-badge 2s ease-in-out infinite;
+}
+.sticky-badge strong { color: #fff; font-size: 13px; }
 .sticky-btns { display: flex; gap: 10px; }
 .sticky-consult {
   background: var(--light-gray); color: var(--black);
@@ -1267,7 +1277,7 @@ section {
   .program-showcase { grid-template-columns: 1fr; }
   .review-cards { grid-template-columns: 1fr; }
   .final-cta { padding: 80px 24px; }
-  .sticky-info span { display: none; }
+  .sticky-sub { display: none; }
   .sticky-bottom { padding: 10px 16px; }
 }
 
@@ -1286,7 +1296,7 @@ section {
 
 <!-- TOP BANNER -->
 <div class="top-banner">
-  🔥 3기 자리 마감 · <strong class="seats-blink">2자리 남음</strong> · 마감 후 가격 인상 예정
+  🔥 4기 모집 중 · <strong class="seats-blink">5자리 남음</strong> · 마감 후 가격 인상 예정
 </div>
 
 <!-- NAV -->
@@ -1792,9 +1802,9 @@ section {
 
 <!-- FINAL CTA -->
 <div class="final-cta">
-  <span class="eyebrow">🔥 3기 마감까지 단 2자리</span>
+  <span class="eyebrow">🔥 4기 마감까지 단 5자리</span>
   <h2>지금 시작하세요</h2>
-  <p>이 가격은 3기 한정입니다. 마감 후 가격이 오를 수 있습니다.</p>
+  <p>이 가격은 4기 한정입니다. 마감 후 가격이 오를 수 있습니다.</p>
   <div class="btn-group">
     <a href="https://open.kakao.com/o/s7DiPcki" class="btn-primary" target="_blank">💬 카카오톡 문의</a>
     <a href="https://open.kakao.com/o/s7DiPcki" class="btn-secondary" target="_blank">💳 결제 문의</a>
@@ -1815,8 +1825,9 @@ section {
 <!-- STICKY BOTTOM -->
 <div class="sticky-bottom" id="stickyBottom">
   <div class="sticky-info">
+    <span class="sticky-badge">4기 마감 · <strong class="seats-blink">5자리</strong></span>
     <strong>₩389,000~</strong>
-    <span>일회성 결제 · 평생 소유 · 무료 업데이트</span>
+    <span class="sticky-sub">일회성 결제 · 평생 소유</span>
   </div>
   <div class="sticky-btns">
     <a href="https://open.kakao.com/o/s7DiPcki" class="sticky-consult" target="_blank">💬 카카오톡 문의</a>
