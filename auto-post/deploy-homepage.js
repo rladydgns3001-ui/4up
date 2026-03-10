@@ -39,6 +39,7 @@ function replaceMediaUrls(html, thumbUrl, videoUrl, heroUrl, naverVideoUrl, wpPr
   }
   if (videoUrl) {
     html = html.replace(/<source src="(threads-images\/program-run-1\.mp4|0211\(3\)\.mp4)" type="video\/mp4">/g, `<source src="${videoUrl}" type="video/mp4">`);
+    html = html.replace(/https:\/\/wpauto\.kr\/wp-content\/uploads\/2026\/03\/autopost-demo[^"]*\.mp4/g, videoUrl);
   }
   if (heroUrl) {
     html = html.replace(/src="hero-screenshot\.png"/g, `src="${heroUrl}"`);
