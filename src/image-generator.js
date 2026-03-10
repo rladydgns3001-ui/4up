@@ -1,5 +1,15 @@
 const axios = require('axios');
+const path = require('path');
+const fs = require('fs');
 const config = require('./config');
+
+let sharp;
+try {
+  sharp = require('sharp');
+} catch (e) {
+  console.warn('sharp 모듈 로드 실패 — 텍스트 오버레이 비활성화:', e.message);
+  sharp = null;
+}
 
 /**
  * DALL-E 3 이미지 생성 + WordPress 업로드 모듈
@@ -9,10 +19,145 @@ const config = require('./config');
 const DALLE_API_URL = 'https://api.openai.com/v1/images/generations';
 
 /**
+ * 사용 가능한 한글 폰트 경로 탐색
+ */
+function findFontPath() {
+  const candidates = [];
+
+  // 1. 번들된 폰트 (dev: fonts/, build: resources/fonts/)
+  if (process.resourcesPath) {
+    candidates.push(path.join(process.resourcesPath, 'fonts', 'NanumGothicBold.ttf'));
+  }
+  candidates.push(path.join(__dirname, '..', 'fonts', 'NanumGothicBold.ttf'));
+
+  // 2. Windows 시스템 폰트
+  candidates.push('C:\\Windows\\Fonts\\malgun.ttf');
+  candidates.push('C:\\Windows\\Fonts\\gulim.ttc');
+
+  for (const p of candidates) {
+    try {
+      if (fs.existsSync(p)) return p;
+    } catch { /* ignore */ }
+  }
+  return null;
+}
+
+/**
+ * 텍스트 자동 줄바꿈 (maxChars자 기준, 최대 maxLines줄)
+ */
+function wrapText(text, maxChars = 18, maxLines = 2) {
+  const lines = [];
+  let remaining = text;
+
+  while (remaining.length > 0 && lines.length < maxLines) {
+    if (remaining.length <= maxChars) {
+      lines.push(remaining);
+      remaining = '';
+    } else {
+      // 공백 기준 줄바꿈 시도
+      let breakIdx = remaining.lastIndexOf(' ', maxChars);
+      if (breakIdx <= 0) breakIdx = maxChars;
+      lines.push(remaining.slice(0, breakIdx).trim());
+      remaining = remaining.slice(breakIdx).trim();
+    }
+  }
+
+  // 초과 시 마지막 줄에 "..." 추가
+  if (remaining.length > 0 && lines.length === maxLines) {
+    const last = lines[maxLines - 1];
+    lines[maxLines - 1] = last.length > maxChars - 3
+      ? last.slice(0, maxChars - 3) + '...'
+      : last + '...';
+  }
+
+  return lines;
+}
+
+/**
+ * 이미지 버퍼에 제목 텍스트 오버레이 합성
+ * @param {Buffer} imageBuffer - 원본 이미지 버퍼
+ * @param {string} title - 오버레이할 제목 텍스트
+ * @returns {Promise<Buffer>} - 합성된 PNG 버퍼
+ */
+async function addTextOverlay(imageBuffer, title) {
+  if (!sharp) return imageBuffer;
+
+  const fontPath = findFontPath();
+  if (!fontPath) {
+    console.log('한글 폰트 없음 — 텍스트 오버레이 스킵');
+    return imageBuffer;
+  }
+
+  try {
+    const image = sharp(imageBuffer);
+    const metadata = await image.metadata();
+    const width = metadata.width || 1024;
+    const height = metadata.height || 1024;
+
+    // 텍스트 줄바꿈
+    const lines = wrapText(title, 18, 2);
+    const fontSize = Math.round(width * 0.048);
+    const lineHeight = fontSize * 1.4;
+    const gradientHeight = Math.round(height * 0.4);
+    const textBlockHeight = lines.length * lineHeight;
+    const textStartY = height - Math.round(height * 0.08) - textBlockHeight;
+
+    // SVG 텍스트 요소 생성
+    const textElements = lines.map((line, idx) => {
+      const y = textStartY + (idx * lineHeight) + fontSize;
+      const escapedLine = line
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+      return `<text x="${width / 2}" y="${y}" text-anchor="middle" font-size="${fontSize}" font-weight="bold" font-family="NanumGothic, Malgun Gothic, 맑은 고딕, Apple SD Gothic Neo, sans-serif" fill="white" stroke="rgba(0,0,0,0.3)" stroke-width="1">${escapedLine}</text>`;
+    }).join('\n    ');
+
+    // 폰트를 base64로 인코딩하여 SVG에 임베드
+    const fontBuffer = fs.readFileSync(fontPath);
+    const fontBase64 = fontBuffer.toString('base64');
+    const fontExt = fontPath.endsWith('.ttc') ? 'collection' : 'truetype';
+
+    const svgOverlay = `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      @font-face {
+        font-family: 'NanumGothic';
+        src: url('data:font/${fontExt};base64,${fontBase64}');
+        font-weight: bold;
+      }
+    </style>
+    <linearGradient id="grad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="rgba(0,0,0,0)" />
+      <stop offset="100%" stop-color="rgba(0,0,0,0.7)" />
+    </linearGradient>
+  </defs>
+  <rect x="0" y="${height - gradientHeight}" width="${width}" height="${gradientHeight}" fill="url(#grad)" />
+  ${textElements}
+</svg>`;
+
+    const result = await sharp(imageBuffer)
+      .composite([{
+        input: Buffer.from(svgOverlay),
+        top: 0,
+        left: 0
+      }])
+      .png()
+      .toBuffer();
+
+    console.log(`텍스트 오버레이 완료: "${lines.join(' / ')}"`);
+    return result;
+  } catch (error) {
+    console.error('텍스트 오버레이 실패 — 원본 사용:', error.message);
+    return imageBuffer;
+  }
+}
+
+/**
  * DALL-E 3용 프롬프트 생성 (텍스트 없는 일러스트)
  */
 function buildDallePrompt(description) {
-  return `3D clay render illustration in BankSalad style: ${description}. Chunky inflated 3D plastic objects with soft rounded edges, glossy clay-like material finish. Soft gradient background using purple-to-blue or mint-to-teal or pink-to-purple color scheme. Single spotlight lighting with gentle shadows. Minimalist composition with 1-2 main objects only. No text, no letters, no numbers, no Korean characters, no signs, no labels, no writing of any kind anywhere in the image. No people, no faces, no hands holding documents. Clean studio background with smooth gradient. High quality 3D render, soft ambient occlusion.`;
+  return `3D clay render illustration in BankSalad style: ${description}. Chunky inflated 3D plastic objects with soft rounded edges, glossy clay-like material finish. Soft gradient background using purple-to-blue or mint-to-teal or pink-to-purple color scheme. Single spotlight lighting with gentle shadows. Minimalist composition with 1-2 main objects only. CRITICAL: absolutely NO text, NO letters, NO words, NO numbers, NO Korean, NO signs, NO labels, NO watermarks, NO captions anywhere in the image. The image must be completely free of any written content. No people, no faces, no hands holding documents. Clean studio background with smooth gradient. High quality 3D render, soft ambient occlusion.`;
 }
 
 /**
@@ -87,7 +232,21 @@ async function processImageMarkers(content, imageMarkers, wp, keyword) {
       }
 
       const filename = `${keyword.replace(/\s+/g, '-')}-${i + 1}`;
-      const imgResult = await wp.uploadImage(imgGen.url, filename);
+
+      // 이미지 다운로드
+      const imageResponse = await axios.get(imgGen.url, {
+        responseType: 'arraybuffer',
+        timeout: 30000
+      });
+      let imageBuffer = Buffer.from(imageResponse.data);
+
+      // 첫 번째 이미지(대표이미지)에만 텍스트 오버레이 적용
+      if (i === 0) {
+        imageBuffer = await addTextOverlay(imageBuffer, keyword);
+      }
+
+      // 버퍼로 WP 업로드
+      const imgResult = await wp.uploadImageBuffer(imageBuffer, filename + '.png', 'image/png');
 
       if (imgResult.success) {
         if (i === 0) featuredImageId = imgResult.id;
@@ -107,4 +266,4 @@ async function processImageMarkers(content, imageMarkers, wp, keyword) {
   return { content: result, featuredImageId, errors };
 }
 
-module.exports = { generateSingleImage, processImageMarkers };
+module.exports = { generateSingleImage, processImageMarkers, addTextOverlay };

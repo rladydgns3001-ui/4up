@@ -853,6 +853,13 @@ section {
   margin-bottom: 28px;
 }
 .featured .plan-price-sub { color: #888; }
+.plan-desc {
+  font-size: 14px; color: var(--gray); line-height: 1.7;
+  margin-bottom: 24px; word-break: keep-all;
+}
+.featured .plan-desc { color: #a0a0a0; }
+.naver-plan .plan-desc { color: #a3d9b8; }
+.plan-features-compact { margin-bottom: 24px; }
 .plan-features {
   list-style: none;
   margin-bottom: 32px;
@@ -911,6 +918,23 @@ section {
 .naver-plan .plan-btn:hover { background: #02b350; }
 .naver-plan .plan-btn-outline { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,0.25); }
 .naver-plan .plan-btn-outline:hover { background: rgba(255,255,255,0.1); }
+
+/* ── MORE REVIEWS BTN ── */
+.btn-more-reviews {
+  display: inline-block;
+  padding: 14px 40px;
+  border: 1.5px solid var(--border);
+  border-radius: 980px;
+  font-size: 15px; font-weight: 600;
+  color: var(--gray);
+  text-decoration: none;
+  transition: all .2s;
+}
+.btn-more-reviews:hover {
+  border-color: var(--blue);
+  color: var(--blue);
+  background: rgba(0,113,227,0.04);
+}
 
 /* ── MOBILE PRICING TABS ── */
 .pricing-tabs {
@@ -1572,13 +1596,10 @@ section {
       <p class="plan-name">AutoPost NB</p>
       <p class="plan-price">₩790,000</p>
       <p class="plan-price-sub">일회성 결제 / 평생 소유</p>
-      <ul class="plan-features">
-        <li><span class="check">✓</span> <span class="pro-item">네이버 상위노출 글 분석 (키워드·사진·글자수)</span></li>
-        <li><span class="check">✓</span> <span class="pro-item">분석 로직 기반 AI 글 자동 생성</span></li>
-        <li><span class="check">✓</span> <span class="pro-item">네이버 블로그 자동 발행</span></li>
-        <li><span class="check">✓</span> <span class="pro-item">워드프레스 → 네이버 백링크 자동 삽입</span></li>
-        <li><span class="check">✓</span> <span class="pro-item">외부유입 자동화 (워드프레스 트래픽 유도)</span></li>
-        <li><span class="check">✓</span> <span class="pro-item">맞춤형 프롬프트 (자유 작성)</span></li>
+      <p class="plan-desc">네이버 상위노출 분석 → AI 글 생성 → 자동 발행<br>네이버 블로그 자동화의 모든 것</p>
+      <ul class="plan-features plan-features-compact">
+        <li><span class="check">✓</span> <span class="pro-item">네이버 블로그 AI 자동 발행</span></li>
+        <li><span class="check">✓</span> <span class="pro-item">맞춤형 프롬프트</span></li>
         <li><span class="check">✓</span> 1:1 줌 설치 교육</li>
         <li><span class="check">✓</span> 무료 업데이트 (평생)</li>
       </ul>
@@ -1591,16 +1612,10 @@ section {
       <p class="plan-name">워드프레스</p>
       <p class="plan-price">₩389,000</p>
       <p class="plan-price-sub">일회성 결제 / 평생 소유</p>
-      <ul class="plan-features">
-        <li><span class="check">✓</span> AI SEO 글 자동 생성</li>
-        <li><span class="check">✓</span> AI 이미지 자동 생성 (DALL-E)</li>
-        <li><span class="check">✓</span> 워드프레스 자동 발행</li>
-        <li><span class="check">✓</span> 애드센스 광고 자동 삽입</li>
-        <li><span class="check">✓</span> 워드프레스 무제한 연동</li>
-        <li><span class="check">✓</span> 키워드 대량 등록 (최대 10개)</li>
-        <li><span class="check">✓</span> 예약 발행 (간격/시간 지정)</li>
-        <li><span class="check">✓</span> Google 자동 색인 신청</li>
-        <li><span class="check">✓</span> IndexNow 색인 (네이버·Bing)</li>
+      <p class="plan-desc">AI SEO 글 + 이미지 생성 → 워드프레스 자동 발행<br>애드센스 수익화를 위한 올인원 자동화</p>
+      <ul class="plan-features plan-features-compact">
+        <li><span class="check">✓</span> AI SEO 글 + 이미지 자동 생성</li>
+        <li><span class="check">✓</span> 워드프레스 자동 발행 + 색인</li>
         <li><span class="check">✓</span> 1:1 줌 설치 교육</li>
         <li><span class="check">✓</span> 무료 업데이트 (평생)</li>
       </ul>
@@ -1614,14 +1629,10 @@ section {
       <p class="plan-name">네이버 + 워드프레스 올인원</p>
       <p class="plan-price">₩890,000</p>
       <p class="plan-price-sub">일회성 결제 / 평생 소유</p>
-      <ul class="plan-features">
-        <li><span class="check">✓</span> <span class="pro-item">V2 Pro 전체 기능 포함</span></li>
-        <li><span class="check">✓</span> <span class="pro-item">AutoPost NB 전체 기능 포함</span></li>
-        <li><span class="check">✓</span> <span class="pro-item">워드프레스 + 네이버 동시 자동화</span></li>
-        <li><span class="check">✓</span> <span class="pro-item">네이버 상위노출 글 분석</span></li>
-        <li><span class="check">✓</span> <span class="pro-item">워드프레스 → 네이버 백링크</span></li>
-        <li><span class="check">✓</span> <span class="pro-item">외부유입 자동화</span></li>
-        <li><span class="check">✓</span> <span class="pro-item">맞춤형 프롬프트 (자유 작성)</span></li>
+      <p class="plan-desc">워드프레스 + 네이버 동시 자동화<br>두 플랫폼 전체 기능을 하나로</p>
+      <ul class="plan-features plan-features-compact">
+        <li><span class="check">✓</span> <span class="pro-item">워드프레스 + 네이버 전체 기능</span></li>
+        <li><span class="check">✓</span> <span class="pro-item">맞춤형 프롬프트</span></li>
         <li><span class="check">✓</span> 1:1 줌 설치 교육</li>
         <li><span class="check">✓</span> 무료 업데이트 (평생)</li>
       </ul>
@@ -1674,6 +1685,9 @@ section {
         </div>
       </div>
     </div>
+  </div>
+  <div style="text-align:center;margin-top:40px;">
+    <a href="/reviews/" class="btn-more-reviews">후기 더보기 →</a>
   </div>
 </section>
 
@@ -1731,11 +1745,6 @@ section {
 <!-- FOOTER -->
 <div class="ap-footer">
   <div class="footer-links">
-    <a href="/">홈</a>
-    <a href="/product/">상품 상세</a>
-    <a href="/reviews/">후기</a>
-    <a href="/blog/">블로그</a>
-    <a href="/contact/">문의</a>
     <a href="/terms/">이용약관</a>
     <a href="/refund-policy/">환불규정</a>
   </div>
@@ -1747,7 +1756,7 @@ section {
 <div class="sticky-bottom" id="stickyBottom">
   <div class="sticky-info">
     <strong>₩389,000~</strong>
-    <span>일회성 결제 · 평생 소유 · 3기 마감 2자리 남음</span>
+    <span>일회성 결제 · 평생 소유 · 무료 업데이트</span>
   </div>
   <div class="sticky-btns">
     <a href="https://open.kakao.com/o/s7DiPcki" class="sticky-consult" target="_blank">💬 카카오톡 문의</a>

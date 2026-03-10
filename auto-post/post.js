@@ -10,7 +10,7 @@ const WP_USER = process.env.WP_USER;
 const WP_APP_PASSWORD = process.env.WP_APP_PASSWORD;
 const SERP_API_KEY = process.env.SERP_API_KEY;
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY; // OpenAI DALL-E API
-const CTA_LINK_URL = process.env.CTA_LINK_URL || 'https://wpauto.kr/';
+const CTA_LINK_URL = process.env.CTA_LINK_URL || '';
 const CTA_LINK_TEXT = process.env.CTA_LINK_TEXT || '';
 const CTA_MID_TEXT = process.env.CTA_MID_TEXT || '';
 
@@ -1305,25 +1305,29 @@ async function main() {
   console.log("\n📍 Step 7: 검색엔진 자동 색인 요청");
   try {
     const { requestGoogleIndexing, requestRankMathIndexNow } = require('./indexing');
-    const GOOGLE_JSON_PATH = process.env.GOOGLE_INDEXING_JSON_PATH || path.join(__dirname, '..', 'docs', 'gentle-proton-487104-j1-868495522eb6.json');
+    const GOOGLE_JSON_PATH = process.env.GOOGLE_INDEXING_JSON_PATH || '';
 
-    const [googleResult, rankMathResult] = await Promise.all([
-      requestGoogleIndexing(post.link, GOOGLE_JSON_PATH),
+    const promises = [
       requestRankMathIndexNow(post.link, {
         WP_SITE_URL: WP_URL,
         WP_USERNAME: WP_USER,
         WP_APP_PASSWORD: WP_APP_PASSWORD
       })
-    ]);
-    if (googleResult.success) {
-      console.log(`✅ ${googleResult.message}`);
-    } else {
-      console.log(`⚠️ ${googleResult.error}`);
+    ];
+    if (GOOGLE_JSON_PATH) {
+      promises.unshift(requestGoogleIndexing(post.link, GOOGLE_JSON_PATH));
     }
-    if (rankMathResult.success) {
-      console.log(`✅ ${rankMathResult.message}`);
-    } else {
-      console.log(`⚠️ ${rankMathResult.error}`);
+
+    const results = await Promise.all(promises);
+    for (const r of results) {
+      if (r.success) {
+        console.log(`✅ ${r.message}`);
+      } else {
+        console.log(`⚠️ ${r.error}`);
+      }
+    }
+    if (!GOOGLE_JSON_PATH) {
+      console.log(`ℹ️ Google 색인: JSON 파일 미설정 (스킵)`);
     }
   } catch (indexError) {
     console.log(`⚠️ 색인 요청 오류: ${indexError.message}`);
