@@ -1853,15 +1853,17 @@
 
       let html = `<div class="publish-result-title">${statusIcon} ${statusLabel} — ${res.title}</div>`;
 
+      html += `<div style="margin:6px 0;font-size:13px;">`;
       if (isPublished && res.link) {
-        html += `<div style="margin:6px 0;"><span class="publish-result-link" data-url="${res.link}">🔗 발행된 글 보기 →</span></div>`;
+        html += `<span class="publish-result-link" data-url="${res.link}" style="cursor:pointer;">🔗 글 보기 →</span>`;
       }
       if (!isPublished && res.previewLink) {
-        html += `<div style="margin:6px 0;"><span class="publish-result-link" data-url="${res.previewLink}">👁️ 미리보기 (WP 로그인 필요) →</span></div>`;
+        html += `<span class="publish-result-link" data-url="${res.previewLink}" style="cursor:pointer;">👁️ 미리보기 →</span>`;
       }
       if (res.editLink) {
-        html += `<div style="margin:4px 0;"><span class="publish-result-edit" data-url="${res.editLink}">📝 워드프레스에서 ${isPublished ? '편집하기' : '확인/편집하기'} →</span></div>`;
+        html += `${(res.link || res.previewLink) ? ' · ' : ''}<span class="publish-result-edit" data-url="${res.editLink}" style="cursor:pointer;">📝 편집 →</span>`;
       }
+      html += `</div>`;
 
       // 이미지 경고
       if (res.imageErrors) {
@@ -1997,10 +1999,10 @@
                 resultEl.style.display = 'block';
                 const isPublished = res.status === '발행됨';
                 const escHtml = (s) => s ? s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;') : '';
-                let resultHtml = `<div style="font-size:13px;"><strong>${escHtml(res.title)}</strong>`;
-                if (isPublished && res.link) resultHtml += `<br><span class="task-link" data-url="${escHtml(res.link)}" style="color:#2563EB;text-decoration:underline;font-size:12px;cursor:pointer;">${escHtml(res.link)}</span>`;
-                if (!isPublished && res.previewLink) resultHtml += `<br><span class="task-link" data-url="${escHtml(res.previewLink)}" style="color:#2563EB;text-decoration:underline;font-size:12px;cursor:pointer;">미리보기 (WP 로그인 필요)</span>`;
-                if (res.editLink) resultHtml += `<br><span class="task-link" data-url="${escHtml(res.editLink)}" style="color:#666;text-decoration:underline;font-size:11px;cursor:pointer;">WP에서 ${isPublished ? '편집' : '확인/편집'} →</span>`;
+                let resultHtml = `<div style="font-size:13px;"><strong>${escHtml(res.title)}</strong><br>`;
+                if (isPublished && res.link) resultHtml += `<span class="task-link" data-url="${escHtml(res.link)}" style="color:#2563EB;text-decoration:underline;font-size:12px;cursor:pointer;">글 보기 →</span>`;
+                if (!isPublished && res.previewLink) resultHtml += `<span class="task-link" data-url="${escHtml(res.previewLink)}" style="color:#2563EB;text-decoration:underline;font-size:12px;cursor:pointer;">미리보기 →</span>`;
+                if (res.editLink) resultHtml += ` · <span class="task-link" data-url="${escHtml(res.editLink)}" style="color:#666;text-decoration:underline;font-size:12px;cursor:pointer;">편집 →</span>`;
                 resultHtml += `</div>`;
                 resultEl.innerHTML = resultHtml;
               }
