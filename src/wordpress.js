@@ -100,7 +100,8 @@ class WordPressAPI {
         success: true,
         id: response.data.id,
         link: response.data.link,
-        editLink: `${this.siteUrl}/wp-admin/post.php?post=${response.data.id}&action=edit`
+        editLink: `${this.siteUrl}/wp-admin/post.php?post=${response.data.id}&action=edit`,
+        previewLink: `${this.siteUrl}/?p=${response.data.id}&preview=true`
       };
     } catch (error) {
       return {
