@@ -1785,7 +1785,7 @@
           settingsResult.innerHTML = '<h3>설정이 저장되었습니다!</h3>';
           updateSiteSelector(config.WP_SITES);
           const openaiWarning = document.getElementById('openaiKeyWarning');
-          openaiWarning.style.display = config.OPENAI_API_KEY ? 'none' : 'block';
+          if (openaiWarning) openaiWarning.style.display = config.OPENAI_API_KEY ? 'none' : 'block';
           await checkConnection();
         } else {
           settingsResult.className = 'result error';
