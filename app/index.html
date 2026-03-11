@@ -1845,11 +1845,14 @@
 
       let html = `<div class="publish-result-title">${statusIcon} ${statusLabel} — ${res.title}</div>`;
 
-      if (res.link) {
+      if (isPublished && res.link) {
         html += `<div style="margin:6px 0;"><span class="publish-result-link" data-url="${res.link}">🔗 발행된 글 보기 →</span></div>`;
       }
       if (res.editLink) {
-        html += `<div style="margin:4px 0;"><span class="publish-result-edit" data-url="${res.editLink}">📝 워드프레스에서 편집하기 →</span></div>`;
+        html += `<div style="margin:4px 0;"><span class="publish-result-edit" data-url="${res.editLink}">📝 워드프레스에서 ${isPublished ? '편집하기' : '확인/편집하기'} →</span></div>`;
+      }
+      if (!isPublished && res.link) {
+        html += `<div style="margin:4px 0;font-size:11px;color:#888;">ℹ️ 임시저장 글은 WP 관리자 로그인 상태에서만 볼 수 있습니다.</div>`;
       }
 
       // 이미지 경고
@@ -1976,8 +1979,11 @@
               if (stepEl) stepEl.textContent = '완료!';
               if (resultEl) {
                 resultEl.style.display = 'block';
+                const isPublished = res.status === '발행됨';
                 let resultHtml = `<div style="font-size:13px;"><strong>${res.title}</strong>`;
-                if (res.link) resultHtml += `<br><a href="#" onclick="window.api.openExternal('${res.link}');return false;" style="color:#2563EB;text-decoration:underline;font-size:12px;">${res.link}</a>`;
+                if (isPublished && res.link) resultHtml += `<br><a href="#" onclick="window.api.openExternal('${res.link}');return false;" style="color:#2563EB;text-decoration:underline;font-size:12px;">${res.link}</a>`;
+                if (res.editLink) resultHtml += `<br><a href="#" onclick="window.api.openExternal('${res.editLink}');return false;" style="color:#666;text-decoration:underline;font-size:11px;">WP에서 ${isPublished ? '편집' : '확인/편집'} →</a>`;
+                if (!isPublished) resultHtml += `<br><span style="font-size:11px;color:#888;">임시저장 — WP 로그인 필요</span>`;
                 resultHtml += `</div>`;
                 resultEl.innerHTML = resultHtml;
               }

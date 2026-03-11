@@ -304,10 +304,7 @@ async function processImageMarkers(content, imageMarkers, wp, keyword) {
         imageBuffer = Buffer.from(imageResponse.data);
       }
 
-      // 첫 번째 이미지(대표이미지)에만 텍스트 오버레이 적용
-      if (i === 0) {
-        imageBuffer = await addTextOverlay(imageBuffer, keyword);
-      }
+      // 텍스트 오버레이 제거 — 원본 이미지 그대로 사용
 
       // 버퍼로 WP 업로드
       const imgResult = await wp.uploadImageBuffer(imageBuffer, filename + '.png', 'image/png');
