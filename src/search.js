@@ -343,12 +343,15 @@ async function getSearchContext(keyword, count = 3) {
   const officialSources = [];
   const recentSources = [];
 
-  // ① 뉴스 기사 본문 포함 (최우선)
+  // ① 뉴스 기사 본문 포함 (최우선) — 병렬 처리
   if (newsResults.length > 0) {
+    const topNews = newsResults.slice(0, 4);
+    const articles = await Promise.all(topNews.map(news => fetchNewsArticle(news.url)));
+
     context += '=== 최신 뉴스 기사 ===\n\n';
-    for (let i = 0; i < Math.min(newsResults.length, 4); i++) {
-      const news = newsResults[i];
-      const article = await fetchNewsArticle(news.url);
+    for (let i = 0; i < topNews.length; i++) {
+      const news = topNews[i];
+      const article = articles[i];
 
       context += `[뉴스 ${i + 1}] ${news.pubDate ? `(${news.pubDate})` : ''}\n`;
       context += `제목: ${news.title}\n`;

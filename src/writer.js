@@ -412,10 +412,14 @@ ${wpContext || '없음'}
     const isMarkdownContent = markdownSignals > 3 && htmlTagCount < markdownSignals;
 
     if (isMarkdownContent) {
-      // h1~h3 마크다운 헤딩
+      // h1~h4 마크다운 헤딩
+      content = content.replace(/^#{4}\s+(.+)$/gm, '<h4>$1</h4>');
       content = content.replace(/^#{3}\s+(.+)$/gm, '<h3>$1</h3>');
       content = content.replace(/^#{2}\s+(.+)$/gm, '<h2>$1</h2>');
       content = content.replace(/^#{1}\s+(.+)$/gm, '');  // h1은 제거
+
+      // 수평선 --- → <hr>
+      content = content.replace(/^---+$/gm, '<hr>');
 
       // 굵게 **text** → <strong>text</strong>
       content = content.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
@@ -423,10 +427,26 @@ ${wpContext || '없음'}
       // 기울임 *text* → <em>text</em> (단, <strong> 안의 * 제외)
       content = content.replace(/(?<!\*)\*([^*]+)\*(?!\*)/g, '<em>$1</em>');
 
+      // 인라인 코드 `text` → <code>text</code>
+      content = content.replace(/`([^`]+)`/g, '<code style="background:#f4f4f4;padding:2px 6px;border-radius:3px;font-size:0.9em;">$1</code>');
+
+      // 블록 인용 > text → <blockquote>text</blockquote>
+      content = content.replace(/^>\s+(.+)$/gm, '<blockquote style="border-left:4px solid #d1d5db;padding:8px 16px;margin:12px 0;color:#6b7280;">$1</blockquote>');
+
       // 마크다운 링크 [text](url) → <a href="url">text</a> (IMAGE 마커 제외)
       content = content.replace(/\[(?!IMAGE:)([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
 
-      // 마크다운 불릿 목록 (줄 시작이 - 또는 * + 공백인 연속 줄)
+      // 번호 목록 (1. 2. 3.)
+      content = content.replace(/((?:^\d+\.\s+.+\n?)+)/gm, (block) => {
+        const items = block.trim().split('\n')
+          .map(line => line.replace(/^\d+\.\s+/, '').trim())
+          .filter(Boolean)
+          .map(item => `<li>${item}</li>`)
+          .join('\n');
+        return `<ol>\n${items}\n</ol>`;
+      });
+
+      // 불릿 목록 (- 또는 * + 공백)
       content = content.replace(/((?:^[-*]\s+.+\n?)+)/gm, (block) => {
         const items = block.trim().split('\n')
           .map(line => line.replace(/^[-*]\s+/, '').trim())
@@ -440,13 +460,14 @@ ${wpContext || '없음'}
       content = content.split('\n').map(line => {
         const trimmed = line.trim();
         if (!trimmed) return '';
-        // 이미 HTML 태그로 시작하면 건드리지 않음
         if (/^\s*</.test(line)) return line;
         return `<p>${trimmed}</p>`;
       }).join('\n');
     } else {
-      // HTML 출력이라도 남아있는 마크다운 ** 강조만 변환
+      // HTML 출력이라도 남아있는 마크다운 잔재 변환
       content = content.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+      content = content.replace(/(?<!\*)\*([^*]+)\*(?!\*)/g, '<em>$1</em>');
+      content = content.replace(/`([^`]+)`/g, '<code style="background:#f4f4f4;padding:2px 6px;border-radius:3px;font-size:0.9em;">$1</code>');
     }
 
     // === 후처리: h1 태그 완전 제거 ===

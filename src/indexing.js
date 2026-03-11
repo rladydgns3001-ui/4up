@@ -26,6 +26,12 @@ async function requestGoogleIndexing(url, jsonKeyPath) {
 
     await auth.authorize();
 
+    const tokenResponse = await auth.getAccessToken();
+    const accessToken = tokenResponse?.token || tokenResponse?.res?.data?.access_token;
+    if (!accessToken) {
+      return { success: false, error: 'Google access token 생성 실패' };
+    }
+
     const res = await axios.post(
       'https://indexing.googleapis.com/v3/urlNotifications:publish',
       {
@@ -35,7 +41,7 @@ async function requestGoogleIndexing(url, jsonKeyPath) {
       {
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${auth.credentials.access_token}`
+          'Authorization': `Bearer ${accessToken}`
         },
         timeout: 30000
       }
@@ -71,18 +77,18 @@ async function requestIndexNow(url, apiKey, keyLocation = null) {
       'https://searchadvisor.naver.com/indexnow'
     ];
 
+    const body = {
+      host,
+      key: apiKey,
+      urlList: [url],
+      ...(keyLocation ? { keyLocation } : {})
+    };
+
     const results = [];
     for (const endpoint of endpoints) {
       try {
-        const params = {
-          url: url,
-          key: apiKey
-        };
-        if (keyLocation) {
-          params.keyLocation = keyLocation;
-        }
-        const res = await axios.get(endpoint, {
-          params,
+        const res = await axios.post(endpoint, body, {
+          headers: { 'Content-Type': 'application/json' },
           timeout: 15000,
           validateStatus: (status) => status < 500
         });
@@ -133,6 +139,9 @@ async function requestRankMathIndexNow(url, wpConfig) {
       }
     );
 
+    if (res.status === 404) {
+      return { success: false, error: 'Rank Math 플러그인이 설치되지 않았거나 IndexNow 기능이 비활성화되어 있습니다.' };
+    }
     if (res.status === 200 && res.data?.success) {
       return { success: true, message: `Rank Math IndexNow 색인 요청 완료 (네이버+Bing): ${url}` };
     }
