@@ -173,7 +173,7 @@ ipcMain.handle('select-json-file', async () => {
 });
 
 ipcMain.handle('write-post', async (event, options) => {
-  const { keyword, style, length, publish, keywordSettings, selectedSite, extraPrompt, taskId } = options;
+  const { keyword, style, length, publish, keywordSettings, selectedSite, extraPrompt, extraPromptPos, taskId } = options;
 
   if (!config.isConfigured()) {
     return { success: false, error: '설정을 먼저 완료해주세요.', taskId };
@@ -234,9 +234,10 @@ ipcMain.handle('write-post', async (event, options) => {
     // 추가 지시사항 합산 (사이트별 기본 + 1회성)
     const defaultExtra = (selectedSite && selectedSite.defaultExtraPrompt) || '';
     const combinedExtraPrompt = [defaultExtra, extraPrompt || ''].filter(Boolean).join('\n');
+    const promptPos = extraPromptPos || 'bottom';
 
     sendProgress('AI 글 생성 중...', 60);
-    const article = await generateArticle(keyword, webContextStr, wpContext, style, length, searchData, kwSettings, customPromptConfig, combinedExtraPrompt);
+    const article = await generateArticle(keyword, webContextStr, wpContext, style, length, searchData, kwSettings, customPromptConfig, combinedExtraPrompt, promptPos);
     if (!article.success) {
       return { success: false, error: article.error };
     }
@@ -342,7 +343,7 @@ ipcMain.handle('write-post', async (event, options) => {
 // ===== 예약 발행 큐 =====
 
 // 단일 키워드 처리 (큐에서 호출)
-async function processOneKeyword(keyword, style, length, publish, keywordSettings, selectedSite = null, extraPrompt = '') {
+async function processOneKeyword(keyword, style, length, publish, keywordSettings, selectedSite = null, extraPrompt = '', extraPromptPos = 'bottom') {
   const WordPressAPI = require('../src/wordpress');
   const { getSearchContext, fetchPageContent } = require('../src/search');
   const { generateArticle } = require('../src/writer');
@@ -398,7 +399,7 @@ async function processOneKeyword(keyword, style, length, publish, keywordSetting
   const combinedExtraPrompt = [defaultExtra, extraPrompt || ''].filter(Boolean).join('\n');
 
   sendProgress('AI 글 생성 중...', 60);
-  const article = await generateArticle(keyword, webContextStr, wpContext, style, length, searchData, kwSettings, customPromptConfig, combinedExtraPrompt);
+  const article = await generateArticle(keyword, webContextStr, wpContext, style, length, searchData, kwSettings, customPromptConfig, combinedExtraPrompt, extraPromptPos);
   if (!article.success) {
     throw new Error(article.error);
   }
@@ -577,7 +578,8 @@ function scheduleNextKeyword() {
         postQueue.publish,
         kwSettings,
         postQueue.selectedSite || null,
-        postQueue.extraPrompt || ''
+        postQueue.extraPrompt || '',
+        postQueue.extraPromptPos || 'bottom'
       );
       postQueue.results.push(result);
     } catch (error) {
@@ -603,7 +605,7 @@ ipcMain.handle('start-scheduled-posts', async (event, options) => {
     return { success: false, error: '설정을 먼저 완료해주세요.' };
   }
 
-  const { keywords, scheduleMode, intervalHours, specificTimes, style, length, publish, selectedSite, extraPrompt } = options;
+  const { keywords, scheduleMode, intervalHours, specificTimes, style, length, publish, selectedSite, extraPrompt, extraPromptPos } = options;
 
   if (!keywords || keywords.length === 0) {
     return { success: false, error: '키워드를 입력해주세요.' };
@@ -626,7 +628,8 @@ ipcMain.handle('start-scheduled-posts', async (event, options) => {
     length: length || 'medium',
     publish: publish !== false,
     selectedSite: selectedSite || null,
-    extraPrompt: extraPrompt || ''
+    extraPrompt: extraPrompt || '',
+    extraPromptPos: extraPromptPos || 'bottom'
   };
 
   // 큐 처리 시작

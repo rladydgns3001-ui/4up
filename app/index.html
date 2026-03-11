@@ -806,8 +806,16 @@
         </div>
 
         <div class="form-group">
-          <label for="extraPrompt">추가 지시사항 <span class="label-hint">(1회성, 선택)</span></label>
-          <textarea id="extraPrompt" rows="3" placeholder="예: 글 하단에 '이 포스팅은 쿠팡파트너스 활동의 일환으로...' 문구를 포함해줘" style="width:100%;font-size:13px;padding:12px;border:1px solid #ddd;border-radius:8px;resize:vertical;"></textarea>
+          <label for="extraPrompt">추가 문구 삽입 <span class="label-hint">(1회성, 선택)</span></label>
+          <textarea id="extraPrompt" rows="3" placeholder="예: 이 포스팅은 쿠팡파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다." style="width:100%;font-size:13px;padding:12px;border:1px solid #ddd;border-radius:8px;resize:vertical;"></textarea>
+          <div style="display:flex;gap:8px;margin-top:6px;">
+            <label style="display:flex;align-items:center;gap:4px;font-size:12px;color:#555;cursor:pointer;">
+              <input type="radio" name="extraPromptPos" value="top"> 글 최상단
+            </label>
+            <label style="display:flex;align-items:center;gap:4px;font-size:12px;color:#555;cursor:pointer;">
+              <input type="radio" name="extraPromptPos" value="bottom" checked> 글 최하단
+            </label>
+          </div>
         </div>
 
         <div class="form-group">
@@ -1959,6 +1967,7 @@
               publish,
               selectedSite,
               extraPrompt: document.getElementById('extraPrompt').value,
+              extraPromptPos: document.querySelector('input[name="extraPromptPos"]:checked').value,
               taskId,
               keywordSettings: {
                 referenceContent: kwData.referenceContent,
@@ -2032,7 +2041,8 @@
         length,
         publish,
         selectedSite,
-        extraPrompt: document.getElementById('extraPrompt').value
+        extraPrompt: document.getElementById('extraPrompt').value,
+        extraPromptPos: document.querySelector('input[name="extraPromptPos"]:checked').value
       };
 
       // 시간 지정 모드일 때 시간 수집

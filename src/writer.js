@@ -102,7 +102,7 @@ async function generateSubKeywords(mainKeyword) {
   }
 }
 
-async function generateArticle(keyword, webContext = '', wpContext = '', style = 'informative', length = 'medium', searchData = null, keywordSettings = null, customPromptConfig = null, extraPrompt = '') {
+async function generateArticle(keyword, webContext = '', wpContext = '', style = 'informative', length = 'medium', searchData = null, keywordSettings = null, customPromptConfig = null, extraPrompt = '', extraPromptPos = 'bottom') {
 
   const lengthGuide = {
     short: '1500-2000자',
@@ -323,7 +323,7 @@ ${wpContext || '없음'}
 4. ✅ 목차에 앵커 링크가 있는가?
 5. ✅ FAQ 섹션까지 완성했는가?
 
-⚠️ 중요: 검색 결과가 부족해도 반드시 글을 작성해야 합니다. 글 작성 거부는 절대 금지입니다.${extraPrompt ? `\n\n## 추가 지시사항\n아래 내용을 글 본문에 자연스럽게 포함시켜 주세요. 문구가 주어지면 해당 문구를 글 하단이나 적절한 위치에 그대로 삽입하세요:\n${extraPrompt}` : ''}`;
+⚠️ 중요: 검색 결과가 부족해도 반드시 글을 작성해야 합니다. 글 작성 거부는 절대 금지입니다.${extraPrompt ? `\n\n## 추가 문구 삽입 (필수)\n아래 문구를 글 본문의 ${extraPromptPos === 'top' ? '가장 첫 번째 문단 앞(최상단)' : '가장 마지막(최하단, FAQ 아래)'}에 <p> 태그로 그대로 삽입하세요:\n${extraPrompt}` : ''}`;
 
   // HTML 필수 규칙 (커스텀 프롬프트에도 항상 적용)
   const htmlFormatRules = `
