@@ -820,7 +820,10 @@
         <button type="submit" id="submitBtn">글 작성하기</button>
       </form>
 
-      <div class="loading" id="loading">
+      <!-- 병렬 작업 진행 카드 영역 -->
+      <div id="parallelTasks" style="margin-top:16px;display:flex;flex-direction:column;gap:10px;"></div>
+
+      <div class="loading" id="loading" style="display:none !important;">
         <div class="spinner"></div>
         <div class="progress-bar-container" style="margin: 15px 0;">
           <div id="writeProgressBar" class="progress-bar" style="width: 0%">0%</div>
@@ -1399,16 +1402,29 @@
       }
     }
 
-    // 글 작성 진행률 이벤트 수신
+    // 글 작성 진행률 이벤트 수신 (병렬 태스크 카드로 라우팅)
     const writeProgressBar = document.getElementById('writeProgressBar');
     const writeStep = document.getElementById('writeStep');
 
     window.api.onWriteProgress((data) => {
-      if (writeProgressBar) {
+      // 태스크 카드가 있으면 해당 카드에 업데이트
+      if (data.taskId) {
+        const taskBar = document.getElementById(`task-bar-${data.taskId}`);
+        const taskStep = document.getElementById(`task-step-${data.taskId}`);
+        if (taskBar) {
+          taskBar.style.width = `${data.percent}%`;
+          taskBar.textContent = `${data.percent}%`;
+        }
+        if (taskStep) {
+          taskStep.textContent = data.step;
+        }
+      }
+      // 기존 글로벌 진행바 (하위 호환)
+      if (writeProgressBar && !data.taskId) {
         writeProgressBar.style.width = `${data.percent}%`;
         writeProgressBar.textContent = `${data.percent}%`;
       }
-      if (writeStep) {
+      if (writeStep && !data.taskId) {
         writeStep.textContent = data.step;
       }
       // 큐 모드에서도 현재 키워드의 단계 표시
@@ -1900,58 +1916,89 @@
       const length = document.getElementById('length').value;
       const publish = document.getElementById('publish').checked;
 
-      // 단일 키워드 + 즉시발행 → 기존 write-post 사용
+      // 단일 키워드 + 즉시발행 → 병렬 태스크 카드
       if (keywords.length === 1 && scheduleMode === 'immediate') {
-        submitBtn.disabled = true;
-        loading.classList.add('show');
-        result.className = 'result';
-        result.style.display = 'none';
+        const kwData = keywords[0];
+        const siteVal = document.getElementById('siteSelect').value;
+        const cfg = await window.api.getConfig();
+        const selectedSite = (cfg.WP_SITES || [])[parseInt(siteVal)] || null;
+        const siteName = (selectedSite && selectedSite.name) || `사이트 ${parseInt(siteVal) + 1}`;
+        const taskId = 'task_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6);
 
-        // 진행률 초기화
-        if (writeProgressBar) {
-          writeProgressBar.style.width = '0%';
-          writeProgressBar.textContent = '0%';
-        }
-        if (writeStep) {
-          writeStep.textContent = '준비 중...';
-        }
+        // 태스크 카드 생성
+        const tasksPanel = document.getElementById('parallelTasks');
+        const card = document.createElement('div');
+        card.id = `task-card-${taskId}`;
+        card.style.cssText = 'background:#fff;border:1px solid #e0e0e0;border-radius:12px;padding:16px;box-shadow:0 2px 8px rgba(0,0,0,0.06);';
+        card.innerHTML = `
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+            <div>
+              <span style="font-weight:700;font-size:14px;color:#333;">${siteName}</span>
+              <span style="font-size:12px;color:#888;margin-left:8px;">"${kwData.keyword}"</span>
+            </div>
+            <span id="task-status-${taskId}" style="font-size:11px;font-weight:600;color:#2563EB;background:#EFF6FF;padding:3px 10px;border-radius:20px;">진행 중</span>
+          </div>
+          <div style="background:#f0f0f0;border-radius:8px;height:22px;overflow:hidden;margin-bottom:6px;">
+            <div id="task-bar-${taskId}" style="height:100%;background:linear-gradient(90deg,#2563EB,#3B82F6);border-radius:8px;color:#fff;font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;width:0%;transition:width 0.4s ease;">0%</div>
+          </div>
+          <p id="task-step-${taskId}" style="font-size:12px;color:#666;margin:0;">준비 중...</p>
+          <div id="task-result-${taskId}" style="margin-top:8px;display:none;"></div>
+        `;
+        tasksPanel.prepend(card);
 
-        try {
-          const kwData = keywords[0];
-          const siteVal = document.getElementById('siteSelect').value;
-          const cfg = await window.api.getConfig();
-          const selectedSite = (cfg.WP_SITES || [])[parseInt(siteVal)] || null;
-          const res = await window.api.writePost({
-            keyword: kwData.keyword,
-            style,
-            length,
-            publish,
-            selectedSite,
-            extraPrompt: document.getElementById('extraPrompt').value,
-            keywordSettings: {
-              referenceContent: kwData.referenceContent,
-              referenceUrl: kwData.referenceUrl,
-              ctaText: kwData.ctaText,
-              ctaUrl: kwData.ctaUrl
+        // 비동기로 실행 (await 안 함 → 버튼 즉시 사용 가능)
+        (async () => {
+          try {
+            const res = await window.api.writePost({
+              keyword: kwData.keyword,
+              style,
+              length,
+              publish,
+              selectedSite,
+              extraPrompt: document.getElementById('extraPrompt').value,
+              taskId,
+              keywordSettings: {
+                referenceContent: kwData.referenceContent,
+                referenceUrl: kwData.referenceUrl,
+                ctaText: kwData.ctaText,
+                ctaUrl: kwData.ctaUrl
+              }
+            });
+
+            const statusEl = document.getElementById(`task-status-${taskId}`);
+            const resultEl = document.getElementById(`task-result-${taskId}`);
+            const barEl = document.getElementById(`task-bar-${taskId}`);
+            const stepEl = document.getElementById(`task-step-${taskId}`);
+
+            if (res.success) {
+              if (statusEl) { statusEl.textContent = res.status === '발행됨' ? '발행 완료' : '임시저장'; statusEl.style.background = '#d4edda'; statusEl.style.color = '#155724'; }
+              if (barEl) { barEl.style.width = '100%'; barEl.textContent = '100%'; barEl.style.background = 'linear-gradient(90deg,#10b981,#34d399)'; }
+              if (stepEl) stepEl.textContent = '완료!';
+              if (resultEl) {
+                resultEl.style.display = 'block';
+                let resultHtml = `<div style="font-size:13px;"><strong>${res.title}</strong>`;
+                if (res.link) resultHtml += `<br><a href="#" onclick="window.api.openExternal('${res.link}');return false;" style="color:#2563EB;text-decoration:underline;font-size:12px;">${res.link}</a>`;
+                resultHtml += `</div>`;
+                resultEl.innerHTML = resultHtml;
+              }
+            } else {
+              if (statusEl) { statusEl.textContent = '오류'; statusEl.style.background = '#f8d7da'; statusEl.style.color = '#721c24'; }
+              if (barEl) { barEl.style.background = '#ef4444'; }
+              if (stepEl) stepEl.textContent = res.error;
             }
-          });
-
-          if (res.success) {
-            result.className = res.status === '발행됨' ? 'result success' : 'result draft';
-            result.innerHTML = buildPublishResult(res);
-          } else {
-            result.className = 'result error';
-            result.innerHTML = `<h3>오류 발생</h3><p>${res.error}</p>`;
+          } catch (error) {
+            const statusEl = document.getElementById(`task-status-${taskId}`);
+            const stepEl = document.getElementById(`task-step-${taskId}`);
+            const barEl = document.getElementById(`task-bar-${taskId}`);
+            if (statusEl) { statusEl.textContent = '오류'; statusEl.style.background = '#f8d7da'; statusEl.style.color = '#721c24'; }
+            if (barEl) { barEl.style.background = '#ef4444'; }
+            if (stepEl) stepEl.textContent = error.message;
           }
-          result.style.display = '';
-        } catch (error) {
-          result.className = 'result error';
-          result.innerHTML = `<h3>오류 발생</h3><p>${error.message}</p>`;
-          result.style.display = '';
-        }
+        })();
 
-        submitBtn.disabled = false;
-        loading.classList.remove('show');
+        // 키워드 입력란 초기화 (바로 다음 작업 가능)
+        document.getElementById('keywords').value = '';
+        document.getElementById('keywords').dispatchEvent(new Event('input'));
         return;
       }
 

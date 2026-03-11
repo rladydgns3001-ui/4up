@@ -173,10 +173,10 @@ ipcMain.handle('select-json-file', async () => {
 });
 
 ipcMain.handle('write-post', async (event, options) => {
-  const { keyword, style, length, publish, keywordSettings, selectedSite, extraPrompt } = options;
+  const { keyword, style, length, publish, keywordSettings, selectedSite, extraPrompt, taskId } = options;
 
   if (!config.isConfigured()) {
-    return { success: false, error: '설정을 먼저 완료해주세요.' };
+    return { success: false, error: '설정을 먼저 완료해주세요.', taskId };
   }
 
   try {
@@ -186,7 +186,7 @@ ipcMain.handle('write-post', async (event, options) => {
 
     const sendProgress = (step, percent) => {
       if (mainWindow && !mainWindow.isDestroyed()) {
-        mainWindow.webContents.send('write-progress', { step, percent });
+        mainWindow.webContents.send('write-progress', { step, percent, taskId });
       }
     };
 
@@ -324,6 +324,7 @@ ipcMain.handle('write-post', async (event, options) => {
 
     return {
       success: true,
+      taskId,
       title: article.title,
       postId: result.id,
       status: status === 'publish' ? '발행됨' : '임시저장',
@@ -334,7 +335,7 @@ ipcMain.handle('write-post', async (event, options) => {
     };
 
   } catch (error) {
-    return { success: false, error: error.message };
+    return { success: false, taskId, error: error.message };
   }
 });
 
