@@ -194,7 +194,7 @@ ipcMain.handle('write-post', async (event, options) => {
     const wp = new WordPressAPI(selectedSite || null);
     const connected = await wp.testConnection();
     if (!connected) {
-      return { success: false, error: 'WordPress 연결 실패' };
+      return { success: false, error: 'WordPress 연결 실패', taskId };
     }
 
     const kwSettings = keywordSettings ? { ...keywordSettings } : null;
@@ -234,12 +234,11 @@ ipcMain.handle('write-post', async (event, options) => {
     // 추가 지시사항 합산 (사이트별 기본 + 1회성)
     const defaultExtra = (selectedSite && selectedSite.defaultExtraPrompt) || '';
     const combinedExtraPrompt = [defaultExtra, extraPrompt || ''].filter(Boolean).join('\n');
-    const promptPos = extraPromptPos || 'bottom';
 
     sendProgress('AI 글 생성 중...', 60);
-    const article = await generateArticle(keyword, webContextStr, wpContext, style, length, searchData, kwSettings, customPromptConfig, combinedExtraPrompt, promptPos);
+    const article = await generateArticle(keyword, webContextStr, wpContext, style, length, searchData, kwSettings, customPromptConfig, combinedExtraPrompt, extraPromptPos || 'bottom');
     if (!article.success) {
-      return { success: false, error: article.error };
+      return { success: false, error: article.error, taskId };
     }
 
     sendProgress('이미지 생성 중...', 80);
@@ -289,7 +288,7 @@ ipcMain.handle('write-post', async (event, options) => {
     const result = await wp.createPost(article.title, contentWithImages, status, null, null, featuredImageId);
 
     if (!result.success) {
-      return { success: false, error: result.error };
+      return { success: false, error: result.error, taskId };
     }
 
     sendProgress('완료!', 100);
