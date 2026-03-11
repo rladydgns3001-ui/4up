@@ -27,7 +27,7 @@ async function requestGoogleIndexing(url, jsonKeyPath) {
     await auth.authorize();
 
     const tokenResponse = await auth.getAccessToken();
-    const accessToken = tokenResponse?.token || tokenResponse?.res?.data?.access_token;
+    const accessToken = tokenResponse?.token || tokenResponse?.res?.data?.access_token || auth.credentials?.access_token;
     if (!accessToken) {
       return { success: false, error: 'Google access token 생성 실패' };
     }

@@ -374,11 +374,15 @@ async function getSearchContext(keyword, count = 3) {
   }
 
   if (webResults.length > 0) {
+    const topWeb = webResults.slice(0, count + 2);
+    const pageInfos = await Promise.all(
+      topWeb.map(r => r.link ? fetchPageContent(r.link) : Promise.resolve({ isRecent: true, publishDate: null }))
+    );
+
     context += '=== 웹 검색 결과 ===\n\n';
-    for (let i = 0; i < Math.min(webResults.length, count + 2); i++) {
-      const r = webResults[i];
-      let pageInfo = { isRecent: true, publishDate: null };
-      if (r.link) pageInfo = await fetchPageContent(r.link);
+    for (let i = 0; i < topWeb.length; i++) {
+      const r = topWeb[i];
+      const pageInfo = pageInfos[i];
 
       const sourceType = r.isOfficial ? '[공식문서]' : '[일반]';
       const dateInfo = pageInfo.publishDate ? `(${pageInfo.publishDate})` : '';
