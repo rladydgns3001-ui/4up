@@ -243,77 +243,168 @@ async function fetchPageContent(url) {
   }
 }
 
-// 검색 컨텍스트 생성 (공식문서 + 최신 정보 포함)
+// ============================================
+// 뉴스 검색 (Google News RSS)
+// ============================================
+async function searchNews(keyword, count = 5) {
+  try {
+    const url = `https://news.google.com/rss/search?q=${encodeURIComponent(keyword)}&hl=ko&gl=KR&ceid=KR:ko`;
+    const response = await axios.get(url, {
+      headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36' },
+      timeout: 10000
+    });
+
+    const xml = response.data;
+    const items = [];
+    const itemRegex = /<item>([\s\S]*?)<\/item>/g;
+    let match;
+
+    while ((match = itemRegex.exec(xml)) !== null && items.length < count) {
+      const block = match[1];
+      const title = (block.match(/<title>([\s\S]*?)<\/title>/) || [])[1] || '';
+      const link = (block.match(/<link>([\s\S]*?)<\/link>/) || [])[1] || '';
+      const pubDate = (block.match(/<pubDate>([\s\S]*?)<\/pubDate>/) || [])[1] || '';
+      const source = (block.match(/<source[^>]*>([\s\S]*?)<\/source>/) || [])[1] || '';
+
+      const cleanTitle = title.replace(/^<!\[CDATA\[|\]\]>$/g, '').replace(/ - [^-]+$/, '').trim();
+      const cleanLink = link.trim();
+
+      if (cleanTitle && cleanLink) {
+        items.push({ title: cleanTitle, url: cleanLink, pubDate: pubDate.trim(), source: source.trim() });
+      }
+    }
+
+    console.log(`📰 뉴스 검색 결과: ${items.length}건`);
+    return items;
+  } catch (error) {
+    console.error('뉴스 검색 오류:', error.message);
+    return [];
+  }
+}
+
+// 뉴스 기사 본문 가져오기
+async function fetchNewsArticle(url, maxLength = 2500) {
+  try {
+    const response = await axios.get(url, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+        'Accept-Language': 'ko-KR,ko;q=0.9'
+      },
+      timeout: 12000,
+      maxRedirects: 5
+    });
+
+    let content = response.data;
+
+    // 날짜 추출
+    let publishDate = null;
+    const datePatterns = [
+      /<meta[^>]*property="article:published_time"[^>]*content="([^"]+)"/i,
+      /<meta[^>]*name="date"[^>]*content="([^"]+)"/i,
+      /(\d{4}[-/.]\d{1,2}[-/.]\d{1,2})/,
+      /(\d{4}년\s*\d{1,2}월\s*\d{1,2}일)/,
+    ];
+    for (const pattern of datePatterns) {
+      const m = content.match(pattern);
+      if (m) { publishDate = m[1]; break; }
+    }
+
+    // script, style 태그 제거 후 텍스트 추출
+    content = content.replace(/<script[\s\S]*?<\/script>/gi, '');
+    content = content.replace(/<style[\s\S]*?<\/style>/gi, '');
+    content = stripHtml(content);
+
+    // 빈 줄 정리
+    content = content.split('\n').map(l => l.trim()).filter(Boolean).join('\n');
+
+    return {
+      content: content.slice(0, maxLength),
+      publishDate,
+      isRecent: isWithinThreeMonths(publishDate)
+    };
+  } catch (error) {
+    console.error('뉴스 기사 가져오기 오류:', error.message);
+    return { content: '', publishDate: null, isRecent: true };
+  }
+}
+
+// ============================================
+// 검색 컨텍스트 생성 (뉴스 본문 + 공식문서 + 최신 정보)
+// ============================================
 async function getSearchContext(keyword, count = 3) {
-  // 일반 검색 + 공식문서 검색
-  const [generalResults, officialResults] = await Promise.all([
+  // 뉴스 검색 + 일반 검색 + 공식문서 검색 병렬 실행
+  const [newsResults, generalResults, officialResults] = await Promise.all([
+    searchNews(keyword, 5),
     searchWeb(keyword, count),
     searchOfficialDocs(keyword, 2)
   ]);
-
-  // 결과 병합 (중복 제거)
-  const allResults = [...officialResults];
-  for (const r of generalResults) {
-    if (!allResults.some(existing => existing.link === r.link)) {
-      allResults.push(r);
-    }
-  }
-
-  if (allResults.length === 0) {
-    return {
-      context: '검색 결과 없음',
-      officialSources: [],
-      recentSources: []
-    };
-  }
 
   let context = '';
   const officialSources = [];
   const recentSources = [];
 
-  for (let i = 0; i < Math.min(allResults.length, count + 2); i++) {
-    const r = allResults[i];
+  // ① 뉴스 기사 본문 포함 (최우선)
+  if (newsResults.length > 0) {
+    context += '=== 최신 뉴스 기사 ===\n\n';
+    for (let i = 0; i < Math.min(newsResults.length, 4); i++) {
+      const news = newsResults[i];
+      const article = await fetchNewsArticle(news.url);
 
-    // 페이지 내용 가져와서 날짜 확인
-    let pageInfo = { isRecent: true, publishDate: null };
-    if (r.link) {
-      pageInfo = await fetchPageContent(r.link);
-    }
+      context += `[뉴스 ${i + 1}] ${news.pubDate ? `(${news.pubDate})` : ''}\n`;
+      context += `제목: ${news.title}\n`;
+      context += `출처: ${news.source}\n`;
+      if (article.content) {
+        context += `본문:\n${article.content}\n`;
+      }
+      context += '\n---\n\n';
 
-    const sourceType = r.isOfficial ? '[공식문서]' : '[일반]';
-    const dateInfo = pageInfo.publishDate ? `(${pageInfo.publishDate})` : '';
-
-    context += `[검색결과 ${i + 1}] ${sourceType} ${dateInfo}\n`;
-    context += `제목: ${r.title}\n`;
-    context += `내용: ${r.snippet}\n\n`;
-
-    if (r.isOfficial) {
-      officialSources.push({
-        title: r.title,
-        snippet: r.snippet,
-        url: r.link
-      });
-    }
-
-    if (pageInfo.isRecent) {
-      recentSources.push({
-        title: r.title,
-        snippet: r.snippet,
-        date: pageInfo.publishDate
-      });
+      if (article.isRecent) {
+        recentSources.push({ title: news.title, snippet: article.content.slice(0, 150), date: article.publishDate || news.pubDate });
+      }
     }
   }
 
-  return {
-    context,
-    officialSources,
-    recentSources
-  };
+  // ② 공식문서 + 일반 검색 결과 병합
+  const webResults = [...officialResults];
+  for (const r of generalResults) {
+    if (!webResults.some(e => e.link === r.link)) webResults.push(r);
+  }
+
+  if (webResults.length > 0) {
+    context += '=== 웹 검색 결과 ===\n\n';
+    for (let i = 0; i < Math.min(webResults.length, count + 2); i++) {
+      const r = webResults[i];
+      let pageInfo = { isRecent: true, publishDate: null };
+      if (r.link) pageInfo = await fetchPageContent(r.link);
+
+      const sourceType = r.isOfficial ? '[공식문서]' : '[일반]';
+      const dateInfo = pageInfo.publishDate ? `(${pageInfo.publishDate})` : '';
+
+      context += `[검색결과 ${i + 1}] ${sourceType} ${dateInfo}\n`;
+      context += `제목: ${r.title}\n`;
+      context += `내용: ${r.snippet}\n\n`;
+
+      if (r.isOfficial) {
+        officialSources.push({ title: r.title, snippet: r.snippet, url: r.link });
+      }
+      if (pageInfo.isRecent && !recentSources.some(s => s.title === r.title)) {
+        recentSources.push({ title: r.title, snippet: r.snippet, date: pageInfo.publishDate });
+      }
+    }
+  }
+
+  if (!context) {
+    return { context: '검색 결과 없음', officialSources: [], recentSources: [] };
+  }
+
+  return { context, officialSources, recentSources };
 }
 
 module.exports = {
   searchWeb,
+  searchNews,
   fetchPageContent,
+  fetchNewsArticle,
   getSearchContext,
   searchOfficialDocs,
   isOfficialSource,
