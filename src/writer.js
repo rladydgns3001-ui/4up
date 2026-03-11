@@ -155,6 +155,7 @@ async function generateArticle(keyword, webContext = '', wpContext = '', style =
 
   // 뉴스 기반 여부 (webContext에 뉴스 섹션 포함 여부)
   const hasNewsContent = webContext && webContext.includes('=== 최신 뉴스 기사 ===');
+  void hasNewsContent; // 아래 조건부 출처 인용 규칙 제거로 미사용 처리
 
   const systemPrompt = `당신은 뱅크샐러드 수준의 금융/정보 전문 블로그 작가입니다.
 주어진 키워드로 검색하는 독자의 니즈를 정확히 파악하여 신뢰감 있는 정보성 글을 작성합니다.
@@ -165,13 +166,11 @@ async function generateArticle(keyword, webContext = '', wpContext = '', style =
 - 웹 검색 결과가 있으면 해당 정보 활용, 없으면 일반적인 정보로 작성
 - 2026년 현재 기준으로 최신 정보 작성
 - 정책/제도 관련은 "자세한 내용은 공식 홈페이지를 확인하세요" 안내 추가
-${hasNewsContent ? `
+
 ## 뉴스 기사 기반 작성 규칙 (매우 중요!)
 - 제공된 "최신 뉴스 기사" 섹션의 실제 본문 내용을 최우선으로 참고하세요
 - 뉴스에 나온 수치, 날짜, 사실, 제도명을 정확하게 글에 반영하세요
 - 추측하거나 지어내는 내용 절대 금지 — 뉴스 본문에 있는 사실만 사용
-- 뉴스 출처와 날짜를 글 마지막에 "(출처: 기사 제목, 날짜)" 형식으로 1~2개 인용
-` : ''}
 
 ## 글 구조 (반드시 이 순서로 작성)
 
