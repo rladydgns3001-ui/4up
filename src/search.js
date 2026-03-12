@@ -74,10 +74,9 @@ function isWithinThreeMonths(dateStr) {
   }
 }
 
-// DuckDuckGo 검색 (공식문서 우선)
+// DuckDuckGo 검색 (하위 호환용 — 현재 미사용)
 async function searchWeb(keyword, count = 5) {
   try {
-    // 일반 검색
     const response = await axios.get(`https://html.duckduckgo.com/html/?q=${encodeURIComponent(keyword)}`, {
       headers: {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
@@ -88,7 +87,6 @@ async function searchWeb(keyword, count = 5) {
     const html = response.data;
     let results = [];
 
-    // 정규식으로 검색 결과 파싱 (URL 포함)
     const resultRegex = /<a class="result__a"[^>]*href="([^"]*)"[^>]*>([^<]*)<\/a>[\s\S]*?<a class="result__snippet"[^>]*>([^<]*(?:<[^>]*>[^<]*)*)<\/a>/g;
 
     let match;
@@ -107,7 +105,6 @@ async function searchWeb(keyword, count = 5) {
       }
     }
 
-    // 백업: 간단한 파싱
     if (results.length === 0) {
       const titleRegex = /<a class="result__a"[^>]*href="([^"]*)"[^>]*>([^<]+)<\/a>/g;
       const snippetRegex = /<a class="result__snippet"[^>]*>([\s\S]*?)<\/a>/g;
@@ -137,7 +134,6 @@ async function searchWeb(keyword, count = 5) {
       }
     }
 
-    // 공식문서 우선 정렬
     results = results.sort((a, b) => {
       if (a.isOfficial && !b.isOfficial) return -1;
       if (!a.isOfficial && b.isOfficial) return 1;
@@ -153,10 +149,9 @@ async function searchWeb(keyword, count = 5) {
   }
 }
 
-// 공식문서 전용 검색
+// 공식문서 전용 검색 (하위 호환용 — 현재 미사용)
 async function searchOfficialDocs(keyword, count = 3) {
   try {
-    // 공식문서 사이트 한정 검색
     const siteQuery = `${keyword} site:gov.kr OR site:or.kr OR site:go.kr`;
 
     const response = await axios.get(`https://html.duckduckgo.com/html/?q=${encodeURIComponent(siteQuery)}`, {
@@ -329,21 +324,14 @@ async function fetchNewsArticle(url, maxLength = 2500) {
 }
 
 // ============================================
-// 검색 컨텍스트 생성 (뉴스 본문 + 공식문서 + 최신 정보)
+// 검색 컨텍스트 생성 (Google News 기반)
 // ============================================
 async function getSearchContext(keyword, count = 3) {
-  // 뉴스 검색 + 일반 검색 + 공식문서 검색 병렬 실행
-  const [newsResults, generalResults, officialResults] = await Promise.all([
-    searchNews(keyword, 5),
-    searchWeb(keyword, count),
-    searchOfficialDocs(keyword, 2)
-  ]);
+  const newsResults = await searchNews(keyword, 5);
 
   let context = '';
-  const officialSources = [];
   const recentSources = [];
 
-  // ① 뉴스 기사 본문 포함 (최우선) — 병렬 처리
   if (newsResults.length > 0) {
     const topNews = newsResults.slice(0, 4);
     const articles = await Promise.all(topNews.map(news => fetchNewsArticle(news.url)));
@@ -367,44 +355,11 @@ async function getSearchContext(keyword, count = 3) {
     }
   }
 
-  // ② 공식문서 + 일반 검색 결과 병합
-  const webResults = [...officialResults];
-  for (const r of generalResults) {
-    if (!webResults.some(e => e.link === r.link)) webResults.push(r);
-  }
-
-  if (webResults.length > 0) {
-    const topWeb = webResults.slice(0, count + 2);
-    const pageInfos = await Promise.all(
-      topWeb.map(r => r.link ? fetchPageContent(r.link) : Promise.resolve({ isRecent: true, publishDate: null }))
-    );
-
-    context += '=== 웹 검색 결과 ===\n\n';
-    for (let i = 0; i < topWeb.length; i++) {
-      const r = topWeb[i];
-      const pageInfo = pageInfos[i];
-
-      const sourceType = r.isOfficial ? '[공식문서]' : '[일반]';
-      const dateInfo = pageInfo.publishDate ? `(${pageInfo.publishDate})` : '';
-
-      context += `[검색결과 ${i + 1}] ${sourceType} ${dateInfo}\n`;
-      context += `제목: ${r.title}\n`;
-      context += `내용: ${r.snippet}\n\n`;
-
-      if (r.isOfficial) {
-        officialSources.push({ title: r.title, snippet: r.snippet, url: r.link });
-      }
-      if (pageInfo.isRecent && !recentSources.some(s => s.title === r.title)) {
-        recentSources.push({ title: r.title, snippet: r.snippet, date: pageInfo.publishDate });
-      }
-    }
-  }
-
   if (!context) {
     return { context: '검색 결과 없음', officialSources: [], recentSources: [] };
   }
 
-  return { context, officialSources, recentSources };
+  return { context, officialSources: [], recentSources };
 }
 
 module.exports = {
