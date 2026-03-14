@@ -207,9 +207,11 @@ async function generateWithNanoBanana(description) {
   try {
     const { GoogleGenerativeAI } = require('@google/generative-ai');
     const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash-exp' });
+    const model = genAI.getGenerativeModel({
+      model: 'gemini-2.0-flash-preview-image-generation',
+    });
 
-    const prompt = `Generate a high-quality blog illustration: ${description}. Clean, modern, minimal style. No text, no letters, no watermarks, no Korean characters in the image.`;
+    const prompt = `Generate a high-quality blog illustration: ${description}. 3D clay render style with chunky inflated objects, soft rounded edges, glossy clay-like material. Soft gradient background. Clean, modern, minimal style. No text, no letters, no watermarks, no Korean characters in the image.`;
 
     const result = await model.generateContent({
       contents: [{ role: 'user', parts: [{ text: prompt }] }],
@@ -219,6 +221,9 @@ async function generateWithNanoBanana(description) {
     });
 
     const response = result.response;
+    if (!response.candidates?.[0]?.content?.parts) {
+      return { success: false, error: '나노바나나 응답이 비어있습니다.' };
+    }
     for (const part of response.candidates[0].content.parts) {
       if (part.inlineData) {
         // base64 이미지를 임시 파일로 저장 후 URL 반환
