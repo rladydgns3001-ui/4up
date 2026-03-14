@@ -386,13 +386,14 @@ ${wpContext || '없음'}
       }
     }
     if (customPromptConfig?.useCustom && customPromptConfig?.userPrompt) {
-      // 변수 치환
-      finalUserPrompt = customPromptConfig.userPrompt
+      // 개인 프롬프트를 기본 프롬프트 뒤에 추가 (기본 프롬프트는 유지)
+      const customUserPrompt = customPromptConfig.userPrompt
         .replace(/\{keyword\}/g, keyword)
         .replace(/\{search_results\}/g, webContext || '없음')
         .replace(/\{length\}/g, lengthGuide[length] || lengthGuide.medium)
         .replace(/\{style\}/g, styleGuide[style] || styleGuide.informative)
         .replace(/\{existing_posts\}/g, wpContext || '없음');
+      finalUserPrompt = userPrompt + `\n\n## 사용자 개인 프롬프트 (추가 지시사항 - 반드시 반영):\n${customUserPrompt}`;
     }
 
     const text = await callTextModel(finalSystemPrompt, finalUserPrompt, 8000);
