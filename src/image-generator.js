@@ -208,7 +208,7 @@ async function generateWithNanoBanana(description) {
     const { GoogleGenerativeAI } = require('@google/generative-ai');
     const genAI = new GoogleGenerativeAI(apiKey);
     const model = genAI.getGenerativeModel({
-      model: 'gemini-2.0-flash-preview-image-generation',
+      model: 'gemini-2.5-flash-image',
     });
 
     const prompt = `Generate a high-quality blog illustration: ${description}. 3D clay render style with chunky inflated objects, soft rounded edges, glossy clay-like material. Soft gradient background. Clean, modern, minimal style. No text, no letters, no watermarks, no Korean characters in the image.`;
