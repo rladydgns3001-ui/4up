@@ -1394,7 +1394,8 @@
                 indexLog += r.indexing.rankmath.success ? ' | ✅ RankMath' : ' | ❌ RankMath';
               }
             }
-            return `<div class="queue-result-item success">${statusIcon} "${r.keyword}" → ${r.title}${indexLog}</div>`;
+            const imgWarn = r.imageErrors ? ` | ⚠️ ${r.imageErrors.join(', ')}` : '';
+            return `<div class="queue-result-item success">${statusIcon} "${r.keyword}" → ${r.title}${indexLog}${imgWarn}</div>`;
           } else {
             return `<div class="queue-result-item error">❌ "${r.keyword}" → ${r.error}</div>`;
           }
