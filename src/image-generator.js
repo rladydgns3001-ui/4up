@@ -200,6 +200,7 @@ async function generateWithDalle(description) {
  */
 async function generateWithNanoBanana(description) {
   const apiKey = config.GEMINI_API_KEY;
+  console.log('[나노바나나] 모델: gemini-2.5-flash-image, API키:', apiKey ? apiKey.slice(0, 8) + '...' : '없음');
   if (!apiKey) {
     return { success: false, error: 'Gemini API 키가 설정되지 않았습니다.' };
   }
@@ -213,6 +214,7 @@ async function generateWithNanoBanana(description) {
 
     const prompt = `Generate a high-quality blog illustration: ${description}. 3D clay render style with chunky inflated objects, soft rounded edges, glossy clay-like material. Soft gradient background. Clean, modern, minimal style. No text, no letters, no watermarks, no Korean characters in the image.`;
 
+    console.log('[나노바나나] API 호출 시작...');
     const result = await model.generateContent({
       contents: [{ role: 'user', parts: [{ text: prompt }] }],
       generationConfig: {
@@ -221,14 +223,18 @@ async function generateWithNanoBanana(description) {
     });
 
     const response = result.response;
+    console.log('[나노바나나] 응답 수신, candidates:', response.candidates?.length || 0);
     if (!response.candidates?.[0]?.content?.parts) {
+      console.log('[나노바나나] 응답 parts 없음:', JSON.stringify(response.candidates?.[0]?.content || 'empty'));
       return { success: false, error: '나노바나나 응답이 비어있습니다.' };
     }
-    for (const part of response.candidates[0].content.parts) {
+    const parts = response.candidates[0].content.parts;
+    console.log('[나노바나나] parts 수:', parts.length, '타입:', parts.map(p => p.inlineData ? `image(${p.inlineData.mimeType})` : 'text').join(', '));
+    for (const part of parts) {
       if (part.inlineData) {
-        // base64 이미지를 임시 파일로 저장 후 URL 반환
         const tmpPath = path.join(require('os').tmpdir(), `nanobanana-${Date.now()}.png`);
         fs.writeFileSync(tmpPath, Buffer.from(part.inlineData.data, 'base64'));
+        console.log('[나노바나나] 이미지 저장 완료:', tmpPath);
         return { success: true, filePath: tmpPath };
       }
     }
@@ -236,7 +242,7 @@ async function generateWithNanoBanana(description) {
     return { success: false, error: '나노바나나 응답에 이미지가 없습니다.' };
   } catch (error) {
     const msg = error.message || String(error);
-    console.error('나노바나나 이미지 생성 오류:', msg);
+    console.error('[나노바나나] 오류:', msg);
     return { success: false, error: msg };
   }
 }
@@ -266,6 +272,7 @@ async function processImageMarkers(content, imageMarkers, wp, keyword) {
   let featuredImageId = null;
   const errors = [];
 
+  console.log('[이미지처리] 마커 수:', imageMarkers?.length || 0, '| 모델:', config.IMAGE_MODEL);
   if (!imageMarkers || imageMarkers.length === 0) {
     return { content: result, featuredImageId, errors: ['[IMAGE:] 마커가 AI 응답에 없었습니다.'] };
   }
