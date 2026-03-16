@@ -1855,9 +1855,11 @@
       }
       html += `</div>`;
 
-      // 이미지 경고
-      if (res.imageErrors) {
-        html += `<div style="background:#fff3cd;color:#856404;padding:8px 12px;border-radius:6px;margin-top:10px;font-size:12px;">⚠️ 이미지: ${res.imageErrors.join(' / ')}</div>`;
+      // 이미지 상태 (항상 표시)
+      if (res.imageErrors && res.imageErrors.length > 0) {
+        html += `<div style="background:#f8d7da;color:#721c24;padding:10px 14px;border-radius:6px;margin-top:10px;font-size:13px;font-weight:600;">❌ 이미지 실패: ${res.imageErrors.join(' / ')}</div>`;
+      } else {
+        html += `<div style="background:#d4edda;color:#155724;padding:8px 12px;border-radius:6px;margin-top:10px;font-size:12px;">✅ 이미지 삽입 완료</div>`;
       }
 
       // 색인 결과 섹션
