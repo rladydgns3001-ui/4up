@@ -240,12 +240,13 @@ ipcMain.handle('write-post', async (event, options) => {
       return { success: false, error: article.error, taskId };
     }
 
-    sendProgress('이미지 생성 중...', 80);
+    sendProgress(`이미지 생성 중... (마커: ${article.imageMarkers?.length || 0}개, 모델: ${config.IMAGE_MODEL})`, 80);
     const { processImageMarkers } = require('../src/image-generator');
     const imgResult = await processImageMarkers(article.content, article.imageMarkers, wp, keyword);
     let contentWithImages = imgResult.content;
     let featuredImageId = imgResult.featuredImageId;
     const imageErrors = imgResult.errors || [];
+    if (imageErrors.length > 0) sendProgress(`이미지 경고: ${imageErrors.join(' | ')}`, 85);
 
     const adsenseClientId = (selectedSite && selectedSite.adsenseClientId) || '';
     const adsenseSlotId = (selectedSite && selectedSite.adsenseSlotId) || '';
@@ -402,12 +403,13 @@ async function processOneKeyword(keyword, style, length, publish, keywordSetting
   }
 
   // 이미지 처리
-  sendProgress('이미지 생성 중...', 80);
+  sendProgress(`이미지 생성 중... (마커: ${article.imageMarkers?.length || 0}개, 모델: ${config.IMAGE_MODEL})`, 80);
   const { processImageMarkers } = require('../src/image-generator');
   const imgProcessed = await processImageMarkers(article.content, article.imageMarkers, wp, keyword);
   let contentWithImages = imgProcessed.content;
   let featuredImageId = imgProcessed.featuredImageId;
   const imageErrors = imgProcessed.errors || [];
+  if (imageErrors.length > 0) sendProgress(`이미지 경고: ${imageErrors.join(' | ')}`, 85);
 
   // AdSense 광고 삽입 (사이트별)
   const adsenseClientId = (selectedSite && selectedSite.adsenseClientId) || '';
