@@ -379,9 +379,8 @@ async function processOneKeyword(keyword, style, length, publish, keywordSetting
     ).join('\n\n');
   }
 
-  const customPromptConfig = config.USE_CUSTOM_PROMPT ? {
+  const customPromptConfig = (config.USE_CUSTOM_PROMPT && config.CUSTOM_USER_PROMPT) ? {
     useCustom: true,
-    systemPrompt: config.CUSTOM_SYSTEM_PROMPT,
     userPrompt: config.CUSTOM_USER_PROMPT
   } : null;
 
