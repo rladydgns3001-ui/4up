@@ -336,64 +336,13 @@ ${wpContext || '없음'}
 
 ⚠️ 중요: 검색 결과가 부족해도 반드시 글을 작성해야 합니다. 글 작성 거부는 절대 금지입니다.${extraPrompt ? `\n\n## 추가 문구 삽입 (필수)\n아래 문구를 글 본문의 ${extraPromptPos === 'top' ? '가장 첫 번째 문단 앞(최상단)' : '가장 마지막(최하단, FAQ 아래)'}에 <p> 태그로 그대로 삽입하세요:\n${extraPrompt}` : ''}`;
 
-  // HTML 필수 규칙 (커스텀 프롬프트에도 항상 적용)
-  const htmlFormatRules = `
-
-## HTML 형식 규칙 (필수 - 마크다운 절대 금지!)
-
-⚠️ 절대 마크다운 문법 사용 금지! **굵게**, *기울임*, # 제목, - 목록 등 마크다운 사용하지 마세요.
-반드시 순수 HTML 태그만 사용하세요:
-
-- 제목: <h2 id="sec1">, <h3>, <h4> (h1 사용 금지)
-- 문단: <p> — 핵심 정보는 <strong>으로 강조
-- 표: <table style="width:100%;border-collapse:collapse;margin:20px 0;font-size:15px;">
-- 목록: <ul><li> 또는 <ol><li>
-- 강조: <strong> (마크다운 **굵게** 금지)
-- 링크: <a href="...">
-
-## 목차 형식 (반드시 이 형식으로!)
-
-<div class="toc-container" style="background:#f8f9fa;padding:20px 24px;border-radius:12px;margin:20px 0;">
-<p style="font-weight:700;margin-bottom:12px;">목차</p>
-<ol style="margin:0;padding-left:20px;line-height:2;">
-<li><a href="#sec1" style="color:#3182f6;text-decoration:none;">첫번째 소제목</a></li>
-<li><a href="#sec2" style="color:#3182f6;text-decoration:none;">두번째 소제목</a></li>
-</ol>
-</div>
-
-## 출력 형식
----TITLE---
-글 제목 (SEO 최적화, 60자 이내)
----META---
-메타 설명 (150자 이내, 클릭 유도)
----CONTENT---
-글 본문 (순수 HTML만 사용, 마크다운 문법 절대 금지)
-
-⚠️ 중요: 글을 끝까지 완성하세요. 중간에 끊지 마세요.`;
-
   try {
-    // 커스텀 프롬프트 사용 여부 확인
+    // 추가 지시사항 반영
     let finalSystemPrompt = systemPrompt;
     let finalUserPrompt = userPrompt;
 
-    if (customPromptConfig?.useCustom) {
-      if (customPromptConfig.systemPrompt) {
-        // 커스텀 시스템 프롬프트 + HTML 필수 규칙 항상 추가
-        finalSystemPrompt = customPromptConfig.systemPrompt + '\n' + htmlFormatRules;
-      } else {
-        // 시스템 프롬프트 없이 유저 프롬프트만 커스텀인 경우에도 HTML 규칙 추가
-        finalSystemPrompt = systemPrompt + '\n' + htmlFormatRules;
-      }
-    }
     if (customPromptConfig?.useCustom && customPromptConfig?.userPrompt) {
-      // 개인 프롬프트를 기본 프롬프트 뒤에 추가 (기본 프롬프트는 유지)
-      const customUserPrompt = customPromptConfig.userPrompt
-        .replace(/\{keyword\}/g, keyword)
-        .replace(/\{search_results\}/g, webContext || '없음')
-        .replace(/\{length\}/g, lengthGuide[length] || lengthGuide.medium)
-        .replace(/\{style\}/g, styleGuide[style] || styleGuide.informative)
-        .replace(/\{existing_posts\}/g, wpContext || '없음');
-      finalUserPrompt = userPrompt + `\n\n## 사용자 개인 프롬프트 (추가 지시사항 - 반드시 반영):\n${customUserPrompt}`;
+      finalUserPrompt = userPrompt + `\n\n## 추가 지시사항 (반드시 반영):\n${customPromptConfig.userPrompt}`;
     }
 
     const text = await callTextModel(finalSystemPrompt, finalUserPrompt, 8000);

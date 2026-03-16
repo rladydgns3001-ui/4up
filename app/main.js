@@ -218,9 +218,8 @@ ipcMain.handle('write-post', async (event, options) => {
     }
 
     // 커스텀 프롬프트 설정
-    const customPromptConfig = config.USE_CUSTOM_PROMPT ? {
+    const customPromptConfig = (config.USE_CUSTOM_PROMPT && config.CUSTOM_USER_PROMPT) ? {
       useCustom: true,
-      systemPrompt: config.CUSTOM_SYSTEM_PROMPT,
       userPrompt: config.CUSTOM_USER_PROMPT
     } : null;
 

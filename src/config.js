@@ -36,7 +36,6 @@ function readConfig() {
     CTA_MID_TEXT: '',
     WP_SITES: [defaultSite(), defaultSite(), defaultSite()],
     USE_CUSTOM_PROMPT: false,
-    CUSTOM_SYSTEM_PROMPT: '',
     CUSTOM_USER_PROMPT: '',
     STYLE_REFERENCE: ''
   };
@@ -107,9 +106,6 @@ module.exports = {
   },
   get USE_CUSTOM_PROMPT() {
     return getConfigData().USE_CUSTOM_PROMPT || false;
-  },
-  get CUSTOM_SYSTEM_PROMPT() {
-    return getConfigData().CUSTOM_SYSTEM_PROMPT || '';
   },
   get CUSTOM_USER_PROMPT() {
     return getConfigData().CUSTOM_USER_PROMPT || '';
