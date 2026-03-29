@@ -1,0 +1,27 @@
+{
+  "date": "2026-03-29",
+  "keyword": "블로그 자동 발행 프로그램",
+  "post_type": "case_study",
+  "dry_run": false,
+  "steps": {
+    "crawl": {
+      "success": true,
+      "results_count": 0
+    },
+    "generate": {
+      "success": true,
+      "title": "블로그 자동 발행 프로그램 활용 사례 7가지"
+    },
+    "publish": {
+      "success": true,
+      "post_id": 1219,
+      "url": "https://wpauto.kr/%eb%b8%94%eb%a1%9c%ea%b7%b8-%ec%9e%90%eb%8f%99-%eb%b0%9c%ed%96%89-%ed%94%84%eb%a1%9c%ea%b7%b8%eb%9e%a8-%ed%99%9c%ec%9a%a9-%ec%82%ac%eb%a1%80-7%ea%b0%80%ec%a7%80/",
+      "title": "블로그 자동 발행 프로그램 활용 사례 7가지"
+    },
+    "indexing": {
+      "success": false,
+      "error": "No access token",
+      "url": "https://wpauto.kr/%eb%b8%94%eb%a1%9c%ea%b7%b8-%ec%9e%90%eb%8f%99-%eb%b0%9c%ed%96%89-%ed%94%84%eb%a1%9c%ea%b7%b8%eb%9e%a8-%ed%99%9c%ec%9a%a9-%ec%82%ac%eb%a1%80-7%ea%b0%80%ec%a7%80/"
+    }
+  }
+}
