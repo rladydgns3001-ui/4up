@@ -1,0 +1,59 @@
+name: SEO Daily Blog Post
+
+on:
+  schedule:
+    - cron: '0 21 * * *'  # 매일 06:00 KST (21:00 UTC 전날)
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Dry-run 모드 (발행 안 함)'
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+jobs:
+  seo-post:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install -r seo-automation/requirements.txt
+
+      - name: Run SEO pipeline
+        working-directory: ./seo-automation
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.CLAUDE_API_KEY }}
+          WP_URL: ${{ secrets.WP_URL }}
+          WP_USER: ${{ secrets.WP_USER }}
+          WP_APP_PASSWORD: ${{ secrets.WP_APP_PASSWORD }}
+          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then
+            python scripts/main.py --dry-run
+          else
+            python scripts/main.py
+          fi
+
+      - name: Commit logs
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add seo-automation/logs/ seo-automation/cache/
+          git diff --staged --quiet || git commit -m "chore: update SEO pipeline logs [skip ci]"
+          git pull --rebase origin main
+          git push
