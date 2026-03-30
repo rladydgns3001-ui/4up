@@ -1,0 +1,27 @@
+{
+  "date": "2026-03-30",
+  "keyword": "네이버 자동화 저품질",
+  "post_type": "tutorial",
+  "dry_run": false,
+  "steps": {
+    "crawl": {
+      "success": true,
+      "results_count": 0
+    },
+    "generate": {
+      "success": true,
+      "title": "네이버 자동화 저품질 문제 해결하는 5단계 완벽 가이드"
+    },
+    "publish": {
+      "success": true,
+      "post_id": 1220,
+      "url": "https://wpauto.kr/%eb%84%a4%ec%9d%b4%eb%b2%84-%ec%9e%90%eb%8f%99%ed%99%94-%ec%a0%80%ed%92%88%ec%a7%88-%eb%ac%b8%ec%a0%9c-%ed%95%b4%ea%b2%b0%ed%95%98%eb%8a%94-5%eb%8b%a8%ea%b3%84-%ec%99%84%eb%b2%bd-%ea%b0%80%ec%9d%b4/",
+      "title": "네이버 자동화 저품질 문제 해결하는 5단계 완벽 가이드"
+    },
+    "indexing": {
+      "success": false,
+      "error": "No access token",
+      "url": "https://wpauto.kr/%eb%84%a4%ec%9d%b4%eb%b2%84-%ec%9e%90%eb%8f%99%ed%99%94-%ec%a0%80%ed%92%88%ec%a7%88-%eb%ac%b8%ec%a0%9c-%ed%95%b4%ea%b2%b0%ed%95%98%eb%8a%94-5%eb%8b%a8%ea%b3%84-%ec%99%84%eb%b2%bd-%ea%b0%80%ec%9d%b4/"
+    }
+  }
+}
