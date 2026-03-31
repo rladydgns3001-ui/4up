@@ -1,0 +1,27 @@
+{
+  "date": "2026-03-31",
+  "keyword": "네이버 블로그 자동화 프로그램",
+  "post_type": "guide",
+  "dry_run": false,
+  "steps": {
+    "crawl": {
+      "success": true,
+      "results_count": 0
+    },
+    "generate": {
+      "success": true,
+      "title": "네이버 블로그 자동화 프로그램 완벽 가이드"
+    },
+    "publish": {
+      "success": true,
+      "post_id": 1221,
+      "url": "https://wpauto.kr/%eb%84%a4%ec%9d%b4%eb%b2%84-%eb%b8%94%eb%a1%9c%ea%b7%b8-%ec%9e%90%eb%8f%99%ed%99%94-%ed%94%84%eb%a1%9c%ea%b7%b8%eb%9e%a8-%ec%99%84%eb%b2%bd-%ea%b0%80%ec%9d%b4%eb%93%9c/",
+      "title": "네이버 블로그 자동화 프로그램 완벽 가이드"
+    },
+    "indexing": {
+      "success": false,
+      "error": "No access token",
+      "url": "https://wpauto.kr/%eb%84%a4%ec%9d%b4%eb%b2%84-%eb%b8%94%eb%a1%9c%ea%b7%b8-%ec%9e%90%eb%8f%99%ed%99%94-%ed%94%84%eb%a1%9c%ea%b7%b8%eb%9e%a8-%ec%99%84%eb%b2%bd-%ea%b0%80%ec%9d%b4%eb%93%9c/"
+    }
+  }
+}
