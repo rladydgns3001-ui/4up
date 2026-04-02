@@ -1,0 +1,26 @@
+{
+  "date": "2026-04-02",
+  "keyword": "워드프레스 자동화 블로그",
+  "post_type": "qna",
+  "dry_run": false,
+  "steps": {
+    "crawl": {
+      "success": true,
+      "results_count": 0
+    },
+    "generate": {
+      "success": true,
+      "title": "워드프레스 자동화 블로그 완벽 가이드 Q&A 총정리"
+    },
+    "publish": {
+      "success": false,
+      "error": "Expecting value: line 1 column 3 (char 2)",
+      "title": "워드프레스 자동화 블로그 완벽 가이드 Q&A 총정리"
+    },
+    "indexing": {
+      "success": true,
+      "dry_run": true,
+      "url": "N/A"
+    }
+  }
+}
